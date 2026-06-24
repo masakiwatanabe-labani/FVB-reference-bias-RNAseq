@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software or the bias catalog, please cite as below."
+type: software
+title: "FVB Reference-Genome Mapping Bias RNA-seq Analysis Pipeline"
+abstract: >
+  Analysis code and figure-generation scripts for systematic characterisation of
+  SNP-mediated reference-genome mapping bias in FVB mouse RNA-seq experiments,
+  including a 32-gene bias catalog and three-arm pipeline (naive / WASP / FVB personalised reference).
+authors:
+  - family-names: "[Family Name]"
+    given-names: "[Given Name]"
+    email: vm15139.jitudou@gmail.com
+repository-code: "https://github.com/[USERNAME]/FVB-reference-bias-RNAseq"
+license: MIT
+date-released: "2026-01-01"
+keywords:
+  - RNA-seq
+  - reference bias
+  - FVB mouse
+  - personalised reference genome
+  - g2gtools
+  - WASP
+  - featureCounts
+  - SNP-mediated bias
+references:
+  - type: article
+    title: >
+      SNP-mediated reference-genome mapping bias in FVB RNA-seq: a systematic
+      characterisation across five tissue datasets with a 32-gene bias catalog
+    authors:
+      - family-names: "[Family Name]"
+        given-names: "[Given Name]"
+    journal: "[Journal]"
+    year: 2026
+    doi: "[DOI — to be added]"

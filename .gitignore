@@ -1,0 +1,41 @@
+# Raw sequencing data (obtain from GEO/SRA)
+*.fastq.gz
+*.fastq
+*.fq.gz
+*.bam
+*.bam.bai
+*.cram
+
+# Large reference files
+*.fa.gz
+*.fasta.gz
+*.vci.gz
+*.vcf.gz
+*.vcf.gz.tbi
+Genome
+SA
+SAindex
+
+# Results (regenerate from scripts)
+results/
+logs/
+tmp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive / environment-specific
+*.env
+.env
+config_local.sh
