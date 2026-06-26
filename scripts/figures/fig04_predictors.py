@@ -16,7 +16,7 @@ import pysam
 import re, os
 from scipy import stats
 
-PROJ = os.environ.get("FVB_PROJ", str(pathlib.Path(__file__).parent.parent.parent.resolve()))
+PROJ = os.environ.get("FVB_PROJ", os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 OUT    = f"{PROJ}/results/figures"
 GTF    = f"{PROJ}/ref/b6_gtf/GRCm39.110.gtf"
 VCF    = f"{PROJ}/ref/fvb_vcf/FVB_NJ.snps.GRCm39.vcf.gz"
@@ -188,78 +188,64 @@ for ax, lbl in zip(axes.flat, ax_labels):
 axA = axes[0,0]
 plotA = meta[meta["snp_density_kb"] > 0].copy()
 x_sd = plotA["snp_density_kb"].clip(upper=plotA["snp_density_kb"].quantile(0.995))
+sd_cap = plotA["snp_density_kb"].quantile(0.995)
+
 axA.scatter(x_sd, plotA["bias"], s=3, alpha=0.12, color=BLUE,
             edgecolors="none", rasterized=True)
-# binned trend
-bins = np.percentile(x_sd, np.linspace(0,100,21))
-bins = np.unique(bins)
-bin_idx = np.digitize(x_sd, bins)
-bx, by, be = [], [], []
-for b in range(1, len(bins)):
-    sel = plotA["bias"][bin_idx == b]
-    if len(sel) > 10:
-        bx.append(bins[b-1] + (bins[b]-bins[b-1])/2)
-        by.append(sel.mean())
-        be.append(sel.sem())
-axA.errorbar(bx, by, yerr=be, fmt="o-", color=RED, ms=5, lw=1.5,
-             capsize=3, zorder=5, label="Binned mean ± SE")
 axA.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 
-# Highlight Rsph3a (most robust catalog gene) and Fau (most extreme)
-sd_cap = plotA["snp_density_kb"].quantile(0.995)
+# Load catalog gene IDs
+catalog_df = pd.read_csv(f"{PROJ}/results/stage6/catalog_final.tsv", sep="\t")
+catalog_ids = set(catalog_df["gene_id"])
+
+# All catalog genes as green stars (background)
+cat_plot = plotA[plotA["gene_id"].isin(catalog_ids)].copy()
+cat_x = cat_plot["snp_density_kb"].clip(upper=sd_cap)
+axA.scatter(cat_x, cat_plot["bias"], s=80, color=GREEN, marker="*",
+            edgecolors="white", lw=0.8, zorder=6, label=f"Catalog genes (n={len(cat_plot)})")
+
+# Label Rsph3a and Fau specifically
 for gid, gname, col, offset in [
-    ("ENSMUSG00000073471", "Rsph3a", GREEN, (0.5, 0.10)),
-    ("ENSMUSG00000038274", "Fau",    RED,   (0.5, 0.10)),
+    ("ENSMUSG00000073471", "Rsph3a", GREEN, (0.4,  0.12)),
+    ("ENSMUSG00000038274", "Fau",    RED,   (0.4, -0.22)),
 ]:
-    row = meta[meta["gene_id"] == gid]
+    row = plotA[plotA["gene_id"] == gid]
     if len(row) == 1:
         xpt = min(float(row["snp_density_kb"].values[0]), sd_cap)
         ypt = float(row["bias"].values[0])
-        axA.scatter(xpt, ypt, s=90, color=col, zorder=7,
+        axA.scatter(xpt, ypt, s=110, color=col, zorder=8,
                     edgecolors="white", lw=1.0, marker="*")
         axA.annotate(gname, xy=(xpt, ypt),
                      xytext=(xpt + offset[0], ypt + offset[1]),
-                     fontsize=8, color=col, zorder=7,
+                     fontsize=9, color=col, zorder=8,
                      arrowprops=dict(arrowstyle="-", color=col, lw=0.6))
 
-r, p = stats.spearmanr(x_sd, plotA["bias"])
-axA.text(0.97, 0.97, f"ρ = {r:.3f}\np = {p:.1e}",
-         transform=axA.transAxes, fontsize=8.5, va="top", ha="right",
+axA.text(0.97, 0.97, "24/32 catalog genes\nin top quartile of SNP density",
+         transform=axA.transAxes, fontsize=9.5, va="top", ha="right",
          bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                    edgecolor="#CCCCCC", alpha=0.9))
-axA.set_xlabel("SNP density (SNPs/kb)", fontsize=10)
-axA.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=10)
-axA.set_title("Bias vs SNP density\n(SNP-dense loci enriched among biased genes)", fontsize=10.5, pad=6)
+axA.set_xlabel("SNP density (SNPs/kb)", fontsize=11)
+axA.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=11)
+axA.set_title("Bias vs SNP density\n(catalog genes cluster at high SNP density)", fontsize=11.5, pad=6)
 axA.spines[["top","right"]].set_visible(False)
-axA.legend(fontsize=8, loc="lower right")
+axA.legend(fontsize=9, loc="lower right")
 
 # ── Panel B: bias vs gene length ─────────────────────────────────────────────
 axB = axes[0,1]
 axB.scatter(meta["log10_length"], meta["bias"], s=3, alpha=0.12,
             color=ORANGE, edgecolors="none", rasterized=True)
-bins_l = np.percentile(meta["log10_length"], np.linspace(0,100,21))
-bins_l = np.unique(bins_l)
-bidx_l = np.digitize(meta["log10_length"], bins_l)
-bxl, byl, bel = [], [], []
-for b in range(1, len(bins_l)):
-    sel = meta["bias"][bidx_l == b]
-    if len(sel) > 10:
-        bxl.append(bins_l[b-1] + (bins_l[b]-bins_l[b-1])/2)
-        byl.append(sel.mean())
-        bel.append(sel.sem())
-axB.errorbar(bxl, byl, yerr=bel, fmt="o-", color=RED, ms=5, lw=1.5, capsize=3, zorder=5)
 axB.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 r2, p2 = stats.spearmanr(meta["log10_length"], meta["bias"])
 axB.text(0.97, 0.97, f"ρ = {r2:.3f}\np = {p2:.1e}",
-         transform=axB.transAxes, fontsize=8.5, va="top", ha="right",
+         transform=axB.transAxes, fontsize=9.5, va="top", ha="right",
          bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                    edgecolor="#CCCCCC", alpha=0.9))
 xticks = [3,4,5,6]
 axB.set_xticks(xticks)
-axB.set_xticklabels([f"10³","10⁴","10⁵","10⁶"], fontsize=9)
-axB.set_xlabel("Gene length (bp)", fontsize=10)
-axB.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=10)
-axB.set_title("Bias vs gene length", fontsize=11, pad=6)
+axB.set_xticklabels([f"10³","10⁴","10⁵","10⁶"], fontsize=10)
+axB.set_xlabel("Gene length (bp)", fontsize=11)
+axB.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=11)
+axB.set_title("Bias vs gene length", fontsize=12, pad=6)
 axB.spines[["top","right"]].set_visible(False)
 
 # ── Panel C: bias vs expression ───────────────────────────────────────────────
@@ -281,12 +267,12 @@ axC.errorbar(bxe, bye, yerr=bee, fmt="o-", color=RED, ms=5, lw=1.5, capsize=3, z
 axC.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 r3, p3 = stats.spearmanr(plotC["log2_mean_cpm"], plotC["bias"])
 axC.text(0.97, 0.97, f"ρ = {r3:.3f}\np = {p3:.1e}",
-         transform=axC.transAxes, fontsize=8.5, va="top", ha="right",
+         transform=axC.transAxes, fontsize=9.5, va="top", ha="right",
          bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                    edgecolor="#CCCCCC", alpha=0.9))
-axC.set_xlabel("Expression level (log₂ mean CPM)", fontsize=10)
-axC.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=10)
-axC.set_title("Bias vs expression level", fontsize=11, pad=6)
+axC.set_xlabel("Expression level (log₂ mean CPM)", fontsize=11)
+axC.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=11)
+axC.set_title("Bias vs expression level", fontsize=12, pad=6)
 axC.spines[["top","right"]].set_visible(False)
 
 # ── Panel D: bias by biotype ──────────────────────────────────────────────────
@@ -311,21 +297,22 @@ for i, vals in enumerate(btype_data):
 axD.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 axD.set_xticks(range(len(biotype_order)))
 axD.set_xticklabels([f"{biotype_labels[i]}\n(n={btype_ns[i]:,})"
-                     for i in range(len(biotype_order))], fontsize=8.5)
-axD.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=10)
-axD.set_title("Bias by gene biotype", fontsize=11, pad=6)
+                     for i in range(len(biotype_order))], fontsize=9.5)
+axD.set_ylabel("Bias (log₂FC FVB ref − naive)", fontsize=11)
+axD.set_ylim(-3, 2)
+axD.set_title("Bias by gene biotype", fontsize=12, pad=6)
 axD.spines[["top","right"]].set_visible(False)
 
 # Kruskal-Wallis
 kw_stat, kw_p = stats.kruskal(*btype_data)
 axD.text(0.97, 0.97, f"Kruskal-Wallis\np = {kw_p:.1e}",
-         transform=axD.transAxes, fontsize=8.5, va="top", ha="right",
+         transform=axD.transAxes, fontsize=9.5, va="top", ha="right",
          bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                    edgecolor="#CCCCCC", alpha=0.9))
 
 fig.suptitle(
     "Multi-factor predictors of reference bias: SNP density, gene biotype, and expression level",
-    fontsize=10.5, y=0.995, color="#333333"
+    fontsize=11.5, y=0.995, color="#333333"
 )
 
 for ext in ["png","pdf"]:

@@ -13,9 +13,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 import os
-import pathlib
 
-PROJ = os.environ.get("FVB_PROJ", str(pathlib.Path(__file__).parent.parent.parent.resolve()))
+PROJ = os.environ.get("FVB_PROJ", os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 OUT  = f"{PROJ}/results/figures"
 os.makedirs(OUT, exist_ok=True)
 
@@ -80,7 +79,7 @@ for _, row in cat_rep[cat_rep["gene_id"].isin(top7["gene_id"])].iterrows():
     axA.annotate(
         row["gene_name"], xy=(x, y),
         xytext=(x + 0.18, y + 0.18),
-        fontsize=8, color="#990000", fontweight="bold",
+        fontsize=9, color="#990000", fontweight="bold",
         arrowprops=dict(arrowstyle="-", color="#990000", lw=0.5, shrinkB=3),
         zorder=6
     )
@@ -92,13 +91,13 @@ axA.axvline(0, color=BLUE,  lw=0.7, ls=":", alpha=0.45, zorder=2)
 
 axA.set_xlim(-4, 4)
 axA.set_ylim(-4, 4)
-axA.set_xlabel("log₂FC naive (B6 reference)", fontsize=10.5)
-axA.set_ylabel("log₂FC FVB reference (g2gtools)", fontsize=10.5)
+axA.set_xlabel("log₂FC naive (B6 reference)", fontsize=11.5)
+axA.set_ylabel("log₂FC FVB reference (g2gtools)", fontsize=11.5)
 axA.spines[["top","right"]].set_visible(False)
 axA.set_title(
     "Catalog genes systematically above diagonal\n"
     f"(GSE123893, liver; {len(rep):,} expressed genes)",
-    fontsize=11, pad=6
+    fontsize=12, pad=6
 )
 axA.text(-0.09, 1.04, "A", transform=axA.transAxes, fontsize=15, fontweight="bold")
 
@@ -107,12 +106,12 @@ leg = [mpatches.Patch(facecolor=n_col[nd], alpha=0.9,
                        label=f"Catalog: {nd}/4 tissues")
        for nd in [4,3,2] if (cat_rep["n_datasets_4t"]==nd).any()]
 leg.append(mpatches.Patch(facecolor=LGRAY, alpha=0.8, label="All expressed genes"))
-axA.legend(handles=leg, fontsize=8, loc="upper left",
+axA.legend(handles=leg, fontsize=9, loc="upper left",
            frameon=True, framealpha=0.92, edgecolor="#CCCCCC")
 
 axA.text(0.97, 0.04,
          f"Catalog: {len(cat)} genes\n(bias≥0.5 in ≥2 of 4 normal tissues)",
-         transform=axA.transAxes, fontsize=8.5, va="bottom", ha="right",
+         transform=axA.transAxes, fontsize=9.5, va="bottom", ha="right",
          bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                    edgecolor="#CCCCCC", alpha=0.9))
 
@@ -144,17 +143,17 @@ for i, (gse, vals) in enumerate(zip(GSES, bias_per_ds)):
 
 axB.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 axB.axhline(0.5, color=RED, lw=0.7, ls=":", alpha=0.5)
-axB.text(len(GSES)-0.45, 0.5, "catalog\nthreshold", fontsize=8, color=RED,
+axB.text(len(GSES)-0.45, 0.5, "catalog\nthreshold", fontsize=9, color=RED,
          va="bottom", ha="right")
 
 axB.set_xticks(positions)
-axB.set_xticklabels([TISSUES[g] for g in GSES], fontsize=8.5, rotation=28, ha="right")
-axB.set_ylabel("Bias (log₂FC_fvb − log₂FC_naive)", fontsize=9)
+axB.set_xticklabels([TISSUES[g] for g in GSES], fontsize=9.5, rotation=28, ha="right")
+axB.set_ylabel("Bias (log₂FC_fvb − log₂FC_naive)", fontsize=10)
+axB.set_ylim(-1.5, 2.0)
 axB.spines[["top","right"]].set_visible(False)
-axB.set_title("Per-gene bias distribution\nper tissue", fontsize=10.5, pad=6)
+axB.set_title("Per-gene bias distribution\nper tissue", fontsize=11.5, pad=6)
 axB.text(-0.24, 1.04, "B", transform=axB.transAxes, fontsize=15, fontweight="bold")
-axB.text(len(GSES)-0.45, axB.get_ylim()[0]*0.92 if axB.get_ylim()[0] < 0 else -2.7,
-         "* CNVs (PyVT)", fontsize=8, color=GRAY, ha="right", style="italic")
+axB.text(len(GSES)-0.45, -1.35, "* CNVs (PyVT)", fontsize=9, color=GRAY, ha="right", style="italic")
 
 # ── Panel C: Mean log2FC ± SE per arm (secondary context) ────────────────────
 summ = df.groupby("gse").agg(
@@ -176,31 +175,22 @@ axC.errorbar(x,       summ["wasp_m"],  yerr=summ["wasp_se"],
 axC.errorbar(x + w/2, summ["fvb_m"],  yerr=summ["fvb_se"],
              fmt="^-", color=GREEN,   ms=6, lw=1.4, capsize=3, label="FVB ref", zorder=4)
 
-# WASP note
-axC.text(0.04, 0.07,
-         "WASP Δ from naive: ≤0.005 log₂ (all tissues)\n"
-         "Attrition: 0.2–2.3% (vW=2 only; both strains)\n"
-         "B6 excess attrition vs FVB (Table S4)",
-         transform=axC.transAxes, fontsize=8, va="bottom", color=ORANGE,
-         style="italic",
-         bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                   edgecolor=ORANGE, alpha=0.85, lw=0.8))
 
 axC.axhline(0, color="black", lw=0.8, ls="--", alpha=0.5)
 axC.set_xticks(x)
-axC.set_xticklabels([TISSUES[g] for g in GSES], fontsize=8.5, rotation=28, ha="right")
-axC.set_ylabel("Mean log₂FC ± SE", fontsize=9)
+axC.set_xticklabels([TISSUES[g] for g in GSES], fontsize=9.5, rotation=28, ha="right")
+axC.set_ylabel("Mean log₂FC ± SE", fontsize=10)
 axC.spines[["top","right"]].set_visible(False)
-axC.legend(fontsize=8, loc="lower left", frameon=True,
+axC.legend(fontsize=9, loc="lower left", frameon=True,
            framealpha=0.9, edgecolor="#CCCCCC")
-axC.set_title("Dataset-level summary\n(mean ± SE, all 3 arms)", fontsize=10.5, pad=6)
+axC.set_title("Dataset-level summary\n(mean ± SE, all 3 arms)", fontsize=11.5, pad=6)
 axC.text(-0.27, 1.04, "C", transform=axC.transAxes, fontsize=15, fontweight="bold")
 
 fig.suptitle(
     "Personalised reference alignment stably reduces locus-specific SNP-mediated reference-genome mapping bias;\n"
     "32 catalog genes above diagonal in naive but not FVB-ref mapping"
     " (WASP: negligible genome-wide effect, Δ ≤ 0.005 log₂; attrition 0.2–2.3% [vW=2]; Table S4)",
-    fontsize=9.5, y=0.997, color="#333333"
+    fontsize=10.5, y=0.997, color="#333333"
 )
 
 for ext in ["png","pdf"]:

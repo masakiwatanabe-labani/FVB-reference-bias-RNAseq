@@ -12,10 +12,9 @@ import matplotlib.patches as mpatches
 import numpy as np
 import pandas as pd
 from scipy import stats
-import os
-import pathlib, glob
+import os, glob
 
-PROJ = os.environ.get("FVB_PROJ", str(pathlib.Path(__file__).parent.parent.parent.resolve()))
+PROJ    = "/usr/local/jupyter/FVB_bias"
 COMB    = f"{PROJ}/results/f1_ase_combined"
 ASE293  = f"{PROJ}/results/gse293440_f1_test"
 ASE200  = f"{PROJ}/results/f1_ase_v2"
@@ -91,7 +90,7 @@ fig = plt.figure(figsize=(13, 5.5))
 fig.patch.set_facecolor("white")
 gs = fig.add_gridspec(1, 3, width_ratios=[1.5, 1.1, 1.2],
                       wspace=0.38, left=0.07, right=0.97,
-                      top=0.86, bottom=0.13)
+                      top=0.76, bottom=0.13)
 axA = fig.add_subplot(gs[0])
 axB = fig.add_subplot(gs[1])
 axC = fig.add_subplot(gs[2])
@@ -126,24 +125,24 @@ for (gse, mode), xpos in positions.items():
         v   = wasp293_vals if gse == "GSE293440" else wasp200_vals
         st  = sig_star(v)
         axA.text(xpos, vals.mean() + vals.std(ddof=1)/np.sqrt(len(vals)) + 0.012,
-                 st, ha="center", va="bottom", fontsize=10, color="black", zorder=7)
+                 st, ha="center", va="bottom", fontsize=11, color="black", zorder=7)
 
 axA.axhline(0.5, color=RED_LINE, lw=1.2, ls="--", zorder=2, alpha=0.8)
 axA.text(2.72, 0.502, "Expected\n(0.5)", va="bottom", ha="left",
-         fontsize=8, color=RED_LINE)
+         fontsize=9, color=RED_LINE)
 
 for xc, label, color in [(0.35, "GSE293440\nfrontal cortex\n(B6J×FVB/NJ, N=8)", BLUE),
                           (2.05, "GSE200632\nkeratinocyte\n(B6×FVB/N, N=4)", ORANGE)]:
-    axA.text(xc, 0.195, label, ha="center", va="top", fontsize=8.5,
+    axA.text(xc, 0.195, label, ha="center", va="top", fontsize=9.5,
              color=color, fontweight="bold")
 
 axA.set_xlim(-0.45, 2.9)
 axA.set_ylim(0.22, 0.58)
 axA.set_xticks([0.0, 0.7, 1.7, 2.4])
-axA.set_xticklabels(["Naive", "WASP", "Naive", "WASP"], fontsize=10)
-axA.set_ylabel("FVB allele fraction\n(sample mean, filtered sites)", fontsize=10.5)
+axA.set_xticklabels(["Naive", "WASP", "Naive", "WASP"], fontsize=11)
+axA.set_ylabel("FVB allele fraction\n(sample mean, filtered sites)", fontsize=11.5)
 axA.spines[["top","right"]].set_visible(False)
-axA.set_title("Per-sample FVB allele fraction", fontsize=11, pad=6)
+axA.set_title("Per-sample FVB allele fraction", fontsize=12, pad=6)
 axA.text(-0.13, 1.04, "A", transform=axA.transAxes,
          fontsize=15, fontweight="bold")
 
@@ -154,10 +153,10 @@ leg_elements = [
     mpatches.Patch(facecolor=ORANGE,  label="GSE200632 naive"),
     mpatches.Patch(facecolor=LORANGE, label="GSE200632 WASP"),
 ]
-axA.legend(handles=leg_elements, fontsize=8, loc="lower left",
+axA.legend(handles=leg_elements, fontsize=9, loc="lower left",
            frameon=True, framealpha=0.9, edgecolor="#CCCCCC")
 axA.text(1.45, 0.572, "* p<0.05 vs 0.5 (one-sample t-test)",
-         fontsize=8, color="#555555", ha="right", va="top")
+         fontsize=9, color="#555555", ha="right", va="top")
 
 # ── Panel B: site-level scatter (naive vs WASP, representative sample) ─────────
 if naive_b is not None and wasp_b is not None:
@@ -174,16 +173,16 @@ if naive_b is not None and wasp_b is not None:
         mw = merged["alt_frac_wasp"].mean()
         axB.text(0.05, 0.96,
                  f"n = {n} sites\nNaive: {mn:.3f}\nWASP:  {mw:.3f}",
-                 transform=axB.transAxes, fontsize=8.5, va="top",
+                 transform=axB.transAxes, fontsize=9.5, va="top",
                  bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
                            edgecolor="#CCCCCC", alpha=0.9))
 
 axB.set_xlim(0,1); axB.set_ylim(0,1)
-axB.set_xlabel("FVB allele fraction (naive)",  fontsize=9.5)
-axB.set_ylabel("FVB allele fraction (WASP)",   fontsize=9.5)
+axB.set_xlabel("FVB allele fraction (naive)",  fontsize=10.5)
+axB.set_ylabel("FVB allele fraction (WASP)",   fontsize=10.5)
 axB.spines[["top","right"]].set_visible(False)
 axB.set_title(f"Site-level correction\n(GSE293440, {srr_b[:11]}…, representative)",
-              fontsize=9.5, pad=6)
+              fontsize=10.5, pad=6)
 axB.text(-0.20, 1.04, "B", transform=axB.transAxes,
          fontsize=15, fontweight="bold")
 
@@ -197,20 +196,20 @@ if len(naive_pool) > 0:
 
     axC.axvline(0.5, color=RED_LINE, lw=1.2, ls="--", zorder=5, alpha=0.9)
     axC.text(0.51, axC.get_ylim()[1]*0.01, "0.5", color=RED_LINE,
-             fontsize=8, va="bottom")
+             fontsize=9, va="bottom")
 
     # mean lines
     axC.axvline(naive_pool.mean(), color=BLUE,  lw=1.2, ls=":", alpha=0.85, zorder=5)
     axC.axvline(wasp_pool.mean(),  color=LBLUE, lw=1.2, ls=":", alpha=0.85, zorder=5)
 
-axC.set_xlabel("FVB allele fraction (per site)", fontsize=9.5)
-axC.set_ylabel("Density", fontsize=9.5)
+axC.set_xlabel("FVB allele fraction (per site)", fontsize=10.5)
+axC.set_ylabel("Density", fontsize=10.5)
 axC.spines[["top","right"]].set_visible(False)
-axC.legend(fontsize=8, loc="upper left", frameon=True,
+axC.legend(fontsize=9, loc="upper left", frameon=True,
            framealpha=0.9, edgecolor="#CCCCCC")
 n_sites = len(naive_pool)
 axC.set_title(f"Per-site distribution\n(GSE293440, {len(srrs_293)} samples, {n_sites:,} site×sample)",
-              fontsize=9.5, pad=6)
+              fontsize=10.5, pad=6)
 axC.text(-0.20, 1.04, "C", transform=axC.transAxes,
          fontsize=15, fontweight="bold")
 
@@ -223,7 +222,7 @@ fig.suptitle(
     "relative to expected 0.5 (naive B6 mapping), partially corrected by WASP\n"
     "(WASP partial correction reflects sparse FVB/NJ SNP coverage [~1–2% reads overlap variant sites];\n"
     " pure-strain attrition 0.2–2.3% [vW=2 only]; Table S4)",
-    fontsize=9.5, y=0.995, color="#333333"
+    fontsize=9.5, y=0.998, color="#333333"
 )
 
 for ext in ["png","pdf"]:

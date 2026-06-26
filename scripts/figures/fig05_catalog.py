@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import re, os
 
-PROJ = os.environ.get("FVB_PROJ", str(pathlib.Path(__file__).parent.parent.parent.resolve()))
+PROJ = os.environ.get("FVB_PROJ", os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 OUT  = f"{PROJ}/results/figures"
 GTF  = f"{PROJ}/ref/b6_gtf/GRCm39.110.gtf"
 os.makedirs(OUT, exist_ok=True)
@@ -81,12 +81,12 @@ im = axA.imshow(hm_data, aspect="auto", cmap=cmap,
                 vmin=-vmax, vmax=vmax, interpolation="nearest")
 
 axA.set_xticks(range(len(GSES)))
-axA.set_xticklabels(x_labels, fontsize=9.5)
+axA.set_xticklabels(x_labels, fontsize=10.5)
 axA.set_yticks(range(top_n))
-axA.set_yticklabels(y_labels, fontsize=8.0)
+axA.set_yticklabels(y_labels, fontsize=9)
 axA.set_title(f"Top {top_n} of {len(catalog)} consistently biased genes\n"
               f"(‡ = negative PyVT bias; bias≥0.5 in ≥2 of 4 normal tissues)",
-              fontsize=11, pad=8)
+              fontsize=12, pad=8)
 
 # Add value text for cells with large bias
 for i in range(top_n):
@@ -94,17 +94,15 @@ for i in range(top_n):
         v = hm_data[i, j]
         if np.isnan(v):
             axA.text(j, i, "—", ha="center", va="center",
-                     fontsize=8, color="#AAAAAA")
+                     fontsize=9, color="#AAAAAA")
         else:
             tc = "white" if abs(v) > vmax*0.6 else "black"
             axA.text(j, i, f"{v:.1f}", ha="center", va="center",
-                     fontsize=8, color=tc, fontweight="bold" if abs(v) >= 1 else "normal")
+                     fontsize=9, color=tc, fontweight="bold" if abs(v) >= 1 else "normal")
 
 cbar = fig.colorbar(im, ax=axA, fraction=0.025, pad=0.03)
-cbar.set_label("Bias (log₂FC FVB ref − naive)", fontsize=9)
+cbar.set_label("Bias (log₂FC FVB ref − naive)", fontsize=10)
 cbar.ax.tick_params(labelsize=8)
-axA.text(len(GSES)-0.5, top_n+0.8, "* CNV confounding possible (PyVT tumour)",
-         fontsize=8, color=GRAY, ha="right", style="italic")
 
 # ── Panel B: dot plot (mean_bias vs tissue breadth) ───────────────────────────
 bt_map = {
@@ -123,6 +121,8 @@ disc_mask = catalog["pvt_discordant"].values if "pvt_discordant" in catalog.colu
 
 x_jitter = np.random.default_rng(42).uniform(-0.12, 0.12, len(catalog))
 x_vals = catalog["n_datasets_4t"].values + x_jitter
+# store actual x positions keyed by gene_id for use in annotations
+x_pos_by_id = dict(zip(catalog["gene_id"].values, x_vals))
 y_vals = catalog["mean_bias"].values
 sizes  = np.clip(y_vals * 18, 20, 200)
 colors = [bt_map.get(bt, bt_default) for bt in catalog["biotype"].values]
@@ -135,14 +135,32 @@ axB.scatter(x_vals[disc_mask], y_vals[disc_mask],
             alpha=0.78, edgecolors="#AA4400", linewidths=1.2, zorder=4,
             marker="D")
 
-# Annotate top 10
+# Annotate top 10 — custom offsets (dx, dy in points) to avoid overlaps
+# None = skip (handled separately by gold-star block)
+LABEL_OFFSETS = {
+    "Rsph3a":  None,
+    "Atp5g2":  ( 8,  11),
+    "Mir6236": ( 8,  -6),
+    "Gm25939": ( 8,   0),
+    "Gm55594": ( 8,   0),
+    "Gm8909":  (-72,  4),
+    "H3c1":    (-52,  0),
+    "Rpl29":   ( 8,  12),
+    "Capza1":  ( 8,   0),
+    "Acp1":    ( 8, -12),
+}
 top10 = catalog.head(10)
 for row in top10.itertuples():
+    offset = LABEL_OFFSETS.get(row.gene_name, (8, 0))
+    if offset is None:
+        continue
     yv = row.mean_bias
-    xi = row.n_datasets_4t + np.random.default_rng(int(hash(row.gene_id)) % 2**31).uniform(-0.08, 0.08)
+    xi = x_pos_by_id[row.gene_id]
     lbl = f"{row.gene_name}‡" if row.gene_id in pvt_disc_ids else row.gene_name
-    axB.annotate(lbl, xy=(xi, yv), xytext=(6, 0), textcoords="offset points",
-                 fontsize=8, va="center",
+    dx, dy = offset
+    ha = "right" if dx < 0 else "left"
+    axB.annotate(lbl, xy=(xi, yv), xytext=(dx, dy), textcoords="offset points",
+                 fontsize=9, va="center", ha=ha,
                  arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.5))
 
 axB.axhline(0.5, color=RED, lw=0.8, ls="--", alpha=0.6, label="Threshold (0.5)")
@@ -154,19 +172,18 @@ if len(rsph3a_cat) == 1:
     ry = float(rsph3a_cat["mean_bias"].values[0])
     axB.scatter(rx, ry, s=220, marker="*", color="gold",
                 edgecolors="#CC8800", lw=1.0, zorder=6,
-                label="Most robust (Rsph3a)")
-    axB.annotate("← most robust", xy=(rx, ry),
-                 xytext=(rx + 0.12, ry + 0.04),
-                 fontsize=8, color="#CC6600", va="center",
-                 style="italic")
-axB.set_xlabel("Normal tissues with bias ≥ 0.5 (of 4)", fontsize=10)
-axB.set_ylabel("Mean bias (4 normal tissues)\n(log₂FC FVB ref − naive)", fontsize=10)
+                label="Most robustly evidenced")
+    axB.annotate("Rsph3a", xy=(rx, ry), xytext=(8, 0), textcoords="offset points",
+                 fontsize=9, va="center", ha="left", color="#CC8800",
+                 arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.5))
+axB.set_xlabel("Normal tissues with bias ≥ 0.5 (of 4)", fontsize=11)
+axB.set_ylabel("Mean bias (4 normal tissues)\n(log₂FC FVB ref − naive)", fontsize=11)
 axB.set_xticks([1, 2, 3, 4])
 axB.set_xlim(0.5, 4.5)
 axB.spines[["top","right"]].set_visible(False)
 axB.set_title(f"Bias catalog overview\n"
               f"({len(catalog)} genes; ‡ = negative PyVT bias)",
-              fontsize=11, pad=8)
+              fontsize=12, pad=8)
 
 from matplotlib.lines import Line2D
 legend_patches = [
@@ -179,13 +196,13 @@ legend_patches = [
     Line2D([0],[0], marker="*", color="w", markerfacecolor="gold",
            markeredgecolor="#CC8800", markersize=10, label="Most robustly evidenced"),
 ]
-axB.legend(handles=legend_patches, fontsize=8, loc="upper left",
+axB.legend(handles=legend_patches, fontsize=9, loc="upper left",
            frameon=True, framealpha=0.9, edgecolor="#CCCCCC",
-           title="Biotype", title_fontsize=8.5)
+           title="Biotype", title_fontsize=9.5)
 
 fig.suptitle(
     "Bias catalog: consistently biased genes identify loci vulnerable to FVB reference genome mapping errors",
-    fontsize=9.5, y=0.995, color="#333333"
+    fontsize=10.5, y=0.995, color="#333333"
 )
 
 for ext in ["png","pdf"]:

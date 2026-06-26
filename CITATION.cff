@@ -7,10 +7,10 @@ abstract: >
   SNP-mediated reference-genome mapping bias in FVB mouse RNA-seq experiments,
   including a 32-gene bias catalog and three-arm pipeline (naive / WASP / FVB personalised reference).
 authors:
-  - family-names: "[Family Name]"
-    given-names: "[Given Name]"
+  - family-names: "Watanabe"
+    given-names: "Masaki"
     email: vm15139.jitudou@gmail.com
-repository-code: "https://github.com/[USERNAME]/FVB-reference-bias-RNAseq"
+repository-code: "https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq"
 license: MIT
 date-released: "2026-01-01"
 keywords:
@@ -28,8 +28,8 @@ references:
       SNP-mediated reference-genome mapping bias in FVB RNA-seq: a systematic
       characterisation across five tissue datasets with a 32-gene bias catalog
     authors:
-      - family-names: "[Family Name]"
-        given-names: "[Given Name]"
+      - family-names: "Watanabe"
+        given-names: "Masaki"
     journal: "[Journal]"
     year: 2026
     doi: "[DOI — to be added]"
