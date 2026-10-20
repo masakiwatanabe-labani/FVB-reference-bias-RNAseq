@@ -1,0 +1,6 @@
+ref/fvb_vcf/FVB_NJ.snps.GRCm39.vcf.gz 5960448
+ref/fvb_vcf/FVB_NJ.biallelic_snps.vcf.gz 5778575
+ref/fvb_vcf/FVB_NJ.indels.GRCm39.vcf.gz 1214530
+analysis_v2/qc/fvbnj_homalt_auto.vcf.gz 5030214
+analysis_v2/qc/fvbnj_homalt_exonic.vcf.gz 203510
+uncompressed STAR VCF records: 5960448

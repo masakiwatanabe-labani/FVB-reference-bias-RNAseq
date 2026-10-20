@@ -1,0 +1,60 @@
+# analysis_v2 fixed parameters (rule 0.4-8: identical to the old Methods unless recorded otherwise in revision_v2/CHANGELOG.md)
+project: /usr/local/jupyter/FVB_bias
+manifest: revision_v2/manifest/manifest.tsv        # the ONLY sample source (rule 0.4-1)
+threads: 8
+tools:
+  fastp: {version: 1.3.3, path: env_v2/bin/fastp, args_pe: "--detect_adapter_for_pe -w 4", args_se: "-w 4"}
+  STAR: {version: 2.7.10a, path: /usr/local/bin/STAR}
+  samtools: {version: 1.15.1, path: /usr/local/bin/samtools}
+  featureCounts: {version: 2.0.3 (Subread), path: /usr/local/bin/featureCounts}
+  gatk: {version: 4.6.2.0, path: bin/gatk}
+  edgeR: {version: 3.40.2, R: 4.2.2}
+  aria2c: {path: /usr/bin/aria2c}
+references:                                  # md5 in analysis_v2/references.md5
+  b6_fasta: ref/b6_fasta/GRCm39.primary.fa
+  b6_gtf: ref/b6_gtf/GRCm39.110.gtf          # Ensembl 110; used for ALL three arms
+  fvb_snp_vcf_uncompressed: ref/fvb_vcf/FVB_NJ.snps.GRCm39.vcf   # STAR --varVCFfile (MGP REL-2021 FVB_NJ, PASS)
+  fvb_personalised_fasta: ref/g2g/GRCm39.FVB_NJ.fa   # g2gtools 0.2.7 patch(+transform); SNP-only in effect (indel VCF FILTER='.' excluded by --pass) -> coordinates identical to GRCm39
+  fvb_gtf_lifted: ref/g2g/GRCm39.110.FVB_NJ.gtf      # used only for the "present in FVB GTF" catalog filter
+  star_b6: ref/star_b6                      # genomeSAindexNbases 14, sjdbOverhang 100
+  star_fvb: ref/star_fvb
+  qc_sites_full: analysis_v2/qc/fvbnj_homalt_exonic.hetGT.vcf.gz   # 203,510 FVB/NJ hom-alt exonic SNPs (GT set to 0/1 for GATK); used for the first 10 animals and GSE55788 heart
+  qc_sites: analysis_v2/qc/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.vcf.gz   # fixed random 10 % subset (20,351 sites, seed 20261016) used from hypothalamus_B6_CWHyp4 onward; verdict rules unchanged (speed-up Step 3, revision_v2/speedup/03_qc_subsample.md)
+  qc_sites_intervals: analysis_v2/qc/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.intervals.bed   # same sites merged within 1 kb; passed as -L to restrict traversal (no effect on per-site counts)
+technical_runs: "runs sharing one BioSample are concatenated per read file (cat run1 run2 run3 > sample) before fastp"
+star:
+  common: "--outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --outFilterIntronMotifs RemoveNoncanonical --sjdbGTFfile <b6_gtf> --readFilesCommand zcat"
+  naive_extra: "--waspOutputMode SAMtag --varVCFfile <fvb_snp_vcf_uncompressed> --outSAMattributes NH HI AS NM MD vW --outSAMattrRGline ID:<sample> SM:<sample> PL:ILLUMINA"
+  fvb_extra: "--outSAMattrRGline ID:<sample> SM:<sample> PL:ILLUMINA"
+wasp_filter: "samtools view -b -e '![vW] || [vW]==1'"
+featureCounts:
+  unique: "-s 0 -T 8 [-p for PAIRED]"
+  multimap_sensitivity: "-M --fraction -s 0 -T 8 [-p]   (naive and fvb arms only)"
+identity_qc:
+  tool: "gatk ASEReadCounter --min-depth-of-non-filtered-base 20 --min-mapping-quality 20 --min-base-quality 20"
+  rules: revision_v2/audit/qc_calibration.md     # fixed before Phase A
+  expected: {FVB/NJ: "FVB/NJ pure", C57BL/6J: "B6 pure", "B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ": "B6 pure"}
+  on_mismatch: "write qc/MISMATCH, exit 2, batch stops (rule 0.4-4/5)"
+edgeR:
+  filter: filterByExpr (defaults)
+  norm: TMM (calcNormFactors)
+  dispersion: estimateDisp; test: glmQLFit + glmQLFTest
+  design_primary: "~ diet + strain  (fructose tissues: adipose, hypothalamus, liver; all animals); strain coefficient tested"
+  design_heart: "~ strain"
+  design_sensitivity: "~ strain on water (control-diet) animals only"
+  within_fvb_diet: "~ diet on FVB/NJ animals only, per arm (reviewer 2 comment 1)"
+bias: "log2FC_FVBref - log2FC_naive  (per gene, per tissue); FVB-arm CPM for display = FVB-arm counts / naive-arm library size"
+catalog: "bias >= 0.5 log2 in >= 2 tissues (of adipose, hypothalamus, liver, skin; heart dropped after the GSE55788 identity QC failure, skin GSE86315 adopted — CHANGELOG 2026-10-15) AND gene present in fvb_gtf_lifted; sensitivity grid thresholds 0.25/0.5/1.0 x min tissues 1-4"
+negative_control: "GSE175625 PyVT (13 B6-congenic tumours): per-sample reference-swap ratio log2((FVB-arm count+0.5)/(naive count+0.5)) with naive library size; same metric for fructose-study B6 animals"
+cleanup: "after counting: delete raw+trimmed FASTQ, fvb.bam, wasp.bam (keep naive.bam, STAR logs, counts, qc)"
+# --- speed-up (revision_v2/speedup/, 2026-10-16): execution order / resource scheduling only; alignment and counting commands unchanged
+scheduling:
+  scheduler: analysis_v2/pipeline/scheduler.sh      # replaces run_batch.sh from hypothalamus_B6_CWHyp4 onward; same manifest selection and order (main_water -> fructose -> pyvt -> skin)
+  animals_in_progress_max: 3
+  star_exclusive_lock: analysis_v2/locks/star.lock  # at most one STAR process at any time (naive and fvb arms share the lock)
+  star_threads: 8
+  non_star_threads: {fastp: 2, samtools_view: 2, featureCounts: 2, featureCounts_concurrent_calls: 2, gatk_ASEReadCounter: 1}   # thread counts do not change outputs (fastp keeps read order; samtools view -e is a filter; featureCounts counts are thread-independent)
+  ram_guard_gb: 6          # non-STAR steps and new animals wait while MemAvailable < 6 GB
+  disk_guard_gb: 60        # no new animal while free disk < 60 GB
+  stop_flag: analysis_v2/locks/STOP   # identity mismatch or any failure -> flag -> all workers stop at their next step boundary
+  trimmed_fastq_deleted: "immediately after the FVB-arm STAR run (previously at final cleanup); fvb/wasp BAMs deleted after featureCounts as before"

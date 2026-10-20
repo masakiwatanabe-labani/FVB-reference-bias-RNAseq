@@ -1,0 +1,33 @@
+--- junction sets (chr start end strand)
+b6 290071 fvb 286280 fvb_not_in_b6 0 b6_not_in_fvb 3791
+   3688 Y
+     25 JH584299.1
+     12 GL456212.1
+     10 GL456221.1
+     10 GL456354.1
+--- production fvb sjdbInsert (Log.out)
+/usr/local/bin/STAR --runThreadN 8 --genomeDir /usr/local/jupyter/FVB_bias/ref/star_fvb --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf --readFilesIn /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_1.fq.gz /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_2.fq.gz --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --outFilterIntronMotifs RemoveNoncanonical --outSAMattrRGline ID:hypothalamus_B6_CWHyp4 SM:hypothalamus_B6_CWHyp4 PL:ILLUMINA --outFileNamePrefix /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/bam/hypothalamus_B6_CWHyp4.fvb.
+/usr/local/bin/STAR   --runThreadN 8   --genomeDir /usr/local/jupyter/FVB_bias/ref/star_fvb   --readFilesIn /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_1.fq.gz   /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_2.fq.gz      --readFilesCommand zcat      --outFileNamePrefix /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/bam/hypothalamus_B6_CWHyp4.fvb.   --outSAMtype BAM   SortedByCoordinate      --outSAMstrandField intronMotif   --outSAMattrRGline ID:hypothalamus_B6_CWHyp4   SM:hypothalamus_B6_CWHyp4   PL:ILLUMINA      --outFilterIntronMotifs RemoveNoncanonical   --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf
+### STAR   --runMode genomeGenerate      --runThreadN 8   --genomeDir /usr/local/jupyter/FVB_bias/ref/star_fvb   --genomeFastaFiles /usr/local/jupyter/FVB_bias/ref/g2g/GRCm39.FVB_NJ.fa      --genomeSAindexNbases 14   --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/g2g/GRCm39.110.FVB_NJ.gtf
+--sjdbOverhang = 100 taken from the generated genome
+Processing splice junctions database sjdbN=286280,   pGe.sjdbOverhang=100 
+Oct 16 20:41:21   Loaded database junctions from the generated genome /usr/local/jupyter/FVB_bias/ref/star_fvb//sjdbList.out.tab: 286280 total junctions
+Processing pGe.sjdbGTFfile=/usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf, found:
+		290117 collapsed junctions
+Total junctions: 576397
+WARNING: long repeat for junction # 13894 : 15 75976552 75988902; left shift = 0; right shift = 255
+WARNING: long repeat for junction # 37020 : 13 36192501 36373186; left shift = 255; right shift = 29
+WARNING: long repeat for junction # 44746 : 13 119631671 120070727; left shift = 36; right shift = 255
+--- production fvb _STARgenome sjdbList (if any retained)
+--- naive Log.out sjdb
+/usr/local/bin/STAR --runThreadN 8 --genomeDir /usr/local/jupyter/FVB_bias/ref/star_b6 --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf --readFilesIn /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_1.fq.gz /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_2.fq.gz --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --outFilterIntronMotifs RemoveNoncanonical --waspOutputMode SAMtag --varVCFfile /usr/local/jupyter/FVB_bias/ref/fvb_vcf/FVB_NJ.snps.GRCm39.vcf --outSAMattributes NH HI AS NM MD vW --outSAMattrRGline ID:hypothalamus_B6_CWHyp4 SM:hypothalamus_B6_CWHyp4 PL:ILLUMINA --outFileNamePrefix /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/bam/hypothalamus_B6_CWHyp4.naive.
+/usr/local/bin/STAR   --runThreadN 8   --genomeDir /usr/local/jupyter/FVB_bias/ref/star_b6   --readFilesIn /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_1.fq.gz   /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/trim/hypothalamus_B6_CWHyp4_2.fq.gz      --readFilesCommand zcat      --outFileNamePrefix /usr/local/jupyter/FVB_bias/analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp4/bam/hypothalamus_B6_CWHyp4.naive.   --outSAMtype BAM   SortedByCoordinate      --outSAMstrandField intronMotif   --outSAMattributes NH   HI   AS   NM   MD   vW      --outSAMattrRGline ID:hypothalamus_B6_CWHyp4   SM:hypothalamus_B6_CWHyp4   PL:ILLUMINA      --outFilterIntronMotifs RemoveNoncanonical   --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf   --varVCFfile /usr/local/jupyter/FVB_bias/ref/fvb_vcf/FVB_NJ.snps.GRCm39.vcf   --waspOutputMode SAMtag
+### STAR   --runMode genomeGenerate      --runThreadN 8   --genomeDir /usr/local/jupyter/FVB_bias/ref/star_b6   --genomeFastaFiles /usr/local/jupyter/FVB_bias/ref/b6_fasta/GRCm39.primary.fa      --genomeSAindexNbases 14   --outFileNamePrefix /usr/local/jupyter/FVB_bias/ref/star_b6/   --sjdbGTFfile /usr/local/jupyter/FVB_bias/ref/b6_gtf/GRCm39.110.gtf
+--sjdbOverhang = 100 taken from the generated genome
+Processing splice junctions database sjdbN=290071,   pGe.sjdbOverhang=100 
+Oct 16 19:01:23   Loaded database junctions from the generated genome /usr/local/jupyter/FVB_bias/ref/star_b6//sjdbList.out.tab: 290071 total junctions
+--- g2g gtf chr list vs b6 gtf
+20
+39
+
+[exited with code 0]

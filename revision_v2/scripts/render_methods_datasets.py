@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+"""Methods subsection "RNA-seq datasets" rendered from the manifest (rule 0.4-1). Output: manuscript/revised_v2/generated/methods_datasets.md"""
+import csv, collections, os
+PROJ="/usr/local/jupyter/FVB_bias"; OUT=f"{PROJ}/manuscript/revised_v2/generated/methods_datasets.md"
+M=[r for r in csv.DictReader(open(f"{PROJ}/revision_v2/manifest/manifest.tsv"), delimiter="\t")]
+inc=[r for r in M if r["include"]=="Y"]
+def n(rows, strain, **kw): return sum(1 for r in rows if r["strain"]==strain and all(r[k]==v for k,v in kw.items()))
+def rl(rows): return "/".join(sorted(set(str(int(float(r["read_length"]))) for r in rows if r["read_length"])))
+P=[]
+fr=[r for r in inc if r["GSE"] in ("GSE123875","GSE123893","GSE123894")]
+t={g:[r for r in fr if r["GSE"]==g] for g in ("GSE123875","GSE123893","GSE123894")}
+P.append("## RNA-seq datasets\n")
+P.append(f"Samples were selected from a sample-level manifest built from the GEO/SRA sample attributes of each series (strain, tissue, treatment, sex where recorded; `revision_v2/manifest/manifest.tsv`), and every sample was verified by a sequence-based strain identity check before use (see *Sample identity verification*). *n* denotes biological animals; where an animal was sequenced in several runs, the runs were concatenated before processing.\n")
+P.append(f"For the three-arm strain comparison, FVB/NJ and C57BL/6J animals were taken from three tissues of a single fructose-feeding study (SuperSeries GSE123896; Jackson Laboratory FVB/NJ): mesenteric adipose tissue (GSE123875; FVB/NJ *n* = {n(t['GSE123875'],'FVB/NJ')} [water {n(t['GSE123875'],'FVB/NJ',diet='water')}, fructose {n(t['GSE123875'],'FVB/NJ',diet='fructose')}], C57BL/6J *n* = {n(t['GSE123875'],'C57BL/6J')} [water {n(t['GSE123875'],'C57BL/6J',diet='water')}, fructose {n(t['GSE123875'],'C57BL/6J',diet='fructose')}]), hypothalamus (GSE123893; FVB/NJ *n* = {n(t['GSE123893'],'FVB/NJ')} [{n(t['GSE123893'],'FVB/NJ',diet='water')}/{n(t['GSE123893'],'FVB/NJ',diet='fructose')}], C57BL/6J *n* = {n(t['GSE123893'],'C57BL/6J')} [{n(t['GSE123893'],'C57BL/6J',diet='water')}/{n(t['GSE123893'],'C57BL/6J',diet='fructose')}]) and liver (GSE123894; FVB/NJ *n* = {n(t['GSE123894'],'FVB/NJ')} [{n(t['GSE123894'],'FVB/NJ',diet='water')}/{n(t['GSE123894'],'FVB/NJ',diet='fructose')}], C57BL/6J *n* = {n(t['GSE123894'],'C57BL/6J')} [{n(t['GSE123894'],'C57BL/6J',diet='water')}/{n(t['GSE123894'],'C57BL/6J',diet='fructose')}]). All were paired-end libraries ({rl(t['GSE123875'])} bp for adipose and liver, {rl(t['GSE123893'])} bp for hypothalamus) with three sequencing runs per animal. Animals of the DBA/2J arm of the same study were not used. Sex and age are not recorded in the GEO or BioSample attributes of this study.\n")
+sk=[r for r in inc if r["GSE"]=="GSE86315"]
+if sk:
+    P.append(f"A fourth tissue from an independent laboratory was added from a seven-strain imiquimod study (GSE86315): back skin of FVB/NJ (*n* = {n(sk,'FVB/NJ')}) and C57BL/6J (*n* = {n(sk,'C57BL/6J')}) mice, each comprising two males and two females treated with the control cream and two males and two females treated with imiquimod (single-end {rl(sk)} bp, one run per animal). Diet (fructose study) and treatment (imiquimod study) were included as covariates in the strain models and, as a sensitivity analysis, the control-condition animals alone were analysed (see *Differential expression and bias quantification*).\n")
+nc=[r for r in inc if r["role"]=="negative_control_candidate"]
+if nc:
+    c=collections.Counter(r["diet"] for r in nc)
+    P.append(f"As a negative control carrying no FVB/NJ-specific alleles, {len(nc)} mammary tumours from B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ mice (a C57BL/6 congenic line; GSE175625; " + ", ".join(f"{k.lower()} {v}" for k,v in sorted(c.items())) + f"; single-end {rl(nc)} bp) were processed through the same three arms. Because these animals provide no FVB-versus-B6 contrast, they were evaluated with a per-sample reference-swap statistic rather than the strain-contrast bias (see *Negative control*).\n")
+f1={g:[r for r in inc if r["role"]=="f1_ase" and r["GSE"]==g] for g in ("GSE293440","GSE200632")}
+P.append(f"For the F1 allele-specific expression analysis (Fig. 2), two datasets were used. GSE293440 contains RNA-seq from {len(f1['GSE293440'])} F1 hybrid mice (GEO strain attribute \"B6xFVB\"; cerebral cortex sampled as frontal cortex; four males and four females, recorded as \"young\" (age 6) and \"old\" (age 12) in GEO; paired-end {rl(f1['GSE293440'])} bp), taken from a 290-sample series by the attributes \"B6xFVB, Control, WT\". GSE200632 contains RNA-seq from {len(f1['GSE200632'])} F1 hybrid mice (C57BL/6:FVB/N, F1 50/50; primary keratinocytes; paired-end {rl(f1['GSE200632'])} bp); the four F3 backcross samples of that series were excluded. The FVB substrain of the GSE293440 cross is not stated in the GEO record.\n")
+ex=[r for r in M if r["include"]!="Y"]
+P.append(f"Samples excluded by the manifest rules are listed with the reason in Supplementary Table S1 (for example GSE135230, whose animals all share one mixed B6.129 × FVB/N-Tg(Thy1-cre) background, and the \"wild-type C57BL/6J\" group of GSE55788, which failed the sequence identity check; Supplementary Fig. S1).\n")
+open(OUT,"w").write("\n".join(P)); print(open(OUT).read())

@@ -1,5 +1,9 @@
 # FVB Reference-Genome Mapping Bias in RNA-seq
 
+## Correction (revision 2, October 2026)
+
+While preparing the revision of the manuscript, we re-verified every sample against GEO/SRA metadata and against strain-informative SNP allele fractions in the aligned reads. This revealed an error in dataset selection and sample misidentification in the pure-strain analysis of the original submission: datasets had been selected from series descriptions and samples assigned by consecutive sequencing-run blocks without inspection of sample-level attributes. The pure-strain results (Figs. 3–6, Table 1, Supplementary Tables S2–S4, and the gene catalog) could not stand as submitted and have been entirely re-derived from correctly identified samples. Sample selection is now driven by a sample-level manifest built from GEO/SRA attributes (`revision_v2/manifest/manifest.tsv`), and a sequence-based strain-identity check is applied to every sample and reported (`analysis_v2/results/qc/sample_identity_verification.tsv`). The corrected pipeline is under `analysis_v2/`, the revision record under `revision_v2/` (`CHANGELOG.md`, `text_changes.md`), and the original code is preserved unchanged in the history of this repository (branch `main` before tag `v2-corrected`). The F1 allele-specific expression analysis (Fig. 2) and the survey of published practice (Fig. 1) were not affected.
+
 Analysis code and figure-generation scripts for:
 
 > **"SNP-mediated reference-genome mapping bias in FVB RNA-seq: a systematic characterisation

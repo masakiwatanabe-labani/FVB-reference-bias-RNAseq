@@ -1,0 +1,2 @@
+test_only	robust	robust_name	extreme	extreme_name	extreme_tissue	extreme_bias	robust_mechanism	extreme_mechanism
+False	ENSMUSG00000028648	Ndufs5	ENSMUSG00000044533	Rps2	skin	5.361512106428029	SNP-induced multi-mapping	direct SNP misalignment
