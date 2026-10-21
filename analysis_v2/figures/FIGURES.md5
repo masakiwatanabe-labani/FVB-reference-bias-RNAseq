@@ -1,9 +1,9 @@
 9abd3d82a5dd88b97cd3548f4893ce7e  Fig1_survey_data.tsv
 7266a7e2ffb74c511fb4281ef01e710d  Fig1_survey.pdf
 dfc0deb76827c305b76b3289041b6847  Fig1_survey.tiff
-1fd347442b4c2d9b33eeb70aa0bd0947  Fig2_f1_ase_data.tsv
-87f7b8353ad4a3f9ddf754e9314dd962  Fig2_f1_ase.pdf
-d6f591fa54793220e2a5ca3bb1b93d96  Fig2_f1_ase.tiff
+197cc2137904b2933a0d8a0ec748d80c  Fig2_f1_ase_data.tsv
+bcbd9892dae1bf21f1db07000ad56b1d  Fig2_f1_ase.pdf
+654347223f4f94c667142c50a7e9adbe  Fig2_f1_ase.tiff
 e04b1a16247c1654d533308917077b4c  Fig3_strain_comparison_data.tsv
 57e995764c254f588c2faad64ffbc9b0  Fig3_strain_comparison.pdf
 33cefe0acf7ad44dba8b416517129095  Fig3_strain_comparison.tiff
@@ -22,3 +22,7 @@ e0280873793f4b0ec3549941b768b487  SFig1_GSE55792_haplotype_blocks.pdf
 aad48b5b44b50fa685fec541f8f6ee87  SFig2_multimapping_data.tsv
 8e7076de33bf9ba172ff49f93f38ce87  SFig2_multimapping.pdf
 a7d15f9e934dd512f26d9244d0ae4328  SFig2_multimapping.tiff
+e95418ecd1262b4675db2c78d00836aa  SFig3_bias_decomposition_data.tsv
+6689e98ee8393ac9d1d0c62cc865c811  SFig3_bias_decomposition.pdf
+3ede18112cfbb6f5456c63a587639adb  SFig3_bias_decomposition.tiff
+50faa6bd8c24169fd99937583662eb48  worked_examples.tsv

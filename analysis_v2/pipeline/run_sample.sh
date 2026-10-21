@@ -43,7 +43,7 @@ stage_done(){ [ "$STAGE" = "$1" ] && { log "stage $1 reached"; exit 0; }; }
 PE=0; [ "$M_library_layout" = "PAIRED" ] && PE=1
 log "start tissue=$M_tissue strain=$M_strain layout=$M_library_layout runs=$M_SRR"
 
-# 1) download + md5 ---------------------------------------------------------------------------
+# 1) download + md5 (ENA over HTTPS since 2026-10-20 11:50: the single-connection FTP retry after an md5 mismatch stalled > 30 min at 0 bytes on the F1 re-download; same host/paths, md5-checked, outputs unaffected) ---------------------------------------------------------------------------
 if [ ! -e $D/fastq/done.download ]; then
   stop_if_flag
   IFS=';' read -ra URLS <<< "$M_fastq_ftp"; IFS=';' read -ra MD5S <<< "$M_fastq_md5"
@@ -58,7 +58,7 @@ if [ ! -e $D/fastq/done.download ]; then
     log "download $f"
     # transient FTP failures: up to 3 attempts, 2 min apart (partial file resumed via .aria2 control file)
     ok=0; for try in 1 2 3; do
-      /usr/bin/aria2c -q -x 4 -s 4 --retry-wait=10 --max-tries=8 -d $D/fastq -o $f "ftp://$u" && { ok=1; break; }
+      /usr/bin/aria2c -q -x 4 -s 4 --retry-wait=10 --max-tries=8 -d $D/fastq -o $f "https://$u" && { ok=1; break; }
       log "download attempt $try failed $f"; sleep 120
     done
     [ $ok -eq 1 ] || die "download failed $f"
@@ -70,7 +70,7 @@ if [ ! -e $D/fastq/done.download ]; then
     [ $attempt -eq 3 ] && die "md5 mismatch after ENA re-download and NCBI fallback: $bad"
     if [ $attempt -eq 1 ]; then
       log "md5 mismatch (attempt 1): $bad -> re-download from ENA with a single connection"
-      for f in $bad; do rm -f $D/fastq/$f; u=$(echo "$M_fastq_ftp" | tr ';' '\n' | grep "/$f$"); /usr/bin/aria2c -q -x 1 -s 1 --retry-wait=15 --max-tries=8 -d $D/fastq -o $f "ftp://$u" || die "re-download failed $f"; done
+      for f in $bad; do rm -f $D/fastq/$f; u=$(echo "$M_fastq_ftp" | tr ';' '\n' | grep "/$f$"); /usr/bin/aria2c -q -x 1 -s 1 --retry-wait=15 --max-tries=8 -d $D/fastq -o $f "https://$u" || die "re-download failed $f"; done
     else
       # ENA copy still corrupt -> fetch the whole run from NCBI SRA (prefetch + fasterq-dump), gzip, and verify by read count
       runs=$(for f in $bad; do echo ${f%%_*} | sed 's/\.fastq\.gz//'; done | sort -u)

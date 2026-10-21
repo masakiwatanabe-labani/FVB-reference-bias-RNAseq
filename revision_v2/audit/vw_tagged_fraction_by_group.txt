@@ -1,0 +1,12 @@
+vW-tagged (SNP-overlapping) primary alignments as % of all, from qc/vW_tag_counts.tsv (naive arm, STAR --waspOutputMode SAMtag), 2026-10-20
+                                 n  pct_snp_overlap_mean  pct_snp_overlap_sd  pct_vW2_mean
+group                                                                                     
+C57BL/6J adipose (PE 69)         6                10.597               0.893         1.239
+C57BL/6J hypothalamus (PE 101)   8                 9.330               0.179         0.495
+C57BL/6J liver (PE 69)          12                10.799               0.168         1.946
+C57BL/6J skin (SE 52)            8                 5.220               0.180         1.742
+FVB/NJ adipose (PE 69)           8                 9.086               0.201         1.104
+FVB/NJ hypothalamus (PE 101)     8                 8.558               0.208         0.773
+FVB/NJ liver (PE 69)            12                10.052               0.330         2.168
+FVB/NJ skin (SE 52)              8                 4.841               0.140         1.745
+PyVT (SE 101)                   13                 7.733               0.843         2.190

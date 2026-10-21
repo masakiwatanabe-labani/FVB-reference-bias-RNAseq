@@ -37,13 +37,43 @@ s1=pd.read_csv(f"{FIG}/Fig1_survey_data.tsv", sep="\t"); ev=rel(f"{FIG}/Fig1_sur
 for _,r in s1.iterrows(): put(f"survey_{r.category}_n", int(r.n), ev); put(f"survey_{r.category}_pct", float(r.pct), ev)
 put("survey_total", int(s1.n.sum()), ev)
 # ---- F1 ASE (Fig. 2) -------------------------------------------------------------------------------------------------
-fa=pd.read_csv(f"{RES}/f1_ase/f1_ase_per_sample.tsv", sep="\t"); ev=rel(f"{RES}/f1_ase/f1_ase_per_sample.tsv")
+# Phase H-1 (2026-10-21): recomputed on the re-aligned F1 BAMs at the 203,510 identity-QC sites (f1_ase_rerun.sh, f1_ase_summary_v2.py);
+# the v1 tables in f1_ase/ (94,351 MGP-heterozygous sites, an artefact of a genotype-unfiltered VCF; H-1a) are no longer read.
+fa=pd.read_csv(f"{RES}/f1_ase/v2/f1_ase_per_sample_v2.tsv", sep="\t"); ev=rel(f"{RES}/f1_ase/v2/f1_ase_per_sample_v2.tsv")
 for arm in ("naive","wasp"):
     a=fa[fa.arm==arm]; m=a.mean_fvb_fraction; t,p=stats.ttest_1samp(m,0.5)
     put(f"f1_{arm}_n_samples", len(a), ev); put(f"f1_{arm}_pooled_mean", float(m.mean()), ev); put(f"f1_{arm}_pooled_se", float(m.sem()), ev); put(f"f1_{arm}_t", float(t), ev); put(f"f1_{arm}_p", float(p), ev)
+    put(f"f1_{arm}_per_animal_min", float(m.min()), ev); put(f"f1_{arm}_per_animal_max", float(m.max()), ev)
     put(f"f1_{arm}_sites_min", int(a.n_sites.min()), ev); put(f"f1_{arm}_sites_max", int(a.n_sites.max()), ev); put(f"f1_{arm}_sites_mean", float(a.n_sites.mean()), ev)
     for g,gg in a.groupby("GSE"): put(f"f1_{arm}_{g}_mean", float(gg.mean_fvb_fraction.mean()), ev); put(f"f1_{arm}_{g}_n", len(gg), ev)
 put("f1_naive_deficit_pp", float((0.5-fa[fa.arm=="naive"].mean_fvb_fraction.mean())*100), ev)
+put("f1_wasp_excess_pp", float((fa[fa.arm=="wasp"].mean_fvb_fraction.mean()-0.5)*100), ev)
+put("f1_site_set_n", 203510, "analysis_v2/qc/fvbnj_homalt_exonic.hetGT.vcf.gz")
+wr=pd.read_csv(f"{RES}/f1_ase/v2/f1_wasp_allele_removal.tsv", sep="\t"); ev=rel(f"{RES}/f1_ase/v2/f1_wasp_allele_removal.tsv")
+put("f1_wasp_ref_removed_pct_min", float(wr.frac_ref_reads_removed_by_wasp.min()*100), ev); put("f1_wasp_ref_removed_pct_max", float(wr.frac_ref_reads_removed_by_wasp.max()*100), ev)
+put("f1_wasp_alt_removed_pct_min", float(wr.frac_alt_reads_removed_by_wasp.min()*100), ev); put("f1_wasp_alt_removed_pct_max", float(wr.frac_alt_reads_removed_by_wasp.max()*100), ev)
+put("f1_wasp_sites_af_increased_pct_min", float(wr.frac_sites_af_increased.min()*100), ev); put("f1_wasp_sites_af_increased_pct_max", float(wr.frac_sites_af_increased.max()*100), ev)
+put("f1_wasp_sites_af_decreased_pct_max", float(wr.frac_sites_af_decreased.max()*100), ev)
+# old site set (for the response letter only): the same new alignments evaluated at the 94,351 v1 sites reproduce the v1 values
+fo=pd.read_csv(f"{RES}/f1_ase/v2/f1_ase_per_sample_v2.oldsites.tsv", sep="\t"); ev=rel(f"{RES}/f1_ase/v2/f1_ase_per_sample_v2.oldsites.tsv")
+for arm in ("naive","wasp"):
+    a=fo[fo.arm==arm]; m=a.mean_fvb_fraction; put(f"f1_oldsites_{arm}_pooled_mean", float(m.mean()), ev); put(f"f1_oldsites_{arm}_sites_min", int(a.n_sites.min()), ev); put(f"f1_oldsites_{arm}_sites_max", int(a.n_sites.max()), ev)
+put("f1_oldsites_n_vcf", 94351, "revision_v2/audit/f1_old_site_genotypes.md")
+# F1 sites inside catalog genes vs the other evaluated sites (H-1d item 7, adopted 2026-10-21)
+fc=pd.read_csv(f"{RES}/f1_ase/v2/f1_sites_catalog_vs_other.tsv", sep="\t"); ev=rel(f"{RES}/f1_ase/v2/f1_sites_catalog_vs_other.tsv")
+for arm in ("naive","wasp"):
+    a=fc[fc.arm==arm]; t,p=stats.ttest_rel(a.mean_af_catalog, a.mean_af_other)
+    put(f"f1_catalog_sites_{arm}_mean_af", float(a.mean_af_catalog.mean()), ev); put(f"f1_other_sites_{arm}_mean_af", float(a.mean_af_other.mean()), ev)
+    put(f"f1_catalog_vs_other_{arm}_t", float(t), ev); put(f"f1_catalog_vs_other_{arm}_p", float(p), ev)
+    put(f"f1_catalog_sites_{arm}_n_min", int(a.n_sites_catalog.min()), ev); put(f"f1_catalog_sites_{arm}_n_max", int(a.n_sites_catalog.max()), ev)
+put("f1_catalog_sites_naive_deficit_pp", float((0.5-fc[fc.arm=="naive"].mean_af_catalog.mean())*100), ev)
+# Rps2 fact check (revision_v2/audit/rps2_indels_pseudogenes.md; counts table rps2_pseudogene_counts_skin.tsv)
+ev="revision_v2/audit/rps2_indels_pseudogenes.md"; put("rps2_indels_gene_body", 12, ev); put("rps2_indels_exonic", 4, ev); put("rps2_snps_exonic", 13, ev); put("rps2_n_processed_pseudogenes", 12, ev)
+rp=pd.read_csv(f"{PROJ}/revision_v2/audit/rps2_pseudogene_counts_skin.tsv", sep="\t"); ev=rel(f"{PROJ}/revision_v2/audit/rps2_pseudogene_counts_skin.tsv")
+for arm in ("naive.unique","naive.multi","fvb.multi"):
+    a=rp[rp.arm==arm]; r=a[a.gene=="Rps2"].iloc[0]; p=a[a.gene!="Rps2"]; k=arm.replace(".","_")
+    put(f"rps2_skin_{k}_FVB_cpm", float(r.FVB_mean_cpm), ev); put(f"rps2_skin_{k}_B6_cpm", float(r.B6_mean_cpm), ev)
+    put(f"rps2_pseudogenes_skin_{k}_FVB_cpm", float(p.FVB_mean_cpm.sum()), ev); put(f"rps2_pseudogenes_skin_{k}_B6_cpm", float(p.B6_mean_cpm.sum()), ev)
 # ---- genome-wide bias per tissue (Fig. 3) ----------------------------------------------------------------------------
 long=pd.read_csv(f"{RES}/bias/all_tissues.primary.tsv", sep="\t"); ev=rel(f"{RES}/bias/all_tissues.primary.tsv"); tissues=["adipose","hypothalamus","liver","skin"]
 wide=long.pivot(index="gene_id",columns="tissue",values="bias"); put("genes_tested_union", len(wide), ev); put("genes_tested_all4", int(wide.notna().all(axis=1).sum()), ev)
@@ -62,6 +92,22 @@ for _,r in sens.iterrows(): put(f"sens_thr{r.threshold}_min{int(r.min_tissues)}"
 n1=int(sens[(sens.threshold==0.5)&(sens.min_tissues==1)].n_genes_in_fvb_gtf.iloc[0]); put("genes_ge_0.5_any_tissue", n1, ev2); put("genes_ge_0.5_any_tissue_pct", n1/len(wide)*100, ev2)
 sw=pd.read_csv(f"{RES}/catalog/catalog_sensitivity.water.tsv", sep="\t"); ev3=rel(f"{RES}/catalog/catalog_sensitivity.water.tsv")
 for _,r in sw.iterrows(): put(f"sens_water_thr{r.threshold}_min{int(r.min_tissues)}", int(r.n_genes_in_fvb_gtf), ev3)
+# biotype Kruskal–Wallis test exactly as drawn in Fig. 4D (fig4_predictors.py: biotype_group order, mean_bias dropna, groups with > 1 gene)
+prk=pd.read_csv(f"{RES}/predictors/gene_predictors.primary.tsv", sep="\t"); ev=rel(f"{RES}/predictors/gene_predictors.primary.tsv")
+kwd=[prk[prk.biotype_group==b].mean_bias.dropna().values for b in ("protein_coding","lncRNA","pseudogene","miRNA","other") if b in set(prk.biotype_group)]
+put("pred_biotype_kruskal_p", float(stats.kruskal(*[d for d in kwd if len(d)>1]).pvalue), ev)
+# ---- bias decomposition (Phase H-2; bias = bias_matched + b6_loss) -----------------------------------------------------
+ds=pd.read_csv(f"{RES}/catalog/decomposition_summary.tsv", sep="\t"); ev=rel(f"{RES}/catalog/decomposition_summary.tsv"); dsv=dict(zip(ds.item, ds.value))
+put("decomp_catalog_primary", int(dsv["primary catalog"]), ev); put("decomp_catalog_matched", int(dsv["matched-reference catalog"]), ev); put("decomp_both", int(dsv["in both (supported under both definitions)"]), ev)
+put("decomp_primary_only", int(dsv["primary only"]), ev); put("decomp_matched_only", int(dsv["matched only"]), ev); put("decomp_primary_only_b6loss_dominant", int(dsv["primary-only genes with b6_loss_mean > bias_matched_mean"]), ev)
+put("decomp_median_b6loss_share_catalog", float(dsv["catalog median share of bias due to B6-read loss (b6_loss_mean/mean_bias)"]), ev); put("decomp_median_b6loss_share_primary_only", float(dsv["primary-only median share"]), ev); put("decomp_median_b6loss_share_both", float(dsv["both median share"]), ev)
+put("decomp_gw_median_b6_loss", float(dsv["genome-wide median b6_loss (all tested gene x tissue)"]), ev); put("decomp_gw_median_bias_matched", float(dsv["genome-wide median bias_matched"]), ev)
+dc=pd.read_csv(f"{RES}/catalog/catalog_decomposition.tsv", sep="\t").set_index("gene_name"); ev=rel(f"{RES}/catalog/catalog_decomposition.tsv")
+for g in ("Ndufs5","Rps2"):
+    r=dc.loc[g]; put(f"decomp_{g}_n_tissues_matched_ge_0.5", int(r["n_tissues_matched_ge_0.5"]), ev); put(f"decomp_{g}_in_matched_catalog", str(r["in_matched_catalog"]), ev)
+    for t in tissues:
+        if pd.notna(r[f"{t}_bias_matched"]): put(f"decomp_{g}_{t}_bias_matched", float(r[f"{t}_bias_matched"]), ev); put(f"decomp_{g}_{t}_b6_loss", float(r[f"{t}_b6_loss"]), ev)
+    put(f"decomp_{g}_bias_matched_mean", float(r["bias_matched_mean"]), ev); put(f"decomp_{g}_b6_loss_mean", float(r["b6_loss_mean"]), ev)
 # representative scatter tissue
 f3=open(f"{FIG}/Fig3_strain_comparison_data.tsv").read().split("## panelA_representative")[1].split("\n")[2].split("\t"); put("fig3A_tissue", f3[1], rel(f"{FIG}/Fig3_strain_comparison_data.tsv")); put("fig3A_n_genes", f3[4], rel(f"{FIG}/Fig3_strain_comparison_data.tsv"))
 # ---- WASP read attrition and mapping rates (mapping_stats) ------------------------------------------------------------

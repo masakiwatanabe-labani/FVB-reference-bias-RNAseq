@@ -7,7 +7,7 @@ Outputs (analysis_v2/results/):
   qc/sample_identity_verification.tsv     Supplementary Table "Sample identity verification": all include=Y samples (metrics on the fixed 10 % site
                                           subset, qc/identity.sub10pct.tsv where the sample was run before speed-up Step 3, else qc/identity.tsv),
                                           plus every processed sample that FAILED the QC (include=N with a qc/identity*.tsv; GSE55792 heart), plus
-                                          the F1 samples from Phase A (full site set). Column site_set records which site set the metrics come from.
+                                          the F1 samples re-checked in Phase H-1 (full site set). Column site_set records which site set the metrics come from.
   qc/mapping_stats_per_sample.tsv         STAR / WASP / featureCounts summary per sample and arm
 """
 import csv, os, re, json, collections
@@ -82,13 +82,17 @@ for r in M:
         q,ss=identity(d); fp=json.load(open(f"{d}/qc/fastp.json"))["summary"]
         qc_rows.append([r["sample_id"],r["GSE"],r["GSM"],r["BioSample"],r["SRR"],r["tissue"],r["strain"],r["diet"],r["sex"],r["age"],r["library_layout"],
                         str(fp["before_filtering"]["total_reads"]),str(fp["after_filtering"]["total_reads"])]+q[:6]+[q[6],q[7],ss,"N",r["include_reason"]])
-# F1 rows (Phase A QC on the reused BAMs)
-qcA={r["SRR"]:r for r in csv.DictReader(open(f"{PROJ}/analysis_v2/qc/strain_identity_qc.tsv"), delimiter="\t")}
+# F1 rows (Phase H-1, 2026-10-21: identity re-check on the re-aligned F1 BAMs, full 203,510-site set, written by f1_ase_rerun.sh to
+# analysis_v2/results/f1_ase/v2/<sid>.identity.tsv; read counts from the new fastp run). Replaces the Phase A rows (old BAMs deleted;
+# the Phase A rows are kept in revision_v2/audit/f1_old/sample_identity_verification.phaseA_F1rows.tsv).
 for r in M:
     if r["role"]=="f1_ase" and r["include"]=="Y":
-        srr=r["SRR"].split(",")[0]; q=qcA[srr]
-        qc_rows.append([r["sample_id"],r["GSE"],r["GSM"],r["BioSample"],r["SRR"],r["tissue"],r["strain"],r["diet"],r["sex"],r["age"],r["library_layout"],"","",
-                        q["n_sites"],q["mean_af"],q["frac_hi"],q["frac_mid"],q["frac_lo"],q["qc_verdict"],"F1 (B6 x FVB)","Y" if q["qc_verdict"]=="F1 (B6 x FVB)" else "N","full (203,510 sites)","Y",""])
+        sid=r["sample_id"]; d=f"{DATA}/{r['tissue']}/{sid}"
+        q=open(f"{PROJ}/analysis_v2/results/f1_ase/v2/{sid}.identity.tsv").read().splitlines()[-1].split("\t")
+        fp=json.load(open(f"{d}/qc/fastp.json"))["summary"]
+        qc_rows.append([sid,r["GSE"],r["GSM"],r["BioSample"],r["SRR"],r["tissue"],r["strain"],r["diet"],r["sex"],r["age"],r["library_layout"],
+                        str(fp["before_filtering"]["total_reads"]),str(fp["after_filtering"]["total_reads"]),
+                        q[0],q[1],q[2],q[3],q[4],q[5],"F1 (B6 x FVB)","Y" if q[5]=="F1 (B6 x FVB)" else "N","full (203,510 sites)","Y",""])
 with open(f"{RES}/qc/sample_identity_verification.tsv","w") as o:
     o.write("\t".join(["sample_id","GSE","GSM","BioSample","SRR","tissue","strain_GEO","diet_or_group","sex","age","library_layout","reads_raw","reads_after_fastp",
                        "n_sites","mean_alt_fraction","frac_hi","frac_mid","frac_lo","qc_verdict","expected","match","site_set","used_in_analysis","exclusion_reason"])+"\n")

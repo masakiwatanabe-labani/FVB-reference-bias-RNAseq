@@ -12,7 +12,7 @@ PROSE=$(ls manuscript/revised_v2/*.md manuscript/revised_v2/generated/*.md 2>/de
 LETTERS=$(ls revision_v2/response_to_reviewers.md revision_v2/cover_letter.md revision_v2/summary_of_changes.md 2>/dev/null)   # must quote the withdrawn v1 statements and numbers (disclosure): checked for tissue words and gene names only
 DATA=$(ls manuscript/revised_v2/generated/*.tsv manuscript/revised_v2/supplementary_tables/*.tsv analysis_v2/figures/*_data.tsv 2>/dev/null)
 TISSUE=("kidney" "cardiac" "cardiac muscle" "heart" "n = 10" "n = 12" "n = 7" "10 vs 12" "7 vs 6" "mesenteric adipose tissue samples. It included FVB/NJ mice (n = 6)")
-NUM=("32-gene" "32 genes" "0.14%" "22,548" "144 unique genes" "0.64%" "+3.67" "+3.60" "−0.07" "+1.14" "+1.39" "+0.91" "+0.93" "+1.33" "+0.94" "+0.67" "+5.50" "+3.77" "+3.01" "7.89 SNPs/kb" "15.12" "60,818" "0.17%" "0.35%" "0.2% to 2.3%" "0.005")
+NUM=("32-gene" "32 genes" "0.14%" "22,548" "144 unique genes" "0.64%" "+3.67" "+3.60" "−0.07" "+1.14" "+1.39" "+0.91" "+0.93" "+1.33" "+0.94" "+0.67" "+5.50" "+3.77" "+3.01" "7.89 SNPs/kb" "15.12" "60,818" "0.17%" "0.35%" "0.2% to 2.3%" "0.005" "0.333" "0.386" "17 percentage" "274" "872")
 VERIFY=("confirmed from GEO metadata" "recorded in the GEO sample attributes" "Verified from SRA")
 GENES_CONDITIONAL=("Rsph3a" "Fau" "Pgam1" "Gm25939" "Atp5g2" "Mir6236" "Gm8909" "H2-Q5" "Gm55594" "Gm47283")
 CAT=analysis_v2/results/catalog/catalog.primary.tsv

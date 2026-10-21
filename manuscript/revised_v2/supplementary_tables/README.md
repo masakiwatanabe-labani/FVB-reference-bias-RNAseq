@@ -4,7 +4,7 @@
 |---|---|---|
 | TableS1a_manifest | `revision_v2/manifest/manifest.tsv` | 186 |
 | TableS1b_identity_verification | `analysis_v2/results/qc/sample_identity_verification.tsv` | 99 |
-| TableS2_catalog | `analysis_v2/results/catalog/catalog.primary.tsv (+ catalog.water.tsv, sensitivity_matched/catalog.matched.tsv, negative_control/pyvt_reference_swap_per_gene.tsv, gene_meta.tsv)` | 138 |
+| TableS2_catalog | `analysis_v2/results/catalog/catalog.primary.tsv (+ catalog_decomposition.tsv, catalog.water.tsv, sensitivity_matched/catalog.matched.tsv, negative_control/pyvt_reference_swap_per_gene.tsv, gene_meta.tsv)` | 138 |
 | TableS3a_sensitivity_primary | `analysis_v2/results/catalog/catalog_sensitivity.primary.tsv` | 12 |
 | TableS3b_sensitivity_control_only | `analysis_v2/results/catalog/catalog_sensitivity.water.tsv` | 12 |
 | TableS3c_sensitivity_matched_reference | `analysis_v2/results/sensitivity_matched/summary.tsv` | 12 |
