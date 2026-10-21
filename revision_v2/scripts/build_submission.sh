@@ -1,6 +1,6 @@
 #!/bin/bash
 # Phase H-8: build the deliverables in revision_v2/submission/.
-#   build     : LAR docx (assemble_lar.py), supplementary_tables_v2.xlsx (S1–S5 sheets from manuscript/revised_v2/supplementary_tables/*.tsv),
+#   build     : LAR docx (assemble_lar.py) + blue-marked copy LAR_main_text_v2_marked.docx (mark_changes_docx.py, H-9), supplementary_tables_v2.xlsx (S1–S5 sheets from manuscript/revised_v2/supplementary_tables/*.tsv),
 #               figures/ (Fig 1–6 + SFig S1–S3, PDF + 600-dpi TIFF copied from analysis_v2/figures), response_to_reviewers_v2.docx,
 #               cover_letter_v2.docx (md_to_docx.py)
 #   checklist : submission_checklist.md from revision_v2/final_check.md + the github_repo state (run after final_check.sh and commit_phase_h.sh)
@@ -10,6 +10,7 @@ PROJ=/usr/local/jupyter/FVB_bias; cd $PROJ; S=revision_v2/scripts; M=manuscript/
 case "${1:-build}" in
 build)
   python3 $S/assemble_lar.py
+  python3 $S/mark_changes_docx.py "$PROJ/LAR text submit.docx" $SUB/LAR_main_text_v2.docx $SUB/LAR_main_text_v2_marked.docx | head -3   # H-9: blue-marked copy (clean docx untouched)
   python3 - <<'EOF'
 import pandas as pd, re
 P="/usr/local/jupyter/FVB_bias"; T=f"{P}/manuscript/revised_v2/supplementary_tables"
