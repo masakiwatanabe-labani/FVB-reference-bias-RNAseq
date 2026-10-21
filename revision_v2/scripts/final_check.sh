@@ -100,13 +100,14 @@ wb=$(grep -v '^#\|^\*\*' $M/abstract_structured.md | wc -w); wh=$(sed 's/^# //;s
 grep -q "3Rs" $M/discussion.md && ok "'3Rs' is used in the text (Discussion), so the abbreviation entry is used" || bad "'3Rs' not used in the text"
 python3 - <<'EOF' > /tmp/claude_abbr.txt && ok "abbreviation list: $(cat /tmp/claude_abbr.txt)" || bad "abbreviation list: $(cat /tmp/claude_abbr.txt)"
 import re, sys
-M="/usr/local/jupyter/FVB_bias/manuscript/revised_v2"; body="\n".join(open(f"{M}/{f}").read() for f in ("abstract_structured.md","introduction.md","methods.md","results.md","discussion.md","figure_legends.md"))
+M="/usr/local/jupyter/FVB_bias/manuscript/revised_v2"; body="\n".join(open(f"{M}/{f}").read() for f in ("abstract_structured.md","introduction.md","methods.md","results.md","discussion.md","figure_legends.md","table1.md"))
 ab=[l.split(":")[0].strip() for l in open(f"{M}/abbreviations.md") if ":" in l]
 unused=[a for a in ab if not re.search(r"(?<![\w])"+re.escape(a)+r"(?![\w])", body)]
 print(f"{len(ab)} entries, unused: {unused}"); sys.exit(1 if unused else 0)
 EOF
 n_i=$(grep -c "either fail to align or are assigned to another locus\|either failing to align or being assigned to another locus" $M/results.md $M/supplementary_note2.md | awk -F: '{s+=$2} END{print s}'); grep -q "expected to be heterozygous" $M/methods.md && grep -q "Mechanism 1\." $M/supplementary_note2.md && [ "$n_i" -ge 2 ] && ok "Phase I wording present: direct-class read fate ($n_i places), 'expected to be heterozygous' (Methods), 'Mechanism 1./2.' labels (Note 2)" || bad "Phase I wording missing (I-1d places=$n_i)"
 n_ban=$(grep -c "WASP improved\|partially corrected\|did not normalize\|five pure-strain\|five datasets\|30 of the 32\|pvt_discordant\|FVB-enriched F3" $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$n_ban" -eq 0 ] && ok "J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps" || bad "J-0 ban list: $n_ban hits in the docx dumps"
+nq=$(cat $P $SUB/LAR_additional_file_1.plain.txt | tr "\n" " " | sed "s/\. /.\n/g" | grep "largest single-tissue bias" | grep -vc "class"); [ "$nq" -eq 0 ] && ok "every 'largest single-tissue bias' carries the class qualifier ($(grep -o "largest single-tissue bias" $P $SUB/LAR_additional_file_1.plain.txt | wc -l) occurrences)" || bad "$nq 'largest single-tissue bias' without class qualifier"
 [ -s $SUB/LAR_main_text_v2_marked.docx ] && ok "marked copy present ($(stat -c %s $SUB/LAR_main_text_v2_marked.docx) bytes; generated from the ledger by mark_from_ledger.py)" || bad "marked copy missing"
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"

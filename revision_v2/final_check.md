@@ -1,4 +1,4 @@
-# Phase J — final check (2026-10-21 12:08 JST)
+# Phase J — final check (2026-10-21 14:14 JST)
 
 ## 1. Integrity of results and figures
 - [x] analysis_v2/results: all 233 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
@@ -13,7 +13,7 @@
 - [x] table1.md == generated/table1.md
 - [x] Methods 'RNA-seq datasets' block == generated/methods_datasets.md (BEGIN/END markers)
 - [x] supplementary tables rebuild byte-identical (12 sheets)
-- [x] results_numbers.py ran: 732 numbers with evidence paths
+- [x] results_numbers.py ran: 769 numbers with evidence paths
 
 ## 3. Manuscript checks
 - [x] figure citation order (incl. Supplementary Fig. S3): all figures and panels in numerical order (check_figure_order.py --legend-check)
@@ -32,15 +32,16 @@
 - [x] Availability (Declarations) names branch/tag v2-corrected
 
 ## 3b. Phase J checks (minimal-change reconstruction on the submitted text)
-- [x] change ledger rebuilt: total {'KEEP': 512, 'NEW': 465, 'EDIT': 151, 'DROP': 311}; body sentences 726: KEEP 387 (53%)
-- [x] ledger completeness: 1439 rows; 726 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
+- [x] change ledger rebuilt: total {'KEEP': 510, 'NEW': 465, 'EDIT': 152, 'DROP': 313}; body sentences 725: KEEP 385 (53%)
+- [x] ledger completeness: 1440 rows; 725 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
 - [x] response letter: every 'Changed:' pointer resolves to ledger rows with the matching trigger (18 pointers)
 - [x] Abstract ≤ 350 words both ways (body 278, with headings 283)
 - [x] '3Rs' is used in the text (Discussion), so the abbreviation entry is used
-- [x] abbreviation list: 29 entries, unused: []
+- [x] abbreviation list: 30 entries, unused: []
 - [x] Phase I wording present: direct-class read fate (4 places), 'expected to be heterozygous' (Methods), 'Mechanism 1./2.' labels (Note 2)
 - [x] J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps
-- [x] marked copy present (77386 bytes; generated from the ledger by mark_from_ledger.py)
+- [x] every 'largest single-tissue bias' carries the class qualifier (8 occurrences)
+- [x] marked copy present (77472 bytes; generated from the ledger by mark_from_ledger.py)
 
 ## 4. Rules 0.4
 - [x] 0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2
@@ -55,30 +56,30 @@
 - [x] 0.4-10 heavy jobs backgrounded with logs: analysis_v2/logs/*.log (f1_ase_rerun.log, f1_oldsites_recount.log)
 
 ## 5. Deliverables (revision_v2/submission/)
-- [x] revision_v2/submission/LAR_main_text_v2.docx (75873 bytes)
-- [x] revision_v2/submission/LAR_additional_file_1.docx (47148 bytes)
-- [x] revision_v2/submission/supplementary_tables_v2.xlsx (158097 bytes)
-- [x] revision_v2/submission/response_to_reviewers_v2.docx (43894 bytes)
+- [x] revision_v2/submission/LAR_main_text_v2.docx (75942 bytes)
+- [x] revision_v2/submission/LAR_additional_file_1.docx (47147 bytes)
+- [x] revision_v2/submission/supplementary_tables_v2.xlsx (158099 bytes)
+- [x] revision_v2/submission/response_to_reviewers_v2.docx (44025 bytes)
 - [x] revision_v2/submission/cover_letter_v2.docx (38540 bytes)
 - [x] figures/: 9 PDF + 9 TIFF (Fig 1–6, SFig S1–S3)
 - [x] manuscript/revised_v2/abstract_structured.md (284 words)
 - [x] manuscript/revised_v2/introduction.md (769 words)
-- [x] manuscript/revised_v2/results.md (4564 words)
-- [x] manuscript/revised_v2/discussion.md (3294 words)
-- [x] manuscript/revised_v2/methods.md (4387 words)
-- [x] manuscript/revised_v2/figure_legends.md (2041 words)
+- [x] manuscript/revised_v2/results.md (4565 words)
+- [x] manuscript/revised_v2/discussion.md (3298 words)
+- [x] manuscript/revised_v2/methods.md (4397 words)
+- [x] manuscript/revised_v2/figure_legends.md (2044 words)
 - [x] manuscript/revised_v2/table1.md (410 words)
 - [x] manuscript/revised_v2/supplementary_table_captions.md (1325 words)
 - [x] manuscript/revised_v2/supplementary_note1.md (821 words)
 - [x] manuscript/revised_v2/supplementary_note2.md (1255 words)
 - [x] manuscript/revised_v2/references.md (591 words)
 - [x] manuscript/revised_v2/declarations.md (259 words)
-- [x] manuscript/revised_v2/abbreviations.md (132 words)
+- [x] manuscript/revised_v2/abbreviations.md (134 words)
 - [x] manuscript/revised_v2/keywords.md (15 words)
-- [x] revision_v2/text_changes.md (3293 words)
-- [x] revision_v2/response_to_reviewers.md (2706 words)
+- [x] revision_v2/text_changes.md (3862 words)
+- [x] revision_v2/response_to_reviewers.md (2783 words)
 - [x] revision_v2/cover_letter.md (611 words)
-- [x] revision_v2/CHANGELOG.md (10752 words)
+- [x] revision_v2/CHANGELOG.md (11072 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.

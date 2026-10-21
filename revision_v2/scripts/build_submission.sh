@@ -9,6 +9,8 @@ set -euo pipefail
 PROJ=/usr/local/jupyter/FVB_bias; cd $PROJ; S=revision_v2/scripts; M=manuscript/revised_v2; SUB=revision_v2/submission; mkdir -p $SUB/figures
 case "${1:-build}" in
 build)
+  python3 $S/build_phase_j.py | tail -1   # Phase J: regenerate the section files from v1 + donor text + numbers.tsv
+  (cd $M && python3 $PROJ/$S/number_citations.py introduction.md methods.md results.md discussion.md figure_legends.md table1.md supplementary_table_captions.md supplementary_note1.md supplementary_note2.md --refs references_source.md --out-refs references.md | head -1)
   python3 $S/assemble_lar.py
   python3 $S/make_change_ledger.py | tail -3 && python3 $S/mark_from_ledger.py $SUB/LAR_main_text_v2.docx $SUB/LAR_main_text_v2_marked.docx   # Phase J-6: blue-marked copy from the change ledger (clean docx untouched)
   python3 - <<'EOF'

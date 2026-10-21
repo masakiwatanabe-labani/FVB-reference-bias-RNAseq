@@ -255,4 +255,11 @@ for l in open(f"{PROJ}/{ev}"):
 if _vw:
     put("vw_overlap_pct_pyvt", _vw.get("PyVT (SE 101)", float("nan")), ev); _o=[v for k,v in _vw.items() if not k.startswith("PyVT")]; put("vw_overlap_pct_other_min", min(_o), ev); put("vw_overlap_pct_other_max", max(_o), ev)
 put("junctions_inserted_at_mapping", int(float(dict((r["key"],r["value"]) for r in N)["junctions_total_fvb_arm"])-float(dict((r["key"],r["value"]) for r in N)["junctions_fvb_index"])), "revision_v2/audit/junction_sets_fvb_index_vs_b6_gtf.txt")
+rm=pd.read_csv(f"{RES}/worked_examples/rps2_multimap_cpm.tsv", sep="\t"); ev=rel(f"{RES}/worked_examples/rps2_multimap_cpm.tsv")   # Phase K-1(a)
+for _,r in rm.iterrows():
+    k=f"rps2mm_{r.gene.replace('-','_')}_{r.arm}_{'unique' if r.counting=='unique-only' else 'multi'}"; put(f"{k}_FVB_cpm", float(r.FVBNJ_mean_cpm), ev); put(f"{k}_B6_cpm", float(r.C57BL6J_mean_cpm), ev)
+for arm in ("naive","fvb"):
+    u=float(rm[(rm.gene=="Rps2")&(rm.arm==arm)&(rm.counting=="unique-only")].FVBNJ_mean_cpm.iloc[0]); m=float(rm[(rm.gene=="Rps2")&(rm.arm==arm)&(rm.counting!="unique-only")].FVBNJ_mean_cpm.iloc[0])
+    put(f"rps2_multi_gain_cpm_{arm}", m-u, ev); put(f"rps2_multi_fold_{arm}", m/u, ev)
+put("rps2_multi_gain_cpm", float(rm[(rm.gene=="Rps2")&(rm.arm=="naive")&(rm.counting!="unique-only")].FVBNJ_mean_cpm.iloc[0])-float(rm[(rm.gene=="Rps2")&(rm.arm=="naive")&(rm.counting=="unique-only")].FVBNJ_mean_cpm.iloc[0]), ev)
 pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")

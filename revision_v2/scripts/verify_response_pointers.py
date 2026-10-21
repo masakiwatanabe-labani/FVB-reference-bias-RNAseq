@@ -8,6 +8,7 @@ import re, csv, sys
 P="/usr/local/jupyter/FVB_bias"
 ALLOWED={"R1-M1":{"R1-M1"},"R1-M2":{"R1-M2","NEW-ASM"},"R1-M3":{"NEW-ASM","R1-M2"},"R1-m4":{"R1-m4"},"R1-m5":{"R1-m5"},"R1-m6":{"R1-m6"},"R2-C1":{"NEW-WS"},"R2-C2":{"R2-C2"},"R2-C3":{"R2-C3"},"R2-C4":{"R2-C4"}}
 rows=list(csv.DictReader(open(f"{P}/revision_v2/change_ledger.tsv"), delimiter="\t"))
+PLAIN=re.sub(r"[\W_]+","",open(f"{P}/revision_v2/submission/LAR_main_text_v2.plain.txt", encoding="utf-8").read()).lower()
 def trig_ok(row, allowed): return bool(set(row["trigger"].split("/")) & allowed)
 def norm(s): return re.sub(r"[\W_]+","",s).lower()
 txt=open(f"{P}/revision_v2/response_to_reviewers.md", encoding="utf-8").read()
@@ -29,7 +30,15 @@ for item,plist in ptr.items():
     if not plist: report.append((item,"(no Changed: pointer)","—","FAIL")); bad+=1; continue
     for ptext in plist:
         for ptr_ in [x.strip().rstrip(".") for x in re.split(r";", ptext) if x.strip()]:
-            if re.search(r"figure files|all figures", ptr_, flags=re.I): report.append((item,ptr_,"figure files (not text)","ok")); continue
+            if re.fullmatch(r"all figure files", ptr_, flags=re.I): report.append((item,ptr_,"figure files (not text)","ok")); continue
+            mb=re.match(r"(Abstract|Background|Methods|Results|Discussion|Conclusions)(?:, \*(.+?)\*)?, paragraph beginning \"([^\"]+)\"", ptr_)
+            if mb:
+                sec,sub,words=mb.groups(); key=norm(words)
+                if key not in PLAIN: report.append((item,ptr_,"opening words not found in the plain dump","FAIL")); bad+=1; continue
+                hit=[r for r in rows if r["section"]==sec and r["new_text"] and norm(r["new_text"]).startswith(key)]
+                paras_={(r["section"],r["para_no"]) for r in hit}
+                sel=[r for r in rows if (r["section"],r["para_no"]) in paras_ and trig_ok(r,allowed)]
+                n=len(sel); st="ok" if n else "FAIL"; bad+=(n==0); report.append((item,ptr_,f"{n} ledger rows ({', '.join(sorted(set(r['status'] for r in sel)))}); paragraph found in plain dump",st)); continue
             m=re.match(r"(Abstract|Background|Methods|Results|Discussion|Conclusions)(?:, \*(.+?)\*)?(?:, (NEW (?:section|paragraph)) \*(.+?)\*)?(?:, paragraphs? ([\d–\-, and]+))?(?: \(.*\))?$", ptr_)
             if not m: report.append((item,ptr_,"unparsed","FAIL")); bad+=1; continue
             sec,sub,newkind,newtitle,paras=m.groups(); sel=[r for r in rows if r["section"]==sec and trig_ok(r,allowed)]

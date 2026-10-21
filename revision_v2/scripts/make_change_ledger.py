@@ -103,6 +103,7 @@ for r in rows:
     if r[3]=="DROP":
         r[4]=DROPTRIG.get((r[7],r[9]), DROPTRIG.get((r[7],r[8]), "CORR"))
         if r[7]=="Results" and ("Rsph3a" in r[5] or "Fau" in r[5] or "Atp5g2" in r[5]): r[4]="NEW-WE"
+        if ("The Ensembl 110 GTF was provided with" in r[5] and "sjdbGTFfile" in r[5]) or r[5]=="WASP SAM-tag output was enabled during this alignment.": r[4]="CLARITY"
         if "PyVT" in r[5] or "pvt_discordant" in r[5] or "copy number" in r[5] or "copy-number" in r[5]: r[4]="NEW-NC"
 with open(f"{P}/revision_v2/change_ledger.tsv","w",encoding="utf-8",newline="") as o:
     w=csv.writer(o, delimiter="\t"); w.writerow(["section","para_no","sent_no","status","trigger","v1_text","new_text","v1_section","v1_subsection","v1_para","v1_sub_para","number_check"]); w.writerows(rows)
