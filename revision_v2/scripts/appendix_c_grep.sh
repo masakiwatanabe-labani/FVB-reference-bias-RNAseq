@@ -12,7 +12,7 @@ PROSE=$(ls manuscript/revised_v2/*.md manuscript/revised_v2/generated/*.md 2>/de
 LETTERS=$(ls revision_v2/response_to_reviewers.md revision_v2/cover_letter.md revision_v2/summary_of_changes.md 2>/dev/null)   # must quote the withdrawn v1 statements and numbers (disclosure): checked for tissue words and gene names only
 DATA=$(ls manuscript/revised_v2/generated/*.tsv manuscript/revised_v2/supplementary_tables/*.tsv analysis_v2/figures/*_data.tsv 2>/dev/null)
 TISSUE=("kidney" "cardiac" "cardiac muscle" "heart" "n = 10" "n = 12" "n = 7" "10 vs 12" "7 vs 6" "mesenteric adipose tissue samples. It included FVB/NJ mice (n = 6)")
-NUM=("32-gene" "32 genes" "0.14%" "22,548" "144 unique genes" "0.64%" "+3.67" "+3.60" "−0.07" "+1.14" "+1.39" "+0.91" "+0.93" "+1.33" "+0.94" "+0.67" "+5.50" "+3.77" "+3.01" "7.89 SNPs/kb" "15.12" "60,818" "0.17%" "0.35%" "0.2% to 2.3%" "0.005" "0.333" "0.386" "17 percentage" "274" "872")
+NUM=("32-gene" "32 genes" "0.14%" "22,548" "144 unique genes" "0.64%" "+3.67" "+3.60" "−0.07" "+1.14" "+1.39" "+0.91" "+0.93" "+1.33" "+0.94" "+0.67" "+5.50" "+3.77" "+3.01" "7.89 SNPs/kb" "15.12" "60,818" "0.17%" "0.35%" "0.2% to 2.3%" "0.005" "0.333" "0.386" "17 percentage" "274" "872" "five pure-strain" "five tissue contexts" "five datasets" "30 of the 32" "FVB/N cardiac" "pvt_discordant" "Fourteen catalog genes" "copy-number" "confirmed from GEO series metadata" "17-percentage-point" "274-872" "540" "0.005 log₂" "0.2--2.3%" "0.30 SNPs/kb" "ρ = 0.027" "substrain-matched datasets alone" "FVB-enriched F3" "WASP improved" "partially corrected" "did not normalize")
 VERIFY=("confirmed from GEO metadata" "recorded in the GEO sample attributes" "Verified from SRA")
 GENES_CONDITIONAL=("Rsph3a" "Fau" "Pgam1" "Gm25939" "Atp5g2" "Mir6236" "Gm8909" "H2-Q5" "Gm55594" "Gm47283")
 CAT=analysis_v2/results/catalog/catalog.primary.tsv
@@ -20,7 +20,7 @@ rc=0; nex=0
 # ACCEPTED (user decisions 2026-10-20 ①②): lines matching these contexts are new values / true GEO attributes, not v1 residues.
 #  "+1.14" = Rps2 liver bias (numbers.tsv ex_extreme_liver_bias 1.1449); "0.005" = liver WASP − naive mean log2FC (0.00495);
 #  "heart" = GEO tissue attribute of the rejected GSE55792/GSE55788 samples (prose unified to "heart", same as the tables).
-ACCEPTED_RE='liver \+1\.14,|liver: \+0\.005;|GSE55792|GSE55788'
+ACCEPTED_RE='liver \+1\.14,|liver: \+0\.005;|\+0\.005 in liver|GSE55792|GSE55788'
 hit(){ # $1 pattern, $2 file list, $3 mode (FAIL|EXEMPT)
   local p="$1" files="$2" mode="$3" out
   out=$(grep -n -F -w -- "$p" $files 2>/dev/null | grep -Ev -- "$ACCEPTED_RE" | cut -c1-160)

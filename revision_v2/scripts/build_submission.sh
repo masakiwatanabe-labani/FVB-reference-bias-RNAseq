@@ -10,7 +10,7 @@ PROJ=/usr/local/jupyter/FVB_bias; cd $PROJ; S=revision_v2/scripts; M=manuscript/
 case "${1:-build}" in
 build)
   python3 $S/assemble_lar.py
-  python3 $S/mark_changes_docx.py "$PROJ/LAR text submit.docx" $SUB/LAR_main_text_v2.docx $SUB/LAR_main_text_v2_marked.docx | head -3   # H-9: blue-marked copy (clean docx untouched)
+  python3 $S/make_change_ledger.py | tail -3 && python3 $S/mark_from_ledger.py $SUB/LAR_main_text_v2.docx $SUB/LAR_main_text_v2_marked.docx   # Phase J-6: blue-marked copy from the change ledger (clean docx untouched)
   python3 - <<'EOF'
 import pandas as pd, re
 P="/usr/local/jupyter/FVB_bias"; T=f"{P}/manuscript/revised_v2/supplementary_tables"
@@ -27,6 +27,7 @@ EOF
   for f in Fig1_survey Fig2_f1_ase Fig3_strain_comparison Fig4_predictors Fig5_catalog Fig6_worked_examples SFig1_GSE55792_haplotype_blocks SFig2_multimapping SFig3_bias_decomposition; do cp analysis_v2/figures/$f.pdf analysis_v2/figures/$f.tiff $SUB/figures/; done
   python3 $S/md_to_docx.py revision_v2/response_to_reviewers.md $SUB/response_to_reviewers_v2.docx "Response to Reviewers"
   python3 $S/md_to_docx.py revision_v2/cover_letter.md $SUB/cover_letter_v2.docx "Cover letter"
+  for f in response_to_reviewers_v2 cover_letter_v2 LAR_main_text_v2_marked; do pandoc $SUB/$f.docx -t plain --wrap=none -o $SUB/$f.plain.txt; done
   ls -la $SUB $SUB/figures ;;
 checklist)
   R=github_repo

@@ -2,7 +2,7 @@
 """Every number quoted in the revised text (manuscript/revised_v2/*.md, response letter) is derived here from analysis_v2/results
 and analysis_v2/figures and written to manuscript/revised_v2/generated/numbers.tsv (key, value, evidence file) — rule 0.4-3.
 Nothing is read from legacy/. Keys are referenced in revision_v2/text_changes.md next to each new sentence."""
-import os, glob, collections
+import os, glob, collections, re
 import numpy as np, pandas as pd
 from scipy import stats
 PROJ="/usr/local/jupyter/FVB_bias"; RES=f"{PROJ}/analysis_v2/results"; FIG=f"{PROJ}/analysis_v2/figures"; OUT=f"{PROJ}/manuscript/revised_v2/generated/numbers.tsv"
@@ -234,4 +234,25 @@ qcs=open(f"{PROJ}/analysis_v2/qc/qc_sites_subsample.md5").read(); put("qc_sites_
 put("junctions_fvb_index", 286280, "revision_v2/audit/junction_sets_fvb_index_vs_b6_gtf.txt"); put("junctions_b6_gtf", 290071, "same"); put("junctions_b6_only", 3791, "same"); put("junctions_b6_only_chrY", 3688, "same"); put("junctions_total_fvb_arm", 576397, "same")
 # FVB/NJ variant set sizes (bcftools index -n; revision_v2/audit/fvb_vcf_counts.txt, 2026-10-20)
 for k,v in (("vcf_fvbnj_snps_pass_minac1",5960448),("vcf_fvbnj_biallelic_snps",5778575),("vcf_fvbnj_indels",1214530),("vcf_fvbnj_homalt_autosomal_snps",5030214),("vcf_fvbnj_homalt_exonic_snps",203510)): put(k, v, "revision_v2/audit/fvb_vcf_counts.txt")
+# Phase J: ranges of WASP attrition by strain (for the v1 sentences kept in the reconstruction) and a few catalog genes named in the text
+_b6=[float(v["value"]) for v in N if v["key"].startswith("wasp_removed_") and v["key"].endswith("_B6_mean_pct") and "PyVT" not in v["key"]]
+_fv=[float(v["value"]) for v in N if v["key"].startswith("wasp_removed_") and v["key"].endswith("_FVB_mean_pct")]
+_pp=[float(v["value"]) for v in N if v["key"].startswith("wasp_removed_") and v["key"].endswith("_FVB_minus_B6_pp")]
+ev=rel(f"{RES}/qc/mapping_stats_per_sample.tsv")
+put("wasp_removed_B6_min_pct", min(_b6), ev); put("wasp_removed_B6_max_pct", max(_b6), ev); put("wasp_removed_FVB_min_pct", min(_fv), ev); put("wasp_removed_FVB_max_pct", max(_fv), ev)
+put("wasp_removed_FVB_minus_B6_pp_min", min(_pp), ev); put("wasp_removed_FVB_minus_B6_pp_max", max(_pp), ev)
+_cat=pd.read_csv(f"{RES}/catalog/catalog.primary.tsv", sep="\t").set_index("gene_name"); ev=rel(f"{RES}/catalog/catalog.primary.tsv")
+for g in ("Gm25939","Ndufs5","Rps2","Rpl29","Klra1","Mup17","3000002C10Rik"):
+    if g in _cat.index:
+        r=_cat.loc[g]; put(f"catalog_gene_{g}_residual", float(r["residual_fraction"]), ev); put(f"catalog_gene_{g}_n_tissues", int(r["n_tissues"]), ev); put(f"catalog_gene_{g}_mean_bias", float(r["mean_bias"]), ev)
+        for t in tissues:
+            if pd.notna(r[t]): put(f"catalog_gene_{g}_{t}_bias", float(r[t]), ev)
+# vW-tagged (SNP-overlapping) read fractions by group (revision_v2/audit/vw_tagged_fraction_by_group.txt; Phase J)
+ev="revision_v2/audit/vw_tagged_fraction_by_group.txt"; _vw={}
+for l in open(f"{PROJ}/{ev}"):
+    m=re.match(r"^(.+?)\s{2,}(\d+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*$", l.rstrip())
+    if m: _vw[m.group(1).strip()]=float(m.group(3))
+if _vw:
+    put("vw_overlap_pct_pyvt", _vw.get("PyVT (SE 101)", float("nan")), ev); _o=[v for k,v in _vw.items() if not k.startswith("PyVT")]; put("vw_overlap_pct_other_min", min(_o), ev); put("vw_overlap_pct_other_max", max(_o), ev)
+put("junctions_inserted_at_mapping", int(float(dict((r["key"],r["value"]) for r in N)["junctions_total_fvb_arm"])-float(dict((r["key"],r["value"]) for r in N)["junctions_fvb_index"])), "revision_v2/audit/junction_sets_fvb_index_vs_b6_gtf.txt")
 pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")

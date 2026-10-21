@@ -11,7 +11,7 @@ mkdir -p analysis_v2/pipeline revision_v2/scripts revision_v2/manifest revision_
 cp $PROJ/analysis_v2/pipeline/*.py $PROJ/analysis_v2/pipeline/*.sh $PROJ/analysis_v2/pipeline/*.R analysis_v2/pipeline/; cp $PROJ/analysis_v2/params.yaml analysis_v2/
 cp $PROJ/revision_v2/scripts/*.py $PROJ/revision_v2/scripts/*.sh revision_v2/scripts/; cp $PROJ/revision/scripts/check_figure_order.py revision_v2/scripts/
 cp $PROJ/revision_v2/manifest/manifest.tsv $PROJ/revision_v2/manifest/design_proposal.md revision_v2/manifest/
-cp $PROJ/revision_v2/CHANGELOG.md $PROJ/revision_v2/text_changes.md $PROJ/revision_v2/summary_of_changes.md $PROJ/revision_v2/final_check.md revision_v2/
+cp $PROJ/revision_v2/CHANGELOG.md $PROJ/revision_v2/text_changes.md $PROJ/revision_v2/summary_of_changes.md $PROJ/revision_v2/final_check.md $PROJ/revision_v2/change_ledger.tsv $PROJ/revision_v2/ledger_paragraph_triggers.tsv $PROJ/revision_v2/response_to_reviewers.md $PROJ/revision_v2/cover_letter.md revision_v2/
 cp $PROJ/revision_v2/audit/sample_audit.tsv $PROJ/revision_v2/audit/audit_summary.md $PROJ/revision_v2/audit/gse55792_qc_note.md $PROJ/revision_v2/audit/qc_calibration.md $PROJ/revision_v2/audit/junction_sets_fvb_index_vs_b6_gtf.txt $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/ 2>/dev/null || true
 cp $PROJ/revision_v2/audit/f1_old_site_genotypes.md $PROJ/revision_v2/audit/rps2_indels_pseudogenes.md $PROJ/revision_v2/audit/rps2_pseudogene_counts_skin.tsv $PROJ/revision_v2/audit/rps2_exons.GRCm39.110.bed $PROJ/revision_v2/audit/doi_check_final.txt $PROJ/revision_v2/audit/vw_tagged_fraction_by_group.txt revision_v2/audit/ 2>/dev/null || true
 cp $PROJ/revision_v2/audit/f1_old/old_sites.bed $PROJ/revision_v2/audit/f1_old/sample_identity_verification.phaseA_F1rows.tsv revision_v2/audit/f1_old/ 2>/dev/null || true
@@ -23,7 +23,7 @@ cp $PROJ/analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.tsv $PROJ/analysis_v
 cp $PROJ/analysis_v2/results/gene_meta.tsv $PROJ/analysis_v2/results/RESULTS.md5 analysis_v2/results/; cp $PROJ/analysis_v2/figures/*_data.tsv $PROJ/analysis_v2/figures/worked_examples.tsv $PROJ/analysis_v2/figures/FIGURES.md5 analysis_v2/figures/
 cp -r $PROJ/manuscript/revised_v2/*.md $PROJ/manuscript/revised_v2/generated $PROJ/manuscript/revised_v2/supplementary_tables manuscript/revised_v2/
 git add analysis_v2 revision_v2 manuscript
-git commit -q -m "v2-corrected: Phase H — F1 ASE re-derived at the identity-QC site set, bias decomposition, LAR format
+git commit -q -m "${COMMIT_MSG_HEAD:-v2-corrected: Phase H — F1 ASE re-derived at the identity-QC site set, bias decomposition, LAR format}
 
 F1 allele-specific expression recomputed on re-aligned BAMs at the 203,510 FVB/NJ-homozygous exonic sites (the v1 values were
 an artefact of a genotype-unfiltered site set; revision_v2/audit/f1_old_site_genotypes.md). Bias decomposed into FVB/NJ-read

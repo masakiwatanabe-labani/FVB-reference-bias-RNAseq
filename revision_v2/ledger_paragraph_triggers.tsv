@@ -1,0 +1,329 @@
+section	para_no	trigger	prefix
+abstract_structured.md	1	H	# Abstract
+abstract_structured.md	2	H	**Background**
+abstract_structured.md	3	KEEP	FVB mice are widely used in transgenic and disease-model research, but routine R
+abstract_structured.md	4	H	**Methods**
+abstract_structured.md	5	CORR	We surveyed public GEO series containing FVB RNA-seq data, analysed allele-level
+abstract_structured.md	6	H	**Results**
+abstract_structured.md	7	CORR	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
+abstract_structured.md	8	H	**Conclusions**
+abstract_structured.md	9	KEEP	B6-reference alignment does not broadly distort FVB RNA-seq data, but it can sub
+keywords.md	1	H	***Keywords***
+keywords.md	2	NEW-ID	FVB; C57BL/6J; RNA-seq; reference-genome mapping bias; SNP; personalised referen
+introduction.md	1	H	# Background
+introduction.md	2	KEEP	RNA sequencing (RNA-seq) is now a standard approach for transcriptome-wide gene 
+introduction.md	3	R1-M1	The Mouse Genomes Project has shown that laboratory mouse strains carry millions
+introduction.md	4	KEEP	The FVB inbred strain is widely used in mouse models of cancer, metabolic diseas
+introduction.md	5	R1-M2	FVB is therefore a common background for RNA-seq studies, but this creates a pra
+introduction.md	6	KEEP	Two main approaches are available to reduce SNP-mediated reference-genome mappin
+introduction.md	7	KEEP	A second approach is personalised reference alignment, in which strain-specific 
+introduction.md	8	KEEP	The magnitude and genomic distribution of FVB reference-genome mapping bias rema
+introduction.md	9	CORR	In this study, we systematically characterised SNP-mediated reference-genome map
+methods.md	1	H	# Methods
+methods.md	2	H	## Systematic survey of reference genome usage in publicly available FVB RNA-seq
+methods.md	3	KEEP	We searched NCBI GEO to examine how FVB RNA-seq studies have been processed [CIT
+methods.md	4	KEEP	We included studies that generated RNA-seq data from FVB mice. We considered FVB
+methods.md	5	KEEP	After manual review, 154 GEO series met the inclusion criteria. These series for
+methods.md	6	KEEP	Each study was assigned to one of three categories. This included explicit menti
+methods.md	7	KEEP	Classification was performed in priority order. Strain-aware classification took
+methods.md	8	H	<!-- BEGIN generated/methods_datasets.md (rendered from revision_v2/manifest/man
+methods.md	9	H	## RNA-seq datasets
+methods.md	10	CORR	Samples were selected from a sample-level manifest built from the GEO/SRA sample
+methods.md	11	CORR	For the three-arm strain comparison, FVB/NJ and C57BL/6J animals were taken from
+methods.md	12	CORR	A fourth tissue from an independent laboratory was added from a seven-strain imi
+methods.md	13	CORR	As a negative control carrying no FVB/NJ-specific alleles, 13 mammary tumours fr
+methods.md	14	CORR	For the F1 allele-specific expression analysis (Fig. 2), two datasets were used.
+methods.md	15	CORR	Samples excluded by the manifest rules are listed with the reason in Supplementa
+methods.md	16	H	<!-- END generated/methods_datasets.md -->
+methods.md	17	H	## Sample identity verification
+methods.md	18	NEW-ID	Every sample that entered any analysis was checked against its recorded strain b
+methods.md	19	NEW-ID	To reduce run time, the pure-strain animals were evaluated at a fixed random 10%
+methods.md	20	H	## Reference genome and variant set
+methods.md	21	KEEP	All analyses used the GRCm39 primary assembly. The genome FASTA was downloaded f
+methods.md	22	KEEP	FVB/NJ genetic variants were obtained from the Mouse Genomes Project REL-2021 re
+methods.md	23	KEEP	No equivalent genome-wide variant set was available for the FVB/N substrain used
+methods.md	24	KEEP	Multi-sample VCF files were subset to the FVB_NJ sample with bcftools [CITE Dane
+methods.md	25	H	## FVB/NJ personalised reference genome construction
+methods.md	26	KEEP	The personalised FVB/NJ reference genome was constructed with a four-step g2gtoo
+methods.md	27	KEEP	First, a variant chain index (VCI) was generated with g2gtools vcf2vci and the -
+methods.md	28	KEEP	Second, the B6 FASTA file was patched with g2gtools patch to generate a FVB/NJ-s
+methods.md	29	CORR	Third, Ensembl release 110 gene annotations were converted to the FVB/NJ coordin
+methods.md	30	KEEP	Fourth, a STAR genome index was constructed from the newly generated FVB/NJ FAST
+methods.md	31	H	## Read quality control
+methods.md	32	CORR	Raw FASTQ files (technical sequencing runs of the same animal concatenated) were
+methods.md	33	KEEP	All fastp runs used 4 threads. Trimmed reads were used for alignment. Intermedia
+methods.md	34	H	## Three-arm alignment strategy
+methods.md	35	KEEP	Each dataset was processed through three alignment arms to isolate the effect of
+methods.md	36	H	**Arm 1: naive B6 alignment**
+methods.md	37	KEEP	Trimmed reads were aligned to the GRCm39 B6 reference with STAR v2.7.10a [CITE D
+methods.md	38	KEEP	WASP SAM-tag output was enabled during this alignment. Ensembl release 110 gene 
+methods.md	39	H	**Arm 2: WASP-filtered B6 alignment**
+methods.md	40	KEEP	The WASP arm was generated from the naive B6 BAM files. Reads were filtered acco
+methods.md	41	KEEP	Reads with no vW tag were retained. These reads did not overlap any FVB/NJ SNP i
+methods.md	42	KEEP	Reads with a vW tag other than 1 were removed. The filtering command was run wit
+methods.md	43	KEEP	samtools view -e '![vW] || [vW]==1'
+methods.md	44	KEEP	This strategy retains non-variant reads and variant-overlapping reads that pass 
+methods.md	45	H	**Arm 3: FVB/NJ personalised reference alignment**
+methods.md	46	KEEP	Trimmed reads were aligned to the personalised FVB/NJ FASTA with STAR [CITE Dobi
+methods.md	47	NEW-ID	The VCI index contained SNP substitutions only and did not contain indels. The F
+methods.md	48	KEEP	FVB-arm read counts were obtained from the FVB-aligned BAM files before any lift
+methods.md	49	CORR	The three arms of all 83 animals were run with identical commands and parameters
+methods.md	50	H	## RNA-seq quantification
+methods.md	51	KEEP	Gene-level read counts were obtained with featureCounts from Subread v2.0.3 [CIT
+methods.md	52	CORR	Counts were generated as unstranded data with -s 0. All featureCounts runs used 
+methods.md	53	KEEP	Primary quantification used the default featureCounts behaviour. Multi-mapping r
+methods.md	54	KEEP	This primary workflow is referred to as the standard unique-only pipeline. Multi
+methods.md	55	H	## Differential expression and bias quantification
+methods.md	56	KEEP	Differential expression between FVB and B6 was calculated for each dataset and e
+methods.md	57	KEEP	Low-expression genes were filtered with filterByExpr using default settings. Lib
+methods.md	58	CORR	The design matrix was ~ diet + strain for the three fructose-study tissues (diet
+methods.md	59	KEEP	SNP-mediated reference-genome mapping bias was defined for each gene as:
+methods.md	60	KEEP	bias = log₂FC_FVB ref − log₂FC_naive
+methods.md	61	KEEP	Positive bias means that the naive B6 alignment underestimated FVB expression re
+methods.md	62	KEEP	For selected gene-level CPM plots, FVB-arm CPM values were calculated with a sha
+methods.md	63	NEW-DEC	$$\text{bias} = \text{bias}_{\text{matched}} + \text{b6\_loss}$$
+methods.md	64	NEW-DEC	where bias_matched = log₂FC_matched − log₂FC_naive is the change in the strain c
+methods.md	65	H	## Bias catalog construction
+methods.md	66	CORR	A gene was included in the bias catalog if it met two criteria. First, its bias 
+methods.md	67	KEEP	The FVB GTF filter was used to restrict the catalog to genes with a well-defined
+methods.md	68	CORR	The catalog criterion, the bias threshold and the statistical procedure were fix
+methods.md	69	CORR	We also tested the sensitivity of the catalog to threshold choice. The catalog-b
+methods.md	70	NEW-DEC	As a further sensitivity analysis, the fixed catalog criterion was applied to bi
+methods.md	71	H	## Negative control
+methods.md	72	NEW-NC	The 13 B6-congenic PyVT tumours (GSE175625) were used to test whether the catalo
+methods.md	73	H	## Predictor analysis
+methods.md	74	KEEP	We evaluated four candidate predictors of SNP-mediated reference-genome mapping 
+methods.md	75	KEEP	SNP density was calculated from the FVB/NJ SNP VCF. SNPs were counted within the
+methods.md	76	KEEP	Gene length was calculated in base pairs. It was log₁₀-transformed for analysis.
+methods.md	77	CORR	Gene-level predictors were compared with mean per-gene bias across the tissues i
+methods.md	78	H	## F1 allele-specific expression analysis
+methods.md	79	KEEP	F1 hybrid datasets were used to test allele-level reference bias. The datasets w
+methods.md	80	NEW-F1	Allele-specific read counts were obtained with GATK ASEReadCounter v4.6.2.0 [CIT
+methods.md	81	KEEP	Sites were retained if they met two filters. Total read depth had to be at least
+methods.md	82	KEEP	The FVB allele fraction was calculated for each site as:
+methods.md	83	KEEP	alt_count / total_count
+methods.md	84	KEEP	In B6-reference coordinates, the alternate allele corresponds to the FVB/NJ alle
+methods.md	85	CORR	Deviation from 0.50 was tested with a one-sample t-test. Group-level means and s
+methods.md	86	NEW-F1	To attribute the WASP effect to one allele, the reads removed by the WASP filter
+methods.md	87	H	## Multi-mapping sensitivity analysis
+methods.md	88	KEEP	The primary analysis used the standard featureCounts setting [CITE Liao 2014]. U
+methods.md	89	KEEP	We performed a sensitivity analysis to test whether catalog-gene bias depended o
+methods.md	90	KEEP	This analysis was designed to distinguish two mechanisms. The first mechanism wa
+methods.md	91	KEEP	The second mechanism was SNP-induced multi-mapping. In this case, FVB/NJ SNPs re
+methods.md	92	CORR	For each dataset, multi-mapping-inclusive count matrices were generated for the 
+methods.md	93	KEEP	Bias under multi-mapping inclusion was calculated from the resulting count matri
+methods.md	94	KEEP	For each gene, we calculated:
+methods.md	95	KEEP	Δ = bias_multi − bias_unique
+methods.md	96	KEEP	A negative Δ indicates that multi-mapping inclusion restores part of the FVB sig
+methods.md	97	KEEP	We also calculated the residual fraction:
+methods.md	98	KEEP	residual fraction = bias_multi / bias_unique
+methods.md	99	KEEP	This value measures how much of the unique-only bias remains after multi-mapping
+methods.md	100	CORR	Catalog genes were classified into two mechanistic groups on the mean over teste
+methods.md	101	KEEP	Full per-gene results are provided in Supplementary Table S2 and Supplementary N
+methods.md	102	H	## Choice of worked examples and within-strain comparison
+methods.md	103	NEW-WS	The two genes shown in Fig. 6 were chosen by rule rather than by hand: the "robu
+methods.md	104	H	## Statistical analysis and visualization
+methods.md	105	KEEP	Statistical analyses and figure generation were performed in Python 3.11. We use
+methods.md	106	CORR	Spearman rank correlations, Mann–Whitney U tests, Fisher's exact test, the Krusk
+methods.md	107	R1-m6/R2-C4	All figures were exported as vector PDF and as 600-dpi TIFF, and the data plotte
+methods.md	108	H	## Availability of data and materials
+methods.md	109	CORR	All RNA-seq datasets analysed in this study are publicly available from NCBI GEO
+methods.md	110	KEEP	FVB/NJ variant calls were obtained from the Mouse Genomes Project REL-2021 relea
+methods.md	111	KEEP	The reference genome and gene annotation were obtained from Ensembl release 110.
+methods.md	112	CORR	Analysis scripts, the sample manifest, the sample-identity check code and result
+methods.md	113	KEEP	https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq
+results.md	1	H	# Results
+results.md	2	H	## Publicly available FVB RNA-seq studies overwhelmingly use B6 reference genome
+results.md	3	KEEP	We first examined how publicly available FVB RNA-seq datasets had been processed
+results.md	4	REF	Among these 154 series, 140 reported the reference genome used for alignment. Al
+results.md	5	R1-m4	Together, these results indicate that most FVB RNA-seq studies use a B6 referenc
+results.md	6	H	## B6-reference alignment underestimates FVB allele representation in F1 hybrid 
+results.md	7	CORR	We next tested whether B6-reference alignment produces allele-level bias. For th
+results.md	8	NEW-F1	In F1 mice, each autosomal locus carries one allele from each parental strain. T
+results.md	9	NEW-F1	Under naive B6-reference alignment, the mean FVB allele fraction across all 12 F
+results.md	10	NEW-F1	The same pattern was seen in both datasets. The mean FVB allele fraction was 0.4
+results.md	11	NEW-F1	This consistent shift was observed across two independent F1 datasets generated 
+results.md	12	NEW-F1	WASP filtering did not restore the allele balance but overcorrected it. The mean
+results.md	13	NEW-F1	The deficit is concentrated where the pure-strain bias is: at the evaluated site
+results.md	14	NEW-F1	These results indicate that B6-reference alignment systematically suppresses app
+results.md	15	H	## Every sample entering the pure-strain comparison was verified by sequence
+results.md	16	NEW-ID	Because the pure-strain analysis depends entirely on the strain of each animal b
+results.md	17	NEW-ID	The check also rejected one candidate dataset. The four animals recorded as "C57
+results.md	18	H	## FVB/NJ-personalised reference alignment reduces locus-specific bias without s
+results.md	19	CORR	We then examined whether allele-level bias affects gene-level expression estimat
+results.md	20	KEEP	For each gene, we defined reference bias as the difference between the FVB-refer
+results.md	21	KEEP	bias = log₂FC_FVB ref − log₂FC_naive
+results.md	22	KEEP	A positive value means that naive B6 alignment underestimates FVB expression rel
+results.md	23	R1-m5	Genes with positive bias were visible as points above the diagonal in per-gene s
+results.md	24	CORR	Across the four tissues, 27,732 genes were expressed and quantifiable in at leas
+results.md	25	KEEP	Thus, the FVB/NJ personalised reference did not create a global upward shift in 
+results.md	26	CORR	The proportion of genes with bias ≥ 0.5 log₂ units was small in every tissue. It
+results.md	27	KEEP	Dataset-level mean log₂FC values were stable across the three alignment arms (Fi
+results.md	28	H	## WASP filtering has little genome-wide effect in pure-strain comparisons
+results.md	29	KEEP	We next examined the WASP-filtered arm in the pure-strain datasets. The WASP arm
+results.md	30	CORR	With this filter, WASP removed only a small fraction of assigned reads. Across a
+results.md	31	CORR	C57BL/6J samples lost more reads than FVB/NJ samples in every tissue (C57BL/6J 1
+results.md	32	CORR	The effect of WASP on gene-level fold changes was minimal. The genome-wide mean 
+results.md	33	KEEP	Thus, WASP filtering removed a small set of reference-sensitive reads but had li
+results.md	34	CORR	This near-zero genome-wide effect should not be interpreted as evidence that WAS
+results.md	35	H	## SNP-dense loci are enriched among genes vulnerable to reference-genome bias
+results.md	36	KEEP	We next asked which gene features were associated with reference-genome bias. We
+results.md	37	CORR	Across all expressed genes, the correlation between SNP density and mean bias wa
+results.md	38	CORR	Genes in the top 10% of SNP density had higher mean bias than genes in the botto
+results.md	39	CORR	Gene length also showed a weak but significant correlation with bias (Spearman ρ
+results.md	40	CORR	Gene biotype showed only modest differences in bias distribution (Fig. 4D). Prot
+results.md	41	KEEP	Among the predictors tested, SNP density had the clearest biological interpretat
+results.md	42	H	## A catalog of 138 genes consistently biased across non-tumour tissues
+results.md	43	CORR	We then constructed a catalog of reproducibly biased genes. A gene was included 
+results.md	44	CORR	This criterion identified 138 genes (Fig. 5A; Supplementary Table S2), represent
+results.md	45	CORR	The catalog genes varied in tissue breadth. Forty-six genes met the bias thresho
+results.md	46	CORR	Most catalog genes were protein-coding. This category accounted for 102 of the 1
+results.md	47	CORR	Catalog genes were strongly enriched for FVB/NJ SNP density. Their median SNP de
+results.md	48	NEW-WE	*Ndufs5* was the most consistently biased gene. This protein-coding gene on chro
+results.md	49	NEW-WE	The 46 four-tissue genes included several ribosomal protein genes (*Rps2*, *Rps1
+results.md	50	CORR	Some genes showed very large bias in fewer tissues. *Gm25939* showed strong bias
+results.md	51	CORR	The number of catalog genes differed by tissue. Adipose tissue contained 124 of 
+results.md	52	KEEP	The catalog was also examined under related threshold settings (Supplementary Ta
+results.md	53	H	## The bias is a property of FVB/NJ reads, not of the loci: a B6-background nega
+results.md	54	NEW-NC	To test whether the catalog reflects the FVB/NJ reads rather than some property 
+results.md	55	NEW-NC	At the catalog genes the three groups separated cleanly in direction (Supplement
+results.md	56	H	## Multi-mapping sensitivity analysis reveals two mechanistic classes
+results.md	57	KEEP	The primary analysis used the default featureCounts setting, which excludes mult
+results.md	58	CORR	Across 82,264 expressed gene-tissue pairs from the four non-tumour tissues, mult
+results.md	59	CORR	The effect was larger among catalog genes. Eighty-two of the 138 catalog genes s
+results.md	60	CORR	Thirty-seven of these 82 genes had residual fractions at or below 0.30. This mea
+results.md	61	CORR	The remaining 56 catalog genes showed |Δ| ≤ 0.3 log₂ units. These genes were cla
+results.md	62	CORR	Several genes showed a clear direct-misalignment pattern. These included *Rps2*,
+results.md	63	KEEP	Per-gene Δ values, residual fractions, and mechanism classes are provided in Sup
+results.md	64	KEEP	Under standard pipelines, both mechanisms have the same practical consequence: F
+results.md	65	H	## Decomposition of the bias into FVB/NJ-read gain and C57BL/6J-read loss
+results.md	66	NEW-DEC	The bias compares a quantification in which both strains are aligned to the FVB/
+results.md	67	H	## *Ndufs5* and *Rps2* as worked examples of the two mechanisms
+results.md	68	NEW-WE	To illustrate the practical consequences of SNP-mediated reference-mapping bias,
+results.md	69	NEW-WE	*Ndufs5* (chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb) is the most robustly eviden
+results.md	70	NEW-WE	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
+results.md	71	H	## Reference choice does not alter within-strain comparisons
+results.md	72	NEW-WS	Finally, to assess whether reference-genome choice affects comparisons made enti
+discussion.md	1	H	# Discussion
+discussion.md	2	CORR	This study shows that SNP-mediated reference-genome mapping bias in FVB RNA-seq 
+discussion.md	3	REF	We therefore view reference choice as a reproducibility-relevant technical varia
+discussion.md	4	KEEP	This finding is also relevant to the 3Rs in animal research, particularly Reduct
+discussion.md	5	KEEP	The contribution to Refinement is more indirect, but still relevant. Refinement 
+discussion.md	6	CORR	FVB mice are a particularly relevant setting for this issue. FVB/NJ and FVB/N ar
+discussion.md	7	NEW-WE	*Ndufs5* provides the clearest example. It exceeded the bias threshold in all fo
+discussion.md	8	NEW-WE	*Rps2* illustrates a different pattern and marks the limit of a SNP-only persona
+discussion.md	9	R2-C3	A key result is the contrast between the F1 and pure-strain analyses. In F1 hybr
+discussion.md	10	NEW-WE	The personalised reference used here was deliberately conservative. It was const
+discussion.md	11	CORR	The enrichment of catalog genes for FVB/NJ SNP density supports this interpretat
+discussion.md	12	CORR	The multi-mapping sensitivity analysis adds a mechanistic layer to this interpre
+discussion.md	13	NEW-DEC	The second class showed a different pattern. At these genes, bias remained even 
+discussion.md	14	CORR	This distinction is useful in practice. If investigators cannot immediately impl
+discussion.md	15	NEW-ASM	A natural question is why we quantified against a SNP-patched GRCm39 rather than
+discussion.md	16	NEW-NC	The B6-congenic PyVT tumours also serve their intended purpose as a negative con
+discussion.md	17	NEW-PD	A methodological lesson of this study concerns the public data themselves. We ve
+discussion.md	18	NEW-WS	Reference-genome choice could in principle also affect studies conducted entirel
+discussion.md	19	CORR/R1-M2	This study has several limitations. First, the FVB/NJ personalised reference use
+discussion.md	20	CORR	Taken together, these results indicate that B6-reference alignment does not broa
+discussion.md	21	KEEP	The same framework can be applied to other mouse strains. FVB is not unique in t
+discussion.md	22	H	## Conclusions
+discussion.md	23	R2-C2	This study defines the scale and genomic distribution of SNP-mediated reference-
+figure_legends.md	1	H	# Figure Legends
+figure_legends.md	2	H	**Figure 1. Public FVB RNA-seq studies use B6 reference genomes without strain-a
+figure_legends.md	3	CORR	**(A)** Reference genome usage among 154 public GEO series reporting FVB RNA-seq
+figure_legends.md	4	H	**Figure 2. B6-reference alignment produces a small, reproducible deficit of FVB
+figure_legends.md	5	NEW-F1	**(A)** Per-animal mean FVB allele fraction at the 203,510 exonic FVB/NJ-homozyg
+figure_legends.md	6	H	**Figure 3. FVB/NJ-personalised reference alignment reduces locus-specific bias 
+figure_legends.md	7	KEEP	In panel C, the displayed standard errors summarize variability across expressed
+figure_legends.md	8	CORR	**(A)** Per-gene scatter plot of log₂FC (FVB/B6) under naive B6 alignment and FV
+figure_legends.md	9	H	**Figure 4. SNP-dense loci are enriched among genes vulnerable to SNP-mediated r
+figure_legends.md	10	CORR	**(A)** Per-gene reference-mapping bias plotted against FVB/NJ SNP density. SNP 
+figure_legends.md	11	H	**Figure 5. A catalog of 138 genes consistently biased across non-tumour tissue 
+figure_legends.md	12	CORR	Panel A shows the top 30 genes for display; the complete 138-gene catalog is pro
+figure_legends.md	13	CORR	**(A)** Heatmap of per-tissue bias values for the top 30 of 138 catalog genes. G
+figure_legends.md	14	H	**Figure 6. Worked examples of SNP-mediated reference-genome mapping bias: *Nduf
+figure_legends.md	15	NEW-WE	The two genes were chosen by rule: *Ndufs5* is the catalog gene qualifying in th
+figure_legends.md	16	H	**Supplementary Figure S1. Sequence-based strain-identity check: the "wild-type 
+figure_legends.md	17	NEW-ID	Fraction of sites homozygous for the FVB/NJ allele (FVB-allele fraction > 0.9 am
+figure_legends.md	18	H	**Supplementary Figure S2. Multi-mapping sensitivity analysis reveals two mechan
+figure_legends.md	19	CORR	**(A)** Genome-wide distribution of Δ across 82,264 expressed gene-tissue pairs 
+figure_legends.md	20	H	**Supplementary Figure S3. Decomposition of the catalog bias into FVB/NJ-read ga
+figure_legends.md	21	NEW-DEC	Mean bias over the tested tissues (*x*-axis; bias = log₂FC_FVB ref − log₂FC_naiv
+supplementary_table_captions.md	1	H	# Supplementary Table Captions
+supplementary_table_captions.md	2	H	**Supplementary Table S1. Sample manifest and sequence-based strain-identity ver
+supplementary_table_captions.md	3	NEW-ID	Sheet *S1a — manifest*: every candidate sample considered for this study (one ro
+supplementary_table_captions.md	4	NEW-ID	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
+supplementary_table_captions.md	5	H	**Supplementary Table S2. Catalog of 138 genes consistently showing SNP-mediated
+supplementary_table_captions.md	6	CORR	Full catalog of genes meeting the primary bias criterion. A gene was included if
+supplementary_table_captions.md	7	H	**Supplementary Table S3. Sensitivity of the bias catalog to threshold, minimum-
+supplementary_table_captions.md	8	CORR	Catalog gene counts under a grid of bias thresholds and minimum qualifying-tissu
+supplementary_table_captions.md	9	CORR	Sheet *S3a — primary design*: catalog gene counts under a grid of bias threshold
+supplementary_table_captions.md	10	CORR	Sheet *S3b — control-condition animals only*: the same grid with the strain cont
+supplementary_table_captions.md	11	NEW-DEC	Sheet *S3c — matched-reference definition*: the same grid for bias_matched = log
+supplementary_table_captions.md	12	NEW-NC	Sheet *S3d — negative control, per animal*: per-sample reference-swap ratio stat
+supplementary_table_captions.md	13	NEW-NC	Sheet *S3e — negative control, held-out catalogs*: for each tissue, the catalog 
+supplementary_table_captions.md	14	NEW-NC	Sheet *S3f — PyVT residual donor segments*: per animal and chromosome (3, 10, 16
+supplementary_table_captions.md	15	H	**Supplementary Table S4. Alignment statistics and WASP read attrition per anima
+supplementary_table_captions.md	16	CORR	One row per animal × arm (naive, WASP, FVB reference) for the 83 animals process
+supplementary_table_captions.md	17	H	**Supplementary Table S5. Systematic survey of reference genome usage in publicl
+supplementary_table_captions.md	18	KEEP	GEO series-level classification of 154 publicly available RNA-seq datasets gener
+supplementary_note1.md	1	H	# Supplementary Note 1. Failure of g2gtools BAM coordinate liftover and its reso
+supplementary_note1.md	2	H	## Background
+supplementary_note1.md	3	KEEP	After aligning FVB/NJ reads to the personalised FVB reference genome (Arm 3), th
+supplementary_note1.md	4	H	## Observed failure
+supplementary_note1.md	5	CORR	`g2gtools convert -f bam --reverse` applied to FVB-aligned BAMs reports every al
+supplementary_note1.md	6	H	## Cause: SNP-only VCI has no coordinate offsets
+supplementary_note1.md	7	KEEP	The VCI (variant chain index) constructed by `g2gtools vcf2vci` for this study e
+supplementary_note1.md	8	KEEP	`g2gtools convert -f bam --reverse` translates each read's alignment position by
+supplementary_note1.md	9	H	## Resolution
+supplementary_note1.md	10	CORR	Because FVB and B6 coordinates are identical under the SNP-only VCI, no liftover
+supplementary_note1.md	11	KEEP	The resulting count matrix is directly comparable with the naive and WASP arm co
+supplementary_note1.md	12	H	## The effective splice-junction set of the FVB-reference arm
+supplementary_note1.md	13	NEW-ID	The STAR index of the personalised reference was built with the g2gtools-convert
+supplementary_note1.md	14	H	## Summary
+supplementary_note1.md	15	CORR	The `g2gtools convert -f bam --reverse` liftover is non-functional when the VCI 
+supplementary_note2.md	1	H	# Supplementary Note 2. Multi-mapping sensitivity analysis: mechanistic decompos
+supplementary_note2.md	2	H	## Purpose
+supplementary_note2.md	3	KEEP	Standard RNA-seq quantification pipelines — including the featureCounts runs use
+supplementary_note2.md	4	CORR	**Mechanism 1. Direct SNP misalignment.** FVB reads spanning variant positions i
+supplementary_note2.md	5	CORR	**Mechanism 2. SNP-induced multi-mapping.** FVB reads spanning variant positions
+supplementary_note2.md	6	H	## Methods
+supplementary_note2.md	7	CORR	For each tissue, separate multi-mapping-inclusive featureCounts count matrices w
+supplementary_note2.md	8	CORR	- **Naive multi arm**: B6-reference-aligned BAMs of all animals (same BAMs as th
+supplementary_note2.md	9	KEEP	Bias under multi-mapping inclusion was computed as:
+supplementary_note2.md	10	KEEP	$$\text{bias}_\text{multi} = \log_2\text{FC}_{\text{FVB multi}} - \log_2\text{FC
+supplementary_note2.md	11	CORR	using the same edgeR models as the primary analysis (`~ diet + strain`, or `~ tr
+supplementary_note2.md	12	KEEP	$$\Delta = \text{bias}_\text{multi} - \text{bias}_\text{unique}$$
+supplementary_note2.md	13	KEEP	measures how much bias changes when multi-mapping reads are included. The residu
+supplementary_note2.md	14	KEEP	$$\text{residual\_fraction} = \text{bias}_\text{multi} / \text{bias}_\text{uniqu
+supplementary_note2.md	15	CORR	A value near 1 indicates bias that persists under multi-mapping inclusion (consi
+supplementary_note2.md	16	H	## Genome-wide results
+supplementary_note2.md	17	CORR	Across 82,264 tested gene × tissue pairs from the four tissues, multi-mapping in
+supplementary_note2.md	18	H	## Catalog gene results
+supplementary_note2.md	19	CORR	Among the 138 catalog genes:
+supplementary_note2.md	20	CORR	- **82 genes showed |Δ| > 0.3 log₂** (SNP-induced multi-mapping component, mean 
+supplementary_note2.md	21	CORR	These classifications are reported in Supplementary Table S2 (columns `mean_bias
+supplementary_note2.md	22	H	## The Rps2 skin case
+supplementary_note2.md	23	NEW-WE	The skin *Rps2* bias (+5.36 log₂ unique-only) is the largest single-tissue bias 
+supplementary_note2.md	24	H	## Interpretation
+supplementary_note2.md	25	CORR	The multi-mapping sensitivity analysis reveals that the catalog gene list spans 
+supplementary_note2.md	26	NEW-DEC	From a correction standpoint, the FVB personalised reference arm recovers FVB/NJ
+declarations.md	1	H	# Declarations
+declarations.md	2	H	## Ethics approval and consent to participate
+declarations.md	3	KEEP	Not applicable.
+declarations.md	4	KEEP	No new animal experiments were performed; all analyses used publicly available R
+declarations.md	5	H	## Consent for publication
+declarations.md	6	CORR	Not applicable.
+declarations.md	7	H	## Availability of data and materials
+declarations.md	8	CORR	All RNA-seq datasets analysed in this study are publicly available from the NCBI
+declarations.md	9	KEEP	FVB/NJ variant calls were obtained from the Mouse Genomes Project REL-2021 relea
+declarations.md	10	KEEP	The reference genome and gene annotation were obtained from Ensembl release 110.
+declarations.md	11	CORR	The analysis scripts and figure-generation code are available at the following p
+declarations.md	12	H	## Competing interests
+declarations.md	13	KEEP	The authors declare that they have no competing interests.
+declarations.md	14	H	## Funding
+declarations.md	15	KEEP	Not applicable.
+declarations.md	16	H	## Authors' contributions
+declarations.md	17	KEEP	MW contributed to study design, data analysis, and drafted the manuscript. NS co
+declarations.md	18	H	## Acknowledgements
+declarations.md	19	KEEP	We thank the investigators who generated and deposited the public RNA-seq datase
+abbreviations.md	1	CORR	list

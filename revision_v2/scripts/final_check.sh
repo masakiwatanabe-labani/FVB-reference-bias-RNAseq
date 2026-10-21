@@ -7,7 +7,7 @@ set -uo pipefail
 PROJ=/usr/local/jupyter/FVB_bias; cd $PROJ; OUT=revision_v2/final_check.md; S=revision_v2/scripts; M=manuscript/revised_v2; SUB=revision_v2/submission
 ok(){ echo "- [x] $1"; }; bad(){ echo "- [ ] **FAIL** $1"; FAIL=$((FAIL+1)); }; FAIL=0
 {
-echo "# Phase H — final check ($(date '+%Y-%m-%d %H:%M %Z'))"; echo
+echo "# Phase J — final check ($(date '+%Y-%m-%d %H:%M %Z'))"; echo
 echo "## 1. Integrity of results and figures"
 ( cd analysis_v2/results && md5sum -c RESULTS.md5 > /tmp/claude_res.chk 2>&1 ); n=$(grep -c ": OK" /tmp/claude_res.chk); nb=$(grep -vc ": OK" /tmp/claude_res.chk)
 [ "$nb" -eq 0 ] && ok "analysis_v2/results: all $n files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)" || bad "analysis_v2/results: $nb files differ from RESULTS.md5 (see /tmp/claude_res.chk)"
@@ -74,8 +74,40 @@ n5=$(grep -c 'corrected analysis\|this revision\|earlier version\|submitted vers
 nf=$(awk -F'\t' 'NR>1 && $1 ~ /^f1_/ && $3 !~ /f1_ase\/v2\/|revision_v2\/audit\/f1_old|analysis_v2\/qc\/fvbnj_homalt_exonic\.hetGT\.vcf\.gz/' $M/generated/numbers.tsv | wc -l); nf1=$(awk -F'\t' 'NR>1 && $1 ~ /^f1_/' $M/generated/numbers.tsv | wc -l)
 [ "$nf" -eq 0 ] && ok "all $nf1 f1_* numbers come from the new per-site tables (evidence column: analysis_v2/results/f1_ase/v2/ or the H-1a audit files); the v1 tables f1_ase/f1_ase_per_sample.tsv are not an evidence source" || bad "$nf f1_* numbers have another evidence source"
 d1=$(grep -c '\[CITE' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d2=$(grep -c 'revision_v2/\|analysis_v2/' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d3=$(grep -c '^Step [0-9]\. ' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d4=$(grep -c '^[0-9]\+\.  \*\*' $P | awk -F: '{s+=$2} END{print s}'); d5=$(grep -c '\* p < 0.05; \*\* p < 0.01; \*\*\* p < 0.001' $P)
-[ "$d1" -eq 0 ] && [ "$d2" -eq 0 ] && [ "$d3" -ge 6 ] && [ "$d4" -eq 0 ] && [ "$d5" -ge 1 ] && ok "docx → plain: no [CITE, no local paths, $d3 'Step n.' paragraphs (no continued numbered lists), Fig. 2 significance asterisks rendered literally ($d5 line)" || bad "docx → plain: CITE=$d1 paths=$d2 steps=$d3 numbered-bold-lists=$d4 asterisk-lines=$d5"
+[ "$d1" -eq 0 ] && [ "$d2" -eq 0 ] && [ "$d4" -eq 0 ] && [ "$d5" -ge 1 ] && ok "docx → plain: no [CITE, no local paths, no continued numbered lists ($d3 Step paragraphs; the reconstruction keeps the v1 prose steps), Fig. 2 significance asterisks rendered literally ($d5 line)" || bad "docx → plain: CITE=$d1 paths=$d2 steps=$d3 numbered-bold-lists=$d4 asterisk-lines=$d5"
 grep -q "v2-corrected" $M/declarations.md && ok "Availability (Declarations) names branch/tag v2-corrected" || bad "Availability does not name v2-corrected"
+echo; echo "## 3b. Phase J checks (minimal-change reconstruction on the submitted text)"
+python3 $S/make_change_ledger.py > /tmp/claude_ledger.log 2>&1 && ok "change ledger rebuilt: $(grep '^total' /tmp/claude_ledger.log); $(grep '^body sentences' /tmp/claude_ledger.log)" || bad "make_change_ledger.py failed"
+python3 - <<'EOF' > /tmp/claude_ledger_chk.txt && ok "ledger completeness: $(cat /tmp/claude_ledger_chk.txt)" || bad "ledger completeness: $(cat /tmp/claude_ledger_chk.txt)"
+import csv, re, sys
+P="/usr/local/jupyter/FVB_bias"; rows=list(csv.DictReader(open(f"{P}/revision_v2/change_ledger.tsv"), delimiter="\t"))
+def norm(s):
+    s=s.replace("\\",""); s=re.sub(r"\[CITE[^\]]*\]","",s); s=re.sub(r"\[\d+(?:[–,\-]\d+)*\]","",s); s=s.replace("−","-").replace("–","-").replace("--","-"); return re.sub(r"[\W_]+","",s).lower()
+v1=set()
+for line in open(f"{P}/revision_v2/submission/LAR_v1_text.md", encoding="utf-8"):
+    v1.add(norm(line.strip()))
+for nn in (1,2):
+    for para in open(f"{P}/manuscript/supplementary_note{nn}.md", encoding="utf-8").read().split("\n\n"): v1.add(norm(para))
+keep_bad=[r for r in rows if r["status"]=="KEEP" and not any(norm(r["new_text"]) in x for x in v1)]
+numflags=[r for r in rows if r["number_check"]]
+body=[r for r in rows if r["section"] in ("Abstract","Background","Methods","Results","Discussion","Conclusions") and r["status"]!="DROP"]
+trig_bad=[r for r in rows if r["status"] in ("EDIT","NEW","DROP") and r["trigger"] in ("?","")]
+print(f"{len(rows)} rows; {len(body)} body sentences with a row; KEEP sentences not found verbatim in v1: {len(keep_bad)}; EDIT/NEW numbers not in numbers.tsv: {len(numflags)}; EDIT/NEW/DROP rows without trigger: {len(trig_bad)}")
+sys.exit(1 if (keep_bad or numflags or trig_bad) else 0)
+EOF
+python3 $S/verify_response_pointers.py > /tmp/claude_ptr.log 2>&1 && ok "response letter: every 'Changed:' pointer resolves to ledger rows with the matching trigger ($(grep -c '^ok' /tmp/claude_ptr.log) pointers)" || bad "response letter pointers unresolved: $(grep -c '^FAIL' /tmp/claude_ptr.log) (see /tmp/claude_ptr.log)"
+wb=$(grep -v '^#\|^\*\*' $M/abstract_structured.md | wc -w); wh=$(sed 's/^# //;s/\*\*//g' $M/abstract_structured.md | wc -w); [ "$wb" -le 350 ] && [ "$wh" -le 350 ] && ok "Abstract ≤ 350 words both ways (body $wb, with headings $wh)" || bad "Abstract words: body $wb, with headings $wh"
+grep -q "3Rs" $M/discussion.md && ok "'3Rs' is used in the text (Discussion), so the abbreviation entry is used" || bad "'3Rs' not used in the text"
+python3 - <<'EOF' > /tmp/claude_abbr.txt && ok "abbreviation list: $(cat /tmp/claude_abbr.txt)" || bad "abbreviation list: $(cat /tmp/claude_abbr.txt)"
+import re, sys
+M="/usr/local/jupyter/FVB_bias/manuscript/revised_v2"; body="\n".join(open(f"{M}/{f}").read() for f in ("abstract_structured.md","introduction.md","methods.md","results.md","discussion.md","figure_legends.md"))
+ab=[l.split(":")[0].strip() for l in open(f"{M}/abbreviations.md") if ":" in l]
+unused=[a for a in ab if not re.search(r"(?<![\w])"+re.escape(a)+r"(?![\w])", body)]
+print(f"{len(ab)} entries, unused: {unused}"); sys.exit(1 if unused else 0)
+EOF
+n_i=$(grep -c "either fail to align or are assigned to another locus\|either failing to align or being assigned to another locus" $M/results.md $M/supplementary_note2.md | awk -F: '{s+=$2} END{print s}'); grep -q "expected to be heterozygous" $M/methods.md && grep -q "Mechanism 1\." $M/supplementary_note2.md && [ "$n_i" -ge 2 ] && ok "Phase I wording present: direct-class read fate ($n_i places), 'expected to be heterozygous' (Methods), 'Mechanism 1./2.' labels (Note 2)" || bad "Phase I wording missing (I-1d places=$n_i)"
+n_ban=$(grep -c "WASP improved\|partially corrected\|did not normalize\|five pure-strain\|five datasets\|30 of the 32\|pvt_discordant\|FVB-enriched F3" $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$n_ban" -eq 0 ] && ok "J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps" || bad "J-0 ban list: $n_ban hits in the docx dumps"
+[ -s $SUB/LAR_main_text_v2_marked.docx ] && ok "marked copy present ($(stat -c %s $SUB/LAR_main_text_v2_marked.docx) bytes; generated from the ledger by mark_from_ledger.py)" || bad "marked copy missing"
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"
 ok "0.4-2 no SRR block selection: scheduler.sh sel() and merge_counts.py select by manifest attributes (role, include, tissue, strain, design)"

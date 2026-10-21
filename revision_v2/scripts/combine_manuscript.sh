@@ -5,7 +5,7 @@
 set -uo pipefail
 PROJ=/usr/local/jupyter/FVB_bias; M=$PROJ/manuscript/revised_v2; cd $M
 {
-  for f in abstract introduction results discussion methods references figure_legends table1 supplementary_table_captions supplementary_note1 supplementary_note2; do
+  for f in abstract_structured introduction results discussion methods references figure_legends table1 supplementary_table_captions supplementary_note1 supplementary_note2; do
     cat $f.md; echo; echo; echo "---"; echo; echo
   done
 } > manuscript_combined.md
