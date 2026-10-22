@@ -69,11 +69,6 @@ for arm in ("naive","wasp"):
 put("f1_catalog_sites_naive_deficit_pp", float((0.5-fc[fc.arm=="naive"].mean_af_catalog.mean())*100), ev)
 # Rps2 fact check (revision_v2/audit/rps2_indels_pseudogenes.md; counts table rps2_pseudogene_counts_skin.tsv)
 ev="revision_v2/audit/rps2_indels_pseudogenes.md"; put("rps2_indels_gene_body", 12, ev); put("rps2_indels_exonic", 4, ev); put("rps2_snps_exonic", 13, ev); put("rps2_n_processed_pseudogenes", 12, ev)
-rp=pd.read_csv(f"{PROJ}/revision_v2/audit/rps2_pseudogene_counts_skin.tsv", sep="\t"); ev=rel(f"{PROJ}/revision_v2/audit/rps2_pseudogene_counts_skin.tsv")
-for arm in ("naive.unique","naive.multi","fvb.multi"):
-    a=rp[rp.arm==arm]; r=a[a.gene=="Rps2"].iloc[0]; p=a[a.gene!="Rps2"]; k=arm.replace(".","_")
-    put(f"rps2_skin_{k}_FVB_cpm", float(r.FVB_mean_cpm), ev); put(f"rps2_skin_{k}_B6_cpm", float(r.B6_mean_cpm), ev)
-    put(f"rps2_pseudogenes_skin_{k}_FVB_cpm", float(p.FVB_mean_cpm.sum()), ev); put(f"rps2_pseudogenes_skin_{k}_B6_cpm", float(p.B6_mean_cpm.sum()), ev)
 # ---- genome-wide bias per tissue (Fig. 3) ----------------------------------------------------------------------------
 long=pd.read_csv(f"{RES}/bias/all_tissues.primary.tsv", sep="\t"); ev=rel(f"{RES}/bias/all_tissues.primary.tsv"); tissues=["adipose","hypothalamus","liver","skin"]
 wide=long.pivot(index="gene_id",columns="tissue",values="bias"); put("genes_tested_union", len(wide), ev); put("genes_tested_all4", int(wide.notna().all(axis=1).sum()), ev)
@@ -262,4 +257,26 @@ for arm in ("naive","fvb"):
     u=float(rm[(rm.gene=="Rps2")&(rm.arm==arm)&(rm.counting=="unique-only")].FVBNJ_mean_cpm.iloc[0]); m=float(rm[(rm.gene=="Rps2")&(rm.arm==arm)&(rm.counting!="unique-only")].FVBNJ_mean_cpm.iloc[0])
     put(f"rps2_multi_gain_cpm_{arm}", m-u, ev); put(f"rps2_multi_fold_{arm}", m/u, ev)
 put("rps2_multi_gain_cpm", float(rm[(rm.gene=="Rps2")&(rm.arm=="naive")&(rm.counting!="unique-only")].FVBNJ_mean_cpm.iloc[0])-float(rm[(rm.gene=="Rps2")&(rm.arm=="naive")&(rm.counting=="unique-only")].FVBNJ_mean_cpm.iloc[0]), ev)
+# Phase K-1'(a): every Rps2 / pseudogene CPM in the article uses ONE definition — shared-denominator mean CPM (each arm and counting mode
+# divided by the naive-arm unique-only library size of the same animal; mean over 8 FVB/NJ or 8 C57BL/6J skin animals; the normalisation of
+# Fig. 6B) of Rps2 and the three processed pseudogenes Rps2-ps10, -ps13, -ps6 (analysis_v2/results/worked_examples/rps2_multimap_cpm.tsv).
+# The earlier keys summed all 12 annotated Rps2 pseudogenes (revision_v2/audit/rps2_pseudogene_counts_skin.tsv) and are no longer used.
+rm3=pd.read_csv(f"{RES}/worked_examples/rps2_multimap_cpm.tsv", sep="\t"); ev=rel(f"{RES}/worked_examples/rps2_multimap_cpm.tsv")
+for arm in ("naive","fvb"):
+    for mode,lab in (("unique","unique-only"),("multi","-M --fraction")):
+        a=rm3[(rm3.arm==arm)&(rm3.counting==lab)]; r=a[a.gene=="Rps2"].iloc[0]; p=a[a.gene!="Rps2"]; k=f"{arm}_{mode}"
+        put(f"rps2_skin_{k}_FVB_cpm", float(r.FVBNJ_mean_cpm), ev); put(f"rps2_skin_{k}_B6_cpm", float(r.C57BL6J_mean_cpm), ev)
+        put(f"rps2_pseudogenes_skin_{k}_FVB_cpm", float(p.FVBNJ_mean_cpm.sum()), ev); put(f"rps2_pseudogenes_skin_{k}_B6_cpm", float(p.C57BL6J_mean_cpm.sum()), ev)
+        put(f"rps2_family_skin_{k}_FVB_cpm", float(a.FVBNJ_mean_cpm.sum()), ev)
+    u=rm3[(rm3.arm==arm)&(rm3.gene=="Rps2")]; uu=u[u.counting=="unique-only"].iloc[0]; mm=u[u.counting!="unique-only"].iloc[0]
+    put(f"rps2_skin_{arm}_log2ratio_unique", float(np.log2(uu.FVBNJ_mean_cpm/uu.C57BL6J_mean_cpm)), ev); put(f"rps2_skin_{arm}_log2ratio_multi", float(np.log2(mm.FVBNJ_mean_cpm/mm.C57BL6J_mean_cpm)), ev)
+    put(f"rps2_skin_{arm}_log2ratio_shift", float(np.log2(mm.FVBNJ_mean_cpm/mm.C57BL6J_mean_cpm)-np.log2(uu.FVBNJ_mean_cpm/uu.C57BL6J_mean_cpm)), ev)
+fm=rm3[(rm3.arm=="fvb")&(rm3.counting!="unique-only")]; put("rps2_skin_fvb_multi_share_of_family", float(fm[fm.gene=="Rps2"].FVBNJ_mean_cpm.iloc[0]/fm.FVBNJ_mean_cpm.sum()), ev)
+ev="numbers.tsv: ex_extreme_*_residual"; _res=[float(v["value"]) for v in N if v["key"] in ("ex_extreme_adipose_residual","ex_extreme_hypothalamus_residual","ex_extreme_liver_residual","ex_extreme_skin_residual")]
+if _res: put("ex_extreme_residual_min", min(_res), ev); put("ex_extreme_residual_max", max(_res), ev)
+al=pd.read_csv(f"{RES}/worked_examples/rps2_pseudogene_alleles.tsv", sep="\t"); ev=rel(f"{RES}/worked_examples/rps2_pseudogene_alleles.tsv")   # K-1'(c)
+sn=al[al.variant.str.startswith("SNP")]
+put("rps2_exonic_snps_in_pseudogene_sequence", int((sn[sn.pseudogene=="Rps2-ps10"].allele_carried!="not in pseudogene").sum()), ev)
+for g in ("Rps2-ps10","Rps2-ps13","Rps2-ps6"): put(f"rps2_{g.replace('-','_')}_fvb_allele_snps", int((sn[sn.pseudogene==g].allele_carried=="FVB/NJ").sum()), ev)
+put("rps2_exonic_indels_in_pseudogene_sequence", int((al[(al.variant.str.startswith("indel"))&(al.pseudogene=="Rps2-ps10")].allele_carried!="not in pseudogene").sum()), ev)
 pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")
