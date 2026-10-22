@@ -1,0 +1,24 @@
+item	value
+primary catalog	138
+matched-reference catalog	84
+in both (supported under both definitions)	57
+primary only	81
+matched only	27
+primary-only genes with b6_loss_mean > bias_matched_mean	54
+catalog median share of bias due to B6-read loss (b6_loss_mean/mean_bias)	0.498
+primary-only median share	0.609
+both median share	0.42
+genome-wide median b6_loss (all tested gene x tissue)	-0.0009
+genome-wide median bias_matched	-0.0001
+Ndufs5 adipose: bias / bias_matched / b6_loss	+3.85 / +1.53 / +2.31
+Ndufs5 hypothalamus: bias / bias_matched / b6_loss	+3.32 / +1.47 / +1.85
+Ndufs5 liver: bias / bias_matched / b6_loss	+5.14 / +2.57 / +2.56
+Ndufs5 skin: bias / bias_matched / b6_loss	+10.24 / +4.61 / +5.63
+Ndufs5 meets the catalog criterion under the matched definition (>= 0.5 in >= 2 tissues)	Y
+Ndufs5 tissues with bias_matched >= 0.5	4
+Rps2 adipose: bias / bias_matched / b6_loss	+1.12 / +0.73 / +0.38
+Rps2 hypothalamus: bias / bias_matched / b6_loss	+1.36 / +1.06 / +0.30
+Rps2 liver: bias / bias_matched / b6_loss	+1.14 / +0.86 / +0.28
+Rps2 skin: bias / bias_matched / b6_loss	+5.36 / -0.02 / +5.38
+Rps2 meets the catalog criterion under the matched definition (>= 0.5 in >= 2 tissues)	Y
+Rps2 tissues with bias_matched >= 0.5	3

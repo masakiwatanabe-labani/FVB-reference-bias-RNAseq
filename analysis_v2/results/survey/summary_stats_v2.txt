@@ -1,0 +1,6 @@
+Total studies: 154
+stated_B6: 140 (90.9%)
+not_reported: 14 (9.1%)
+strain_aware: 0 (0.0%)
+fetch_failed: 0 (0.0%)
+evidence_coverage: 154/154

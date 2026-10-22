@@ -1,0 +1,14 @@
+sample_id	strain	diet	sex	age	library_layout	read_length	GSE	GSM
+mammary_tumour_PyVT_X_mammarytumor105	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Methylparaben			SINGLE	101.0	GSE175625	GSM5342922
+mammary_tumour_PyVT_X_mammarytumor31	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Methylparaben			SINGLE	101.0	GSE175625	GSM5342911
+mammary_tumour_PyVT_X_mammarytumor38	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Methylparaben			SINGLE	101.0	GSE175625	GSM5342913
+mammary_tumour_PyVT_X_mammarytumor48	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Methylparaben			SINGLE	101.0	GSE175625	GSM5342915
+mammary_tumour_PyVT_X_mammarytumor32	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342912
+mammary_tumour_PyVT_X_mammarytumor55	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342916
+mammary_tumour_PyVT_X_mammarytumor62	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342918
+mammary_tumour_PyVT_X_mammarytumor74	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342919
+mammary_tumour_PyVT_X_mammarytumor81	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342920
+mammary_tumour_PyVT_X_mammarytumor95	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Propylparaben			SINGLE	101.0	GSE175625	GSM5342921
+mammary_tumour_PyVT_X_mammarytumor29	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Vehicle			SINGLE	101.0	GSE175625	GSM5342910
+mammary_tumour_PyVT_X_mammarytumor42	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Vehicle			SINGLE	101.0	GSE175625	GSM5342914
+mammary_tumour_PyVT_X_mammarytumor60	B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ	Vehicle			SINGLE	101.0	GSE175625	GSM5342917
