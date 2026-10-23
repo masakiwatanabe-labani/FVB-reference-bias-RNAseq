@@ -260,12 +260,28 @@ def phase_r2(name, txt, trig):
         txt=txt[:i]+(new(txt[i:j]) if callable(new) else R(new))+txt[j:]; R2_USED[n]+=1
         if trig!="H" and "PHASE-R2" not in trig: trig+="/PHASE-R2"
     return txt, trig
+# ---- Phase S (2026-10-23): survey category definitions completed from scripts/stage3_survey_v2.py (STRAIN_AWARE_KW, B6_KW,
+#      priority strain_aware > stated_B6 > not_reported); Fig. 1 legend matched to that keyword list (trigger PHASE-S)
+S_REPL=[
+ ("methods.md","Each study was assigned to one of three categories. This included explicit mention of","no reference-genome keyword was identified.",
+  "Each study was assigned to one of three categories. The first, B6 reference stated, was assigned when the data-processing text explicitly mentioned GRCm38, GRCm39, mm10, mm39, C57BL/6, or standard aligner paths containing these assemblies; it also included legacy mm9 annotations when they were reported in GEO metadata, because mm9 is likewise a standard C57BL/6-derived mouse reference assembly. The second, strain-aware alignment, was assigned when the text mentioned WASP, g2gtools, any word beginning with \"personali\" (personalised, personalized), strain-aware, SNP-aware, allele-specific alignment, FVB genome, FVB/N genome, FVB/NJ genome, N-masking, diploid genome or individualized genome (case-insensitive text matching). The third, not reported, was assigned when data-processing text was available but no reference-genome keyword was identified."),
+ ("figure_legends.md","No study reported WASP, g2gtools, personalised genome construction, or N-masking.","",
+  "No study's data-processing text contained any of the strain-aware keywords listed in Methods (among them WASP, g2gtools, personalised genome and N-masking)."),
+]
+S_USED=[0]*len(S_REPL)
+def phase_s(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(S_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i+len(a))+len(b)
+        txt=txt[:i]+R(new)+txt[j:]; S_USED[n]+=1
+        if trig!="H" and "PHASE-S" not in trig: trig+="/PHASE-S"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); txt,trig=phase_s(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -655,6 +671,7 @@ left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
 assert all(u==1 for u in Q_USED), ("Phase Q replacements not applied exactly once", [(Q_REPL[n][:2],u) for n,u in enumerate(Q_USED) if u!=1])
 assert all(u==1 for u in R_USED), ("Phase R replacements not applied exactly once", [(R_REPL[n][:2],u) for n,u in enumerate(R_USED) if u!=1])
 assert all(u==1 for u in R2_USED), ("Phase R2 replacements not applied exactly once", [(R2_REPL[n][:2],u) for n,u in enumerate(R2_USED) if u!=1])
+assert all(u==1 for u in S_USED), ("Phase S replacements not applied exactly once", [(S_REPL[n][:2],u) for n,u in enumerate(S_USED) if u!=1])
 assert all(u==1 for u in P_USED), ("Phase P replacements not applied exactly once", [(P_REPL[n][:2],u) for n,u in enumerate(P_USED) if u!=1])
 assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])
 assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])

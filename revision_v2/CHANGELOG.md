@@ -279,3 +279,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE R2: site subset of the identity check
 - `build_phase_j.py` `R2_REPL` (Methods identity sentence, S1b caption site_set). M-2 399 PASS / 0 FAIL.
+
+### 2026-10-23 — PHASE S: ASCII command text in the built docx; survey category definitions
+- `assemble_lar.py` `clean()` escapes command dashes/quotes for pandoc smart; `final_check.sh` permanent rule on the built docx text of all five deliverables; `build_phase_j.py` `S_REPL` (Methods survey categories, Fig. 1 legend); `response_to_reviewers.md` Other changes line. M-2 399 PASS / 0 FAIL.

@@ -127,6 +127,17 @@ q=[l[3:-1] for l in open(f"{P}/revision_v2/response_to_reviewers.md",encoding="u
 bad=[x[:60] for x in q if norm(x) not in main]
 print(f"{len(q)} quotes, {len(bad)} not found" + ("" if not bad else ": "+" | ".join(bad))); sys.exit(1 if bad or not q else 0)
 PYEOF
+# Phase S-1 (permanent): command text in the BUILT docx text keeps ASCII (pandoc smart turns "--" into an en dash and straight quotes
+# into curly ones): no en dash starting an option, no curly quote right after '=' or inside a samtools -e expression
+python3 - <<'PYEOF' > /tmp/claude_ascii.txt && ok "ASCII command text in every built docx (no '–option', no curly quote after '=' or in 'samtools view -e'): $(cat /tmp/claude_ascii.txt)" || bad "command text mangled in the built docx: $(cat /tmp/claude_ascii.txt)"
+import re, sys
+S="/usr/local/jupyter/FVB_bias/revision_v2/submission"; R=[re.compile(r"(^|[\s(/])–[A-Za-z]", re.M), re.compile(r"=[“”‘’]"), re.compile(r"samtools view -e [^\n]*?[“”‘’]")]
+out=[]; tot=0
+for f in ("LAR_main_text_v2","LAR_main_text_v2_marked","LAR_additional_file_1","response_to_reviewers_v2","cover_letter_v2"):
+    t=open(f"{S}/{f}.plain.txt",encoding="utf-8").read(); h=[m.group(0) for r in R for m in r.finditer(t)]; tot+=len(h)
+    out.append(f"{f} {len(h)}" + (f" {sorted(set(h))}" if h else ""))
+print("; ".join(out)); sys.exit(1 if tot else 0)
+PYEOF
 python3 - <<'PYEOF' > /tmp/claude_t1.txt && ok "Table 1 survives PDF conversion (LibreOffice headless): $(cat /tmp/claude_t1.txt)" || bad "Table 1 PDF conversion: $(cat /tmp/claude_t1.txt)"
 import subprocess, tempfile, re, sys, os
 P="/usr/local/jupyter/FVB_bias"; tmp=tempfile.mkdtemp()

@@ -24,7 +24,7 @@ methods.md	2	H	## Systematic survey of reference genome usage in publicly availa
 methods.md	3	KEEP	We searched NCBI GEO to examine how FVB RNA-seq studies have been processed [CIT
 methods.md	4	KEEP	We included studies that generated RNA-seq data from FVB mice. We considered FVB
 methods.md	5	KEEP	After manual review, 154 GEO series met the inclusion criteria. These series for
-methods.md	6	KEEP	Each study was assigned to one of three categories. This included explicit menti
+methods.md	6	KEEP/PHASE-S	Each study was assigned to one of three categories. The first, B6 reference stat
 methods.md	7	KEEP	Classification was performed in priority order. Strain-aware classification took
 methods.md	8	H	<!-- BEGIN generated/methods_datasets.md (rendered from revision_v2/manifest/man
 methods.md	9	H	## RNA-seq datasets
@@ -230,7 +230,7 @@ discussion.md	22	H	## Conclusions
 discussion.md	23	R2-C2	This study defines the scale and genomic distribution of SNP-mediated reference-
 figure_legends.md	1	H	# Figure Legends
 figure_legends.md	2	H	**Figure 1. Public FVB RNA-seq studies use B6 reference genomes without strain-a
-figure_legends.md	3	CORR	**(A)** Reference genome usage among 154 public GEO series reporting FVB RNA-seq
+figure_legends.md	3	CORR/PHASE-S	**(A)** Reference genome usage among 154 public GEO series reporting FVB RNA-seq
 figure_legends.md	4	H	**Figure 2. B6-reference alignment produces a small, reproducible deficit of FVB
 figure_legends.md	5	NEW-F1/PHASE-K	**(A)** Per-animal mean FVB allele fraction at the 203,510 exonic FVB/NJ-homozyg
 figure_legends.md	6	H	**Figure 3. FVB/NJ-personalised reference alignment reduces locus-specific bias 

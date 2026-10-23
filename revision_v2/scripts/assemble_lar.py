@@ -29,6 +29,14 @@ def clean(s):
     s=re.sub(r"(?<![`\w/])(?:revision_v2|analysis_v2)/(?:[\w.\-]+/)*([\w.\-]+)?", lambda m: f"the repository file {m.group(1)}" if m.group(1) else "the repository", s)   # bare paths
     # significance asterisks (escape so pandoc does not treat them as emphasis)
     s=s.replace("* p < 0.05; ** p < 0.01; *** p < 0.001", "\\* p < 0.05; \\*\\* p < 0.01; \\*\\*\\* p < 0.001")
+    # Phase S-1: command text keeps ASCII characters under pandoc's smart extension (which stays on for the prose dashes and
+    # quotes): escape option dashes, quotes right after '=' (FILTER=".") and the quotes of a samtools -e expression; code spans
+    # are verbatim already and are left alone
+    def ascii_cmd(t):
+        t=re.sub(r"(?<![\w-])--(?=[A-Za-z])", r"\\-\\-", t)
+        t=re.sub(r'="([^"\s]*)"', r'=\\"\1\\"', t)
+        return re.sub(r"(samtools view -e )'([^'\n]*)'", r"\1\\'\2\\'", t)
+    s="".join(x if x.startswith("`") else ascii_cmd(x) for x in re.split(r"(`[^`\n]*`)", s))
     return s.strip()+"\n"
 def heading_shift(s, top):  # make the section's own H1 the given top-level heading text
     return re.sub(r"^# .*$", f"# {top}", s, count=1, flags=re.M)

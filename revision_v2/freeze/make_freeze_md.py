@@ -109,4 +109,12 @@ if os.path.exists(f"{F}/before_hashes_R2.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b2.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_S.tsv"):
+    bs = pd.read_csv(f"{F}/before_hashes_S.tsv", sep="\t", dtype=str, keep_default_na=False)
+    bs = bs[[r.change != "rebuilt deliverable" or r.before != sha(r.file) for r in bs.itertuples()]]
+    L += ["## Phase S (2026-10-23): ASCII command text in the built docx; survey category definitions — authorised exceptions", "",
+          "Text and build only; numbers.tsv, the xlsx and every figure unchanged. S-1: pandoc smart had turned command options and command quotes into typographic characters in the built docx; assemble_lar.py now escapes them (code spans untouched, prose typography unchanged); final_check checks the built text of all five deliverables (hits before: main 24, marked 24, Additional file 1 2, letters 0; after: 0). S-2: survey categories defined from scripts/stage3_survey_v2.py (STRAIN_AWARE_KW); survey table 140/14/0 of 154, all with sample-level data-processing text. Only deliverables whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bs.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))
