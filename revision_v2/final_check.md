@@ -1,4 +1,4 @@
-# Phase J — final check (2026-10-23 14:16 JST)
+# Phase J — final check (2026-10-23 14:45 JST)
 
 ## 1. Integrity of results and figures
 - [x] analysis_v2/results: all 243 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
@@ -47,7 +47,7 @@
 - [x] every 'largest single-tissue bias' carries the class qualifier (8 occurrences)
 - [x] marked copy present (78373 bytes; generated from the ledger by mark_from_ledger.py)
 - [x] Phase M freeze: all 275 frozen inputs (numbers.tsv, supplementary_tables_v2.xlsx, RESULTS.md5 and FIGURES.md5 files) match revision_v2/freeze/inputs.sha256
-- [x] Phase M-1 token audit: 1578 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
+- [x] Phase M-1 token audit: 1568 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
 - [x] Phase M-2 independent recomputation: 368 claims PASS, 0 FAIL (recompute_report.tsv)
 - [x] Phase M-3 D3 double-rounding scan: keys printed in the text: 198; checked against full precision: 197; double-rounding defects: 0
 - [x] Phase M-4 seal: all 34 files of revision_v2/submission/ match deliverables.sha256
@@ -65,8 +65,8 @@
 - [x] 0.4-10 heavy jobs backgrounded with logs: analysis_v2/logs/*.log (f1_ase_rerun.log, f1_oldsites_recount.log)
 
 ## 5. Deliverables (revision_v2/submission/)
-- [x] revision_v2/submission/LAR_main_text_v2.docx (76791 bytes)
-- [x] revision_v2/submission/LAR_additional_file_1.docx (48380 bytes)
+- [x] revision_v2/submission/LAR_main_text_v2.docx (76792 bytes)
+- [x] revision_v2/submission/LAR_additional_file_1.docx (48381 bytes)
 - [x] revision_v2/submission/supplementary_tables_v2.xlsx (158098 bytes)
 - [x] revision_v2/submission/response_to_reviewers_v2.docx (43945 bytes)
 - [x] revision_v2/submission/cover_letter_v2.docx (38574 bytes)
@@ -88,7 +88,7 @@
 - [x] revision_v2/text_changes.md (5739 words)
 - [x] revision_v2/response_to_reviewers.md (2728 words)
 - [x] revision_v2/cover_letter.md (624 words)
-- [x] revision_v2/CHANGELOG.md (11890 words)
+- [x] revision_v2/CHANGELOG.md (11990 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.

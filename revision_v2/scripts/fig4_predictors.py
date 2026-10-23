@@ -7,7 +7,7 @@ from scipy import stats
 from fig_common import *
 from worked_examples import pick_examples
 pr=load_predictors(); cat=load_catalog(); ex=pick_examples()
-fig,axes=plt.subplots(2,2,figsize=(FULL_W,6.6)); fig.subplots_adjust(wspace=0.36,hspace=0.48,left=0.1,right=0.985,top=0.88,bottom=0.1)
+fig,axes=plt.subplots(2,2,figsize=(FULL_W,7.3)); fig.subplots_adjust(wspace=0.36,hspace=0.45,left=0.1,right=0.985,top=0.89,bottom=0.155)
 for ax,l in zip(axes.flat,"ABCD"): panel(ax,l,x=-0.2)
 def fp(p): return "p < 1e-15" if p < 1e-15 else f"p = {p:.1e}"   # Phase N-1b: no underflowed "p = 0.0e+00"; same bound as the text (p < 10⁻¹⁵)
 BOX=dict(boxstyle="round,pad=0.3",facecolor="white",edgecolor=LGRAY,alpha=0.9)
@@ -20,15 +20,16 @@ if len(cat):
     ntop=int((c.snp_density_per_kb>=q75).sum()); txt=f"{ntop} of {len(c)} catalog genes in the top quartile\nof SNP density (≥ {q75:.2f} SNPs/kb)"
     axA.legend(fontsize=7,loc="lower right",bbox_to_anchor=(0.985,0.43))
 seen=set()
-for key,col,dy in (("robust",GREEN,-1.4),("extreme",RED,-0.25)):
+for key,col,dy in (("robust",GREEN,None),("extreme",RED,-0.25)):
     g=ex.get(key)
     if g and g in a.index and g not in seen:
         seen.add(g)
         axA.scatter(min(a.loc[g,"snp_density_per_kb"],cap),np.clip(a.loc[g,"mean_bias"],*axA.get_ylim()),s=60,color=col,marker="*",edgecolors="white",lw=0.6,zorder=8)
-        yy=float(np.clip(a.loc[g,"mean_bias"],*axA.get_ylim())); axA.annotate(ex[key+"_name"],(min(a.loc[g,"snp_density_per_kb"],cap),yy),xytext=(min(a.loc[g,"snp_density_per_kb"],cap)+0.6,yy+dy),fontsize=7,color=col,arrowprops=dict(arrowstyle="-",color=col,lw=0.6))
+        yy=float(np.clip(a.loc[g,"mean_bias"],*axA.get_ylim())); _xy=(-6.5,yy-0.55) if dy is None else (min(a.loc[g,"snp_density_per_kb"],cap)+0.6,yy+dy)   # Phase O-2b: Ndufs5 label in the empty space at x < 0
+        axA.annotate(ex[key+"_name"],(min(a.loc[g,"snp_density_per_kb"],cap),yy),xytext=_xy,fontsize=7,color=col,va="center",arrowprops=dict(arrowstyle="-",color=col,lw=0.6,shrinkB=3),bbox=dict(boxstyle="round,pad=0.12",facecolor="white",edgecolor="none",alpha=0.9),zorder=9)
 rho,p=stats.spearmanr(a.snp_density_per_kb,a.mean_bias)
 axA.text(0.97,0.42,(txt+"\n" if txt else "")+f"Spearman ρ = {rho:.3f}, {fp(p)}",transform=axA.transAxes,fontsize=7.5,va="top",ha="right",bbox=BOX)   # lower half of the panel (empty): the box at the top overlapped the catalog stars and the Rps2 label (polish 2026-10-20)
-axA.set_xlabel("FVB/NJ SNP density (SNPs per kb of gene body)",fontsize=8); axA.set_ylabel("Mean bias across tissues (log₂)",fontsize=8); axA.set_title("Bias vs SNP density",fontsize=8,pad=6); despine(axA)
+axA.set_xlim(-7.5,cap*1.04); axA.set_xticks([t_ for t_ in (0,5,10,15,20,25,30) if t_<=cap*1.04]); axA.set_xlabel("FVB/NJ SNP density (SNPs per kb of gene body)",fontsize=8); axA.set_ylabel("Mean bias across tissues (log₂)",fontsize=8); axA.set_title("Bias vs SNP density",fontsize=8,pad=6); despine(axA)
 # B
 axB=axes[0,1]; axB.scatter(pr.log10_length,clip_for_display(axB,pr.mean_bias),s=3,alpha=0.12,color=ORANGE,edgecolors="none",rasterized=True); axB.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5)
 rb,pb=stats.spearmanr(pr.log10_length,pr.mean_bias,nan_policy="omit"); axB.text(0.97,0.97,f"Spearman ρ = {rb:.3f}\n{fp(pb)}",transform=axB.transAxes,fontsize=7.5,va="top",ha="right",bbox=BOX)
@@ -49,7 +50,7 @@ data=[pr[pr.biotype_group==b].mean_bias.dropna().values for b in order]
 vp=axD.violinplot([np.clip(d,-3,2) for d in data],positions=range(len(order)),widths=0.6,showmedians=False,showextrema=False)
 for pc_,b in zip(vp["bodies"],order): pc_.set_facecolor(cols[b]); pc_.set_alpha(0.7); pc_.set_edgecolor("white")
 for i,d in enumerate(data): axD.scatter(i,np.median(d),s=14,color="white",edgecolors=cols[order[i]],linewidths=1.5,zorder=5)
-axD.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); axD.set_xticks(range(len(order))); axD.set_xticklabels([f"{labels[b]}\n(n = {len(d):,})" for b,d in zip(order,data)],fontsize=7,rotation=35,ha="right",rotation_mode="anchor")
+axD.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); axD.set_xticks(range(len(order))); axD.set_xticklabels([f"{labels[b]}\n(n = {len(d):,})" for b,d in zip(order,data)],fontsize=7,rotation=90)
 kw=stats.kruskal(*[d for d in data if len(d)>1]); axD.text(0.97,0.97,f"Kruskal–Wallis {fp(kw.pvalue)}",transform=axD.transAxes,fontsize=7.5,va="top",ha="right",bbox=BOX)
 axD.set_ylim(-3,2); axD.set_ylabel("Mean bias across tissues (log₂)",fontsize=8); axD.set_title("Bias by gene biotype",fontsize=8,pad=6); despine(axD)
 fig.suptitle(f"Gene-level predictors of SNP-mediated reference-mapping bias\n({len(pr):,} genes tested in ≥ 1 tissue, mean bias over tested tissues; design: {DESIGN})",fontsize=8,y=0.99,color="#333333")

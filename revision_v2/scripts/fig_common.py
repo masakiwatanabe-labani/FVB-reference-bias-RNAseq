@@ -5,7 +5,7 @@ Environment: RES_DIR  -> analysis results dir (default analysis_v2/results; per-
              FIG_DIR  -> output dir (default analysis_v2/figures)
              DESIGN   -> edgeR design key, "primary" (default; ~ diet + strain where two diets exist) or "water"
 Every figure is written as vector PDF + 600-dpi LZW TIFF, and its plotted numbers as <name>_data.tsv next to it."""
-import os, matplotlib
+import os, matplotlib, matplotlib.legend
 matplotlib.use("Agg")
 matplotlib.rcParams["pdf.fonttype"]=42; matplotlib.rcParams["ps.fonttype"]=42
 # Phase N-3: figures are drawn at their final print size (full width 170 mm, single column 85 mm, height <= 225 mm) with all text >= 7 pt
@@ -64,6 +64,55 @@ def panel(ax, letter, x=-0.12, y=1.04):
 def despine(ax):
     ax.spines[["top","right"]].set_visible(False)
 
+def overlap_check(fig, name):
+    """Phase O-3: (i) no two visible text artists overlap (rendered bounding boxes); (ii) no text drawn with a background box, and no legend frame, overlaps a
+    bar or patch of the same axes. Allowed exceptions: an axes title over its own axes area (not checked: titles are only compared with
+    other texts), colour-bar labels and colour-bar tick labels (axes created by fig.colorbar), and texts inside the same legend
+    (laid out by matplotlib). Overlap = intersection wider and taller than 0.5 px at 100 dpi. Result logged to
+    revision_v2/freeze/figure_overlap_check.tsv."""
+    import matplotlib.text as mtext, matplotlib.patches as mp
+    fig.set_dpi(100); fig.canvas.draw(); rend=fig.canvas.get_renderer()
+    cbar_axes={a for a in fig.axes if getattr(a, "_colorbar", None) is not None or a.get_label()=="<colorbar>"}
+    leg_of={}
+    for a in fig.axes + [fig]:
+        for lg in ([a.get_legend()] if hasattr(a, "get_legend") and a.get_legend() else []) + (list(fig.legends) if a is fig else []):
+            for t in lg.get_texts() + [lg.get_title()]: leg_of[id(t)]=id(lg)
+    T=[]
+    for t in fig.findobj(mtext.Text):
+        if not t.get_visible() or not t.get_text().strip(): continue
+        if t.axes in cbar_axes: continue
+        bb=mtext.Text.get_window_extent(t, rend)   # text only (an Annotation's own extent includes its leader line)
+        if bb.width <= 0 or bb.height <= 0: continue
+        T.append((t, bb))
+    out=[]
+    for i in range(len(T)):
+        for j in range(i+1, len(T)):
+            (a, ba), (b, bb)=T[i], T[j]
+            if leg_of.get(id(a)) is not None and leg_of.get(id(a))==leg_of.get(id(b)): continue
+            w=min(ba.x1, bb.x1)-max(ba.x0, bb.x0); h=min(ba.y1, bb.y1)-max(ba.y0, bb.y0)
+            if w > 0.5 and h > 0.5: out.append(f"text/text: '{a.get_text()[:30]}' x '{b.get_text()[:30]}'")
+    for t, _ in T:
+        bp=t.get_bbox_patch()
+        if bp is None or t.axes is None: continue
+        bpb=bp.get_window_extent(rend)
+        for p in t.axes.patches:
+            if p is bp or p is t.axes.patch or not p.get_visible(): continue
+            pb=p.get_window_extent(rend); w=min(bpb.x1, pb.x1)-max(bpb.x0, pb.x0); h=min(bpb.y1, pb.y1)-max(bpb.y0, pb.y0)
+            if w > 0.5 and h > 0.5: out.append(f"boxed text over patch: '{t.get_text()[:30]}'"); break
+    for ax in fig.axes:   # legend frames are boxed text too: a legend may not cover a bar or patch of its own axes
+        lg=ax.get_legend()
+        if lg is None or not lg.get_visible(): continue
+        lb=lg.get_window_extent(rend)
+        for p in ax.patches:
+            if p is ax.patch or not p.get_visible(): continue
+            pb=p.get_window_extent(rend); w=min(lb.x1, pb.x1)-max(lb.x0, pb.x0); h=min(lb.y1, pb.y1)-max(lb.y0, pb.y0)
+            if w > 0.5 and h > 0.5: out.append(f"legend over patch: '{(lg.get_texts()[0].get_text() if lg.get_texts() else '')[:30]}'"); break
+    log=f"{PROJ}/revision_v2/freeze/figure_overlap_check.tsv"; rows={}
+    if os.path.exists(log): rows={l.split("\t")[0]:l for l in open(log).read().splitlines()[1:]}
+    rows[name]=f"{name}\t{len(T)}\t{len(out)}\t{' | '.join(out) if out else 'none'}"
+    open(log,"w").write("figure\ttexts_checked\toverlaps\tdetail\n"+"\n".join(rows[k] for k in sorted(rows))+"\n")
+    return out
+
 def save(fig, name, data=None):
     """PDF (vector) + 600-dpi RGB TIFF on white (no alpha channel, Phase N-2c), plus the plotted data table. The figure is saved at its
     exact size (no tight cropping), so its size is the print size; the size and the smallest text are checked (Phase N-3) and logged to
@@ -73,6 +122,9 @@ def save(fig, name, data=None):
     w_mm, h_mm = (x*25.4 for x in fig.get_size_inches())
     fig.canvas.draw()
     sizes=[t.get_fontsize() for t in fig.findobj(mtext.Text) if t.get_visible() and t.get_text().strip() and t.get_window_extent().width > 0]
+    ov=overlap_check(fig, name)
+    if os.environ.get("OVERLAP_REPORT_ONLY"): print(f"[overlap-check] {name}: {len(ov)}"); [print("   ", x) for x in ov]
+    else: assert not ov, f"{name}: {len(ov)} overlap(s): " + "; ".join(ov[:12])
     fmin=min(sizes); assert w_mm <= 170.5 and h_mm <= 225.5, f"{name}: {w_mm:.0f} x {h_mm:.0f} mm exceeds 170 x 225 mm"
     assert fmin >= MIN_PT - 1e-9, f"{name}: smallest text {fmin} pt < {MIN_PT} pt"
     fig.savefig(f"{FIG}/{name}.pdf", facecolor="white")
@@ -90,6 +142,27 @@ def save(fig, name, data=None):
                     o.write(f"## {k}\n"); v.to_csv(o, sep="\t"); o.write("\n")
         else: data.to_csv(f"{FIG}/{name}_data.tsv", sep="\t")
     plt.close(fig); print(f"saved {FIG}/{name}.{{pdf,tiff}}  {w_mm:.0f} x {h_mm:.0f} mm, smallest text {fmin:.1f} pt")
+
+def stack_labels(ax, xs, ys, names, x_text, color="#333333", fontsize=7, min_gap_pt=9.5, ha="left", style=None, ylim=None, box=True):
+    """Phase O: place labels in a vertical stack at data x = x_text, each as close as possible to its point's y, at least min_gap_pt
+    apart (1-D repel inside ylim), joined to the point by a leader line; white text background. Returns the text artists."""
+    lo, hi = ylim if ylim else ax.get_ylim()
+    pts_per_unit = ax.get_window_extent().height / ((hi - lo) if hi != lo else 1) * 72 / ax.figure.dpi
+    gap = min_gap_pt / pts_per_unit
+    order = np.argsort(ys); y = np.array(ys, float)[order]
+    pos = y.copy()
+    for k in range(1, len(pos)): pos[k] = max(pos[k], pos[k-1] + gap)
+    over = pos[-1] - (hi - gap/2) if len(pos) else 0
+    if over > 0: pos -= over
+    for k in range(len(pos)-2, -1, -1): pos[k] = min(pos[k], pos[k+1] - gap)
+    pos = np.clip(pos, lo + gap/2, hi - gap/2)
+    out = []
+    cols = color if isinstance(color, (list, tuple, np.ndarray)) else [color]*len(xs)
+    for k, i in enumerate(order):
+        out.append(ax.annotate(names[i], (xs[i], ys[i]), xytext=(x_text, pos[k]), textcoords="data", fontsize=fontsize, color=cols[i], ha=ha, va="center",
+                               style=style, arrowprops=dict(arrowstyle="-", color=cols[i], lw=0.5, shrinkA=0, shrinkB=2),
+                               bbox=dict(boxstyle="round,pad=0.12", facecolor="white", edgecolor="none", alpha=0.9) if box else None, zorder=9))
+    return out
 
 def label_points(ax, xs, ys, names, color="#333333", fontsize=7, dx=4, dy=2):
     for x,y,n in zip(xs,ys,names):

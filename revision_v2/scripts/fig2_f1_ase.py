@@ -46,7 +46,7 @@ for g in GSES:
 axA.set_xticks([pos[k] for k in pos]); axA.set_xticklabels([ARM_SHORT[k[1]] for k in pos], fontsize=8); axA.set_xlim(-0.45,x-0.3)
 lo=min(ps.mean_fvb_fraction.min(),0.5)-0.02; hi=max(ps.mean_fvb_fraction.max(),0.5)+0.02; axA.set_ylim(lo,hi)
 axA.set_ylabel("FVB allele fraction\n(per-animal mean over filtered sites)", fontsize=7.5); despine(axA)
-axA.set_title("Per-animal FVB allele fraction in F1 hybrids", fontsize=8, pad=6); panel(axA,"A")
+axA.set_title("Per-animal FVB allele fraction in F1 hybrids", fontsize=8, pad=6); panel(axA,"A",x=-0.2,y=1.09)
 # B — representative animal by rule
 g0=GSES[0]; nv=ps[(ps.GSE==g0)&(ps.arm=="naive")].sort_values(["n_sites","SRR"]); rep=nv.iloc[(len(nv)-1)//2]; rep_sid=rep.sample_id; rep=rep.SRR
 n_b=load_filt(f"{D}/{rep_sid}.naive.ase.tsv"); w_b=load_filt(f"{D}/{rep_sid}.wasp.ase.tsv"); mb=n_b.merge(w_b,on=["contig","position"],suffixes=("_naive","_wasp"))
@@ -60,11 +60,11 @@ pool=[]
 for _,r in ps[(ps.GSE==g0)&(ps.arm=="naive")].iterrows():
     m=load_filt(f"{D}/{r.sample_id}.naive.ase.tsv").merge(load_filt(f"{D}/{r.sample_id}.wasp.ase.tsv"),on=["contig","position"],suffixes=("_naive","_wasp")); m["SRR"]=r.SRR; pool.append(m)
 pool=pd.concat(pool); bins=np.linspace(0,1,41)
-axC.hist(pool.af_naive,bins=bins,color=GCOL[g0][0],alpha=0.6,density=True,label=f"naive (mean {pool.af_naive.mean():.3f})",zorder=3)
-axC.hist(pool.af_wasp,bins=bins,color=GCOL[g0][1],alpha=0.7,density=True,label=f"WASP (mean {pool.af_wasp.mean():.3f})",zorder=4)
+axC.hist(pool.af_naive,bins=bins,color=GCOL[g0][0],alpha=0.6,density=True,label=f"naive\n(mean {pool.af_naive.mean():.3f})",zorder=3)
+axC.hist(pool.af_wasp,bins=bins,color=GCOL[g0][1],alpha=0.7,density=True,label=f"WASP\n(mean {pool.af_wasp.mean():.3f})",zorder=4)
 axC.axvline(0.5,color=RED,lw=1.2,ls="--",zorder=5); axC.axvline(pool.af_naive.mean(),color=GCOL[g0][0],lw=1.2,ls=":",zorder=5); axC.axvline(pool.af_wasp.mean(),color=GCOL[g0][1],lw=1.2,ls=":",zorder=5)
 axC.set_xlabel("FVB allele fraction per site", fontsize=8); axC.set_ylabel("Density", fontsize=8); despine(axC)
-axC.legend(fontsize=7,loc="upper left",frameon=True,edgecolor=LGRAY)
+axC.legend(fontsize=7,loc="upper right",frameon=True,edgecolor=LGRAY,handlelength=1.2,borderpad=0.3)   # Phase O-2a: clear of the peak and the mean lines
 axC.set_title(f"Per-site distribution, {g0}\n({pool.SRR.nunique()} animals pooled, {len(pool):,} site × animal)", fontsize=8, pad=6); panel(axC,"C",x=-0.2)
 # D — sites inside catalog genes vs the other sites, per animal (paired), naive and WASP
 xpos={("naive","other"):0.0,("naive","catalog"):0.7,("wasp","other"):1.8,("wasp","catalog"):2.5}; drows=[]

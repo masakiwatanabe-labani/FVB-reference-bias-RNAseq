@@ -16,8 +16,8 @@ def arm_bars(ax,b,name):
     x=np.arange(len(tissues)); w=0.25
     for i,arm in enumerate(ARM_ORDER):
         v=[b.loc[t,f"logFC_{arm}"] if t in b.index else np.nan for t in tissues]; ax.bar(x+(i-1)*w,v,w,color=ARM_COLOR[arm],alpha=0.85,label=ARM_SHORT[arm],edgecolor="white",zorder=3)
-    ax.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); ax.set_xticks(x); ax.set_xticklabels([TISSUE_LABEL[t] for t in tissues],fontsize=7,rotation=20,ha="right",rotation_mode="anchor"); ax.set_ylabel("log₂FC FVB/B6",fontsize=8); despine(ax)
-    ax.legend(fontsize=7,loc="upper center",bbox_to_anchor=(0.5,-0.2),ncol=3,frameon=True,edgecolor=LGRAY,columnspacing=0.8,handlelength=1.2)
+    ax.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); ax.set_xticks(x); ax.set_xticklabels([TISSUE_LABEL[t].replace("Hypothalamus","Hypo-\nthalamus") for t in tissues],fontsize=7); ax.set_ylabel("log₂FC FVB/B6",fontsize=8); despine(ax)
+    ax.legend(fontsize=7,loc="upper center",bbox_to_anchor=(0.5,-0.17),ncol=3,frameon=True,edgecolor=LGRAY,columnspacing=0.8,handlelength=1.2)
     for t in tissues:
         if t in b.index and not np.isnan(b.loc[t,"bias"]): ax.text(tissues.index(t),max(b.loc[t,["logFC_naive","logFC_wasp","logFC_fvb"]].max(),0)+0.05,f"bias\n{b.loc[t,'bias']:+.2f}",ha="center",va="bottom",fontsize=7,color="#333333",linespacing=0.95)
 arm_bars(axA,b1,N1); arm_bars(axD,b2,N2)

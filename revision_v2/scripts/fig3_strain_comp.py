@@ -19,8 +19,13 @@ if len(cat):
     for k in sorted(cr.n_tissues.unique()):
         s=cr[cr.n_tissues==k]; axA.scatter(s.logFC_naive.clip(-LIM,LIM), s.logFC_fvb.clip(-LIM,LIM), s=nsize.get(k,42), color=ncol.get(k,RED), edgecolors="white", lw=0.5, zorder=4)
         leg.append(mpatches.Patch(facecolor=ncol.get(k,RED), label=f"catalog, bias ≥ {BIAS_THR} in {k} of {len(tissues)} tissues\n(n = {len(s)} tested in {TISSUE_LABEL[rep].lower()})"))   # N-2b
-    top=cat.sort_values(["n_tissues","mean_bias"],ascending=False).head(7); lab=cr[cr.gene_id.isin(top.index)]
-    label_points(axA, lab.logFC_naive.clip(-LIM,LIM), lab.logFC_fvb.clip(-LIM,LIM), lab.gene_name, color="#990000", fontsize=7.5, dx=6, dy=6)
+    # Phase O-1a: label only the two worked-example genes (as in Fig. 4A and 6C), leader lines into the empty upper left
+    from worked_examples import pick_examples
+    _ex=pick_examples()
+    for _k,(_g,_ty) in enumerate(((_ex["robust"],2.95),(_ex["extreme"],3.6))):
+        _r=cr[cr.gene_id==_g]
+        if len(_r): axA.annotate(_r.gene_name.iloc[0],(float(_r.logFC_naive.clip(-LIM,LIM).iloc[0]),float(_r.logFC_fvb.clip(-LIM,LIM).iloc[0])),xytext=(-3.85,_ty),textcoords="data",fontsize=7,style="italic",color="#990000",ha="left",va="center",
+                                 arrowprops=dict(arrowstyle="-",color="#990000",lw=0.5,shrinkB=2),bbox=dict(boxstyle="round,pad=0.12",facecolor="white",edgecolor="none",alpha=0.9),zorder=9)
 leg.append(mpatches.Patch(facecolor=LGRAY, label="all tested genes"))
 axA.plot([-LIM,LIM],[-LIM,LIM],"k--",lw=0.8,alpha=0.4); axA.axhline(0,color=GREEN,lw=0.7,ls=":",alpha=0.5); axA.axvline(0,color=BLUE,lw=0.7,ls=":",alpha=0.5)
 axA.set_xlim(-LIM,LIM); axA.set_ylim(-LIM,LIM); axA.set_xlabel("log₂FC FVB/B6, naive (B6 reference)", fontsize=8); axA.set_ylabel("log₂FC FVB/B6, FVB/NJ reference", fontsize=8); despine(axA)
@@ -33,10 +38,10 @@ vals=[long[long.tissue==t].bias.dropna().values for t in tissues]; vp=axB.violin
 for pc,t in zip(vp["bodies"],tissues): pc.set_facecolor(TISSUE_COLOR[t]); pc.set_alpha(0.75); pc.set_edgecolor("white")
 statsB=[]
 for i,(t,v) in enumerate(zip(tissues,vals)):
-    axB.scatter(i,np.median(v),s=14,color="white",edgecolors=TISSUE_COLOR[t],linewidths=1.3,zorder=5); axB.scatter(i,np.percentile(v,95),s=10,color=TISSUE_COLOR[t],marker="^",zorder=4)
+    axB.scatter(i,np.median(v),s=14,color="white",edgecolors=TISSUE_COLOR[t],linewidths=1.3,zorder=5); axB.scatter(i,np.percentile(v,95),s=24,color=TISSUE_COLOR[t],marker="^",edgecolors="black",linewidths=0.6,zorder=6)   # Phase O-2c: visible at print size
     statsB.append({"tissue":t,"n_genes":len(v),"median":np.median(v),"mean":v.mean(),"q95":np.percentile(v,95),"frac_ge_0.5":(v>=0.5).mean(),"frac_le_-0.5":(v<=-0.5).mean()})
 axB.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); axB.axhline(BIAS_THR,color=RED,lw=0.7,ls=":",alpha=0.6); axB.text(len(tissues)-0.5,BIAS_THR+0.03,"catalog\nthreshold",fontsize=7.5,color=RED,ha="right",va="bottom")
-axB.set_xticks(range(len(tissues))); axB.set_xticklabels([TISSUE_LABEL[t] for t in tissues],fontsize=7.5,rotation=28,ha="right"); axB.set_ylim(-1.5,2); despine(axB)
+axB.set_xticks(range(len(tissues))); axB.set_xticklabels([TISSUE_LABEL[t].replace("Hypothalamus","Hypo-\nthalamus") for t in tissues],fontsize=7); axB.set_ylim(-1.5,2); despine(axB)
 axB.set_ylabel("Bias (log₂FC FVB ref − log₂FC naive)", fontsize=8); axB.set_title("Per-gene bias per tissue\n(circle: median; triangle: 95th percentile)", fontsize=8, pad=6); panel(axB,"B",x=-0.2)
 # C
 rows=[]
@@ -47,7 +52,7 @@ for t in tissues:
 sC=pd.DataFrame(rows); x=np.arange(len(tissues)); off={"naive":-0.22,"wasp":0,"fvb":0.22}; fmt={"naive":"o-","wasp":"s--","fvb":"^-"}
 for arm in ARM_ORDER:
     s=sC[sC.arm==arm].set_index("tissue").loc[tissues]; axC.errorbar(x+off[arm],s["mean"],yerr=s["se"],fmt=fmt[arm],color=ARM_COLOR[arm],ms=4,lw=1.0,capsize=2,label=ARM_SHORT[arm],alpha=0.85 if arm!="wasp" else 0.7)
-axC.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); axC.set_xticks(x); axC.set_xticklabels([TISSUE_LABEL[t] for t in tissues],fontsize=7.5,rotation=28,ha="right")
+axC.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5); axC.set_xticks(x); axC.set_xticklabels([TISSUE_LABEL[t].replace("Hypothalamus","Hypo-\nthalamus") for t in tissues],fontsize=7)
 axC.set_ylabel("Mean log₂FC FVB/B6 over genes ± SE", fontsize=8); despine(axC); axC.legend(fontsize=7.5,loc="best",frameon=True,edgecolor=LGRAY)
 axC.set_title("Genome-wide mean per arm\n(no global shift between arms)", fontsize=8, pad=6); panel(axC,"C",x=-0.22)
 save(fig,"Fig3_strain_comparison",{"panelA_representative":pd.DataFrame({"tissue":[rep],"n_FVB":[nf],"n_B6":[nb],"n_genes":[len(r)]}),"panelB":pd.DataFrame(statsB).set_index("tissue"),"panelC":sC.set_index(["tissue","arm"])})

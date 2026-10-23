@@ -60,4 +60,24 @@ if os.path.exists(f"{F}/before_hashes_N.tsv"):
     L += ["", "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bn.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_O.tsv"):
+    bo = pd.read_csv(f"{F}/before_hashes_O.tsv", sep="\t", dtype=str, keep_default_na=False)
+    oc = pd.read_csv(f"{F}/figure_overlap_check.tsv", sep="\t", dtype=str, keep_default_na=False)
+    sz = pd.read_csv(f"{F}/figure_sizes.tsv", sep="\t", dtype=str)
+    L += ["## Phase O (2026-10-23): figure label and occlusion fixes — authorised exceptions", "",
+          "Figure-only changes; no data, number or text outside the figures changed: the letters, the xlsx and the .md/.plain.txt sources of both main docx files are byte-identical to Phase N; the two main docx files were re-packed by pandoc during the run (same text, different zip metadata). Every _data.tsv byte-identical; M-1 token differences in the figure PDFs are layout tokens only (axis ticks; Fig. 4D counts now extracted whole); M-2 368 PASS, 0 FAIL.", "",
+          "- O-1a Fig. 3A: only the worked-example genes Ndufs5 and Rps2 labelled, leader lines into the empty upper left, white text background.",
+          "- O-1b Fig. 5B: labels stacked beside their column with leader lines, all inside the axes.",
+          "- O-1c Supplementary Fig. S2B: the ten labels stacked right of the points with leader lines.",
+          "- O-1d Supplementary Fig. S2C: the residual-fraction lists moved right of the bar area (no text on any bar).",
+          "- O-1e Supplementary Fig. S2D: horizontal single-letter tissue ticks (A, H, L, S, explained in the legend); one slot per tissue so that the unique and multi-mapping bars of neighbouring tissues no longer overlap.",
+          "- O-2a Fig. 2C legend to the upper right (clear of the peak and the mean lines); O-2b Fig. 4A Ndufs5 label in the empty space at x < 0 with a leader line; O-2c Fig. 3B 95th-percentile triangles larger with a black edge; O-2d Fig. 1B solid \"maps\" arrow from the blue B6-allele box, above the orange box.",
+          "- Also found by the automatic check and fixed: horizontal two-line tissue ticks in Figs. 3, 5A and 6 (rotated labels overlapped); Fig. 4D tick labels vertical; Fig. 2 panel letter clear of the tick labels; S2A summary box and legend clear of each other and of the bars.",
+          "- O-3 `fig_common.overlap_check` (called by `save()`; a figure is not written if it fails): (i) no two visible text artists overlap (rendered text extents, leader lines excluded); (ii) no text with a background box and no legend frame overlaps a bar or patch of its axes. Exceptions: colour-bar labels and tick labels; texts inside one legend. Every figure was also rendered at 150 dpi and inspected.", "",
+          "| figure | width (mm) | height (mm) | smallest text (pt) | texts checked | overlaps |", "|---|---|---|---|---|---|"]
+    m = oc.set_index("figure")
+    L += [f"| {r.figure} | {r.width_mm} | {r.height_mm} | {r.min_text_pt} | {m.texts_checked.get(r.figure,'')} | {m.overlaps.get(r.figure,'')} |" for r in sz.itertuples()]
+    L += ["", "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bo.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

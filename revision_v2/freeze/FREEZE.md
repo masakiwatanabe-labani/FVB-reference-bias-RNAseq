@@ -1,11 +1,11 @@
 # Number freeze — Phase M (2026-10-23)
 
-Sealed in the commit that adds this file (parent 5ffa618, branch v2-corrected); that commit is the one the authors tag v2-corrected-r1.
+Sealed in the commit that adds this file (parent ebcd06e, branch v2-corrected); that commit is the one the authors tag v2-corrected-r1.
 
 ## What was verified
 
 - **M-0 inputs frozen**: `inputs.sha256` lists every frozen input (numbers.tsv, supplementary_tables_v2.xlsx, every file of RESULTS.md5 and FIGURES.md5, and the two md5 lists); final_check fails if any changes. `build_submission.sh` does not rewrite the xlsx or the figures once frozen.
-- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1578 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
+- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1568 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
 - **M-2 independent recomputation** (`recompute_independent.py` → `recompute_report.tsv`): no import of the pipeline or of the text/number generators, no numbers.tsv; primary result files only (edgeR tables, count matrices and featureCounts summaries, STAR junction lists and Log.out, F1 and identity per-site tables, WASP allele-removal table, within-strain DE tables, FVB_NJ VCFs and the Ensembl 110 GTF via bcftools/bedtools, rps2_* files, vW tag counts, survey table, submitted-version catalog for the letters). Bounds pass only if the exact value satisfies the bound as printed.
 - **D3 double-rounding scan** (`double_rounding_scan.py`): every key printed in the text compared with the value rounded once from full precision (`generated/numbers_fullprecision.tsv`).
 - **Seal**: `deliverables.sha256` (every file in revision_v2/submission/, figures included).
@@ -14,9 +14,9 @@ Sealed in the commit that adds this file (parent 5ffa618, branch v2-corrected); 
 
 | class | tokens |
 |---|---|
-| STRUCT | 780 |
-| KEY | 780 |
-| M2 | 15 |
+| KEY | 778 |
+| STRUCT | 774 |
+| M2 | 13 |
 | UNMAPPED | 2 |
 | XLSX | 1 |
 
@@ -47,23 +47,23 @@ UNMAPPED (2): **1,047** (GEO search hits, Methods) — carried from the submitte
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| D1 | Fig. 1 regenerated (v2 F1 table) | `analysis_v2/figures/Fig1_survey.pdf` | `2c37ea19711eda5b…` | `2d993ed9c9331c30…` |
-| D1 | Fig. 1 regenerated | `analysis_v2/figures/Fig1_survey.tiff` | `c10dc16e6fbc38b9…` | `e0488d254385f0fc…` |
-| D1 | Fig. 1 (submission copy) | `revision_v2/submission/figures/Fig1_survey.pdf` | `2c37ea19711eda5b…` | `2d993ed9c9331c30…` |
-| D1 | Fig. 1 (submission copy) | `revision_v2/submission/figures/Fig1_survey.tiff` | `c10dc16e6fbc38b9…` | `e0488d254385f0fc…` |
-| D1b | Suppl. Fig. S1 regenerated (v2 reference animals) | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `e5d6642cc519cead…` | `5555cd1bb8ec0305…` |
+| D1 | Fig. 1 regenerated (v2 F1 table) | `analysis_v2/figures/Fig1_survey.pdf` | `2c37ea19711eda5b…` | `f71518378c8c2694…` |
+| D1 | Fig. 1 regenerated | `analysis_v2/figures/Fig1_survey.tiff` | `c10dc16e6fbc38b9…` | `b144c239491f8251…` |
+| D1 | Fig. 1 (submission copy) | `revision_v2/submission/figures/Fig1_survey.pdf` | `2c37ea19711eda5b…` | `f71518378c8c2694…` |
+| D1 | Fig. 1 (submission copy) | `revision_v2/submission/figures/Fig1_survey.tiff` | `c10dc16e6fbc38b9…` | `b144c239491f8251…` |
+| D1b | Suppl. Fig. S1 regenerated (v2 reference animals) | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `e5d6642cc519cead…` | `3374ea196bf338ce…` |
 | D1b | Suppl. Fig. S1 regenerated | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.tiff` | `c68a08777c22c2b6…` | `a807006a5db1aa29…` |
 | D1b | Suppl. Fig. S1 data | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks_data.tsv` | `8b46b0a4a84629da…` | `6e21a0919d604a90…` |
-| D1b | Suppl. Fig. S1 (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `e5d6642cc519cead…` | `5555cd1bb8ec0305…` |
+| D1b | Suppl. Fig. S1 (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `e5d6642cc519cead…` | `3374ea196bf338ce…` |
 | D1b | Suppl. Fig. S1 (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.tiff` | `c68a08777c22c2b6…` | `a807006a5db1aa29…` |
 | D1b | added: reference-animal candidates (+6 per-site tables) | `analysis_v2/results/identity/full_site_tables/candidates.tsv` | `(absent)…` | `0a164012e848db18…` |
 | D2 | added: Rps2 exonic variants, union definition | `analysis_v2/results/worked_examples/rps2_exonic_variants_union.tsv` | `(absent)…` | `fbf5d346b6f3cbc5…` |
 | D2 | unchanged (no new SNP inside the copied part) | `analysis_v2/results/worked_examples/rps2_pseudogene_alleles.tsv` | `8cf1d351f6a169a0…` | `8cf1d351f6a169a0…` |
 | D2/D3/D4/D5/E1 | numbers.tsv (3 values, 59 CPM precisions, new keys) | `manuscript/revised_v2/generated/numbers.tsv` | `b7b3af78ef8afd3f…` | `528e8f4b3dddd84e…` |
-| D1/D1b | FIGURES.md5 (5 lines) | `analysis_v2/figures/FIGURES.md5` | `a15db3c5e3fb67f1…` | `5f19e67ec77c17dd…` |
+| D1/D1b | FIGURES.md5 (5 lines) | `analysis_v2/figures/FIGURES.md5` | `a15db3c5e3fb67f1…` | `81b7ed8f13cc3428…` |
 | D1b/D2 | RESULTS.md5 (8 lines added) | `analysis_v2/results/RESULTS.md5` | `402e3f9f84bfc3d5…` | `f81203f92a161c4c…` |
 | D5b | Table 1 tissue cell | `manuscript/revised_v2/table1.md` | `71ab84cee173b941…` | `dd305f1db254fb99…` |
-| M-0 | frozen-input list updated for the files above | `revision_v2/freeze/inputs.sha256` | `351616284102d0a4…` | `c77b76b556efaa5d…` |
+| M-0 | frozen-input list updated for the files above | `revision_v2/freeze/inputs.sha256` | `351616284102d0a4…` | `7233afc94d52fc1b…` |
 
 Full before/after hashes: `before_hashes.tsv` (before) and `inputs.sha256` / `deliverables.sha256` (after). Every other file of FIGURES.md5 and RESULTS.md5 is byte-identical to the freeze of 2335065; `rps2_pseudogene_alleles.tsv` is unchanged (no SNP inside the copied part is new).
 
@@ -99,7 +99,7 @@ No number changed: every _data.tsv is byte-identical to the frozen version; the 
 | Fig1_survey | 170.0 | 124.5 | 7.0 |
 | Fig2_f1_ase | 170.0 | 175.3 | 7.0 |
 | Fig3_strain_comparison | 170.0 | 167.6 | 7.0 |
-| Fig4_predictors | 170.0 | 167.6 | 7.0 |
+| Fig4_predictors | 170.0 | 185.4 | 7.0 |
 | Fig5_catalog | 170.0 | 203.2 | 7.0 |
 | Fig6_worked_examples | 170.0 | 193.0 | 7.0 |
 | SFig1_GSE55792_haplotype_blocks | 170.0 | 83.8 | 7.0 |
@@ -108,49 +108,114 @@ No number changed: every _data.tsv is byte-identical to the frozen version; the 
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig1_survey.pdf` | `b4d68c0da3ccab75…` | `2d993ed9c9331c30…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig1_survey.tiff` | `a6f27841c89d7cc8…` | `e0488d254385f0fc…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig2_f1_ase.pdf` | `1d0e61c745976d6c…` | `b6c8dfc513ae7322…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig2_f1_ase.tiff` | `827aec957be8766a…` | `acf77113d8662289…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig3_strain_comparison.pdf` | `17bb48050479a314…` | `f5d38322498edf55…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig3_strain_comparison.tiff` | `6e9fbb9116de1bdf…` | `a35b5390f302cb52…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig4_predictors.pdf` | `058002d7aed768e1…` | `47cf43576bf3e007…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig4_predictors.tiff` | `bd7ac5807062d7f4…` | `081d7cc536acc794…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig5_catalog.pdf` | `e52fd0d47b8a62a0…` | `260db644d84b5aad…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig5_catalog.tiff` | `cc26be17eb4f07fc…` | `8275e0da077959d3…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig6_worked_examples.pdf` | `f599bcb13bc0a400…` | `69e6f3b29849d6ad…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig6_worked_examples.tiff` | `e5c5476b9ccc45e7…` | `399eff9897b6fd81…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `74df2005c287e224…` | `5555cd1bb8ec0305…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig1_survey.pdf` | `b4d68c0da3ccab75…` | `f71518378c8c2694…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig1_survey.tiff` | `a6f27841c89d7cc8…` | `b144c239491f8251…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig2_f1_ase.pdf` | `1d0e61c745976d6c…` | `9a3a2b71ce68a470…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig2_f1_ase.tiff` | `827aec957be8766a…` | `7309406fe2c22a40…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig3_strain_comparison.pdf` | `17bb48050479a314…` | `3488226da4a04635…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig3_strain_comparison.tiff` | `6e9fbb9116de1bdf…` | `e10bd3a35a4faad0…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig4_predictors.pdf` | `058002d7aed768e1…` | `46b1beb98265bb2b…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig4_predictors.tiff` | `bd7ac5807062d7f4…` | `d94d6fa186917343…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig5_catalog.pdf` | `e52fd0d47b8a62a0…` | `cf6e7a4462f07aa9…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig5_catalog.tiff` | `cc26be17eb4f07fc…` | `153584967699b44d…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig6_worked_examples.pdf` | `f599bcb13bc0a400…` | `fc2d55a60c146f59…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/Fig6_worked_examples.tiff` | `e5c5476b9ccc45e7…` | `81e7119e6e71c1cf…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `74df2005c287e224…` | `3374ea196bf338ce…` |
 | N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.tiff` | `0eefe4ff1fd5b09c…` | `a807006a5db1aa29…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig2_multimapping.pdf` | `8c53cb289cd55e29…` | `aef1559d0358a236…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig2_multimapping.tiff` | `24c8ee10fc3238c3…` | `218fd2b09b35f918…` |
-| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig3_bias_decomposition.pdf` | `6b10132da5147391…` | `cc45b9f5340bed88…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig2_multimapping.pdf` | `8c53cb289cd55e29…` | `f8ee604b48cc4bfe…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig2_multimapping.tiff` | `24c8ee10fc3238c3…` | `c1211aefbc9ba092…` |
+| N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig3_bias_decomposition.pdf` | `6b10132da5147391…` | `5ad18b229ed7c588…` |
 | N-1a/b, N-2b/c, N-3 | figure re-laid out at print size (RGB TIFF) | `analysis_v2/figures/SFig3_bias_decomposition.tiff` | `77129db5c27dd173…` | `c0256957bf34f25a…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.pdf` | `b4d68c0da3ccab75…` | `2d993ed9c9331c30…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.tiff` | `a6f27841c89d7cc8…` | `e0488d254385f0fc…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.pdf` | `1d0e61c745976d6c…` | `b6c8dfc513ae7322…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.tiff` | `827aec957be8766a…` | `acf77113d8662289…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.pdf` | `17bb48050479a314…` | `f5d38322498edf55…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.tiff` | `6e9fbb9116de1bdf…` | `a35b5390f302cb52…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.pdf` | `058002d7aed768e1…` | `47cf43576bf3e007…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.tiff` | `bd7ac5807062d7f4…` | `081d7cc536acc794…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.pdf` | `e52fd0d47b8a62a0…` | `260db644d84b5aad…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.tiff` | `cc26be17eb4f07fc…` | `8275e0da077959d3…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.pdf` | `f599bcb13bc0a400…` | `69e6f3b29849d6ad…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.tiff` | `e5c5476b9ccc45e7…` | `399eff9897b6fd81…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `74df2005c287e224…` | `5555cd1bb8ec0305…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.pdf` | `b4d68c0da3ccab75…` | `f71518378c8c2694…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.tiff` | `a6f27841c89d7cc8…` | `b144c239491f8251…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.pdf` | `1d0e61c745976d6c…` | `9a3a2b71ce68a470…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.tiff` | `827aec957be8766a…` | `7309406fe2c22a40…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.pdf` | `17bb48050479a314…` | `3488226da4a04635…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.tiff` | `6e9fbb9116de1bdf…` | `e10bd3a35a4faad0…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.pdf` | `058002d7aed768e1…` | `46b1beb98265bb2b…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.tiff` | `bd7ac5807062d7f4…` | `d94d6fa186917343…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.pdf` | `e52fd0d47b8a62a0…` | `cf6e7a4462f07aa9…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.tiff` | `cc26be17eb4f07fc…` | `153584967699b44d…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.pdf` | `f599bcb13bc0a400…` | `fc2d55a60c146f59…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.tiff` | `e5c5476b9ccc45e7…` | `81e7119e6e71c1cf…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `74df2005c287e224…` | `3374ea196bf338ce…` |
 | N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.tiff` | `0eefe4ff1fd5b09c…` | `a807006a5db1aa29…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.pdf` | `8c53cb289cd55e29…` | `aef1559d0358a236…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.tiff` | `24c8ee10fc3238c3…` | `218fd2b09b35f918…` |
-| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `6b10132da5147391…` | `cc45b9f5340bed88…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.pdf` | `8c53cb289cd55e29…` | `f8ee604b48cc4bfe…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.tiff` | `24c8ee10fc3238c3…` | `c1211aefbc9ba092…` |
+| N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `6b10132da5147391…` | `5ad18b229ed7c588…` |
 | N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.tiff` | `77129db5c27dd173…` | `c0256957bf34f25a…` |
-| N | FIGURES.md5 (18 lines) | `analysis_v2/figures/FIGURES.md5` | `eb46edcbf2ac2c1b…` | `5f19e67ec77c17dd…` |
+| N | FIGURES.md5 (18 lines) | `analysis_v2/figures/FIGURES.md5` | `eb46edcbf2ac2c1b…` | `81b7ed8f13cc3428…` |
 | N-1d | response letter (Fig. 1A/1B sentence) | `revision_v2/response_to_reviewers.md` | `e03de2a7f4dbecf4…` | `aab82cb56f4febf8…` |
 | N-1d | cover letter (Fig. 1A/1B sentence) | `revision_v2/cover_letter.md` | `84979932c300b52f…` | `62ad198e17fcb464…` |
-| N | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `2416d7c113f34bd4…` | `c77b76b556efaa5d…` |
-| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `c965d45012279410…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `10016ec3e3db77a0…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `9ab0d10c40b0e638…` |
+| N | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `2416d7c113f34bd4…` | `7233afc94d52fc1b…` |
+| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `ca0c33d458e83376…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `7edbb3e47fbd2652…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `42c4e75482de48bd…` |
 | N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `8aa80783bae22741…` | `5d5a4a09677db35f…` |
 | N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `2d3bfba585b6529b…` | `0de42121ef2aa94c…` |
 | N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `495ca793bfbe652a…` | `f0ba709ade5d5f6f…` |
+
+## Phase O (2026-10-23): figure label and occlusion fixes — authorised exceptions
+
+Figure-only changes; no data, number or text outside the figures changed: the letters, the xlsx and the .md/.plain.txt sources of both main docx files are byte-identical to Phase N; the two main docx files were re-packed by pandoc during the run (same text, different zip metadata). Every _data.tsv byte-identical; M-1 token differences in the figure PDFs are layout tokens only (axis ticks; Fig. 4D counts now extracted whole); M-2 368 PASS, 0 FAIL.
+
+- O-1a Fig. 3A: only the worked-example genes Ndufs5 and Rps2 labelled, leader lines into the empty upper left, white text background.
+- O-1b Fig. 5B: labels stacked beside their column with leader lines, all inside the axes.
+- O-1c Supplementary Fig. S2B: the ten labels stacked right of the points with leader lines.
+- O-1d Supplementary Fig. S2C: the residual-fraction lists moved right of the bar area (no text on any bar).
+- O-1e Supplementary Fig. S2D: horizontal single-letter tissue ticks (A, H, L, S, explained in the legend); one slot per tissue so that the unique and multi-mapping bars of neighbouring tissues no longer overlap.
+- O-2a Fig. 2C legend to the upper right (clear of the peak and the mean lines); O-2b Fig. 4A Ndufs5 label in the empty space at x < 0 with a leader line; O-2c Fig. 3B 95th-percentile triangles larger with a black edge; O-2d Fig. 1B solid "maps" arrow from the blue B6-allele box, above the orange box.
+- Also found by the automatic check and fixed: horizontal two-line tissue ticks in Figs. 3, 5A and 6 (rotated labels overlapped); Fig. 4D tick labels vertical; Fig. 2 panel letter clear of the tick labels; S2A summary box and legend clear of each other and of the bars.
+- O-3 `fig_common.overlap_check` (called by `save()`; a figure is not written if it fails): (i) no two visible text artists overlap (rendered text extents, leader lines excluded); (ii) no text with a background box and no legend frame overlaps a bar or patch of its axes. Exceptions: colour-bar labels and tick labels; texts inside one legend. Every figure was also rendered at 150 dpi and inspected.
+
+| figure | width (mm) | height (mm) | smallest text (pt) | texts checked | overlaps |
+|---|---|---|---|---|---|
+| Fig1_survey | 170.0 | 124.5 | 7.0 | 37 | 0 |
+| Fig2_f1_ase | 170.0 | 175.3 | 7.0 | 89 | 0 |
+| Fig3_strain_comparison | 170.0 | 167.6 | 7.0 | 63 | 0 |
+| Fig4_predictors | 170.0 | 185.4 | 7.0 | 80 | 0 |
+| Fig5_catalog | 170.0 | 203.2 | 7.0 | 198 | 0 |
+| Fig6_worked_examples | 170.0 | 193.0 | 7.0 | 88 | 0 |
+| SFig1_GSE55792_haplotype_blocks | 170.0 | 83.8 | 7.0 | 34 | 0 |
+| SFig2_multimapping | 170.0 | 210.8 | 7.0 | 100 | 0 |
+| SFig3_bias_decomposition | 85.0 | 109.2 | 7.0 | 28 | 0 |
+
+| id | change | file | sha256 before | sha256 after |
+|---|---|---|---|---|
+| O | figure labels / occlusion | `analysis_v2/figures/Fig1_survey.pdf` | `2d993ed9c9331c30…` | `f71518378c8c2694…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig1_survey.tiff` | `e0488d254385f0fc…` | `b144c239491f8251…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig2_f1_ase.pdf` | `b6c8dfc513ae7322…` | `9a3a2b71ce68a470…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig2_f1_ase.tiff` | `acf77113d8662289…` | `7309406fe2c22a40…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig3_strain_comparison.pdf` | `f5d38322498edf55…` | `3488226da4a04635…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig3_strain_comparison.tiff` | `a35b5390f302cb52…` | `e10bd3a35a4faad0…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig4_predictors.pdf` | `47cf43576bf3e007…` | `46b1beb98265bb2b…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig4_predictors.tiff` | `081d7cc536acc794…` | `d94d6fa186917343…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig5_catalog.pdf` | `260db644d84b5aad…` | `cf6e7a4462f07aa9…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig5_catalog.tiff` | `8275e0da077959d3…` | `153584967699b44d…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig6_worked_examples.pdf` | `69e6f3b29849d6ad…` | `fc2d55a60c146f59…` |
+| O | figure labels / occlusion | `analysis_v2/figures/Fig6_worked_examples.tiff` | `399eff9897b6fd81…` | `81e7119e6e71c1cf…` |
+| O | figure labels / occlusion | `analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `5555cd1bb8ec0305…` | `3374ea196bf338ce…` |
+| O | figure labels / occlusion | `analysis_v2/figures/SFig2_multimapping.pdf` | `aef1559d0358a236…` | `f8ee604b48cc4bfe…` |
+| O | figure labels / occlusion | `analysis_v2/figures/SFig2_multimapping.tiff` | `218fd2b09b35f918…` | `c1211aefbc9ba092…` |
+| O | figure labels / occlusion | `analysis_v2/figures/SFig3_bias_decomposition.pdf` | `cc45b9f5340bed88…` | `5ad18b229ed7c588…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.pdf` | `2d993ed9c9331c30…` | `f71518378c8c2694…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig1_survey.tiff` | `e0488d254385f0fc…` | `b144c239491f8251…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.pdf` | `b6c8dfc513ae7322…` | `9a3a2b71ce68a470…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig2_f1_ase.tiff` | `acf77113d8662289…` | `7309406fe2c22a40…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.pdf` | `f5d38322498edf55…` | `3488226da4a04635…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig3_strain_comparison.tiff` | `a35b5390f302cb52…` | `e10bd3a35a4faad0…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.pdf` | `47cf43576bf3e007…` | `46b1beb98265bb2b…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig4_predictors.tiff` | `081d7cc536acc794…` | `d94d6fa186917343…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.pdf` | `260db644d84b5aad…` | `cf6e7a4462f07aa9…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig5_catalog.tiff` | `8275e0da077959d3…` | `153584967699b44d…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.pdf` | `69e6f3b29849d6ad…` | `fc2d55a60c146f59…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/Fig6_worked_examples.tiff` | `399eff9897b6fd81…` | `81e7119e6e71c1cf…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf` | `5555cd1bb8ec0305…` | `3374ea196bf338ce…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.pdf` | `aef1559d0358a236…` | `f8ee604b48cc4bfe…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/SFig2_multimapping.tiff` | `218fd2b09b35f918…` | `c1211aefbc9ba092…` |
+| O | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `cc45b9f5340bed88…` | `5ad18b229ed7c588…` |
+| O | FIGURES.md5 (16 lines) | `analysis_v2/figures/FIGURES.md5` | `5f19e67ec77c17dd…` | `81b7ed8f13cc3428…` |
+| O | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `c77b76b556efaa5d…` | `7233afc94d52fc1b…` |
+| O | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `c965d45012279410…` | `ca0c33d458e83376…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_additional_file_1.docx` | `9ab0d10c40b0e638…` | `42c4e75482de48bd…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_main_text_v2.docx` | `10016ec3e3db77a0…` | `7edbb3e47fbd2652…` |
