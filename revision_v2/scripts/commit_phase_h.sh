@@ -30,7 +30,7 @@ an artefact of a genotype-unfiltered site set; revision_v2/audit/f1_old_site_gen
 gain and C57BL/6J-read loss (catalog unchanged, 138 genes). Manuscript assembled in LAR/BMC format with numbered references;
 review-process mentions removed from the text. See revision_v2/CHANGELOG.md (Phase H) and revision_v2/text_changes.md.
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01FXsgFVfisPBeFZ5TqiVozF"
 git tag -d v2-corrected > /dev/null 2>&1 && echo "local tag v2-corrected (Phase F commit, never pushed) removed; the authors create the submission tag at the final commit" || true
 echo "committed on v2-corrected: $(git log --oneline -1); NOT pushed"

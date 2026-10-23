@@ -279,4 +279,5 @@ sn=al[al.variant.str.startswith("SNP")]
 put("rps2_exonic_snps_in_pseudogene_sequence", int((sn[sn.pseudogene=="Rps2-ps10"].allele_carried!="not in pseudogene").sum()), ev)
 for g in ("Rps2-ps10","Rps2-ps13","Rps2-ps6"): put(f"rps2_{g.replace('-','_')}_fvb_allele_snps", int((sn[sn.pseudogene==g].allele_carried=="FVB/NJ").sum()), ev)
 put("rps2_exonic_indels_in_pseudogene_sequence", int((al[(al.variant.str.startswith("indel"))&(al.pseudogene=="Rps2-ps10")].allele_carried!="not in pseudogene").sum()), ev)
+put("rps2_exonic_snps_outside_pseudogene_sequence", int((sn[sn.pseudogene=="Rps2-ps10"].allele_carried=="not in pseudogene").sum()), ev)   # Phase L: exonic SNPs in exon segments the pseudogenes do not contain
 pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")

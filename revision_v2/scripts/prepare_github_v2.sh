@@ -27,7 +27,8 @@ Dataset selection and sample identification of the original submission were foun
 the sample manifest, identity-QC results, figure scripts, generated tables and the revised manuscript. The original code
 remains unchanged in the history of main.
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01FXsgFVfisPBeFZ5TqiVozF"
-git tag -a v2-corrected -m "Revision 2: corrected dataset identification; pure-strain analysis re-derived" 2>/dev/null || echo "tag v2-corrected already exists"
-echo "branch v2-corrected committed and tagged locally; NOT pushed. Review: git -C $R log --stat -1 | head; push with: git -C $R push -u origin v2-corrected && git -C $R push origin v2-corrected"
+# Phase L: no tag is created here. A tag named like the branch makes "git push origin v2-corrected" ambiguous; the authors create
+# the submission tag v2-corrected-r1 on the final commit.
+echo "branch v2-corrected committed locally (not tagged); NOT pushed. Review: git -C $R log --stat -1 | head; push with: git -C $R push -u origin v2-corrected && git -C $R tag -a v2-corrected-r1 && git -C $R push origin v2-corrected-r1"

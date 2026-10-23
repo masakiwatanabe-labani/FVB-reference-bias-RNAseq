@@ -32,6 +32,7 @@ def fmt(key, f):
     if f=="w":  # number word for small integers (sentence starts)
         W={2:"Two",3:"Three",4:"Four",5:"Five",6:"Six",7:"Seven",8:"Eight",9:"Nine",10:"Ten",12:"Twelve",15:"Fifteen",16:"Sixteen",18:"Eighteen",19:"Nineteen",35:"Thirty-five",37:"Thirty-seven",46:"Forty-six",56:"Fifty-six",57:"Fifty-seven",82:"Eighty-two"}
         return W[int(round(x))]
+    if f=="wl": return fmt(key,"w").lower()
     return format(x, f)
 def R(s):  # resolve «key|fmt» placeholders
     return re.sub(r"«([^|»]+)\|([^»]+)»", lambda m: fmt(m.group(1), m.group(2)), s)
@@ -47,12 +48,42 @@ def v2par(fname, start):
     for x in re.split(r"\n\s*\n", txt):
         if x.strip().startswith(start): return x.strip()
     raise KeyError(start)
+# ---- Phase L (2026-10-23): Rps2 explanation from the pseudogene alleles; tag name. Each entry (file, old_start, old_end, new) replaces,
+# in the resolved paragraph of that file, the span from old_start through old_end (old_end "" = old_start only; new "" = delete the
+# sentence including its leading space). The paragraph trigger gets "/PHASE-L"; every entry must apply exactly once (checked at the end).
+L_TIE=("The pseudogenes explain the tie: over the part of the *Rps2* transcript that they copy, *Rps2-ps10* and *Rps2-ps13* carry the FVB/NJ allele at all «rps2_exonic_snps_in_pseudogene_sequence|wl» exonic SNP positions (*Rps2-ps6* at «rps2_Rps2_ps6_fvb_allele_snps|wl»; the other «rps2_exonic_snps_outside_pseudogene_sequence|wl» exonic SNPs lie in exon segments of other *Rps2* transcripts that the pseudogenes do not contain; repository file `rps2_pseudogene_alleles.tsv`), so a 52-bp FVB/NJ read from that part matches the pseudogenes as well as it matches *Rps2* on either reference. "
+ "The «rps2_indels_exonic|wl» exonic indels of the FVB/NJ allele all lie outside that part and cannot separate these reads.")
+L_REPL=[
+ ("results.md","it marks the limit of what a SNP-only personalised reference can correct","","it marks a limit of what a personalised reference can correct with short single-end reads"),
+ ("results.md","Whether the indels of the FVB/NJ allele would separate *Rps2* from its pseudogenes","(Discussion).",L_TIE),
+ ("results.md","resolving it requires a personalised reference that includes the indel set, or quantification against the FVB_NJ_v3 assembly.","","resolving it requires reads that reach positions at which the pseudogenes differ from *Rps2*, or quantification that apportions multi-mapping reads between *Rps2* and its pseudogenes; a different reference sequence alone would not separate them."),
+ ("discussion.md","*Rps2* illustrates a different pattern and marks the limit of a SNP-only personalised reference.","","*Rps2* illustrates a different pattern and marks a limit of reference-based correction with short single-end reads."),
+ ("discussion.md","resolving it requires a personalised reference that includes the indel set, or quantification against the FVB_NJ_v3 assembly.","","resolving it requires reads that reach positions at which the pseudogenes differ from *Rps2*, or quantification that apportions multi-mapping reads between *Rps2* and its pseudogenes (Results)."),
+ ("discussion.md","The *Rps2* skin locus is the clearest case","remains undetermined.","The *Rps2* skin locus, where the correction is also incomplete under unique-only counting, is a different case: there the FVB/NJ reads remain multi-mappers with processed pseudogenes that carry the FVB/NJ alleles, which an indel-inclusive reference would not change (Results)."),
+ ("discussion.md","The *Rps2* skin locus, where the SNP-only reference recovers no FVB/NJ reads","should look.",""),
+ ("discussion.md","noting that at the most SNP-dense loci a SNP-only reference is not sufficient","","noting that at some loci, such as *Rps2* in skin, the personalised reference changes the strain contrast without correcting the FVB/NJ quantification itself"),
+ ("abstract_structured.md","At the most SNP-dense loci, however, a SNP-only personalised reference is not sufficient:","","At some loci, however, a personalised reference is not sufficient:"),
+ ("supplementary_note2.md","Because the reads remain multi-mappers among *Rps2* and its pseudogenes on both references, and the indels of the FVB/NJ allele are not in the reference, the true FVB/NJ *Rps2* expression in skin is undetermined here.","",L_TIE+" Because the reads remain multi-mappers among *Rps2* and its pseudogenes on both references, the true FVB/NJ *Rps2* expression in skin is undetermined here."),
+ ("supplementary_note2.md","the lesson for correction is that a SNP-only personalised reference is not sufficient at this locus","","the lesson for correction is that at this locus a personalised reference does not, by itself, correct the FVB/NJ quantification with short single-end reads"),
+ ("methods.md","(branch and tag v2-corrected)","","(branch v2-corrected, tag v2-corrected-r1)"),
+ ("declarations.md","(branch and tag v2-corrected)","","(branch v2-corrected, tag v2-corrected-r1)"),
+]
+L_USED=[0]*len(L_REPL)
+def phase_l(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(L_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i)+len(b)
+        new=R(new)
+        if not new: i=i-1 if i>0 and txt[i-1]==" " else i   # deletion: drop the separating space too
+        txt=txt[:i]+new+txt[j:]; L_USED[n]+=1
+        if "PHASE-L" not in trig: trig+="/PHASE-L"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -438,5 +469,6 @@ with open(f"{P}/revision_v2/ledger_paragraph_triggers.tsv","w") as o:
     o.write("section\tpara_no\ttrigger\tprefix\n")
     for s,i,t,pre in TRIG: o.write(f"{s}\t{i}\t{t}\t{pre}\n")
 left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
+assert all(u==1 for u in L_USED), ("Phase L replacements not applied exactly once", [(L_REPL[n][:2],u) for n,u in enumerate(L_USED) if u!=1])
 print("sections written:", list(OUT)); print("unresolved placeholders:", left); print("abbreviations used:", [a for a,_ in used])
 print("abstract words (body / with headings):", len(re.sub(r"^\*\*.*\*\*$|^#.*$","",OUT["abstract_structured.md"],flags=re.M).split()), len(OUT["abstract_structured.md"].replace("#","").split()))

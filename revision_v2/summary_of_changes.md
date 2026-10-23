@@ -25,4 +25,4 @@
 - Discussion: the adipose mapping-rate paragraph and the PyVT copy-number paragraph of the submitted version are removed (both rested on misidentified samples); new paragraph on sequence-based verification of public data.
 - Matched-reference sensitivity analysis (Supplementary Table S3c); Supplementary Note 1 extended with the effective splice-junction set of the FVB-reference arm; Supplementary Note 2 updated.
 - Supplementary tables reorganised: S1 manifest and identity verification; S2 catalog; S3 sensitivity and negative control; S4 alignment statistics; S5 survey of practice.
-- Code, manifest, identity-check results and change log released in the public repository (branch and tag `v2-corrected`; history of the original submission preserved).
+- Code, manifest, identity-check results and change log released in the public repository (branch `v2-corrected`, tag `v2-corrected-r1`; history of the original submission preserved).

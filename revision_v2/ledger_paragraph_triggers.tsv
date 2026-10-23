@@ -5,7 +5,7 @@ abstract_structured.md	3	KEEP	FVB mice are widely used in transgenic and disease
 abstract_structured.md	4	H	**Methods**
 abstract_structured.md	5	CORR	We surveyed public GEO series containing FVB RNA-seq data, analysed allele-level
 abstract_structured.md	6	H	**Results**
-abstract_structured.md	7	CORR/PHASE-K1	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
+abstract_structured.md	7	CORR/PHASE-K1/PHASE-L	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
 abstract_structured.md	8	H	**Conclusions**
 abstract_structured.md	9	KEEP	B6-reference alignment does not broadly distort FVB RNA-seq data, but it can sub
 keywords.md	1	H	***Keywords***
@@ -131,7 +131,7 @@ methods.md	109	H	## Availability of data and materials
 methods.md	110	CORR	All RNA-seq datasets analysed in this study are publicly available from NCBI GEO
 methods.md	111	KEEP	FVB/NJ variant calls were obtained from the Mouse Genomes Project REL-2021 relea
 methods.md	112	KEEP	The reference genome and gene annotation were obtained from Ensembl release 110.
-methods.md	113	CORR	Analysis scripts, the sample manifest, the sample-identity check code and result
+methods.md	113	CORR/PHASE-L	Analysis scripts, the sample manifest, the sample-identity check code and result
 methods.md	114	KEEP	https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq
 results.md	1	H	# Results
 results.md	2	H	## Publicly available FVB RNA-seq studies overwhelmingly use B6 reference genome
@@ -202,7 +202,7 @@ results.md	66	NEW-DEC	The bias compares a quantification in which both strains a
 results.md	67	H	## *Ndufs5* and *Rps2* as worked examples of the two mechanism classes
 results.md	68	NEW-WE	To illustrate the practical consequences of SNP-mediated reference-mapping bias,
 results.md	69	NEW-WE	*Ndufs5* (chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb) is the most robustly eviden
-results.md	70	NEW-WE/PHASE-K1	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
+results.md	70	NEW-WE/PHASE-K1/PHASE-L	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
 results.md	71	H	## Reference choice does not alter within-strain comparisons
 results.md	72	NEW-WS	Finally, to assess whether reference-genome choice affects comparisons made enti
 discussion.md	1	H	# Discussion
@@ -212,19 +212,19 @@ discussion.md	4	KEEP	This finding is also relevant to the 3Rs in animal research
 discussion.md	5	KEEP	The contribution to Refinement is more indirect, but still relevant. Refinement 
 discussion.md	6	CORR	FVB mice are a particularly relevant setting for this issue. FVB/NJ and FVB/N ar
 discussion.md	7	NEW-WE	*Ndufs5* provides the clearest example. It exceeded the bias threshold in all fo
-discussion.md	8	NEW-WE/PHASE-K/PHASE-K1	*Rps2* illustrates a different pattern and marks the limit of a SNP-only persona
+discussion.md	8	NEW-WE/PHASE-K/PHASE-K1/PHASE-L	*Rps2* illustrates a different pattern and marks a limit of reference-based corr
 discussion.md	9	R2-C3	A key result is the contrast between the F1 and pure-strain analyses. In F1 hybr
-discussion.md	10	NEW-WE/PHASE-K1	The personalised reference used here was deliberately conservative. It was const
+discussion.md	10	NEW-WE/PHASE-K1/PHASE-L	The personalised reference used here was deliberately conservative. It was const
 discussion.md	11	CORR	The enrichment of catalog genes for FVB/NJ SNP density supports this interpretat
 discussion.md	12	CORR	The multi-mapping sensitivity analysis adds a mechanistic layer to this interpre
 discussion.md	13	NEW-DEC/PHASE-K1	The second class showed a different pattern. At these genes, bias remained even 
 discussion.md	14	CORR	This distinction is useful in practice. If investigators cannot immediately impl
-discussion.md	15	NEW-ASM/PHASE-K1	A natural question is why we quantified against a SNP-patched GRCm39 rather than
+discussion.md	15	NEW-ASM/PHASE-K1/PHASE-L	A natural question is why we quantified against a SNP-patched GRCm39 rather than
 discussion.md	16	NEW-NC	The B6-congenic PyVT tumours also serve their intended purpose as a negative con
 discussion.md	17	NEW-PD	A methodological lesson of this study concerns the public data themselves. We ve
 discussion.md	18	NEW-WS	Reference-genome choice could in principle also affect studies conducted entirel
 discussion.md	19	CORR/R1-M2	This study has several limitations. First, the FVB/NJ personalised reference use
-discussion.md	20	CORR	Taken together, these results indicate that B6-reference alignment does not broa
+discussion.md	20	CORR/PHASE-L	Taken together, these results indicate that B6-reference alignment does not broa
 discussion.md	21	KEEP	The same framework can be applied to other mouse strains. FVB is not unique in t
 discussion.md	22	H	## Conclusions
 discussion.md	23	R2-C2	This study defines the scale and genomic distribution of SNP-mediated reference-
@@ -307,7 +307,7 @@ supplementary_note2.md	22	H	## The Rps2 skin case
 supplementary_note2.md	23	NEW-WE/PHASE-K1	The skin *Rps2* bias (+5.36 log₂ unique-only) is the largest single-tissue bias 
 supplementary_note2.md	24	NEW-WE/PHASE-K1	Counts per million of *Rps2* and of the three processed pseudogenes that carry i
 supplementary_note2.md	25	NEW-WE/PHASE-K1	| Gene | B6 ref., FVB/NJ unique | B6 ref., FVB/NJ fractional | B6 ref., C57BL/6J
-supplementary_note2.md	26	NEW-WE/PHASE-K1	Under unique-only counting the SNP-only personalised reference does not recover 
+supplementary_note2.md	26	NEW-WE/PHASE-K1/PHASE-L	Under unique-only counting the SNP-only personalised reference does not recover 
 supplementary_note2.md	27	H	## Interpretation
 supplementary_note2.md	28	CORR/PHASE-K1	The multi-mapping sensitivity analysis reveals that the catalog gene list spans 
 supplementary_note2.md	29	NEW-DEC/PHASE-K1	From a correction standpoint, the FVB personalised reference arm recovers FVB/NJ
@@ -321,7 +321,7 @@ declarations.md	7	H	## Availability of data and materials
 declarations.md	8	CORR	All RNA-seq datasets analysed in this study are publicly available from the NCBI
 declarations.md	9	KEEP	FVB/NJ variant calls were obtained from the Mouse Genomes Project REL-2021 relea
 declarations.md	10	KEEP	The reference genome and gene annotation were obtained from Ensembl release 110.
-declarations.md	11	CORR	The analysis scripts and figure-generation code are available at the following p
+declarations.md	11	CORR/PHASE-L	The analysis scripts and figure-generation code are available at the following p
 declarations.md	12	H	## Competing interests
 declarations.md	13	KEEP	The authors declare that they have no competing interests.
 declarations.md	14	H	## Funding
