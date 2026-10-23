@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Figure 1. (A) reference-genome practice among GEO FVB RNA-seq series (analysis_v2/results/survey/survey_of_practice_v2.tsv,
 unchanged by the sample correction); (B) schematic of SNP-mediated reference-mapping bias. The F1 allele fractions quoted in the
-schematic are read from analysis_v2/results/f1_ase/f1_ase_per_sample.tsv (pooled naive / WASP means), not typed in."""
+schematic are read from analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.tsv (the per-animal table of Fig. 2; mean over the 12 F1
+animals per arm), not typed in. Phase M-3 D1: the earlier path read the submitted-version table at the old site set."""
 import matplotlib.patches as mpatches
 from fig_common import *
 
 df=pd.read_csv(f"{FINAL}/survey/survey_of_practice_v2.tsv", sep="\t")
 n_total=len(df); n_b6=int((df.category=="stated_B6").sum()); n_nr=int((df.category=="not_reported").sum()); n_sa=int((df.category=="strain_aware").sum())
-f1=pd.read_csv(f"{FINAL}/f1_ase/f1_ase_per_sample.tsv", sep="\t")
+f1=pd.read_csv(f"{FINAL}/f1_ase/v2/f1_ase_per_sample_v2.tsv", sep="\t")
 af_naive=f1[f1.arm=="naive"].mean_fvb_fraction.mean(); af_wasp=f1[f1.arm=="wasp"].mean_fvb_fraction.mean()
 
 fig=plt.figure(figsize=(11,5)); gs=fig.add_gridspec(1,2,width_ratios=[1,1.15],wspace=0.3,left=0.07,right=0.98,top=0.88,bottom=0.12)

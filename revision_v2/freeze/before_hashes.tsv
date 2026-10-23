@@ -1,0 +1,18 @@
+id	change	file	before
+D1	Fig. 1 regenerated (v2 F1 table)	analysis_v2/figures/Fig1_survey.pdf	2c37ea19711eda5be5a59f1028b4d1a4a477b947e6f36cf5f3c5f8843b191a2c
+D1	Fig. 1 regenerated	analysis_v2/figures/Fig1_survey.tiff	c10dc16e6fbc38b90e6a494d29a20c066bd5cf91f7f07c20e3f8066a057e3a43
+D1	Fig. 1 (submission copy)	revision_v2/submission/figures/Fig1_survey.pdf	2c37ea19711eda5be5a59f1028b4d1a4a477b947e6f36cf5f3c5f8843b191a2c
+D1	Fig. 1 (submission copy)	revision_v2/submission/figures/Fig1_survey.tiff	c10dc16e6fbc38b90e6a494d29a20c066bd5cf91f7f07c20e3f8066a057e3a43
+D1b	Suppl. Fig. S1 regenerated (v2 reference animals)	analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.pdf	e5d6642cc519ceadc20b45bff1c6498248b5bbc8623ef51f8e62ed0629d7d1a1
+D1b	Suppl. Fig. S1 regenerated	analysis_v2/figures/SFig1_GSE55792_haplotype_blocks.tiff	c68a08777c22c2b6b46594c07447d2bf374c9aefc2a4757802ed2c2972972282
+D1b	Suppl. Fig. S1 data	analysis_v2/figures/SFig1_GSE55792_haplotype_blocks_data.tsv	8b46b0a4a84629da2bb6d7bb46a1fa06169d8d2734e8880fc5d17bc6c83bb5c9
+D1b	Suppl. Fig. S1 (submission copy)	revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.pdf	e5d6642cc519ceadc20b45bff1c6498248b5bbc8623ef51f8e62ed0629d7d1a1
+D1b	Suppl. Fig. S1 (submission copy)	revision_v2/submission/figures/SFig1_GSE55792_haplotype_blocks.tiff	c68a08777c22c2b6b46594c07447d2bf374c9aefc2a4757802ed2c2972972282
+D1b	added: reference-animal candidates (+6 per-site tables)	analysis_v2/results/identity/full_site_tables/candidates.tsv	(absent)
+D2	added: Rps2 exonic variants, union definition	analysis_v2/results/worked_examples/rps2_exonic_variants_union.tsv	(absent)
+D2	unchanged (no new SNP inside the copied part)	analysis_v2/results/worked_examples/rps2_pseudogene_alleles.tsv	8cf1d351f6a169a0e3a9d31b35d469f3a67ecb39e0853c95f0fc231aebc40d1c
+D2/D3/D4/D5/E1	numbers.tsv (3 values, 59 CPM precisions, new keys)	manuscript/revised_v2/generated/numbers.tsv	b7b3af78ef8afd3f23e52994944edce8cfb7c78a967b209c30033b6491f7b826
+D1/D1b	FIGURES.md5 (5 lines)	analysis_v2/figures/FIGURES.md5	a15db3c5e3fb67f152729538b7b18d736820948834d8b3436266d053f0f7e1ed
+D1b/D2	RESULTS.md5 (8 lines added)	analysis_v2/results/RESULTS.md5	402e3f9f84bfc3d538b9cbd6980bd1065073e9051b8be97fa8380d1bb10d506b
+D5b	Table 1 tissue cell	manuscript/revised_v2/table1.md	71ab84cee173b941a3469b70012b904d0bda65e2c36cd03976a0f32d6a86642a
+M-0	frozen-input list updated for the files above	revision_v2/freeze/inputs.sha256	351616284102d0a418142e85709943b78abf2536d7d86144ceb11f51633d8977

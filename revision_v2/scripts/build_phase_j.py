@@ -30,7 +30,7 @@ def fmt(key, f):
     if f=="d": return f"{int(round(x))}"
     if f==",d": return f"{int(round(x)):,}"
     if f=="w":  # number word for small integers (sentence starts)
-        W={2:"Two",3:"Three",4:"Four",5:"Five",6:"Six",7:"Seven",8:"Eight",9:"Nine",10:"Ten",12:"Twelve",15:"Fifteen",16:"Sixteen",18:"Eighteen",19:"Nineteen",35:"Thirty-five",37:"Thirty-seven",46:"Forty-six",56:"Fifty-six",57:"Fifty-seven",82:"Eighty-two"}
+        W={2:"Two",3:"Three",4:"Four",5:"Five",11:"Eleven",6:"Six",7:"Seven",8:"Eight",9:"Nine",10:"Ten",12:"Twelve",15:"Fifteen",16:"Sixteen",18:"Eighteen",19:"Nineteen",35:"Thirty-five",37:"Thirty-seven",46:"Forty-six",56:"Fifty-six",57:"Fifty-seven",82:"Eighty-two"}
         return W[int(round(x))]
     if f=="wl": return fmt(key,"w").lower()
     return format(x, f)
@@ -78,12 +78,50 @@ def phase_l(name, txt, trig):
         txt=txt[:i]+new+txt[j:]; L_USED[n]+=1
         if "PHASE-L" not in trig: trig+="/PHASE-L"
     return txt, trig
+# ---- Phase M-3 (2026-10-23): authorised exceptions to the number freeze (D2, D4, D5, E1, E2, M-3a–c); same mechanism as L_REPL, trigger PHASE-M.
+M_REPL=[
+ # D2 (Rps2 exonic variants, union of the exons of all Ensembl 110 Rps2 transcripts; definition stated once, here)
+ ("supplementary_note2.md","indels within exons)","","indels within exons; exonic: within the union of the exons of all Ensembl 110 *Rps2* transcripts)"),   # the counts themselves come from numbers.tsv keys
+ # D4 / E2 bounds
+ ("methods.md","(metrics within 0.011 and identical verdicts)","","(metrics within 0.014 and identical verdicts for the «identity_subset_validation_n_animals|d» animals evaluated at both site sets)"),
+ ("results.md","median bias was within ±0.006 log₂ units of zero","","median bias was within ±0.007 log₂ units of zero"),
+ ("figure_legends.md","The genome-wide median was within 0.006 log₂ units of zero","","The genome-wide median was within ±0.007 log₂ units of zero"),
+ ("abstract_structured.md","by at most 0.014 units","","by less than 0.015 units"),
+ ("results.md","differed from naive alignment by at most 0.014 log₂ units","","differed from naive alignment by less than 0.015 log₂ units"),
+ ("figure_legends.md","differed from naive alignment by at most 0.014 log₂ units","","differed from naive alignment by less than 0.015 log₂ units"),
+ ("discussion.md","by no more than 0.014 log₂ units","","by less than 0.015 log₂ units"),
+ ("results.md","the median bias was within ±0.002 of zero","","the median bias was within ±0.003 of zero"),
+ ("figure_legends.md","Median bias was within ±0.002 of zero","","Median bias was within ±0.003 of zero"),
+ ("results.md","fell at fewer than 1.0%","","fell at fewer than 1.1%"),
+ # M-3a, M-3b
+ ("results.md","(median −0.43 to −0.66 across the four held-out tissues)","","(group mean of the per-animal median −0.43 to −0.66 across the four held-out tissues)"),
+ ("results.md","over the 138 catalog genes)","","over the catalog genes expressed in the tissue («nc_catalog_genes_expressed_min|d»–«nc_catalog_genes_expressed_max|d» of «catalog_n|d»))"),
+ # M-3c
+ ("supplementary_table_captions.md","the two sum to `mean_bias` and are plotted","","the two sum to `mean_bias` (for one gene, *Gm26740*, tested in three tissues under the primary model and four under the matched model, they differ from `mean_bias` by «decomp_Gm26740_sum_minus_mean_bias|abs2») and are plotted"),
+ # D5a
+ ("introduction.md","homozygous autosomal SNPs and 1.2 million indels","","homozygous autosomal SNPs and «vcf_fvbnj_homalt_autosomal_indels|M» homozygous autosomal indels"),
+ # D5b
+ # (D5b Methods sentence: rendered from the manifest by render_methods_datasets.py, Phase M-3)
+ ("results.md","GSE200632 contained primary keratinocyte samples","","GSE200632 (LSL-KrasG12D keratinocytes, Cre-transduced in culture) contained primary keratinocyte samples"),
+ ("discussion.md","is not substrain-matched to the VCI and the FVB substrain","","is not substrain-matched to the VCI and its cells express an activated KrasG12D allele, which can change expression levels but not the allele fractions expected under unbiased mapping, and the FVB substrain"),
+ # D1b-4, E1 (Supplementary Fig. S1 legend)
+ ("figure_legends.md","with one C57BL/6J and one FVB/NJ animal of the fructose study (GSE123893) evaluated at the same sites as reference points.","","with one C57BL/6J and one FVB/NJ animal of the fructose study evaluated at the same sites as reference points (mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with the most sites of depth ≥ 20)."),
+ ("figure_legends.md","The four GSE55788 animals show the same large blocks","FVB/NJ reference animal at the FVB allele genome-wide.","The four GSE55788 animals share large blocks of homozygous FVB/NJ-allele sites — on chromosomes «sfig1_shared_block_chromosomes|s» at least half of the sites in a bin are homozygous for the FVB/NJ allele in all four animals — against a reference-allele background elsewhere, i.e. fixed non-B6 segments shared by the colony; other segments are present in only some animals (for example chromosome 12, 0–20 Mb, in one animal). The C57BL/6J reference animal has at most «sfig1_ref_b6_max_hom_fvb|.3f» of sites homozygous for the FVB/NJ allele in any bin and the FVB/NJ reference animal at least «sfig1_ref_fvb_min_hom_fvb|.2f»."),
+]
+M_USED=[0]*len(M_REPL)
+def phase_m(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(M_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i)+len(b)
+        txt=txt[:i]+R(new)+txt[j:]; M_USED[n]+=1
+        if "PHASE-M" not in trig: trig+="/PHASE-M"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -469,6 +507,7 @@ with open(f"{P}/revision_v2/ledger_paragraph_triggers.tsv","w") as o:
     o.write("section\tpara_no\ttrigger\tprefix\n")
     for s,i,t,pre in TRIG: o.write(f"{s}\t{i}\t{t}\t{pre}\n")
 left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
+assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])
 assert all(u==1 for u in L_USED), ("Phase L replacements not applied exactly once", [(L_REPL[n][:2],u) for n,u in enumerate(L_USED) if u!=1])
 print("sections written:", list(OUT)); print("unresolved placeholders:", left); print("abbreviations used:", [a for a,_ in used])
 print("abstract words (body / with headings):", len(re.sub(r"^\*\*.*\*\*$|^#.*$","",OUT["abstract_structured.md"],flags=re.M).split()), len(OUT["abstract_structured.md"].replace("#","").split()))

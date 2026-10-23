@@ -1,0 +1,11 @@
+sample_id	strain	tissue	GSE	GSM	n_sites_depth_ge_20	identity_verdict	source	chosen
+adipose_B6_CWM8	C57BL/6J	adipose	GSE123875	GSM3514971	35058	B6 pure	analysis_v2/data/adipose/adipose_B6_CWM8/qc/adipose_B6_CWM8.ase.tsv	Y
+hypothalamus_B6_CWHyp2	C57BL/6J	hypothalamus	GSE123893	GSM3515221	34550	B6 pure	analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp2/qc/hypothalamus_B6_CWHyp2.ase.tsv	
+hypothalamus_B6_CWHyp1	C57BL/6J	hypothalamus	GSE123893	GSM3515220	34398	B6 pure	analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp1/qc/hypothalamus_B6_CWHyp1.ase.tsv	
+hypothalamus_B6_CWHyp3	C57BL/6J	hypothalamus	GSE123893	GSM3515222	33355	B6 pure	analysis_v2/data/hypothalamus/hypothalamus_B6_CWHyp3/qc/hypothalamus_B6_CWHyp3.ase.tsv	
+adipose_B6_CWM6	C57BL/6J	adipose	GSE123875	GSM3514969	27413	B6 pure	analysis_v2/data/adipose/adipose_B6_CWM6/qc/adipose_B6_CWM6.ase.tsv	
+adipose_B6_CWM5	C57BL/6J	adipose	GSE123875	GSM3514968	25225	B6 pure	analysis_v2/data/adipose/adipose_B6_CWM5/qc/adipose_B6_CWM5.ase.tsv	
+adipose_B6_CWM7	C57BL/6J	adipose	GSE123875	GSM3514970	18549	B6 pure	analysis_v2/data/adipose/adipose_B6_CWM7/qc/adipose_B6_CWM7.ase.tsv	
+adipose_FVB_FWM9	FVB/NJ	adipose	GSE123875	GSM3514990	30685	FVB/NJ pure	analysis_v2/data/adipose/adipose_FVB_FWM9/qc/adipose_FVB_FWM9.ase.tsv	Y
+adipose_FVB_FWM1	FVB/NJ	adipose	GSE123875	GSM3514988	20056	FVB/NJ pure	analysis_v2/data/adipose/adipose_FVB_FWM1/qc/adipose_FVB_FWM1.ase.tsv	
+adipose_FVB_FWM7	FVB/NJ	adipose	GSE123875	GSM3514989	17515	FVB/NJ pure	analysis_v2/data/adipose/adipose_FVB_FWM7/qc/adipose_FVB_FWM7.ase.tsv	

@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """Supplementary figure: genome-wide distribution of homozygous FVB/NJ-allele sites in the four GSE55788 "wild-type C57BL/6J"
-heart samples, with a verified C57BL/6J and a verified FVB/NJ animal (fructose study, Phase A QC) as references.
+heart samples, with a verified C57BL/6J and a verified FVB/NJ animal of the fructose study as references (Phase M-3 D1b: the animal of
+each strain with the most sites of depth >= 20 among the v2-pipeline animals evaluated at the full site set; candidates.tsv).
 Heatmap: rows = samples, columns = 20-Mb genomic bins (autosomes 1-19), colour = fraction of sites (depth >= 20) with
 alt-allele fraction > 0.9 (sequential single hue; bins with < 10 sites are blank). Vector PDF + 600-dpi TIFF.
-Inputs: analysis_v2/data/heart/<sample>/qc/<sample>.ase.tsv (new pipeline), analysis_v2/qc/ase/<SRR>.tsv (Phase A, old BAMs)."""
+Inputs: analysis_v2/results/identity/full_site_tables/ only (per-site tables of the v2 pipeline, collected by
+collect_identity_full_site_tables.py), and the reference .fai for chromosome lengths."""
 import os, collections, numpy as np, pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
 PROJ="/usr/local/jupyter/FVB_bias"; OUT=f"{PROJ}/analysis_v2/figures"; os.makedirs(OUT, exist_ok=True)
 BIN=20_000_000; CHR=[str(i) for i in range(1,20)]
 LEN={l.split("\t")[0]:int(l.split("\t")[1]) for l in open(f"{PROJ}/ref/b6_fasta/GRCm39.primary.fa.fai") if l.split("\t")[0] in CHR}
-rows=[("GSE55788 'C57BL/6J' heart 1 (GSM1346087)",f"{PROJ}/analysis_v2/data/heart/heart_B6_C57_M_12wk_mRNA_1/qc/heart_B6_C57_M_12wk_mRNA_1.ase.tsv"),
-      ("GSE55788 'C57BL/6J' heart 2 (GSM1346088)",f"{PROJ}/analysis_v2/data/heart/heart_B6_C57_M_12wk_mRNA_2/qc/heart_B6_C57_M_12wk_mRNA_2.ase.tsv"),
-      ("GSE55788 'C57BL/6J' heart 3 (GSM1346089)",f"{PROJ}/analysis_v2/data/heart/heart_B6_C57_M_12wk_mRNA_3/qc/heart_B6_C57_M_12wk_mRNA_3.ase.tsv"),
-      ("GSE55788 'C57BL/6J' heart 4 (GSM1346090)",f"{PROJ}/analysis_v2/data/heart/heart_B6_C57_M_12wk_mRNA_4/qc/heart_B6_C57_M_12wk_mRNA_4.ase.tsv"),
-      ("Reference C57BL/6J (GSE123893, GSM3515216)",f"{PROJ}/analysis_v2/qc/ase/SRR8321732.tsv"),
-      ("Reference FVB/NJ (GSE123893, GSM3515235)",f"{PROJ}/analysis_v2/qc/ase/SRR8321791.tsv")]
+T=f"{PROJ}/analysis_v2/results/identity/full_site_tables"; cand=pd.read_csv(f"{T}/candidates.tsv", sep="\t"); ref=cand[cand.chosen=="Y"].set_index("strain")
+TL={"adipose":"mesenteric adipose","hypothalamus":"hypothalamus","liver":"liver"}
+rows=[(f"GSE55788 'C57BL/6J' heart {i} (GSM{1346086+i})",f"{T}/heart_B6_C57_M_12wk_mRNA_{i}.ase.tsv") for i in range(1,5)]+\
+     [(f"Reference {st} ({TL[ref.tissue[st]]}, {ref.GSE[st]}, {ref.GSM[st]})",f"{T}/{ref.sample_id[st]}.ase.tsv") for st in ("C57BL/6J","FVB/NJ")]
 cols=[(c,b) for c in CHR for b in range(int(np.ceil(LEN[c]/BIN)))]
 mat=np.full((len(rows),len(cols)),np.nan); idx={k:i for i,k in enumerate(cols)}
 for i,(lab,p) in enumerate(rows):

@@ -4,3 +4,5 @@ ref/fvb_vcf/FVB_NJ.indels.GRCm39.vcf.gz 1214530
 analysis_v2/qc/fvbnj_homalt_auto.vcf.gz 5030214
 analysis_v2/qc/fvbnj_homalt_exonic.vcf.gz 203510
 uncompressed STAR VCF records: 5960448
+ref/fvb_vcf/FVB_NJ.indels.GRCm39.vcf.gz homozygous-alternative autosomal (GT="AA", chr 1-19) 1112403
+  command (Phase M-3 D5a, 2026-10-23): bcftools view -i 'GT="AA"' -r 1,...,19 ref/fvb_vcf/FVB_NJ.indels.GRCm39.vcf.gz | count records

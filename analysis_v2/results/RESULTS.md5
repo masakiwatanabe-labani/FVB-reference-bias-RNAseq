@@ -233,3 +233,11 @@ c5dd09c1dc7895bb0b6b786e22cb06af  ./within_fvb/skin.diet.naive.tsv
 fd1a563575b1e73069a4d48da1da4baf  ./within_fvb/summary.tsv
 8a8615db0170f34870bf1bb32d0ff03d  ./worked_examples/rps2_multimap_cpm.tsv
 8e90b78f1607fd623dec864f4d143583  ./worked_examples/rps2_pseudogene_alleles.tsv
+6ae2a1c2a0a734e306353e1b5db94294  ./worked_examples/rps2_exonic_variants_union.tsv
+8c6c3c8dd4c8265f031450f5bb66ed67  ./identity/full_site_tables/adipose_B6_CWM8.ase.tsv
+4d56a25704ba226b61a6e943f7e8ad47  ./identity/full_site_tables/adipose_FVB_FWM9.ase.tsv
+e4333c8c8213045c3d505d88bf9c5829  ./identity/full_site_tables/candidates.tsv
+ee80a928dea62268e100b4f6ead367fb  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_1.ase.tsv
+c76ef1000894634a62b6bc7917b5b5e3  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_2.ase.tsv
+0d6b91dd42d96f234421628f1cb55f26  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_3.ase.tsv
+78f20230abd899aee01fcb4bedbe7db1  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_4.ase.tsv

@@ -7,8 +7,12 @@ import numpy as np, pandas as pd
 from scipy import stats
 PROJ="/usr/local/jupyter/FVB_bias"; RES=f"{PROJ}/analysis_v2/results"; FIG=f"{PROJ}/analysis_v2/figures"; OUT=f"{PROJ}/manuscript/revised_v2/generated/numbers.tsv"
 N=[]
+FULL=[]   # Phase M-3 D3: every value also at full precision (generated/numbers_fullprecision.tsv) for the double-rounding scan
+FULLPREC=("rps2mm_","rps2_skin_","rps2_pseudogenes_skin_","rps2_family_")   # D3: Rps2/pseudogene CPM keys stored at full precision (one rounding step at print)
 def put(key, value, evidence):
-    N.append({"key":key,"value":value if isinstance(value,str) else (f"{value:.6g}" if isinstance(value,(float,np.floating)) else str(value)),"evidence":evidence})
+    isf=isinstance(value,(float,np.floating))
+    N.append({"key":key,"value":value if isinstance(value,str) else ((repr(float(value)) if key.startswith(FULLPREC) else f"{value:.6g}") if isf else str(value)),"evidence":evidence})
+    FULL.append({"key":key,"value":value if isinstance(value,str) else (repr(float(value)) if isf else str(value))})
 rel=lambda p: p.replace(PROJ+"/","")
 # ---- datasets / samples ---------------------------------------------------------------------------------------------
 man=pd.read_csv(f"{PROJ}/revision_v2/manifest/manifest.tsv", sep="\t", dtype=str); inc=man[man["include"]=="Y"]
@@ -68,7 +72,11 @@ for arm in ("naive","wasp"):
     put(f"f1_catalog_sites_{arm}_n_min", int(a.n_sites_catalog.min()), ev); put(f"f1_catalog_sites_{arm}_n_max", int(a.n_sites_catalog.max()), ev)
 put("f1_catalog_sites_naive_deficit_pp", float((0.5-fc[fc.arm=="naive"].mean_af_catalog.mean())*100), ev)
 # Rps2 fact check (revision_v2/audit/rps2_indels_pseudogenes.md; counts table rps2_pseudogene_counts_skin.tsv)
-ev="revision_v2/audit/rps2_indels_pseudogenes.md"; put("rps2_indels_gene_body", 12, ev); put("rps2_indels_exonic", 4, ev); put("rps2_snps_exonic", 13, ev); put("rps2_n_processed_pseudogenes", 12, ev)
+ev="revision_v2/audit/rps2_indels_pseudogenes.md"; put("rps2_indels_gene_body", 12, ev); put("rps2_n_processed_pseudogenes", 12, ev)
+# Phase M-3 D2: exonic = union of the exons of all Ensembl 110 Rps2 transcripts (rps2_exonic_variants_union.tsv)
+ux=pd.read_csv(f"{RES}/worked_examples/rps2_exonic_variants_union.tsv", sep="\t"); evx=rel(f"{RES}/worked_examples/rps2_exonic_variants_union.tsv")
+put("rps2_snps_exonic", int((ux.type=="SNP").sum()), evx); put("rps2_indels_exonic", int((ux.type!="SNP").sum()), evx)
+# (in/outside the copied part and the pseudogene alleles: keys rps2_exonic_*_pseudogene_sequence and rps2_Rps2_ps*_fvb_allele_snps below)
 # ---- genome-wide bias per tissue (Fig. 3) ----------------------------------------------------------------------------
 long=pd.read_csv(f"{RES}/bias/all_tissues.primary.tsv", sep="\t"); ev=rel(f"{RES}/bias/all_tissues.primary.tsv"); tissues=["adipose","hypothalamus","liver","skin"]
 wide=long.pivot(index="gene_id",columns="tissue",values="bias"); put("genes_tested_union", len(wide), ev); put("genes_tested_all4", int(wide.notna().all(axis=1).sum()), ev)
@@ -228,7 +236,7 @@ put("gtf_genes_not_in_fvb_zero_snp_pct", float((meta.n_snps[meta.in_fvb_gtf=="N"
 qcs=open(f"{PROJ}/analysis_v2/qc/qc_sites_subsample.md5").read(); put("qc_sites_full_n", 203510, "analysis_v2/qc/fvbnj_homalt_exonic.hetGT.vcf.gz (bcftools index -n)"); put("qc_sites_subset_n", 20351, "analysis_v2/qc/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.vcf.gz")
 put("junctions_fvb_index", 286280, "revision_v2/audit/junction_sets_fvb_index_vs_b6_gtf.txt"); put("junctions_b6_gtf", 290071, "same"); put("junctions_b6_only", 3791, "same"); put("junctions_b6_only_chrY", 3688, "same"); put("junctions_total_fvb_arm", 576397, "same")
 # FVB/NJ variant set sizes (bcftools index -n; revision_v2/audit/fvb_vcf_counts.txt, 2026-10-20)
-for k,v in (("vcf_fvbnj_snps_pass_minac1",5960448),("vcf_fvbnj_biallelic_snps",5778575),("vcf_fvbnj_indels",1214530),("vcf_fvbnj_homalt_autosomal_snps",5030214),("vcf_fvbnj_homalt_exonic_snps",203510)): put(k, v, "revision_v2/audit/fvb_vcf_counts.txt")
+for k,v in (("vcf_fvbnj_snps_pass_minac1",5960448),("vcf_fvbnj_biallelic_snps",5778575),("vcf_fvbnj_indels",1214530),("vcf_fvbnj_homalt_autosomal_snps",5030214),("vcf_fvbnj_homalt_exonic_snps",203510),("vcf_fvbnj_homalt_autosomal_indels",1112403)): put(k, v, "revision_v2/audit/fvb_vcf_counts.txt")   # D5a: homozygous autosomal indels
 # Phase J: ranges of WASP attrition by strain (for the v1 sentences kept in the reconstruction) and a few catalog genes named in the text
 _b6=[float(v["value"]) for v in N if v["key"].startswith("wasp_removed_") and v["key"].endswith("_B6_mean_pct") and "PyVT" not in v["key"]]
 _fv=[float(v["value"]) for v in N if v["key"].startswith("wasp_removed_") and v["key"].endswith("_FVB_mean_pct")]
@@ -276,8 +284,36 @@ ev="numbers.tsv: ex_extreme_*_residual"; _res=[float(v["value"]) for v in N if v
 if _res: put("ex_extreme_residual_min", min(_res), ev); put("ex_extreme_residual_max", max(_res), ev)
 al=pd.read_csv(f"{RES}/worked_examples/rps2_pseudogene_alleles.tsv", sep="\t"); ev=rel(f"{RES}/worked_examples/rps2_pseudogene_alleles.tsv")   # K-1'(c)
 sn=al[al.variant.str.startswith("SNP")]
-put("rps2_exonic_snps_in_pseudogene_sequence", int((sn[sn.pseudogene=="Rps2-ps10"].allele_carried!="not in pseudogene").sum()), ev)
-for g in ("Rps2-ps10","Rps2-ps13","Rps2-ps6"): put(f"rps2_{g.replace('-','_')}_fvb_allele_snps", int((sn[sn.pseudogene==g].allele_carried=="FVB/NJ").sum()), ev)
-put("rps2_exonic_indels_in_pseudogene_sequence", int((al[(al.variant.str.startswith("indel"))&(al.pseudogene=="Rps2-ps10")].allele_carried!="not in pseudogene").sum()), ev)
-put("rps2_exonic_snps_outside_pseudogene_sequence", int((sn[sn.pseudogene=="Rps2-ps10"].allele_carried=="not in pseudogene").sum()), ev)   # Phase L: exonic SNPs in exon segments the pseudogenes do not contain
-pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")
+put("rps2_exonic_snps_in_pseudogene_sequence", int(((ux.type=="SNP")&(ux.in_copied_part_any=="Y")).sum()), evx)   # D2: union definition
+for g in ("Rps2-ps10","Rps2-ps13","Rps2-ps6"): put(f"rps2_{g.replace('-','_')}_fvb_allele_snps", int(((ux.type=="SNP")&(ux[f"allele_{g}"]=="FVB/NJ")).sum()), evx)   # D2
+put("rps2_exonic_indels_in_pseudogene_sequence", int(((ux.type!="SNP")&(ux.in_copied_part_any=="Y")).sum()), evx)   # D2
+put("rps2_exonic_snps_outside_pseudogene_sequence", int(((ux.type=="SNP")&(ux.in_copied_part_any=="N")).sum()), evx)   # D2   # Phase L: exonic SNPs in exon segments the pseudogenes do not contain
+# ---- Phase M-3 D4 (2026-10-23) --------------------------------------------------------------------------------------
+# M-3b: catalog genes expressed (naive CPM > 1 in >= half the samples) per tissue, from the reference-swap summary of the four tissues
+_rs=pd.read_csv(f"{RES}/negative_control/reference_swap_summary.tsv", sep="\t"); _rs=_rs[_rs.tissue.isin(["adipose","hypothalamus","liver","skin"])]
+_ce=_rs.groupby("tissue").catalog_genes_n.first(); _evrs=rel(f"{RES}/negative_control/reference_swap_summary.tsv")
+put("nc_catalog_genes_expressed_min", int(_ce.min()), _evrs); put("nc_catalog_genes_expressed_max", int(_ce.max()), _evrs)
+# A5: identity-check site subset validated on every animal evaluated at both site sets (full-set per-site table present)
+import gzip as _gz, glob as _gl
+_sub=set()
+for _l in _gz.open(f"{PROJ}/analysis_v2/qc/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.vcf.gz","rt"):
+    if _l[0]!="#": _c,_p=_l.split("\t")[:2]; _sub.add((_c,int(_p)))
+def _met(d):
+    d=d[d.totalCount>=20]; af=d.altCount/d.totalCount; return np.array([af.mean(),(af>0.9).mean(),((af>=0.1)&(af<=0.9)).mean(),(af<0.1).mean()])
+_n=0; _mx=0.0
+for _f in sorted(_gl.glob(f"{PROJ}/analysis_v2/data/*/*/qc/*.ase.tsv")):
+    _d=pd.read_csv(_f, sep="\t", dtype={"contig":str}); _d2=_d[[(c,p) in _sub for c,p in zip(_d.contig,_d.position)]]
+    if len(_d2)==len(_d): continue
+    _n+=1; _mx=max(_mx, float(np.abs(_met(_d)-_met(_d2)).max()))
+_cd=pd.read_csv(f"{RES}/catalog/catalog_decomposition.tsv", sep="\t").set_index("gene_name"); _cdd=(_cd.bias_matched_mean+_cd.b6_loss_mean-_cd.mean_bias)
+put("decomp_sum_mismatch_n_genes", int((_cdd.abs()>1e-9).sum()), rel(f"{RES}/catalog/catalog_decomposition.tsv")); put("decomp_Gm26740_sum_minus_mean_bias", float(_cdd["Gm26740"]), rel(f"{RES}/catalog/catalog_decomposition.tsv"))   # M-3c
+# E1: Supplementary Fig. S1 legend — chromosomes with a 20-Mb bin in which >= half of the sites are homozygous FVB in all four GSE55788 animals,
+# and the per-bin extremes of the two reference animals (from the figure's _data.tsv)
+_s1=pd.read_csv(f"{FIG}/SFig1_GSE55792_haplotype_blocks_data.tsv", sep="\t", index_col=0); _h=_s1[_s1.index.str.startswith("GSE55788")]
+_ch=sorted({c.split(":")[0][3:] for c in _h.columns[(_h>=0.5).all()]}, key=int); _evs=rel(f"{FIG}/SFig1_GSE55792_haplotype_blocks_data.tsv")
+put("sfig1_shared_block_chromosomes", ", ".join(_ch[:-1])+" and "+_ch[-1], _evs); put("sfig1_shared_block_n_chromosomes", len(_ch), _evs)
+put("sfig1_ref_b6_max_hom_fvb", float(_s1[_s1.index.str.startswith("Reference C57BL/6J")].iloc[0].max()), _evs)
+put("sfig1_ref_fvb_min_hom_fvb", float(_s1[_s1.index.str.startswith("Reference FVB/NJ")].iloc[0].min()), _evs)
+put("identity_subset_validation_n_animals", _n, "analysis_v2/data/<tissue>/<sample>/qc/<sample>.ase.tsv (full set) vs the 20,351-site subset")
+put("identity_subset_validation_max_absdiff", _mx, "analysis_v2/data/<tissue>/<sample>/qc/<sample>.ase.tsv (full set) vs the 20,351-site subset")
+pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); pd.DataFrame(FULL).to_csv(OUT.replace("numbers.tsv","numbers_fullprecision.tsv"), sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")

@@ -22,6 +22,12 @@ cp $PROJ/analysis_v2/results/predictors/*.tsv analysis_v2/results/predictors/; c
 cp $PROJ/analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.tsv $PROJ/analysis_v2/results/f1_ase/v2/f1_ase_summary_v2.tsv $PROJ/analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.oldsites.tsv $PROJ/analysis_v2/results/f1_ase/v2/f1_ase_summary_v2.oldsites.tsv $PROJ/analysis_v2/results/f1_ase/v2/f1_wasp_allele_removal.tsv $PROJ/analysis_v2/results/f1_ase/v2/f1_sites_catalog_vs_other.tsv $PROJ/analysis_v2/results/f1_ase/v2/*.identity.tsv analysis_v2/results/f1_ase/v2/
 cp $PROJ/analysis_v2/results/gene_meta.tsv $PROJ/analysis_v2/results/RESULTS.md5 analysis_v2/results/; cp $PROJ/analysis_v2/figures/*_data.tsv $PROJ/analysis_v2/figures/worked_examples.tsv $PROJ/analysis_v2/figures/FIGURES.md5 analysis_v2/figures/
 cp -r $PROJ/manuscript/revised_v2/*.md $PROJ/manuscript/revised_v2/generated $PROJ/manuscript/revised_v2/supplementary_tables manuscript/revised_v2/
+# Phase M (2026-10-23): identity per-site tables of Supplementary Fig. S1, Rps2 union recount, and the freeze/verification records
+# (revision_v2/freeze/ without cache/, which holds large intermediate BEDs and is never copied)
+mkdir -p analysis_v2/results/identity/full_site_tables analysis_v2/results/worked_examples revision_v2/freeze
+cp $PROJ/analysis_v2/results/identity/full_site_tables/* analysis_v2/results/identity/full_site_tables/; cp $PROJ/analysis_v2/results/worked_examples/*.tsv analysis_v2/results/worked_examples/
+find $PROJ/revision_v2/freeze -maxdepth 1 -type f -exec cp {} revision_v2/freeze/ \;
+cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/
 git add analysis_v2 revision_v2 manuscript
 git commit -q -m "${COMMIT_MSG_HEAD:-v2-corrected: Phase H — F1 ASE re-derived at the identity-QC site set, bias decomposition, LAR format}
 

@@ -1,0 +1,357 @@
+claim_id	group	location	needle	text_value	exact	at_text_precision	kind	status	note
+A1	A variant set and references	main	about 5.0 million homozygous autosomal SNPs	5.0	5.03021	5.0	num	PASS	5,030,214 PASS biallelic hom-alt autosomal SNVs (FVB_NJ.snps.GRCm39.vcf.gz)
+A2	A variant set and references	main	and 1.1 million homozygous autosomal indels	1.1	1.1124	1.1	num	PASS	1,112,403 homozygous-alternative autosomal indels (FVB_NJ.indels.GRCm39.vcf.gz); all records 1,214,530
+A2r	A variant set and references	resp	1.1 million homozygous autosomal indels	1.1	1.1124	1.1	num	PASS	
+A3	A variant set and references	main	203,510 of the SNPs within annotated exons	203510	203510	203510	int	PASS	hom-alt autosomal PASS biallelic SNVs overlapping an Ensembl 110 exon (bedtools)
+A4	A variant set and references	main	(20,351 sites; seed 20261016)	20351	20351	20351	int	PASS	subset ⊂ full set: True; 10% of 203,510 = 20351.0
+A4b	A variant set and references	main	fixed random 10% subset	10	10	10	num	PASS	
+A5n	A variant set and references	main	identical verdicts for the 14 animals evaluated at both site sets	14	14	14	int	PASS	
+A5v	A variant set and references	main	identical verdicts for the 14 animals	identical	identical	identical	eq	PASS	verdict rules of Methods applied to both site sets
+A5	A variant set and references	main	(metrics within 0.014 and identical verdicts	0.014	0.0135039	0.014	le	PASS	max |Δ| over 14 samples evaluated at both site sets = 0.0135 (heart_B6_C57_M_12wk_mRNA_4, frac_hi); over the 9 analysis animals only = 0.0015
+A6	A variant set and references	main	1,727 of 56,941 annotated genes were removed	1727	1727	1727	int	PASS	
+A7	A variant set and references	main	1,727 of 56,941 annotated genes were removed	56941	56941	56941	int	PASS	
+A8	A variant set and references	af1	1,727 (3.0%) are absent	3.0	3.03296	3.0	num	PASS	
+A9	A variant set and references	af1	all of them have zero FVB/NJ SNPs in the gene body	0	0	0	int	PASS	max SNP count in gene body among the 1,727 (all FVB_NJ SNP records)
+A9b	A variant set and references	main	most excluded genes were pseudogenes or lncRNAs	0.5	0.842501	0.8	gt	PASS	fraction pseudogene or lncRNA among the 1,727 (> 0.5 = 'most'); top biotypes unprocessed_pseudogene 751, lncRNA 579, protein_coding 218, processed_pseudogene 92
+A10	A variant set and references	af1	(286,280 annotated junctions)	286280	286280	286280	int	PASS	
+A11	A variant set and references	af1	Ensembl 110 B6 GTF (290,071 junctions)	290071	290071	290071	int	PASS	
+A12	A variant set and references	af1	290,117 collapsed junctions	290117	290117	290117	int	PASS	FVB-arm STAR Log.out (hypothalamus_B6_CWHyp4)
+A13	A variant set and references	af1	576,397 junctions in total	576397	576397	576397	int	PASS	
+A14	A variant set and references	af1	3,791 junctions of the B6 GTF are absent	3791	3791	3791	int	PASS	FVB-not-in-B6 = 0
+A15	A variant set and references	af1	3,688 of them on the Y chromosome	3688	3688	3688	int	PASS	
+A15b	A variant set and references	main	3,791 junctions absent from the converted GTF, 3,688 of them	3791	3791	3791	int	PASS	
+B1	B genome-wide	main	27,732 genes were expressed and quantifiable	27732	27732	27732	int	PASS	
+B2	B genome-wide	main	stronger among the 14,316 genes tested in all four tissues	14316	14316	14316	int	PASS	
+B3_adipose	B genome-wide	main		23047	23047	23047	int	PASS	tested genes adipose (naive ∩ FVB edgeR tables)
+B3_hypothalamus	B genome-wide	main		21932	21932	21932	int	PASS	tested genes hypothalamus (naive ∩ FVB edgeR tables)
+B3_liver	B genome-wide	Fig3_strain_comparison	19,237	19237	19237	19237	int	PASS	tested genes liver (naive ∩ FVB edgeR tables)
+B3_skin	B genome-wide	main		18104	18104	18104	int	PASS	tested genes skin (naive ∩ FVB edgeR tables)
+B4	B genome-wide	main	median bias was within ±0.007 log₂ units of zero in every tissue	0.007	0.00623546	0.006	le	PASS	medians adipose +0.00019, hypothalamus -0.00081, liver -0.00624, skin -0.00187
+B4b	B genome-wide	main	The genome-wide median was within ±0.007 log₂ units of zero in every tissue	0.007	0.00623546	0.006	le	PASS	Fig. 3B legend
+B5a	B genome-wide	main	values ranging from -0.028 to -0.019 log₂ units	-0.028	-0.0278499	-0.028	num	PASS	FVB-arm shift = mean bias = mean(lfc_fvb) − mean(lfc_naive); adipose -0.0188, hypothalamus -0.0209, liver -0.0278, skin -0.0245
+B5b	B genome-wide	main	values ranging from -0.028 to -0.019 log₂ units	-0.019	-0.0187753	-0.019	num	PASS	
+B6a	B genome-wide	main	from 0.56% in hypothalamus	0.56	0.556265	0.56	num	PASS	adipose 0.924%, hypothalamus 0.556%, liver 0.691%, skin 0.679%
+B6b	B genome-wide	main	to 0.92% in adipose tissue	0.92	0.924198	0.92	num	PASS	
+B6c	B genome-wide	main	hypothalamus to 0.92% in adipose	min	min	min	eq	PASS	hypothalamus lowest, adipose highest
+B7	B genome-wide	main	326 unique genes showed bias ≥ 0.5	326	326	326	int	PASS	
+B8	B genome-wide	main	This represented 1.18% of the 27,732	1.18	1.17554	1.18	num	PASS	
+B9_adipose	B genome-wide	main	+0.014 in	+0.014	0.014278	0.014	num	PASS	mean(lfc_wasp) − mean(lfc_naive) over tested genes with a WASP estimate (WASP-arm table)
+B9_hypothalamus	B genome-wide	main	+0.012 in	+0.012	0.0122226	0.012	num	PASS	mean(lfc_wasp) − mean(lfc_naive) over tested genes with a WASP estimate (WASP-arm table)
+B9_liver	B genome-wide	main	+0.005 in	+0.005	0.00495011	0.005	num	PASS	mean(lfc_wasp) − mean(lfc_naive) over tested genes with a WASP estimate (WASP-arm table)
+B9_skin	B genome-wide	main	+0.009 in	+0.009	0.00914772	0.009	num	PASS	mean(lfc_wasp) − mean(lfc_naive) over tested genes with a WASP estimate (WASP-arm table)
+B9max	B genome-wide	main	differed from naive alignment by less than 0.015 log₂ units	0.015	0.014278	0.014	lt	PASS	Results and Fig. 3C legend
+B9abs	B genome-wide	main	WASP changed genome-wide mean log₂ fold changes by less than 0.015 units	0.015	0.014278	0.014	lt	PASS	Abstract
+B9d	B genome-wide	main	changed genome-wide mean log₂ fold changes by less than 0.015 log₂ units	0.015	0.014278	0.014	lt	PASS	per-gene paired version: adipose +0.0074, hypothalamus +0.0094, liver +0.0030, skin +0.0078
+B10	B genome-wide	main	The median genome-wide FVB/NJ SNP density was 0.26 SNPs/kb	0.26	0.257594	0.26	num	PASS	all FVB_NJ SNP records in the gene body / gene length (kb), tested genes
+B10r	B genome-wide	resp	median gene-body SNP density 0.26 SNPs/kb	0.26	0.257594	0.26	num	PASS	
+C1	C catalog and predictors	main	This criterion identified 138 genes	138	138	138	int	PASS	genes with bias ≥ 0.5 in ≥ 2 tissues: 138, of which in the converted GTF: 138
+C2	C catalog and predictors	main	representing 0.50% of the 27,732	0.50	0.49762	0.50	num	PASS	
+C3_4	C catalog and predictors	main	Forty-six genes met the bias threshold in all four	46	46	46	int	PASS	
+C3_3	C catalog and predictors	main	Thirty-five genes met the threshold in three	35	35	35	int	PASS	
+C3_2	C catalog and predictors	main	Fifty-seven genes met the threshold in two	57	57	57	int	PASS	
+C4	C catalog and predictors	main	16 catalog genes have a mean bias	16	16	16	int	PASS	
+C5_adipose	C catalog and predictors	main	Adipose tissue contained 124	124	124	124	int	PASS	
+C5_hypothalamus	C catalog and predictors	main	Hypothalamus contained 92	92	92	92	int	PASS	
+C5_liver	C catalog and predictors	main	Liver contained 103	103	103	103	int	PASS	
+C5_skin	C catalog and predictors	main	Skin contained 84	84	84	84	int	PASS	
+C6_pc	C catalog and predictors	main	accounted for 102 of the 138	102	102	102	int	PASS	
+C6_lnc	C catalog and predictors	main	15 lncRNAs	15	15	15	int	PASS	
+C6_ps	C catalog and predictors	main	18 pseudogenes	18	18	18	int	PASS	
+C6_other	C catalog and predictors	main	3 genes of other biotypes	3	3	3	int	PASS	
+C7	C catalog and predictors	main	alone (water-fed or control-cream animals; 132 genes	132	132	132	int	PASS	
+C8	C catalog and predictors	main	132 genes, 124 shared with the primary catalog	124	124	124	int	PASS	
+C9	C catalog and predictors	main	(Spearman ρ = 0.337, p < 10⁻¹⁵)	0.337	0.33666	0.337	num	PASS	
+C9p	C catalog and predictors	main	(Spearman ρ = 0.337, p < 10⁻¹⁵)	1e-15	0	0	plt	PASS	
+C9f	C catalog and predictors	Fig4_predictors	0.337	0.337	0.33666	0.337	num	PASS	
+C10	C catalog and predictors	main	tissues, for which the mean bias is least noisy (ρ = 0.506)	0.506	0.5061	0.506	num	PASS	
+C11	C catalog and predictors	main	Genes in the top 10% of SNP density had higher mean bias than genes in the bottom 10% (Mann–Whitney U test, p < 10⁻¹⁵)	1e-15	0	0	plt	PASS	top mean +0.0119 vs bottom -0.0496
+C12	C catalog and predictors	main	Their median SNP density was 7.19 SNPs/kb	7.19	7.18989	7.19	num	PASS	
+C13	C catalog and predictors	main	compared with 0.25 SNPs/kb for non-catalog	0.25	0.248725	0.25	num	PASS	
+C14	C catalog and predictors	main	(Mann–Whitney U test, p < 10⁻¹⁵; Fig. 4A)	1e-15	5.22846e-56	0	plt	PASS	
+C15	C catalog and predictors	Fig4_predictors	2.56	2.56	2.56064	2.56	num	PASS	75th percentile of SNP density over tested genes (inset threshold)
+C16	C catalog and predictors	main	The inset shows that 117 of 138 catalog genes fall in the top quartile	117	117	117	int	PASS	
+C17	C catalog and predictors	main	(odds ratio = 10.0, 95% confidence interval = 7.2–14.1, p < 10⁻¹⁵)	10.0	10.0499	10.0	num	PASS	2x2 [[72, 66], [2702, 24892]]; 90th percentile 6.785 SNPs/kb; catalog genes ≥ it: 72
+C17lo	C catalog and predictors	main	95% confidence interval = 7.2–14.1	7.2	7.17933	7.2	num	PASS	Woolf (log) interval
+C17hi	C catalog and predictors	main	95% confidence interval = 7.2–14.1	14.1	14.0683	14.1	num	PASS	
+C17p	C catalog and predictors	main	(odds ratio = 10.0, 95% confidence interval = 7.2–14.1, p < 10⁻¹⁵)	1e-15	1.14076e-35	0	plt	PASS	
+C17q	C catalog and predictors	main		6.79	6.78511	6.79	num	PASS	90th percentile threshold (Fisher test, Note/legend)
+C17n	C catalog and predictors	main		72	72	72	int	PASS	catalog genes ≥ 90th percentile
+C18	C catalog and predictors	main	(Spearman ρ = 0.051, p < 10⁻¹⁵; Fig. 4B)	0.051	0.0507615	0.051	num	PASS	
+C18p	C catalog and predictors	main	(Spearman ρ = 0.051, p < 10⁻¹⁵; Fig. 4B)	1e-15	2.71197e-17	0	plt	PASS	
+C19	C catalog and predictors	main	(Spearman ρ = -0.063, p < 10⁻¹⁵; Fig. 4C)	-0.063	-0.0626581	-0.063	num	PASS	
+C19p	C catalog and predictors	main	(Spearman ρ = -0.063, p < 10⁻¹⁵; Fig. 4C)	1e-15	1.55752e-25	0	plt	PASS	
+C20	C catalog and predictors	main	the binned mean bias stayed within ±0.07 log₂ units across the expression range	0.07	0.0650777	0.07	le	PASS	20 equal-percentile bins of mean naive logCPM
+C21	C catalog and predictors	main	Protein-coding genes and lncRNAs had mean bias values close to zero	0.01	0.00373731	0.00	le	PASS	means lncRNA +0.0015, other +0.0158, protein_coding -0.0037, pseudogene -0.3307
+C22	C catalog and predictors	main	Pseudogenes showed a more negative mean bias	neg	neg	neg	eq	PASS	
+C23	C catalog and predictors	main	the median bias was within ±0.003 of zero across all biotype categories	0.003	0.00227787	0.002	le	PASS	medians lncRNA -0.00094, other -0.00137, protein_coding -0.00207, pseudogene -0.00228
+C23b	C catalog and predictors	main	Median bias was within ±0.003 of zero in all biotype categories	0.003	0.00227787	0.002	le	PASS	Fig. 4D legend
+C24	C catalog and predictors	main	(Kruskal–Wallis p < 10⁻¹⁵)	1e-15	4.56817e-36	0	plt	PASS	
+C25	C catalog and predictors	main	contained 7 FVB/NJ SNPs across a 5.5-kb gene body	7	7	7	int	PASS	
+C25b	C catalog and predictors	main	across a 5.5-kb gene body	5.5	5.493	5.5	num	PASS	
+C25c	C catalog and predictors	main	(chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb)	1.27	1.27435	1.27	num	PASS	
+C25d	C catalog and predictors	main	(green star; 1.3 SNPs/kb)	1.3	1.27435	1.3	num	PASS	
+C25e	C catalog and predictors	main	This protein-coding gene on chromosome 4	4	4	4	eq	PASS	
+C26_adipose	C catalog and predictors	main	+3.85 in	+3.85	3.84647	3.85	num	PASS	
+C26_hypothalamus	C catalog and predictors	main	+3.32 in	+3.32	3.31928	3.32	num	PASS	
+C26_liver	C catalog and predictors	main	+5.14 in	+5.14	5.13567	5.14	num	PASS	
+C26_skin	C catalog and predictors	main	+10.24 in skin	+10.24	10.2376	10.24	num	PASS	
+C26m	C catalog and predictors	main	with a four-tissue mean bias of +5.63	+5.63	5.63476	5.63	num	PASS	
+C27_adipose	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+5.03	5.03406	5.03	num	PASS	
+C27_hypothalamus	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+5.60	5.60301	5.60	num	PASS	
+C27_liver	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+4.28	4.28281	4.28	num	PASS	
+C27s	C catalog and predictors	main	It was not detected in skin	absent	absent	absent	eq	PASS	
+D1	D multi-mapping	main	Across 82,264 expressed gene-tissue pairs	82264	82264	82264	int	PASS	
+D2	D multi-mapping	main	The median change in bias was +0.008 log₂ units	+0.008	0.00753052	0.008	num	PASS	
+D3	D multi-mapping	main	The mean change was +0.021	+0.021	0.0207919	0.021	num	PASS	
+D4	D multi-mapping	main	Only 1.1% of gene-tissue pairs showed an absolute change greater than 0.5	1.1	1.12808	1.1	num	PASS	
+D5	D multi-mapping	af1	and 0.7% |Δ| > 1	0.7	0.712341	0.7	num	PASS	
+D6	D multi-mapping	SFig2_multimapping	474	474	474	474	int	PASS	catalog gene × tissue pairs (S2 figure only)
+D7	D multi-mapping	main	Eighty-two of the 138 catalog genes showed |Δ| > 0.3	82	82	82	int	PASS	
+D8	D multi-mapping	main	The remaining 56 catalog genes	56	56	56	int	PASS	
+D9	D multi-mapping	main	The mean |Δ| in this class was 1.01	1.01	1.00695	1.01	num	PASS	
+D10	D multi-mapping	main	The mean |Δ| in this class was 0.17	0.17	0.173156	0.17	num	PASS	
+D11	D multi-mapping	main	Thirty-seven of these 82 genes had residual fractions at or below 0.30	37	37	37	int	PASS	
+D12a	D multi-mapping	af1	residual fractions ranged from -9.51 to 2.26	-9.51	-9.51173	-9.51	num	PASS	
+D12b	D multi-mapping	af1	residual fractions ranged from -9.51 to 2.26	2.26	2.25962	2.26	num	PASS	
+D13a	D multi-mapping	af1	residual fractions 0.36–1.14	0.36	0.362355	0.36	num	PASS	
+D13b	D multi-mapping	af1	residual fractions 0.36–1.14	1.14	1.14023	1.14	num	PASS	
+D14	D multi-mapping	af1	Nineteen of these had residual fractions ≥ 0.80	19	19	19	int	PASS	
+D15_Rps2	D multi-mapping	main	Rps2 had a residual fraction of 0.97	0.97	0.972118	0.97	num	PASS	
+D15_Rpl29	D multi-mapping	main	Rpl29 had a residual fraction of 0.89	0.89	0.89487	0.89	num	PASS	
+D15_Klra1	D multi-mapping	main	Klra1 had a residual fraction of 0.77	0.77	0.772876	0.77	num	PASS	
+D15_Ndufs5	D multi-mapping	main	(mean residual fraction 0.24)	0.24	0.239173	0.24	num	PASS	
+D16_Rps2	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
+D16_Rpl29	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
+D16_Klra1	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
+D17	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	0.98	0.975748	0.98	num	PASS	
+D18a	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	0.91	0.907462	0.91	num	PASS	
+D18b	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	1.04	1.04031	1.04	num	PASS	
+D19	D multi-mapping	af1	(bias_multi = +5.23 log₂; residual fraction 0.98)	+5.23	5.23148	5.23	num	PASS	
+D20	D multi-mapping	main	the largest single-tissue bias in this class (+5.36 log₂, skin)	Rps2/skin	Rps2/skin	Rps2/skin	eq	PASS	
+D21	D multi-mapping	main	the largest single-tissue bias in this class (+5.36 log₂, skin)	+5.36	5.36151	5.36	num	PASS	
+D22	D multi-mapping	af1	Ndufs5 and Mup17 represent the SNP-induced	Ndufs5,Mup17	Ndufs5,Mup17	Ndufs5,Mup17	eq	PASS	rule: largest |Δ| in the multi-mapping class
+D23	D multi-mapping	af1	3000002C10Rik and Rps2 represent the direct	3000002C10Rik,Rps2	3000002C10Rik,Rps2	3000002C10Rik,Rps2	eq	PASS	rule: residual fraction closest to 1 in the direct class
+E1	E decomposition	main	median bias_matched −0.0001	-0.0001	-0.000137463	-0.0001	num	PASS	82,319 gene × tissue pairs with a matched estimate
+E2	E decomposition	main	median b6_loss −0.0009	-0.0009	-0.000851317	-0.0009	num	PASS	over tested pairs (naive, FVB and matched estimates)
+E3	E decomposition	main	Applying the fixed catalog criterion to bias_matched alone yields 84 genes	84	84	84	int	PASS	
+E4	E decomposition	main	84 genes, 57 of which are in the primary catalog	57	57	57	int	PASS	
+E5	E decomposition	main	which includes 27 genes that do not reach it	27	27	27	int	PASS	
+E6	E decomposition	main	In the other 81 catalog genes	81	81	81	int	PASS	
+E7	E decomposition	main	b6_loss exceeds bias_matched in 54 of the 81	54	54	54	int	PASS	
+E8	E decomposition	main	the median share of the bias due to C57BL/6J-read loss is 0.61	0.61	0.608522	0.61	num	PASS	share = b6_loss_mean / mean_bias
+E9	E decomposition	main	against 0.42 in the 57 genes	0.42	0.420203	0.42	num	PASS	
+E10	E decomposition	main	and 0.50 over the whole catalog	0.50	0.49757	0.50	num	PASS	
+E11a	E decomposition	main	(bias_matched +1.47 to +4.61 log₂; b6_loss +1.85 to +5.63)	+1.47	1.47131	1.47	num	PASS	
+E11b	E decomposition	main	(bias_matched +1.47 to +4.61 log₂	+4.61	4.60694	4.61	num	PASS	
+E11c	E decomposition	main	b6_loss +1.85 to +5.63	+1.85	1.84796	1.85	num	PASS	
+E11d	E decomposition	main	b6_loss +1.85 to +5.63	+5.63	5.63068	5.63	num	PASS	
+E11e	E decomposition	main	Ndufs5 meets the criterion under both definitions in all four tissues	4	4	4	int	PASS	
+E12_adipose	E decomposition	main	(+0.73, +1.06, +0.86)	+0.73	0.734399	0.73	num	PASS	
+E12_hypothalamus	E decomposition	main	(+0.73, +1.06, +0.86)	+1.06	1.06153	1.06	num	PASS	
+E12_liver	E decomposition	main	(+0.73, +1.06, +0.86)	+0.86	0.862675	0.86	num	PASS	
+E12s	E decomposition	main	where bias_matched is −0.02 and the whole +5.36	-0.02	-0.0210121	-0.02	num	PASS	
+E13	E decomposition	main	C57BL/6J-read loss (+5.38)	+5.38	5.38252	5.38	num	PASS	
+E13f	E decomposition	main	(bias_matched +0.73 to +1.06 log₂)	+0.73	0.734399	0.73	num	PASS	
+E14	E decomposition	af1	for one gene, Gm26740, tested in three tissues under the primary model and four under the matched model	Gm26740 only	Gm26740 only	Gm26740 only	eq	PASS	bias_matched_mean + b6_loss_mean − mean_bias = -0.0186; tissues tested (primary) ['adipose', 'liver', 'skin']; tissues with a matched estimate ['adipose', 'hypothalamus', 'liver', 'skin'] — the means are over different tissue sets, not a computation error
+E15	E decomposition	af1	they differ from mean_bias by 0.02	0.02	0.0186416	0.02	num	PASS	S2 caption (M-3c)
+E16	E decomposition	af1	tested in three tissues under the primary model and four under the matched model	3/4	3/4	3/4	eq	PASS	
+F1a	F worked examples	main	(log₂FC −0.92 to −5.06)	-0.92	-0.916945	-0.92	num	PASS	
+F1b	F worked examples	main	(log₂FC −0.92 to −5.06)	-5.06	-5.05684	-5.06	num	PASS	
+F2a	F worked examples	main	(log₂FC +1.58 to +5.18)	+1.58	1.58407	1.58	num	PASS	
+F2b	F worked examples	main	(log₂FC +1.58 to +5.18)	+5.18	5.18078	5.18	num	PASS	
+F3a	F worked examples	main	(bias_wasp +1.55 to +5.52)	+1.55	1.54802	1.55	num	PASS	
+F3b	F worked examples	main	(bias_wasp +1.55 to +5.52)	+5.52	5.52362	5.52	num	PASS	
+F3c	F worked examples	main	(bias +3.32 to +10.24 log₂; mean +5.63)	+3.32	3.31928	3.32	num	PASS	
+F4	F worked examples	main	(log₂FC −5.89); the FVB arm reported log₂FC −0.53	-5.89	-5.89452	-5.89	num	PASS	
+F5	F worked examples	main	the FVB arm reported log₂FC −0.53	-0.53	-0.533011	-0.53	num	PASS	
+F6	F worked examples	main	at about 1/59 of the C57BL/6J level	59	59.4879	59	num	PASS	
+F6b	F worked examples	main	(bias +5.36 log₂)	+5.36	5.36151	5.36	num	PASS	
+F7_adipose	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.12	1.11779	1.12	num	PASS	
+F7_hypothalamus	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.36	1.36172	1.36	num	PASS	
+F7_liver	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.14	1.14491	1.14	num	PASS	
+F8_naive	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.2	2.21221	2.2	num	PASS	
+F8_wasp	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.1	2.13717	2.1	num	PASS	
+F8_fvb	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.2	2.19705	2.2	num	PASS	
+F9_naive	F worked examples	main	C57BL/6J counts fell from 7.7 (naive) to 2.5 (WASP) and 2.6 (FVB reference)	7.7	7.6822	7.7	num	PASS	
+F9_wasp	F worked examples	main	C57BL/6J counts fell from 7.7 (naive) to 2.5 (WASP) and 2.6 (FVB reference)	2.5	2.50899	2.5	num	PASS	
+F9_fvb	F worked examples	main	C57BL/6J counts fell from 7.7 (naive) to 2.5 (WASP) and 2.6 (FVB reference)	2.6	2.56535	2.6	num	PASS	
+F10_Rps2_naive_unique_FVB	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	3.71	3.7071	3.71	num	PASS	
+F10_Rps2_naive_multi_FVB	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	13.00	13.0032	13.00	num	PASS	
+F10_Rps2_naive_unique_B6	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	209.76	209.755	209.76	num	PASS	
+F10_Rps2_naive_multi_B6	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	232.82	232.82	232.82	num	PASS	
+F10_Rps2_fvb_unique_FVB	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	3.67	3.66595	3.67	num	PASS	
+F10_Rps2_fvb_multi_FVB	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	41.84	41.8449	41.84	num	PASS	
+F10_Rps2_fvb_unique_B6	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	5.06	5.05608	5.06	num	PASS	
+F10_Rps2_fvb_multi_B6	F worked examples	af1	Rps2 3.71 13.00 209.76 232.82 3.67 41.84 5.06 19.90	19.90	19.9039	19.90	num	PASS	
+F10_Rps2-ps10_naive_unique_FVB	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	0.05	0.0544246	0.05	num	PASS	
+F10_Rps2-ps10_naive_multi_FVB	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	49.42	49.4181	49.42	num	PASS	
+F10_Rps2-ps10_naive_unique_B6	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	0.01	0.0115084	0.01	num	PASS	
+F10_Rps2-ps10_naive_multi_B6	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	9.68	9.68301	9.68	num	PASS	
+F10_Rps2-ps10_fvb_unique_FVB	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	0.05	0.0544246	0.05	num	PASS	
+F10_Rps2-ps10_fvb_multi_FVB	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	37.83	37.8262	37.83	num	PASS	
+F10_Rps2-ps10_fvb_unique_B6	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	0.01	0.0115084	0.01	num	PASS	
+F10_Rps2-ps10_fvb_multi_B6	F worked examples	af1	Rps2-ps10 0.05 49.42 0.01 9.68 0.05 37.83 0.01 14.69	14.69	14.685	14.69	num	PASS	
+F10_Rps2-ps13_naive_unique_FVB	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	0.13	0.133823	0.13	num	PASS	
+F10_Rps2-ps13_naive_multi_FVB	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	44.41	44.4099	44.41	num	PASS	
+F10_Rps2-ps13_naive_unique_B6	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	0.08	0.0752911	0.08	num	PASS	
+F10_Rps2-ps13_naive_multi_B6	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	7.24	7.24291	7.24	num	PASS	
+F10_Rps2-ps13_fvb_unique_FVB	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	0.13	0.128982	0.13	num	PASS	
+F10_Rps2-ps13_fvb_multi_FVB	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	32.58	32.5794	32.58	num	PASS	
+F10_Rps2-ps13_fvb_unique_B6	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	0.11	0.107485	0.11	num	PASS	
+F10_Rps2-ps13_fvb_multi_B6	F worked examples	af1	Rps2-ps13 0.13 44.41 0.08 7.24 0.13 32.58 0.11 9.48	9.48	9.47962	9.48	num	PASS	
+F10_Rps2-ps6_naive_unique_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	0.10	0.0964695	0.10	num	PASS	
+F10_Rps2-ps6_naive_multi_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	7.64	7.63801	7.64	num	PASS	
+F10_Rps2-ps6_naive_unique_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	0.11	0.113841	0.11	num	PASS	
+F10_Rps2-ps6_naive_multi_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	2.49	2.49489	2.49	num	PASS	
+F10_Rps2-ps6_fvb_unique_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	0.09	0.0911256	0.09	num	PASS	
+F10_Rps2-ps6_fvb_multi_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	6.23	6.22604	6.23	num	PASS	
+F10_Rps2-ps6_fvb_unique_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	0.12	0.117615	0.12	num	PASS	
+F10_Rps2-ps6_fvb_multi_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	6.43	6.43474	6.43	num	PASS	
+F11a	F worked examples	main	(fractional counts 49.4 and 44.4 counts per million in FVB/NJ skin against 13.0 at Rps2)	49.4	49.4181	49.4	num	PASS	
+F11b	F worked examples	main	(fractional counts 49.4 and 44.4	44.4	44.4099	44.4	num	PASS	
+F11c	F worked examples	main	against 13.0 at Rps2	13.0	13.0032	13.0	num	PASS	
+F12_Rps2	F worked examples	main	(41.8, 37.8 and 32.6)	41.8	41.8449	41.8	num	PASS	
+F12_Rps2-ps10	F worked examples	main	(41.8, 37.8 and 32.6)	37.8	37.8262	37.8	num	PASS	
+F12_Rps2-ps13	F worked examples	main	(41.8, 37.8 and 32.6)	32.6	32.5794	32.6	num	PASS	
+F13a	F worked examples	main	(by 1.66 and 1.54 log₂ units)	1.66	1.65999	1.66	num	PASS	
+F13b	F worked examples	main	(by 1.66 and 1.54 log₂ units)	1.54	1.53584	1.54	num	PASS	instruction listed 1.53; the text prints 1.54
+F13c	F worked examples	af1	(by 1.66 and 1.54 log₂ units)	1.54	1.53584	1.54	num	PASS	
+F14	F worked examples	main	(ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene body, 13.9 SNPs/kb)	53	53	53	int	PASS	
+F15	F worked examples	main	53 FVB/NJ SNPs in a 3.8-kb gene body	3.8	3.814	3.8	num	PASS	
+F16	F worked examples	main	13.9 SNPs/kb	13.9	13.8962	13.9	num	PASS	
+F17	F worked examples	af1	(16 SNPs and 5 indels within exons; exonic: within the union of the exons of all Ensembl 110 Rps2 transcripts)	16	16	16	int	PASS	exons = union of all Rps2 transcripts
+F18	F worked examples	af1	53 FVB/NJ SNPs and 12 homozygous indels in 3.8 kb	12	12	12	int	PASS	
+F19	F worked examples	af1	(16 SNPs and 5 indels within exons	5	5	5	int	PASS	exonic hom-alt indels: 24939228 CTCT>C; 24940293 TA>T; 24940464 G>GC; 24940465 T>TGGGATCAAAGGC; 24940562 C>CTT
+F17x	F worked examples	af1		same sets	same sets	same sets	eq	PASS	exonic SNP/indel positions recomputed here (VCF + GTF union) = positions in rps2_exonic_variants_union.tsv
+F21	F worked examples	main	carry the FVB/NJ allele at all five exonic SNP positions	5	5	5	int	PASS	union SNPs inside the copied part; each of them is in rps2_pseudogene_alleles.tsv with the same call: True
+F22_Rps2-ps10	F worked examples	main	(Rps2-ps6 at three;	5	5	5	int	PASS	
+F22_Rps2-ps13	F worked examples	main	(Rps2-ps6 at three;	5	5	5	int	PASS	
+F22_Rps2-ps6	F worked examples	main	(Rps2-ps6 at three;	3	3	3	int	PASS	
+F23	F worked examples	main	the other eleven exonic SNPs	11	11	11	int	PASS	
+F24	F worked examples	main	The five exonic indels of the FVB/NJ allele all lie outside that part	0	0	0	int	PASS	
+F24n	F worked examples	main	The five exonic indels of the FVB/NJ allele	5	5	5	int	PASS	
+G1	G F1 allele-specific expression	main	across all 12 F1 samples was 0.480 ± 0.0003	0.480	0.479907	0.480	num	PASS	
+G2	G F1 allele-specific expression	main	0.480 ± 0.0003	0.0003	0.000325569	0.0003	num	PASS	standard error over 12 animals
+G3	G F1 allele-specific expression	main	(t = -61.7, p = 2.5 × 10⁻¹⁵; Fig. 2A)	-61.7	-61.7172	-61.7	num	PASS	
+G4	G F1 allele-specific expression	main	p = 2.5 × 10⁻¹⁵	2.5e-15	2.50163e-15	2.5e-15	sci	PASS	
+G4r	G F1 allele-specific expression	resp	(p = 2.5 × 10⁻¹⁵)	2.5e-15	2.50163e-15	2.5e-15	sci	PASS	
+G5	G F1 allele-specific expression	main	This corresponds to a 2.0-percentage-point deficit	2.0	2.00932	2.0	num	PASS	
+G6_GSE200632	G F1 allele-specific expression	main	The mean FVB allele fraction was 0.481 in GSE200632 and 0.480 in GSE293440	0.481	0.480688	0.481	num	PASS	
+G6_GSE293440	G F1 allele-specific expression	main	The mean FVB allele fraction was 0.481 in GSE200632 and 0.480 in GSE293440	0.480	0.479516	0.480	num	PASS	
+G7a	G F1 allele-specific expression	main	Each sample contributed 12,816–37,003 heterozygous sites	12816	12816	12816	int	PASS	
+G7b	G F1 allele-specific expression	main	12,816–37,003	37003	37003	37003	int	PASS	
+G8	G F1 allele-specific expression	main	The mean number of sites per sample was 26,966	26966	26966.4	26966	num	PASS	
+G9	G F1 allele-specific expression	main	increased to 0.512 ± 0.0005	0.512	0.512222	0.512	num	PASS	
+G10	G F1 allele-specific expression	main	0.512 ± 0.0005	0.0005	0.000488623	0.0005	num	PASS	
+G11	G F1 allele-specific expression	main	(t = 25.0, p = 4.8 × 10⁻¹¹; Fig. 2A)	25.0	25.0123	25.0	num	PASS	
+G12	G F1 allele-specific expression	main	p = 4.8 × 10⁻¹¹	4.8e-11	4.79658e-11	4.8e-11	sci	PASS	
+G12f_GSE293440	G F1 allele-specific expression	Fig2_f1_ase	0.511	0.511	0.511372	0.511	num	PASS	Fig. 2A per-dataset WASP mean GSE293440 (no text counterpart)
+G12f_GSE200632	G F1 allele-specific expression	Fig2_f1_ase	0.514	0.514	0.513922	0.514	num	PASS	Fig. 2A per-dataset WASP mean GSE200632 (no text counterpart)
+G29	G F1 allele-specific expression	Fig2_f1_ase	n = 32,067 sites (both arms)	32067	32067	32067	int	PASS	animal cerebral_cortex_X_Female_Young_B6xFVB_Control_WT_rep2
+G30	G F1 allele-specific expression	Fig2_f1_ase	naive mean 0.482	0.482	0.482041	0.482	num	PASS	
+G31	G F1 allele-specific expression	Fig2_f1_ase	WASP mean 0.511	0.511	0.511072	0.511	num	PASS	
+G32	G F1 allele-specific expression	Fig2_f1_ase	257,514	257514	257514	257514	int	PASS	site × animal pairs retained in both arms, 8 GSE293440 animals
+G33	G F1 allele-specific expression	Fig2_f1_ase	0.483	0.483	0.482636	0.483	num	PASS	Fig. 2C pooled naive mean
+G34	G F1 allele-specific expression	Fig2_f1_ase	0.511	0.511	0.511347	0.511	num	PASS	Fig. 2C pooled WASP mean
+G13a	G F1 allele-specific expression	main	WASP removed 13–18% of the reads carrying the B6	13	12.7735	13	num	PASS	
+G13b	G F1 allele-specific expression	main	WASP removed 13–18% of the reads	18	18.287	18	num	PASS	
+G14a	G F1 allele-specific expression	main	but only 1–2% of the reads carrying the FVB allele	1	1.03406	1	num	PASS	
+G14b	G F1 allele-specific expression	main	but only 1–2% of the reads	2	1.94388	2	num	PASS	
+G15a	G F1 allele-specific expression	main	so the FVB fraction rose at 69–78% of sites	69	68.7734	69	num	PASS	
+G15b	G F1 allele-specific expression	main	rose at 69–78% of sites	78	77.9315	78	num	PASS	
+G16	G F1 allele-specific expression	main	and fell at fewer than 1.1%	1.1	1.03864	1.0	lt	PASS	maximum over animals 1.039%
+G17a	G F1 allele-specific expression	main	(230–450 per animal)	230	230	230	int	PASS	
+G17b	G F1 allele-specific expression	main	(230–450 per animal)	450	450	450	int	PASS	
+G18	G F1 allele-specific expression	main	the naive FVB allele fraction was 0.357, against 0.482	0.357	0.356639	0.357	num	PASS	
+G19	G F1 allele-specific expression	main	against 0.482 at the other sites	0.482	0.481581	0.482	num	PASS	
+G20	G F1 allele-specific expression	main	p = 1.1 × 10⁻¹⁰; Fig. 2D	1.1e-10	1.1343e-10	1.1e-10	sci	PASS	
+G21	G F1 allele-specific expression	main	a deficit of 14 percentage points	14	14.3361	14	num	PASS	
+G22	G F1 allele-specific expression	main	Under WASP the two values were 0.497 and 0.512	0.497	0.497204	0.497	num	PASS	
+G23	G F1 allele-specific expression	main	Under WASP the two values were 0.497 and 0.512	0.512	0.512353	0.512	num	PASS	
+G24	G F1 allele-specific expression	main	(p = 0.017)	0.017	0.0174	0.017	num	PASS	
+G25	G F1 allele-specific expression	main	is seven times the genome-wide deficit	7	7.13478	7	num	PASS	ratio of the catalog-site deficit to the all-site deficit
+G26	G F1 allele-specific expression	resp	at 94,351 positions	94351	94351	94351	int	PASS	
+G27	G F1 allele-specific expression	resp	reproduces the submitted values (0.329 and 0.382)	0.329	0.329335	0.329	num	PASS	
+G28	G F1 allele-specific expression	resp	(0.329 and 0.382)	0.382	0.381651	0.382	num	PASS	
+H1	H negative control	main	The genome-wide median of this ratio was 0.000 in every PyVT tumour	0.000	0	0.000	num	PASS	
+H2a	H negative control	main	with 0.3–0.5% of genes at or above +0.5 in every group	0.3	0.293431	0.3	num	PASS	group means: C57BL/6J PE 0.43%, FVB/NJ PE 0.35%, C57BL/6J skin 0.48%, FVB/NJ skin 0.29%, PyVT 0.31%
+H2b	H negative control	main	with 0.3–0.5% of genes at or above +0.5 in every group	0.5	0.477659	0.5	num	PASS	
+H3a	H negative control	main	(median reference-swap ratio per animal +0.24 to +0.49 over the catalog genes expressed	+0.24	0.243425	0.24	num	PASS	
+H3b	H negative control	main	+0.24 to +0.49	+0.49	0.489676	0.49	num	PASS	
+H3n1	H negative control	main	over the catalog genes expressed in the tissue (76–86 of 138)	76	76	76	int	PASS	catalog genes with naive CPM > 1 in ≥ half the samples: adipose 86, hypothalamus 82, liver 76, skin 84
+H3n2	H negative control	main	over the catalog genes expressed in the tissue (76–86 of 138)	86	86	86	int	PASS	
+H4a	H negative control	main	C57BL/6J animals lost reads (−0.39 to −0.69)	-0.39	-0.392178	-0.39	num	PASS	
+H4b	H negative control	main	C57BL/6J animals lost reads (−0.39 to −0.69)	-0.69	-0.687171	-0.69	num	PASS	
+H4c	H negative control	main	is smaller than in the C57BL/6J animals of the four tissues (−0.39 to −0.69)	-0.69	-0.687171	-0.69	num	PASS	
+H5a	H negative control	main	the PyVT tumours also lost reads (−0.08 to −0.16; 77 catalog genes expressed)	-0.08	-0.0848889	-0.08	num	PASS	
+H5b	H negative control	main	(−0.08 to −0.16; 77	-0.16	-0.155718	-0.16	num	PASS	
+H5n	H negative control	main	77 catalog genes expressed	77	77	77	int	PASS	
+H5d	H negative control	main	(median reference-swap ratio −0.08 to −0.16 over the catalog genes)	-0.16	-0.155718	-0.16	num	PASS	
+H6a	H negative control	main	lost reads at those genes (group mean of the per-animal median −0.43 to −0.66 across the four held-out tissues)	-0.43	-0.431624	-0.43	num	PASS	group mean of per-animal medians: B6 adipose -0.526, hypothalamus -0.432, liver -0.517, skin -0.663; median of per-animal medians: B6 adipose -0.510, hypothalamus -0.431, liver -0.521, skin -0.672
+H6b	H negative control	main	(group mean of the per-animal median −0.43 to −0.66 across the four held-out tissues)	-0.66	-0.663306	-0.66	num	PASS	as medians of per-animal medians: -0.431 to -0.672
+H7a	H negative control	main	FVB/NJ animals gained (+0.29 to +0.44)	+0.29	0.287739	0.29	num	PASS	medians of per-animal medians: +0.279 to +0.467
+H7b	H negative control	main	FVB/NJ animals gained (+0.29 to +0.44)	+0.44	0.443971	0.44	num	PASS	
+H8a	H negative control	main	and the PyVT tumours lost (−0.09 to −0.18)	-0.09	-0.0938883	-0.09	num	PASS	medians of per-animal medians: -0.096 to -0.168
+H8b	H negative control	main	and the PyVT tumours lost (−0.09 to −0.18)	-0.18	-0.178851	-0.18	num	PASS	
+H9a	H negative control	main	on chromosome 16 (37.7–49.7 Mb)	37.7	37.656	37.7	num	PASS	PyVT sites with FVB-allele fraction ≥ 0.1 on chr16; tumours with such sites: 13
+H9b	H negative control	main	(37.7–49.7 Mb)	49.7	49.7313	49.7	num	PASS	
+H9c	H negative control	main	in all 13 tumours	13	13	13	int	PASS	
+H9d	H negative control	main	and in none of 16 C57BL/6J comparison animals	0	0	0	int	PASS	
+H10	H negative control	main	two catalog genes lie in this block	Cd200r4,Gm6030	Cd200r4,Gm6030	Cd200r4,Gm6030	eq	PASS	
+H11	H negative control	main	(Cd200r4, whose PyVT reference-swap ratio was intermediate at −0.26	-0.26	-0.257158	-0.26	num	PASS	median over the 13 tumours
+H12	H negative control	main	Gm6030, not expressed in the tumours	absent	absent	absent	eq	PASS	
+H13	H negative control	main	left the PyVT catalog-gene median unchanged (−0.12)	-0.12	-0.120767	-0.12	num	PASS	median over tumours of the per-tumour catalog median; with the two genes -0.1195, without -0.1208
+H14	H negative control	main	overlapping an FVB/NJ SNP (7.7%)	7.7	7.73264	7.7	num	PASS	
+H15a	H negative control	main	the other libraries (4.8–10.8%)	4.8	4.84084	4.8	num	PASS	
+H15b	H negative control	main	(4.8–10.8%)	10.8	10.7992	10.8	num	PASS	group means by tissue × strain
+I1a	I WASP attrition	main	the removed fraction ranged from 0.23% to 2.55%	0.23	0.231513	0.23	num	PASS	group means (tissue × strain) of per-animal 100 × (1 − WASP assigned / naive assigned): adipose/C57BL/6J 1.54, adipose/FVB/NJ 0.37, hypothalamus/C57BL/6J 1.50, hypothalamus/FVB/NJ 0.23, liver/C57BL/6J 2.55, liver/FVB/NJ 0.32, skin/C57BL/6J 1.19, skin/FVB/NJ 0.30
+I1b	I WASP attrition	main	the removed fraction ranged from 0.23% to 2.55%	2.55	2.54648	2.55	num	PASS	
+I2a	I WASP attrition	main	(C57BL/6J 1.19–2.55% versus FVB/NJ 0.23–0.37%)	1.19	1.19143	1.19	num	PASS	
+I2b	I WASP attrition	main	(C57BL/6J 1.19–2.55%	2.55	2.54648	2.55	num	PASS	
+I2c	I WASP attrition	main	versus FVB/NJ 0.23–0.37%)	0.23	0.231513	0.23	num	PASS	
+I2d	I WASP attrition	main	versus FVB/NJ 0.23–0.37%)	0.37	0.367935	0.37	num	PASS	
+I3a	I WASP attrition	main	ranged from -2.23 to -0.89 percentage points	-2.23	-2.22657	-2.23	num	PASS	
+I3b	I WASP attrition	main	ranged from -2.23 to -0.89 percentage points	-0.89	-0.894325	-0.89	num	PASS	
+I4	I WASP attrition	main	WASP removed only 0.23–2.55% of assigned reads	2.55	2.54648	2.55	num	PASS	
+J1	J within-strain	main	no gene was differentially expressed between fructose- and water-fed FVB/NJ mice at FDR < 0.05 under the naive and WASP 	0	0	0	int	PASS	
+J2	J within-strain	main	three genes in liver under the FVB arm	3	3	3	int	PASS	adipose fvb 0, hypothalamus fvb 0
+J3_naive	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	598	598	598	int	PASS	
+J3_wasp	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	593	593	593	int	PASS	
+J3_fvb	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	539	539	539	int	PASS	
+J4	J within-strain	main	519 of them shared and concordant	519	519	519	int	PASS	shared 519
+J5a	J within-strain	main	(Pearson r = 0.991–0.997;	0.991	0.991333	0.991	num	PASS	
+J5b	J within-strain	main	(Pearson r = 0.991–0.997;	0.997	0.997169	0.997	num	PASS	
+J5c	J within-strain	main	nearly identical gene by gene (Pearson r ≥ 0.99)	0.99	0.991333	0.99	ge	PASS	
+J6a	J within-strain	main	0.09–0.38% of genes differed by ≥ 0.5 log₂	0.09	0.0852555	0.09	num	PASS	
+J6b	J within-strain	main	0.09–0.38% of genes differed	0.38	0.383895	0.38	num	PASS	
+J7a	J within-strain	main	(median |Δ log₂FC| 0.02–0.08)	0.02	0.0219582	0.02	num	PASS	
+J7b	J within-strain	main	(median |Δ log₂FC| 0.02–0.08)	0.08	0.0798447	0.08	num	PASS	
+K1	K letters and survey	resp	Of the 32 genes of the submitted catalog	32	32	32	int	PASS	
+K2	K letters and survey	resp	24 are in the new catalog	24	24	24	int	PASS	
+K3	K letters and survey	resp	26 reach the threshold in at least one tissue	26	26	26	int	PASS	
+K4	K letters and survey	resp	(one of them now shows negative bias in all four tissues)	1	1	1	int	PASS	submitted worked examples Fau, Rsph3a; negative in all four: ['Rsph3a']; in new catalog: []
+K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO series	154	154	154	int	PASS	
+K6	K letters and survey	main	Among these 154 series, 140 reported	140	140	140	int	PASS	
+K7	K letters and survey	main	The remaining 14 studies did not report	14	14	14	int	PASS	
+K8	K letters and survey	main	and none reported a strain-aware alignment strategy	0	0	0	int	PASS	
+K8r	K letters and survey	resp	every one of the 140 FVB studies	140	140	140	int	PASS	
+K9_stated_B6	K letters and survey	Fig1_survey	90.9%	90.9	90.9091	90.9	num	PASS	
+K9_not_reported	K letters and survey	Fig1_survey	9.1%	9.1	9.09091	9.1	num	PASS	
+K9_strain_aware	K letters and survey	Fig1_survey	0.0%	0.0	0	0.0	num	PASS	
+K10	K letters and survey	main	This search returned 1,047 GEO series	1047			nr	NOT_RECOMPUTABLE	search-hit count: no search log is recorded in the project (the value is carried verbatim from the submitted text); cannot be recomputed
+K11	K letters and survey	main	taken from a 290-sample series	290			nr	NOT_RECOMPUTABLE	GEO series size of GSE293440: 290 !Series_sample_id entries in the GEO SOFT record (checked online 2026-10-23); not a result file
+K12	K letters and survey	Fig1_survey	naive B6 mapping 0.480; WASP 0.512 (Fig. 2)	0.480	0.479907	0.480	num	PASS	Fig. 1B regenerated in Phase M-3 (D1)
+K13	K letters and survey	Fig1_survey	naive B6 mapping 0.480; WASP 0.512 (Fig. 2)	0.512	0.512222	0.512	num	PASS	
+K13b	K letters and survey	Fig1_survey		absent	absent	absent	eq	PASS	no submitted-version F1 value left in Fig. 1
+K16	K letters and survey	resp	0.480 (not 0.333)	0.333	0.332916	0.333	num	PASS	submitted-version value quoted; submitted per-animal table f1_ase/f1_ase_per_sample.tsv (old site set)
+K17	K letters and survey	resp	0.512 (not 0.386)	0.386	0.385582	0.386	num	PASS	
+K18	K letters and survey	cover	0.333	0.333	0.332916	0.333	num	PASS	submitted-version value quoted in the cover letter
+K14	K letters and survey	resp	the FVB allele fraction is 0.480 (not 0.333)	0.480	0.479907	0.480	num	PASS	
+K15	K letters and survey	resp	it is 0.512 (not 0.386)	0.512	0.512222	0.512	num	PASS	
+L1	L Supplementary Fig. S1	af1	on chromosomes 2, 3, 8, 10 and 11 at least half of the sites in a bin	2, 3, 8, 10 and 11	2, 3, 8, 10 and 11	2, 3, 8, 10 and 11	eq	PASS	
+L1b	L Supplementary Fig. S1	af1	(for example chromosome 12, 0–20 Mb, in one animal)	1	1	1	int	PASS	
+L2	L Supplementary Fig. S1	af1	(mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with th	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	eq	PASS	10 candidates
+L3	L Supplementary Fig. S1	af1	The C57BL/6J reference animal has at most 0.033 of sites	0.033	0.0326316	0.033	num	PASS	
+L3b	L Supplementary Fig. S1	af1	has at most 0.033	0.033	0.0326316	0.033	le	PASS	
+L4	L Supplementary Fig. S1	af1	the FVB/NJ reference animal at least 0.69	0.69	0.691083	0.69	num	PASS	
+L4b	L Supplementary Fig. S1	af1	at least 0.69	0.69	0.691083	0.69	ge	PASS	

@@ -1,0 +1,22 @@
+type	chrom	pos	ref	alt	length_bp	in_old_exon_bed	in_copied_part_Rps2-ps10	allele_Rps2-ps10	genomic_hsp_Rps2-ps10	in_copied_part_Rps2-ps13	allele_Rps2-ps13	genomic_hsp_Rps2-ps13	in_copied_part_Rps2-ps6	allele_Rps2-ps6	genomic_hsp_Rps2-ps6	in_copied_part_any	genomic_hsp_check
+SNP	17	24938989	C	T	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24939101	G	A	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24939125	G	T	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24939309	T	A	1	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	consistent
+SNP	17	24939456	G	T	1	N	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24939534	T	C	1	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	consistent
+SNP	17	24939823	T	C	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940011	C	T	1	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	B6	Y	Y	consistent
+SNP	17	24940020	C	A	1	Y	Y	FVB/NJ	Y	Y	FVB/NJ	Y	Y	B6	Y	Y	consistent
+SNP	17	24940298	G	T	1	N	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940454	T	C	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940465	T	C	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940469	C	G	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940481	C	T	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+SNP	17	24940643	T	C	1	Y	Y	FVB/NJ	N	Y	FVB/NJ	N	Y	FVB/NJ	N	Y	DIFFERS
+SNP	17	24940701	G	A	1	N	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+deletion	17	24939228	CTCT	C	3	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+deletion	17	24940293	TA	T	1	N	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+insertion	17	24940464	G	GC	1	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+insertion	17	24940465	T	TGGGATCAAAGGC	12	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent
+insertion	17	24940562	C	CTT	2	Y	N	not in pseudogene	N	N	not in pseudogene	N	N	not in pseudogene	N	N	consistent

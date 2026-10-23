@@ -5,14 +5,14 @@ abstract_structured.md	3	KEEP	FVB mice are widely used in transgenic and disease
 abstract_structured.md	4	H	**Methods**
 abstract_structured.md	5	CORR	We surveyed public GEO series containing FVB RNA-seq data, analysed allele-level
 abstract_structured.md	6	H	**Results**
-abstract_structured.md	7	CORR/PHASE-K1/PHASE-L	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
+abstract_structured.md	7	CORR/PHASE-K1/PHASE-L/PHASE-M	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
 abstract_structured.md	8	H	**Conclusions**
 abstract_structured.md	9	KEEP	B6-reference alignment does not broadly distort FVB RNA-seq data, but it can sub
 keywords.md	1	H	***Keywords***
 keywords.md	2	NEW-ID	FVB; C57BL/6J; RNA-seq; reference-genome mapping bias; SNP; personalised referen
 introduction.md	1	H	# Background
 introduction.md	2	KEEP	RNA sequencing (RNA-seq) is now a standard approach for transcriptome-wide gene 
-introduction.md	3	R1-M1	The Mouse Genomes Project has shown that laboratory mouse strains carry millions
+introduction.md	3	R1-M1/PHASE-M	The Mouse Genomes Project has shown that laboratory mouse strains carry millions
 introduction.md	4	KEEP	The FVB inbred strain is widely used in mouse models of cancer, metabolic diseas
 introduction.md	5	R1-M2	FVB is therefore a common background for RNA-seq studies, but this creates a pra
 introduction.md	6	KEEP	Two main approaches are available to reduce SNP-mediated reference-genome mappin
@@ -37,7 +37,7 @@ methods.md	15	CORR	Samples excluded by the manifest rules are listed with the re
 methods.md	16	H	<!-- END generated/methods_datasets.md -->
 methods.md	17	H	## Sample identity verification
 methods.md	18	NEW-ID	Every sample that entered any analysis was checked against its recorded strain b
-methods.md	19	NEW-ID	To reduce run time, the pure-strain animals were evaluated at a fixed random 10%
+methods.md	19	NEW-ID/PHASE-M	To reduce run time, the pure-strain animals were evaluated at a fixed random 10%
 methods.md	20	H	## Reference genome and variant set
 methods.md	21	KEEP	All analyses used the GRCm39 primary assembly. The genome FASTA was downloaded f
 methods.md	22	KEEP	FVB/NJ genetic variants were obtained from the Mouse Genomes Project REL-2021 re
@@ -139,12 +139,12 @@ results.md	3	KEEP	We first examined how publicly available FVB RNA-seq datasets 
 results.md	4	REF	Among these 154 series, 140 reported the reference genome used for alignment. Al
 results.md	5	R1-m4	Together, these results indicate that most FVB RNA-seq studies use a B6 referenc
 results.md	6	H	## B6-reference alignment underestimates FVB allele representation in F1 hybrid 
-results.md	7	CORR	We next tested whether B6-reference alignment produces allele-level bias. For th
+results.md	7	CORR/PHASE-M	We next tested whether B6-reference alignment produces allele-level bias. For th
 results.md	8	NEW-F1	In F1 mice, each autosomal locus carries one allele from each parental strain. T
 results.md	9	NEW-F1	Under naive B6-reference alignment, the mean FVB allele fraction across all 12 F
 results.md	10	NEW-F1	The same pattern was seen in both datasets. The mean FVB allele fraction was 0.4
 results.md	11	NEW-F1	This consistent shift was observed across two independent F1 datasets generated 
-results.md	12	NEW-F1	WASP filtering did not restore the allele balance but overcorrected it. The mean
+results.md	12	NEW-F1/PHASE-M	WASP filtering did not restore the allele balance but overcorrected it. The mean
 results.md	13	NEW-F1/PHASE-K	The deficit is concentrated where the pure-strain bias is: at the evaluated site
 results.md	14	NEW-F1	These results indicate that B6-reference alignment systematically suppresses app
 results.md	15	H	## Every sample entering the pure-strain comparison was verified by sequence
@@ -156,7 +156,7 @@ results.md	20	KEEP	For each gene, we defined reference bias as the difference be
 results.md	21	KEEP	bias = log₂FC_FVB ref − log₂FC_naive
 results.md	22	KEEP	A positive value means that naive B6 alignment underestimates FVB expression rel
 results.md	23	R1-m5	Genes with positive bias were visible as points above the diagonal in per-gene s
-results.md	24	CORR	Across the four tissues, 27,732 genes were expressed and quantifiable in at leas
+results.md	24	CORR/PHASE-M	Across the four tissues, 27,732 genes were expressed and quantifiable in at leas
 results.md	25	KEEP	Thus, the FVB/NJ personalised reference did not create a global upward shift in 
 results.md	26	CORR	The proportion of genes with bias ≥ 0.5 log₂ units was small in every tissue. It
 results.md	27	KEEP	Dataset-level mean log₂FC values were stable across the three alignment arms (Fi
@@ -164,7 +164,7 @@ results.md	28	H	## WASP filtering has little genome-wide effect in pure-strain c
 results.md	29	KEEP	We next examined the WASP-filtered arm in the pure-strain datasets. The WASP arm
 results.md	30	CORR	With this filter, WASP removed only a small fraction of assigned reads. Across a
 results.md	31	CORR	C57BL/6J samples lost more reads than FVB/NJ samples in every tissue (C57BL/6J 1
-results.md	32	CORR	The effect of WASP on gene-level fold changes was minimal. The genome-wide mean 
+results.md	32	CORR/PHASE-M	The effect of WASP on gene-level fold changes was minimal. The genome-wide mean 
 results.md	33	KEEP	Thus, WASP filtering removed a small set of reference-sensitive reads but had li
 results.md	34	CORR	This near-zero genome-wide effect should not be interpreted as evidence that WAS
 results.md	35	H	## SNP-dense loci are enriched among genes vulnerable to reference-genome bias
@@ -172,7 +172,7 @@ results.md	36	KEEP	We next asked which gene features were associated with refere
 results.md	37	CORR	Across all expressed genes, the correlation between SNP density and mean bias wa
 results.md	38	CORR	Genes in the top 10% of SNP density had higher mean bias than genes in the botto
 results.md	39	CORR	Gene length also showed a weak but significant correlation with bias (Spearman ρ
-results.md	40	CORR	Gene biotype showed only modest differences in bias distribution (Fig. 4D). Prot
+results.md	40	CORR/PHASE-M	Gene biotype showed only modest differences in bias distribution (Fig. 4D). Prot
 results.md	41	KEEP	Among the predictors tested, SNP density had the clearest biological interpretat
 results.md	42	H	## A catalog of 138 genes consistently biased across non-tumour tissues
 results.md	43	CORR	We then constructed a catalog of reproducibly biased genes. A gene was included 
@@ -187,7 +187,7 @@ results.md	51	CORR	The number of catalog genes differed by tissue. Adipose tissu
 results.md	52	KEEP	The catalog was also examined under related threshold settings (Supplementary Ta
 results.md	53	H	## The bias is a property of FVB/NJ reads, not of the loci: a B6-background nega
 results.md	54	NEW-NC	To test whether the catalog reflects the FVB/NJ reads rather than some property 
-results.md	55	NEW-NC	At the catalog genes the three groups separated cleanly in direction (Supplement
+results.md	55	NEW-NC/PHASE-M	At the catalog genes the three groups separated cleanly in direction (Supplement
 results.md	56	H	## Multi-mapping sensitivity analysis reveals two mechanistic classes
 results.md	57	KEEP	The primary analysis used the default featureCounts setting, which excludes mult
 results.md	58	CORR	Across 82,264 expressed gene-tissue pairs from the four non-tumour tissues, mult
@@ -210,10 +210,10 @@ discussion.md	2	CORR	This study shows that SNP-mediated reference-genome mapping
 discussion.md	3	REF	We therefore view reference choice as a reproducibility-relevant technical varia
 discussion.md	4	KEEP	This finding is also relevant to the 3Rs in animal research, particularly Reduct
 discussion.md	5	KEEP	The contribution to Refinement is more indirect, but still relevant. Refinement 
-discussion.md	6	CORR	FVB mice are a particularly relevant setting for this issue. FVB/NJ and FVB/N ar
+discussion.md	6	CORR/PHASE-M	FVB mice are a particularly relevant setting for this issue. FVB/NJ and FVB/N ar
 discussion.md	7	NEW-WE	*Ndufs5* provides the clearest example. It exceeded the bias threshold in all fo
 discussion.md	8	NEW-WE/PHASE-K/PHASE-K1/PHASE-L	*Rps2* illustrates a different pattern and marks a limit of reference-based corr
-discussion.md	9	R2-C3	A key result is the contrast between the F1 and pure-strain analyses. In F1 hybr
+discussion.md	9	R2-C3/PHASE-M	A key result is the contrast between the F1 and pure-strain analyses. In F1 hybr
 discussion.md	10	NEW-WE/PHASE-K1/PHASE-L	The personalised reference used here was deliberately conservative. It was const
 discussion.md	11	CORR	The enrichment of catalog genes for FVB/NJ SNP density supports this interpretat
 discussion.md	12	CORR	The multi-mapping sensitivity analysis adds a mechanistic layer to this interpre
@@ -235,16 +235,16 @@ figure_legends.md	4	H	**Figure 2. B6-reference alignment produces a small, repro
 figure_legends.md	5	NEW-F1/PHASE-K	**(A)** Per-animal mean FVB allele fraction at the 203,510 exonic FVB/NJ-homozyg
 figure_legends.md	6	H	**Figure 3. FVB/NJ-personalised reference alignment reduces locus-specific bias 
 figure_legends.md	7	KEEP	In panel C, the displayed standard errors summarize variability across expressed
-figure_legends.md	8	CORR	**(A)** Per-gene scatter plot of log₂FC (FVB/B6) under naive B6 alignment and FV
+figure_legends.md	8	CORR/PHASE-M	**(A)** Per-gene scatter plot of log₂FC (FVB/B6) under naive B6 alignment and FV
 figure_legends.md	9	H	**Figure 4. SNP-dense loci are enriched among genes vulnerable to SNP-mediated r
-figure_legends.md	10	CORR	**(A)** Per-gene reference-mapping bias plotted against FVB/NJ SNP density. SNP 
+figure_legends.md	10	CORR/PHASE-M	**(A)** Per-gene reference-mapping bias plotted against FVB/NJ SNP density. SNP 
 figure_legends.md	11	H	**Figure 5. A catalog of 138 genes consistently biased across non-tumour tissue 
 figure_legends.md	12	CORR	Panel A shows the top 30 genes for display; the complete 138-gene catalog is pro
 figure_legends.md	13	CORR	**(A)** Heatmap of per-tissue bias values for the top 30 of 138 catalog genes. G
 figure_legends.md	14	H	**Figure 6. Worked examples of SNP-mediated reference-genome mapping bias: *Nduf
 figure_legends.md	15	NEW-WE/PHASE-K1	The two genes were chosen by rule: *Ndufs5* is the catalog gene qualifying in th
 figure_legends.md	16	H	**Supplementary Figure S1. Sequence-based strain-identity check: the "wild-type 
-figure_legends.md	17	NEW-ID	Fraction of sites homozygous for the FVB/NJ allele (FVB-allele fraction > 0.9 am
+figure_legends.md	17	NEW-ID/PHASE-M	Fraction of sites homozygous for the FVB/NJ allele (FVB-allele fraction > 0.9 am
 figure_legends.md	18	H	**Supplementary Figure S2. Multi-mapping sensitivity analysis reveals two mechan
 figure_legends.md	19	CORR	**(A)** Genome-wide distribution of Δ across 82,264 expressed gene-tissue pairs 
 figure_legends.md	20	H	**Supplementary Figure S3. Decomposition of the catalog bias into FVB/NJ-read ga
@@ -254,7 +254,7 @@ supplementary_table_captions.md	2	H	**Supplementary Table S1. Sample manifest an
 supplementary_table_captions.md	3	NEW-ID	Sheet *S1a — manifest*: every candidate sample considered for this study (one ro
 supplementary_table_captions.md	4	NEW-ID	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
 supplementary_table_captions.md	5	H	**Supplementary Table S2. Catalog of 138 genes consistently showing SNP-mediated
-supplementary_table_captions.md	6	CORR	Full catalog of genes meeting the primary bias criterion. A gene was included if
+supplementary_table_captions.md	6	CORR/PHASE-M	Full catalog of genes meeting the primary bias criterion. A gene was included if
 supplementary_table_captions.md	7	H	**Supplementary Table S3. Sensitivity of the bias catalog to threshold, minimum-
 supplementary_table_captions.md	8	CORR	Catalog gene counts under a grid of bias thresholds and minimum qualifying-tissu
 supplementary_table_captions.md	9	CORR	Sheet *S3a — primary design*: catalog gene counts under a grid of bias threshold
@@ -304,7 +304,7 @@ supplementary_note2.md	19	CORR	Among the 138 catalog genes:
 supplementary_note2.md	20	CORR/PHASE-K1	- **82 genes showed |Δ| > 0.3 log₂** (SNP-induced multi-mapping component, mean 
 supplementary_note2.md	21	CORR	These classifications are reported in Supplementary Table S2 (columns `mean_bias
 supplementary_note2.md	22	H	## The Rps2 skin case
-supplementary_note2.md	23	NEW-WE/PHASE-K1	The skin *Rps2* bias (+5.36 log₂ unique-only) is the largest single-tissue bias 
+supplementary_note2.md	23	NEW-WE/PHASE-K1/PHASE-M	The skin *Rps2* bias (+5.36 log₂ unique-only) is the largest single-tissue bias 
 supplementary_note2.md	24	NEW-WE/PHASE-K1	Counts per million of *Rps2* and of the three processed pseudogenes that carry i
 supplementary_note2.md	25	NEW-WE/PHASE-K1	| Gene | B6 ref., FVB/NJ unique | B6 ref., FVB/NJ fractional | B6 ref., C57BL/6J
 supplementary_note2.md	26	NEW-WE/PHASE-K1/PHASE-L	Under unique-only counting the SNP-only personalised reference does not recover 

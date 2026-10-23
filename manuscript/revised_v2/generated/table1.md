@@ -22,7 +22,7 @@ Generated from the sample manifest (`revision_v2/manifest/manifest.tsv`) by `rev
 | GEO accession | Tissue | Cross (GEO attribute) | *n* (F1) | Library | Read length | Sequence identity QC |
 |---|---|---|---|---|---|---|
 | GSE293440 | Cerebral (frontal) cortex | B6xFVB | 8 | Paired-end | 150 bp | 8/8 (expected: F1) |
-| GSE200632 | Primary keratinocytes | C57BL/6:FVB/N (F1:50/50) | 4 | Paired-end | 151 bp | 4/4 (expected: F1) |
+| GSE200632 | Primary keratinocytes (LSL-KrasG12D, Cre-transduced) | C57BL/6:FVB/N (F1:50/50) | 4 | Paired-end | 151 bp | 4/4 (expected: F1) |
 
 Sequence identity QC: allele fractions at 203,510 FVB/NJ-homozygous exonic SNP sites in the B6-reference alignment (see *Sample identity verification*); full per-sample results in Supplementary Table S1.
 Sex and age are not recorded in the GEO/BioSample attributes of the fructose study; the imiquimod study records sex (M/F). All FVB/NJ animals are from the Jackson Laboratory substrain, matched to the FVB_NJ variant set.

@@ -8,7 +8,7 @@ qc={}
 p=f"{PROJ}/analysis_v2/results/qc/sample_identity_verification.tsv"
 if os.path.exists(p):
     for r in csv.DictReader(open(p), delimiter="\t"): qc[r["sample_id"]]=r
-TISSUE_LABEL={"adipose":"Mesenteric adipose","hypothalamus":"Hypothalamus","liver":"Liver","skin":"Back skin","mammary_tumour_PyVT":"Mammary tumour (MMTV-PyVT)","keratinocytes":"Primary keratinocytes","cerebral_cortex":"Cerebral (frontal) cortex"}
+TISSUE_LABEL={"adipose":"Mesenteric adipose","hypothalamus":"Hypothalamus","liver":"Liver","skin":"Back skin","mammary_tumour_PyVT":"Mammary tumour (MMTV-PyVT)","keratinocytes":"Primary keratinocytes (LSL-KrasG12D, Cre-transduced)","cerebral_cortex":"Cerebral (frontal) cortex"}
 COHORT={"GSE123875":"Fructose study (PRJNA510125; SubSeries of GSE123896)","GSE123893":"Fructose study (PRJNA510129; SubSeries of GSE123896)","GSE123894":"Fructose study (PRJNA510133; SubSeries of GSE123896)","GSE86315":"Imiquimod strain panel (PRJNA341396)"}
 def nq(rows):
     if not qc: return "pending"
