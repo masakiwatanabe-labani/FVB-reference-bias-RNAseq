@@ -5,7 +5,7 @@ Sealed in the commit that adds this file (parent ?, branch v2-corrected); that c
 ## What was verified
 
 - **M-0 inputs frozen**: `inputs.sha256` lists every frozen input (numbers.tsv, supplementary_tables_v2.xlsx, every file of RESULTS.md5 and FIGURES.md5, and the two md5 lists); final_check fails if any changes. `build_submission.sh` does not rewrite the xlsx or the figures once frozen.
-- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1783 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
+- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1784 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
 - **M-2 independent recomputation** (`recompute_independent.py` → `recompute_report.tsv`): no import of the pipeline or of the text/number generators, no numbers.tsv; primary result files only (edgeR tables, count matrices and featureCounts summaries, STAR junction lists and Log.out, F1 and identity per-site tables, WASP allele-removal table, within-strain DE tables, FVB_NJ VCFs and the Ensembl 110 GTF via bcftools/bedtools, rps2_* files, vW tag counts, survey table, submitted-version catalog for the letters). Bounds pass only if the exact value satisfies the bound as printed.
 - **D3 double-rounding scan** (`double_rounding_scan.py`): every key printed in the text compared with the value rounded once from full precision (`generated/numbers_fullprecision.tsv`).
 - **Seal**: `deliverables.sha256` (every file in revision_v2/submission/, figures included).
@@ -14,8 +14,8 @@ Sealed in the commit that adds this file (parent ?, branch v2-corrected); that c
 
 | class | tokens |
 |---|---|
-| KEY | 913 |
-| STRUCT | 850 |
+| KEY | 912 |
+| STRUCT | 852 |
 | M2 | 17 |
 | UNMAPPED | 2 |
 | XLSX | 1 |
@@ -150,12 +150,12 @@ No number changed: every _data.tsv is byte-identical to the frozen version; the 
 | N-1d | response letter (Fig. 1A/1B sentence) | `revision_v2/response_to_reviewers.md` | `e03de2a7f4dbecf4…` | `05a03b4d7b559a86…` |
 | N-1d | cover letter (Fig. 1A/1B sentence) | `revision_v2/cover_letter.md` | `84979932c300b52f…` | `eaff8de1c070a96a…` |
 | N | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `2416d7c113f34bd4…` | `6c045f5b4c935228…` |
-| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `a6d472f356bc5e65…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `0f230370284b26da…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `08e8ce52035cde7f…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `8aa80783bae22741…` | `b6d0a41694d53365…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `2d3bfba585b6529b…` | `9397051f429b1709…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `495ca793bfbe652a…` | `594fee1fc2e31006…` |
+| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `0298c77db005b2f9…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `d3cd32b5b31891f5…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `bf043b6eb9972fa7…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `8aa80783bae22741…` | `9a10e96e5bd76695…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `2d3bfba585b6529b…` | `70230ac56dd43a8f…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `495ca793bfbe652a…` | `7b532f2d52e432e4…` |
 
 ## Phase O (2026-10-23): figure label and occlusion fixes — authorised exceptions
 
@@ -218,9 +218,9 @@ Figure-only changes; no data, number or text outside the figures changed: the le
 | O | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `cc45b9f5340bed88…` | `5ad18b229ed7c588…` |
 | O | FIGURES.md5 (16 lines) | `analysis_v2/figures/FIGURES.md5` | `5f19e67ec77c17dd…` | `81b7ed8f13cc3428…` |
 | O | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `c77b76b556efaa5d…` | `6c045f5b4c935228…` |
-| O | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `c965d45012279410…` | `a6d472f356bc5e65…` |
-| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_additional_file_1.docx` | `9ab0d10c40b0e638…` | `08e8ce52035cde7f…` |
-| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_main_text_v2.docx` | `10016ec3e3db77a0…` | `0f230370284b26da…` |
+| O | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `c965d45012279410…` | `0298c77db005b2f9…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_additional_file_1.docx` | `9ab0d10c40b0e638…` | `bf043b6eb9972fa7…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_main_text_v2.docx` | `10016ec3e3db77a0…` | `d3cd32b5b31891f5…` |
 
 ## Phase P (2026-10-23): answering the reviewers more directly — authorised exceptions
 
@@ -237,17 +237,17 @@ New numbers only through numbers.tsv and M-2 (group P): share of tested genes wi
 | P-1a | reference list (Helmy 2026 added) | `manuscript/revised_v2/references_source.md` | `a13e27e04f936f20…` | `dbe4270093b207d9…` |
 | P-2–P-5 | response letter source | `revision_v2/response_to_reviewers.md` | `aab82cb56f4febf8…` | `05a03b4d7b559a86…` |
 | P | frozen-input list | `revision_v2/freeze/inputs.sha256` | `7233afc94d52fc1b…` | `6c045f5b4c935228…` |
-| P | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `ca0c33d458e83376…` | `a6d472f356bc5e65…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `42c4e75482de48bd…` | `08e8ce52035cde7f…` |
+| P | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `ca0c33d458e83376…` | `0298c77db005b2f9…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `42c4e75482de48bd…` | `bf043b6eb9972fa7…` |
 | P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `7c610e0a886e9af1…` | `25d1c0c9f05643b8…` |
 | P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `557000a03318ac07…` | `70cd3539a84ec502…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `7edbb3e47fbd2652…` | `0f230370284b26da…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `7d93bb0130f29a3a…` | `885bf82236b9c3f4…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `2dbc09fd813eca0e…` | `5f0065cfb15f0424…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `f0ba709ade5d5f6f…` | `594fee1fc2e31006…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `0ef423e923c46f2d…` | `305448b8d2a67b75…` |
-| P | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `0de42121ef2aa94c…` | `9397051f429b1709…` |
-| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `5d5a4a09677db35f…` | `b6d0a41694d53365…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `7edbb3e47fbd2652…` | `d3cd32b5b31891f5…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `7d93bb0130f29a3a…` | `7df41fe019e1f212…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `2dbc09fd813eca0e…` | `52828cdfa7a7dd35…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `f0ba709ade5d5f6f…` | `7b532f2d52e432e4…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `0ef423e923c46f2d…` | `4473f0d0e1bda58e…` |
+| P | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `0de42121ef2aa94c…` | `70230ac56dd43a8f…` |
+| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `5d5a4a09677db35f…` | `9a10e96e5bd76695…` |
 | P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `871f18ec443667ce…` | `fbc7827c2bd4002f…` |
 | P | rebuilt deliverable | `revision_v2/submission/supplementary_tables_v2.xlsx` | `014b2144c051ef55…` | `b487a26a5933009d…` |
 
@@ -261,16 +261,16 @@ Text, letters and the Table 1 layout only; numbers.tsv, the xlsx and every figur
 | Q-1b/Q-3/Q-4 | response letter source | \`revision_v2/response_to_reviewers.md\` | \`f4e41f6a789c2275…\` | \`05a03b4d7b559a86…\` |
 | Q-3/Q-4 | cover letter source | \`revision_v2/cover_letter.md\` | \`62ad198e17fcb464…\` | \`eaff8de1c070a96a…\` |
 | Q-5 | assembly: tables with explicit widths, Table 1 landscape | \`revision_v2/scripts/assemble_lar.py\` | \`b4608f140d4ee07e…\` | \`adde9e7901e166b7…\` |
-| Q | deliverables re-sealed | \`revision_v2/freeze/deliverables.sha256\` | \`85de2bbf09812085…\` | \`a6d472f356bc5e65…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_additional_file_1.docx\` | \`201f36053e2d9ccd…\` | \`08e8ce52035cde7f…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.docx\` | \`22c349583700fe62…\` | \`0f230370284b26da…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.md\` | \`b4f516b23b07ff18…\` | \`885bf82236b9c3f4…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.plain.txt\` | \`1f8447950b55bd35…\` | \`5f0065cfb15f0424…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.docx\` | \`31a5c982dd0b5585…\` | \`594fee1fc2e31006…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.plain.txt\` | \`db304961962bce6c…\` | \`305448b8d2a67b75…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/cover_letter_v2.docx\` | \`02c89198f62e27eb…\` | \`9397051f429b1709…\` |
+| Q | deliverables re-sealed | \`revision_v2/freeze/deliverables.sha256\` | \`85de2bbf09812085…\` | \`0298c77db005b2f9…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_additional_file_1.docx\` | \`201f36053e2d9ccd…\` | \`bf043b6eb9972fa7…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.docx\` | \`22c349583700fe62…\` | \`d3cd32b5b31891f5…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.md\` | \`b4f516b23b07ff18…\` | \`7df41fe019e1f212…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.plain.txt\` | \`1f8447950b55bd35…\` | \`52828cdfa7a7dd35…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.docx\` | \`31a5c982dd0b5585…\` | \`7b532f2d52e432e4…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.plain.txt\` | \`db304961962bce6c…\` | \`4473f0d0e1bda58e…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/cover_letter_v2.docx\` | \`02c89198f62e27eb…\` | \`70230ac56dd43a8f…\` |
 | Q | rebuilt deliverable | \`revision_v2/submission/cover_letter_v2.plain.txt\` | \`1d96cad87810359e…\` | \`5d2b2f90bd7daef9…\` |
-| Q | rebuilt deliverable | \`revision_v2/submission/response_to_reviewers_v2.docx\` | \`757666198c0a43e2…\` | \`b6d0a41694d53365…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/response_to_reviewers_v2.docx\` | \`757666198c0a43e2…\` | \`9a10e96e5bd76695…\` |
 | Q | rebuilt deliverable | \`revision_v2/submission/response_to_reviewers_v2.plain.txt\` | \`a20a107ea66de3cc…\` | \`fbc7827c2bd4002f…\` |
 
 ## Phase R (2026-10-23): three wording corrections and one letter deletion — authorised exceptions
@@ -279,23 +279,23 @@ Text only; numbers.tsv, the xlsx and every figure unchanged. 'Pure-strain animal
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| R | source script | `revision_v2/scripts/build_phase_j.py` | `7bc9b5b0cf85443d…` | `15bc347175735cc5…` |
+| R | source script | `revision_v2/scripts/build_phase_j.py` | `7bc9b5b0cf85443d…` | `ba9fbbd6e0741707…` |
 | R | source script | `revision_v2/scripts/render_methods_datasets.py` | `5dde78cea6c72f2f…` | `040515f889ca1f76…` |
 | R-2 | generated Methods datasets block | `manuscript/revised_v2/generated/methods_datasets.md` | `5827966c75528452…` | `3cad5c8cdadda339…` |
 | R-1/R-2/R-4 | response letter source | `revision_v2/response_to_reviewers.md` | `02af69e51f47430a…` | `05a03b4d7b559a86…` |
-| R | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `96482d56fedf966e…` | `a6d472f356bc5e65…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `1a33071ed0800b35…` | `08e8ce52035cde7f…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `1c1462b57d8bc6c6…` | `0f230370284b26da…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `308ab6b5706a7dc9…` | `885bf82236b9c3f4…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `943ff9b1f2d41582…` | `5f0065cfb15f0424…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `bf8ecef60a68d02a…` | `594fee1fc2e31006…` |
-| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `87ad693ff4854a1e…` | `305448b8d2a67b75…` |
-| R | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `3936481f5858295f…` | `b6d0a41694d53365…` |
+| R | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `96482d56fedf966e…` | `0298c77db005b2f9…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `1a33071ed0800b35…` | `bf043b6eb9972fa7…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `1c1462b57d8bc6c6…` | `d3cd32b5b31891f5…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `308ab6b5706a7dc9…` | `7df41fe019e1f212…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `943ff9b1f2d41582…` | `52828cdfa7a7dd35…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `bf8ecef60a68d02a…` | `7b532f2d52e432e4…` |
+| R | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `87ad693ff4854a1e…` | `4473f0d0e1bda58e…` |
+| R | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `3936481f5858295f…` | `9a10e96e5bd76695…` |
 | R | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `fd79e5b35beb4a9e…` | `fbc7827c2bd4002f…` |
-| R | re-packed by md_to_docx (source and plain text unchanged) | `revision_v2/submission/cover_letter_v2.docx` | `c9c1e6f8afb58e58…` | `9397051f429b1709…` |
+| R | re-packed by md_to_docx (source and plain text unchanged) | `revision_v2/submission/cover_letter_v2.docx` | `c9c1e6f8afb58e58…` | `70230ac56dd43a8f…` |
 | R | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `0d5a369c84abee55…` | `25d1c0c9f05643b8…` |
 | R | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `053032cc593efd30…` | `70cd3539a84ec502…` |
-| R | checklist regenerated | `revision_v2/submission/submission_checklist.md` | `f9f4d9a1a9a6c021…` | `738dc818e4870005…` |
+| R | checklist regenerated | `revision_v2/submission/submission_checklist.md` | `f9f4d9a1a9a6c021…` | `43e7242ad72753b5…` |
 
 ## Phase R2 (2026-10-23): site subset of the identity check — authorised exceptions
 
@@ -303,20 +303,20 @@ Text only (Methods identity sentence; S1b caption site_set); numbers.tsv, the xl
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| R2 | source script | `revision_v2/scripts/build_phase_j.py` | `94cec69e742a570e…` | `15bc347175735cc5…` |
-| R2 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `365f1d96d8b571b3…` | `a6d472f356bc5e65…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `52e72e4c4b3e4d8a…` | `9397051f429b1709…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `eecb64a7e716053c…` | `08e8ce52035cde7f…` |
+| R2 | source script | `revision_v2/scripts/build_phase_j.py` | `94cec69e742a570e…` | `ba9fbbd6e0741707…` |
+| R2 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `365f1d96d8b571b3…` | `0298c77db005b2f9…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `52e72e4c4b3e4d8a…` | `70230ac56dd43a8f…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `eecb64a7e716053c…` | `bf043b6eb9972fa7…` |
 | R2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `f5fd07ac95d52aa7…` | `25d1c0c9f05643b8…` |
 | R2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `39fb256afc48b38c…` | `70cd3539a84ec502…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `e2ae1717cd7a8503…` | `0f230370284b26da…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `272959488355b676…` | `594fee1fc2e31006…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `be43d6693c3b1a07…` | `305448b8d2a67b75…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `04c59cd8e7ac0eae…` | `885bf82236b9c3f4…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `6fa019c283f81abd…` | `5f0065cfb15f0424…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `676c49c517a99e5b…` | `b6d0a41694d53365…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `e2ae1717cd7a8503…` | `d3cd32b5b31891f5…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `272959488355b676…` | `7b532f2d52e432e4…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `be43d6693c3b1a07…` | `4473f0d0e1bda58e…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `04c59cd8e7ac0eae…` | `7df41fe019e1f212…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `6fa019c283f81abd…` | `52828cdfa7a7dd35…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `676c49c517a99e5b…` | `9a10e96e5bd76695…` |
 | R2 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `0dd060c634b0f990…` | `fbc7827c2bd4002f…` |
-| R2 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `d22c93abc51a61bb…` | `738dc818e4870005…` |
+| R2 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `d22c93abc51a61bb…` | `43e7242ad72753b5…` |
 
 ## Phase S (2026-10-23): ASCII command text in the built docx; survey category definitions — authorised exceptions
 
@@ -324,23 +324,23 @@ Text and build only; numbers.tsv, the xlsx and every figure unchanged. S-1: pand
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| S | source | `revision_v2/scripts/build_phase_j.py` | `2400153814c1d60b…` | `15bc347175735cc5…` |
-| S | source | `revision_v2/scripts/final_check.sh` | `5ebb60401d821abb…` | `1f0954cc7a4a0fe4…` |
+| S | source | `revision_v2/scripts/build_phase_j.py` | `2400153814c1d60b…` | `ba9fbbd6e0741707…` |
+| S | source | `revision_v2/scripts/final_check.sh` | `5ebb60401d821abb…` | `e0529fe973e2ae97…` |
 | S | source | `revision_v2/response_to_reviewers.md` | `6c38889e66e1b11e…` | `05a03b4d7b559a86…` |
 | S-1 | assembly: ASCII command text under pandoc smart | `revision_v2/scripts/assemble_lar.py` | `6e36f9211e267f92…` | `adde9e7901e166b7…` |
-| S | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `deb2533d5721ba3f…` | `a6d472f356bc5e65…` |
-| S | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `50e0e4075f98d992…` | `9397051f429b1709…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `2b43ede472cdda5b…` | `08e8ce52035cde7f…` |
+| S | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `deb2533d5721ba3f…` | `0298c77db005b2f9…` |
+| S | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `50e0e4075f98d992…` | `70230ac56dd43a8f…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `2b43ede472cdda5b…` | `bf043b6eb9972fa7…` |
 | S | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `ff551e9878c9e72f…` | `25d1c0c9f05643b8…` |
 | S | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `15539dc63de85ee8…` | `70cd3539a84ec502…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `6b5e4ce33643de2c…` | `0f230370284b26da…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `5437a0be491fae92…` | `594fee1fc2e31006…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `6fe4f7ef500ebf15…` | `305448b8d2a67b75…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `9ee3510d5366a6a7…` | `885bf82236b9c3f4…` |
-| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `7a6abb8956bb554c…` | `5f0065cfb15f0424…` |
-| S | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `60a89e507cc04288…` | `b6d0a41694d53365…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `6b5e4ce33643de2c…` | `d3cd32b5b31891f5…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `5437a0be491fae92…` | `7b532f2d52e432e4…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `6fe4f7ef500ebf15…` | `4473f0d0e1bda58e…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `9ee3510d5366a6a7…` | `7df41fe019e1f212…` |
+| S | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `7a6abb8956bb554c…` | `52828cdfa7a7dd35…` |
+| S | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `60a89e507cc04288…` | `9a10e96e5bd76695…` |
 | S | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `0dd060c634b0f990…` | `fbc7827c2bd4002f…` |
-| S | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `017dca62ac709730…` | `738dc818e4870005…` |
+| S | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `017dca62ac709730…` | `43e7242ad72753b5…` |
 
 ## Phase S2 (2026-10-23): survey reproducible from the public repository — authorised exceptions
 
@@ -348,21 +348,21 @@ Text and repository only; numbers.tsv, the xlsx and every figure unchanged. surv
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| S2 | source | `revision_v2/scripts/build_phase_j.py` | `410f84931781b4ba…` | `15bc347175735cc5…` |
-| S2 | source | `revision_v2/scripts/commit_phase_h.sh` | `9b5683b07f7f1d01…` | `7aab06700cf249a6…` |
-| S2 | source | `revision_v2/scripts/final_check.sh` | `26389460dabbd2bc…` | `1f0954cc7a4a0fe4…` |
-| S2 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `d4e65477252b1cd1…` | `a6d472f356bc5e65…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `f2a11bd3751c53f9…` | `9397051f429b1709…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `d8e8e2c0618023bc…` | `08e8ce52035cde7f…` |
+| S2 | source | `revision_v2/scripts/build_phase_j.py` | `410f84931781b4ba…` | `ba9fbbd6e0741707…` |
+| S2 | source | `revision_v2/scripts/commit_phase_h.sh` | `9b5683b07f7f1d01…` | `3b34e95d9684def0…` |
+| S2 | source | `revision_v2/scripts/final_check.sh` | `26389460dabbd2bc…` | `e0529fe973e2ae97…` |
+| S2 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `d4e65477252b1cd1…` | `0298c77db005b2f9…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `f2a11bd3751c53f9…` | `70230ac56dd43a8f…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `d8e8e2c0618023bc…` | `bf043b6eb9972fa7…` |
 | S2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `d56b10871077e6d0…` | `25d1c0c9f05643b8…` |
 | S2 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `b6aad86c76d47ea8…` | `70cd3539a84ec502…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `4cb70e42326e427b…` | `0f230370284b26da…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `b9c960b617319f0b…` | `594fee1fc2e31006…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `f8d00b9f65029f2f…` | `305448b8d2a67b75…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `41547cb9968aabed…` | `885bf82236b9c3f4…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `d85ec332590abbc3…` | `5f0065cfb15f0424…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `a3b2c737912be072…` | `b6d0a41694d53365…` |
-| S2 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `579fb9594cfc18f1…` | `738dc818e4870005…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `4cb70e42326e427b…` | `d3cd32b5b31891f5…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `b9c960b617319f0b…` | `7b532f2d52e432e4…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `f8d00b9f65029f2f…` | `4473f0d0e1bda58e…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `41547cb9968aabed…` | `7df41fe019e1f212…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `d85ec332590abbc3…` | `52828cdfa7a7dd35…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `a3b2c737912be072…` | `9a10e96e5bd76695…` |
+| S2 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `579fb9594cfc18f1…` | `43e7242ad72753b5…` |
 
 ## Phase S3 (2026-10-23): public repository in line with the revised manuscript — authorised exceptions
 
@@ -370,22 +370,44 @@ No analysis, no number changes. Repository README/CITATION generated (numbers fr
 
 | id | change | file | sha256 before | sha256 after |
 |---|---|---|---|---|
-| S3 | source | `revision_v2/scripts/build_phase_j.py` | `4b3c4d81f94ba38e…` | `15bc347175735cc5…` |
-| S3 | source | `revision_v2/scripts/commit_phase_h.sh` | `501d0b36e8d82005…` | `7aab06700cf249a6…` |
-| S3 | source | `revision_v2/scripts/final_check.sh` | `daf7fb8cc610f333…` | `1f0954cc7a4a0fe4…` |
+| S3 | source | `revision_v2/scripts/build_phase_j.py` | `4b3c4d81f94ba38e…` | `ba9fbbd6e0741707…` |
+| S3 | source | `revision_v2/scripts/commit_phase_h.sh` | `501d0b36e8d82005…` | `3b34e95d9684def0…` |
+| S3 | source | `revision_v2/scripts/final_check.sh` | `daf7fb8cc610f333…` | `e0529fe973e2ae97…` |
 | S3 | source | `revision_v2/freeze/token_audit.py` | `ec0d7c5616e219db…` | `fc436f2e707015fe…` |
-| S3-1/2 | repository file (HEAD cc9ae4d) | `github_repo/README.md` | `3ee871b29bc1a1f8…` | `a052fa5ed64940c3…` |
+| S3-1/2 | repository file (HEAD cc9ae4d) | `github_repo/README.md` | `3ee871b29bc1a1f8…` | `9b05e0e131c9301b…` |
 | S3-1/2 | repository file (HEAD cc9ae4d) | `github_repo/CITATION.cff` | `b20c6487b1f03bc6…` | `35b467958cd98d93…` |
 | S3-1/2 | repository file (HEAD cc9ae4d) | `github_repo/scripts/pipeline/01_build_references.sh` | `3c4cac7371c36275…` | `de0e5e9362806972…` |
-| S3 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `7c4eb64e0cd6e647…` | `a6d472f356bc5e65…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `571d380e01e950a9…` | `9397051f429b1709…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `40fbdcee596bd1e9…` | `08e8ce52035cde7f…` |
+| S3 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `7c4eb64e0cd6e647…` | `0298c77db005b2f9…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `571d380e01e950a9…` | `70230ac56dd43a8f…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `40fbdcee596bd1e9…` | `bf043b6eb9972fa7…` |
 | S3 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `1550b43383a6b5f4…` | `25d1c0c9f05643b8…` |
 | S3 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `a5acbfdda1c0fba8…` | `70cd3539a84ec502…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `c54bcc4efc59b275…` | `0f230370284b26da…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `1e90c6bbde2e6592…` | `594fee1fc2e31006…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `30b8b516f60e5775…` | `305448b8d2a67b75…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `ef9fb45219aabc91…` | `885bf82236b9c3f4…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `0235e174c67e0282…` | `5f0065cfb15f0424…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `b683dda4606dab04…` | `b6d0a41694d53365…` |
-| S3 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `4e05759732334d57…` | `738dc818e4870005…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `c54bcc4efc59b275…` | `d3cd32b5b31891f5…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `1e90c6bbde2e6592…` | `7b532f2d52e432e4…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `30b8b516f60e5775…` | `4473f0d0e1bda58e…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `ef9fb45219aabc91…` | `7df41fe019e1f212…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `0235e174c67e0282…` | `52828cdfa7a7dd35…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `b683dda4606dab04…` | `9a10e96e5bd76695…` |
+| S3 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `4e05759732334d57…` | `43e7242ad72753b5…` |
+
+## Phase S4 (2026-10-23): clean working tree, identity-check subset, wording — authorised exceptions
+
+No analysis, no number changes. v1-era working-tree copies moved to revision_v2/backup_v1_worktree/; committed modes restored; identity_check/ added (subset reproduced exactly from the documented seed); Methods survey sentence shortened. Only deliverables whose bytes changed are listed.
+
+| id | change | file | sha256 before | sha256 after |
+|---|---|---|---|---|
+| S4 | source | `revision_v2/scripts/build_phase_j.py` | `15bc347175735cc5…` | `ba9fbbd6e0741707…` |
+| S4 | source | `revision_v2/scripts/commit_phase_h.sh` | `7aab06700cf249a6…` | `3b34e95d9684def0…` |
+| S4 | source | `revision_v2/scripts/final_check.sh` | `1f0954cc7a4a0fe4…` | `e0529fe973e2ae97…` |
+| S4 | source | `revision_v2/scripts/make_repo_readme.py` | `200fa9c9c9a34527…` | `e5e8b14873be226d…` |
+| S4 | repository file (HEAD fbff905) | `github_repo/README.md` | `a052fa5ed64940c3…` | `9b05e0e131c9301b…` |
+| S4 | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `a6d472f356bc5e65…` | `0298c77db005b2f9…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `9397051f429b1709…` | `70230ac56dd43a8f…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `08e8ce52035cde7f…` | `bf043b6eb9972fa7…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `0f230370284b26da…` | `d3cd32b5b31891f5…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `594fee1fc2e31006…` | `7b532f2d52e432e4…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `305448b8d2a67b75…` | `4473f0d0e1bda58e…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `885bf82236b9c3f4…` | `7df41fe019e1f212…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `5f0065cfb15f0424…` | `52828cdfa7a7dd35…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `b6d0a41694d53365…` | `9a10e96e5bd76695…` |
+| S4 | rebuilt deliverable | `revision_v2/submission/submission_checklist.md` | `738dc818e4870005…` | `43e7242ad72753b5…` |

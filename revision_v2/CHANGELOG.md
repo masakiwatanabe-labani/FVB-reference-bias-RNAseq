@@ -288,3 +288,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE S3: public repository in line with the revised manuscript
 - `make_repo_readme.py` → `repo_release/README.md`, `CITATION.cff`; `commit_phase_h.sh` copies them, moves v1 scripts to `legacy/v1/` (index-only), stages the LOG fix of `scripts/pipeline/01_build_references.sh`; `token_audit.py` audits the README; `final_check.sh` README/CITATION check (no v1 strings; accessions = Table 1); `build_phase_j.py` `S3_REPL` (Methods survey fields, S5 caption). M-2 399 PASS / 0 FAIL.
+
+### 2026-10-23 — PHASE S4: clean working tree, identity-check subset, wording
+- `revision_v2/backup_v1_worktree/` (outside the repository); `identity_check_release/` → `identity_check/` (commit_phase_h.sh); `make_repo_readme.py` references it; `build_phase_j.py` `S4_REPL`; `final_check.sh`: identity_check release check and clean working tree. M-2 399 PASS / 0 FAIL.

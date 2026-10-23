@@ -133,4 +133,12 @@ if os.path.exists(f"{F}/before_hashes_S3.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b4.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_S4.tsv"):
+    b5 = pd.read_csv(f"{F}/before_hashes_S4.tsv", sep="\t", dtype=str, keep_default_na=False)
+    b5 = b5[[r.change != "rebuilt deliverable" or r.before != sha(r.file) for r in b5.itertuples()]]
+    L += ["## Phase S4 (2026-10-23): clean working tree, identity-check subset, wording — authorised exceptions", "",
+          "No analysis, no number changes. v1-era working-tree copies moved to revision_v2/backup_v1_worktree/; committed modes restored; identity_check/ added (subset reproduced exactly from the documented seed); Methods survey sentence shortened. Only deliverables whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b5.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

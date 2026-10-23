@@ -74,6 +74,7 @@ Raw reads are not included; all datasets are public in NCBI GEO / SRA (downloade
 | `analysis_v2/results/` | result tables: `qc/` (sample-identity check), `catalog/`, `predictors/`, `negative_control/`, `sensitivity_matched/`, `within_fvb/`, `f1_ase/`, `identity/`, `worked_examples/`, `survey/` |
 | `analysis_v2/figures/` | data plotted in every figure panel (`*_data.tsv`) and checksums |
 | `survey/` | GEO survey script and classification table (see `survey/README.md`) |
+| `identity_check/` | the fixed 10% site subset of the sample-identity check, its traversal intervals and the script that regenerates them (see `identity_check/README.md`) |
 | `scripts/pipeline/01_build_references.sh` | reference construction (GRCm39, MGP FVB/NJ variants, g2gtools personalised genome, STAR indices) |
 | `manuscript/revised_v2/` | manuscript sources, generated numbers (`generated/numbers.tsv`) and supplementary tables |
 | `revision_v2/` | revision records: `CHANGELOG.md`, `text_changes.md`, `change_ledger.tsv`, audit notes (`audit/`), number freeze and independent recomputation (`freeze/`) |
@@ -89,7 +90,8 @@ Software versions are listed in `environment.yml` and in the manuscript Methods.
 2. **Manifest:** `revision_v2/scripts/A1_fetch_metadata.py`, `A1_merge_metadata.py`, `B1_fetch_fructose_samples.py`,
    `build_manifest.py` — sample attributes from GEO, ENA and BioSample, and the inclusion rules.
 3. **Identity-check sites:** `revision_v2/scripts/A2_build_qc_sites.sh` (FVB/NJ-homozygous exonic SNP sites; verdict rules in
-   `strain_identity_qc.py`).
+   `strain_identity_qc.py`), then `identity_check/make_identity_subset.py` for the fixed 10% subset used for every animal except
+   the F1 hybrids.
 4. **Per-animal processing:** `analysis_v2/pipeline/run_batch.sh <batch>` (or `scheduler.sh`), which runs `run_sample.sh` per animal:
    ENA download and md5 → fastp → STAR naive arm with WASP tags → sample-identity check (stops on a mismatch) → WASP filter →
    STAR FVB/NJ arm → featureCounts (unique-only and multi-mapping).

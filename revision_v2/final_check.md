@@ -1,4 +1,4 @@
-# Phase J — final check (2026-10-23 21:46 JST)
+# Phase J — final check (2026-10-23 22:02 JST)
 
 ## 1. Integrity of results and figures
 - [x] analysis_v2/results: all 245 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
@@ -32,8 +32,8 @@
 - [x] Availability (Methods, Declarations) and response item 5 name branch v2-corrected, tag v2-corrected-r1; 'branch and tag' 0 hits (Phase L-2)
 
 ## 3b. Phase J checks (minimal-change reconstruction on the submitted text)
-- [x] change ledger rebuilt: total {'KEEP': 479, 'NEW': 526, 'EDIT': 167, 'DROP': 332}; body sentences 747: KEEP 361 (48%)
-- [x] ledger completeness: 1504 rows; 747 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
+- [x] change ledger rebuilt: total {'KEEP': 479, 'NEW': 526, 'EDIT': 166, 'DROP': 333}; body sentences 746: KEEP 361 (48%)
+- [x] ledger completeness: 1504 rows; 746 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
 - [x] response letter: every 'Changed:' pointer resolves to ledger rows with the matching trigger (21 pointers)
 - [x] Abstract ≤ 350 words both ways (body 338, with headings 343)
 - [x] '3Rs' is used in the text (Discussion), so the abbreviation entry is used
@@ -45,9 +45,9 @@
 - [x] all Rps2/pseudogene CPM keys in numbers.tsv use the single definition (evidence rps2_multimap_cpm.tsv)
 - [x] J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps
 - [x] every 'largest single-tissue bias' carries the class qualifier (8 occurrences)
-- [x] marked copy present (80255 bytes; generated from the ledger by mark_from_ledger.py)
+- [x] marked copy present (80247 bytes; generated from the ledger by mark_from_ledger.py)
 - [x] Phase M freeze: all 277 frozen inputs (numbers.tsv, supplementary_tables_v2.xlsx, RESULTS.md5 and FIGURES.md5 files) match revision_v2/freeze/inputs.sha256
-- [x] Phase M-1 token audit: 1783 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
+- [x] Phase M-1 token audit: 1784 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
 - [x] Phase M-2 independent recomputation: 399 claims PASS, 0 FAIL (recompute_report.tsv)
 - [x] Phase M-3 D3 double-rounding scan: keys printed in the text: 221; checked against full precision: 220; double-rounding defects: 0
 - [x] Phase M-4 seal: all 34 files of revision_v2/submission/ match deliverables.sha256
@@ -55,6 +55,8 @@
 - [x] ASCII command text in every built docx (no '–option', no curly quote after '=' or in 'samtools view -e'): LAR_main_text_v2 0; LAR_main_text_v2_marked 0; LAR_additional_file_1 0; response_to_reviewers_v2 0; cover_letter_v2 0
 - [x] survey release (survey_release/ → survey/): 154 series, 140/14/0 stated_B6/not_reported/strain_aware, table = Supplementary Table S5: True, local paths/e-mail/API keys in script: 0
 - [x] repository README/CITATION: v1 strings 0; README accessions 8 = Table 1 accessions 8: True; committed copies on v2-corrected match: True
+- [x] identity_check release: 20351 sites = subset VCF used: True; intervals identical: True; committed copies match: True
+- [x] github_repo working tree clean (git status --porcelain: 0 lines)
 - [x] Table 1 survives PDF conversion (LibreOffice headless): page 34 of 34 (landscape); 7/7 data rows with every cell starting on the row's first line
 - [x] reference 'Ensembl FVB 2025' URL resolves (HTTP 200; Ensembl release 115 FVB_NJ_v3 GTF directory); DOIs: revision_v2/audit/doi_check*.txt
 
@@ -71,8 +73,8 @@
 - [x] 0.4-10 heavy jobs backgrounded with logs: analysis_v2/logs/*.log (f1_ase_rerun.log, f1_oldsites_recount.log)
 
 ## 5. Deliverables (revision_v2/submission/)
-- [x] revision_v2/submission/LAR_main_text_v2.docx (78354 bytes)
-- [x] revision_v2/submission/LAR_additional_file_1.docx (48441 bytes)
+- [x] revision_v2/submission/LAR_main_text_v2.docx (78348 bytes)
+- [x] revision_v2/submission/LAR_additional_file_1.docx (48442 bytes)
 - [x] revision_v2/submission/supplementary_tables_v2.xlsx (158803 bytes)
 - [x] revision_v2/submission/response_to_reviewers_v2.docx (47057 bytes)
 - [x] revision_v2/submission/cover_letter_v2.docx (38750 bytes)
@@ -81,7 +83,7 @@
 - [x] manuscript/revised_v2/introduction.md (842 words)
 - [x] manuscript/revised_v2/results.md (4839 words)
 - [x] manuscript/revised_v2/discussion.md (3472 words)
-- [x] manuscript/revised_v2/methods.md (4623 words)
+- [x] manuscript/revised_v2/methods.md (4613 words)
 - [x] manuscript/revised_v2/figure_legends.md (2133 words)
 - [x] manuscript/revised_v2/table1.md (412 words)
 - [x] manuscript/revised_v2/supplementary_table_captions.md (1457 words)
@@ -91,14 +93,14 @@
 - [x] manuscript/revised_v2/declarations.md (266 words)
 - [x] manuscript/revised_v2/abbreviations.md (138 words)
 - [x] manuscript/revised_v2/keywords.md (15 words)
-- [x] revision_v2/text_changes.md (7601 words)
+- [x] revision_v2/text_changes.md (7767 words)
 - [x] revision_v2/response_to_reviewers.md (4410 words)
 - [x] revision_v2/cover_letter.md (703 words)
-- [x] revision_v2/CHANGELOG.md (12420 words)
+- [x] revision_v2/CHANGELOG.md (12459 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.
 - The FVB_NJ_v3 comparison (optional Phase G) was not performed; the Discussion says so and names the Rps2 skin locus as the first place to look.
-- github_repo has uncommitted v1-era modifications (.gitignore, CITATION.cff, LICENSE, environment.yml, scripts/figures/*); commit_phase_h.sh commits only the v2 files — review before push.
+- github_repo working tree: the v1-era working-tree copies (seven with uncommitted author changes) were moved to revision_v2/backup_v1_worktree/ with their patches in Phase S4; committed modes restored; the v1 scripts are in legacy/v1/ on the branch.
 
 **Result: 0 failing check(s).**

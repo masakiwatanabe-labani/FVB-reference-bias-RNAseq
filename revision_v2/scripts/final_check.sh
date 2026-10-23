@@ -163,6 +163,21 @@ committed = head("README.md")==rd and head("CITATION.cff")==cf
 print(f"v1 strings {len(v1)}; README accessions {len(acc_r)} = Table 1 accessions {len(acc_t)}: {acc_r==acc_t}; committed copies on v2-corrected match: {committed}")
 sys.exit(0 if not v1 and acc_r==acc_t else 1)
 PYEOF
+# Phase S4: identity_check/ release = the subset actually used (sites = records of the subset VCF; intervals byte-identical);
+# committed copies on v2-corrected equal the release files
+python3 - <<'PYEOF' > /tmp/claude_idc.txt && ok "identity_check release: $(cat /tmp/claude_idc.txt)" || bad "identity_check release: $(cat /tmp/claude_idc.txt)"
+import gzip, sys, subprocess
+P="/usr/local/jupyter/FVB_bias"; R=f"{P}/identity_check_release"; Q=f"{P}/analysis_v2/qc"
+used=[tuple(l.split("\t")[i] for i in (0,1,3,4)) for l in gzip.open(f"{Q}/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.vcf.gz","rt") if not l.startswith("#")]
+rel=[tuple(l.rstrip("\n").split("\t")) for l in open(f"{R}/identity_sites_sub10pct.seed20261016.tsv")][1:]
+bed=open(f"{R}/identity_intervals_sub10pct.seed20261016.bed","rb").read()==open(f"{Q}/fvbnj_homalt_exonic.hetGT.sub10pct.seed20261016.intervals.bed","rb").read()
+def head(f): return subprocess.run(["git","-C",f"{P}/github_repo","show",f"v2-corrected:identity_check/{f}"],capture_output=True).stdout
+committed=all(head(f)==open(f"{R}/{f}","rb").read() for f in ("identity_sites_sub10pct.seed20261016.tsv","identity_intervals_sub10pct.seed20261016.bed","make_identity_subset.py","README.md"))
+print(f"{len(rel)} sites = subset VCF used: {rel==used}; intervals identical: {bed}; committed copies match: {committed}")
+sys.exit(0 if rel==used and len(rel)==20351 and bed else 1)
+PYEOF
+# Phase S4: the github_repo working tree is clean (git status --porcelain empty) — required before the authors push
+nps=$(git -C github_repo status --porcelain | wc -l); [ "$nps" -eq 0 ] && ok "github_repo working tree clean (git status --porcelain: 0 lines)" || bad "github_repo working tree not clean: $nps lines ($(git -C github_repo status --porcelain | head -3 | tr '\n' ' '))"
 python3 - <<'PYEOF' > /tmp/claude_t1.txt && ok "Table 1 survives PDF conversion (LibreOffice headless): $(cat /tmp/claude_t1.txt)" || bad "Table 1 PDF conversion: $(cat /tmp/claude_t1.txt)"
 import subprocess, tempfile, re, sys, os
 P="/usr/local/jupyter/FVB_bias"; tmp=tempfile.mkdtemp()
@@ -201,7 +216,7 @@ for f in $M/abstract_structured.md $M/introduction.md $M/results.md $M/discussio
 echo; echo "## 6. Open items for the authors (human decision)"
 echo "- Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples."
 echo "- The FVB_NJ_v3 comparison (optional Phase G) was not performed; the Discussion says so and names the Rps2 skin locus as the first place to look."
-echo "- github_repo has uncommitted v1-era modifications (.gitignore, CITATION.cff, LICENSE, environment.yml, scripts/figures/*); commit_phase_h.sh commits only the v2 files — review before push."
+echo "- github_repo working tree: the v1-era working-tree copies (seven with uncommitted author changes) were moved to revision_v2/backup_v1_worktree/ with their patches in Phase S4; committed modes restored; the v1 scripts are in legacy/v1/ on the branch."
 echo; echo "**Result: $FAIL failing check(s).**"
 } > $OUT
 cat $OUT; exit $FAIL
