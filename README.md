@@ -1,177 +1,114 @@
-# FVB Reference-Genome Mapping Bias in RNA-seq
+# FVB reference-genome mapping bias in RNA-seq
 
-## Correction (revision 2, October 2026)
+Code, sample manifest, results tables and revision records for:
 
-While preparing the revision of the manuscript, we re-verified every sample against GEO/SRA metadata and against strain-informative SNP allele fractions in the aligned reads. This revealed an error in dataset selection and sample misidentification in the pure-strain analysis of the original submission: datasets had been selected from series descriptions and samples assigned by consecutive sequencing-run blocks without inspection of sample-level attributes. The pure-strain results (Figs. 3–6, Table 1, Supplementary Tables S2–S4, and the gene catalog) could not stand as submitted and have been entirely re-derived from correctly identified samples. Sample selection is now driven by a sample-level manifest built from GEO/SRA attributes (`revision_v2/manifest/manifest.tsv`), and a sequence-based strain-identity check is applied to every sample and reported (`analysis_v2/results/qc/sample_identity_verification.tsv`). The corrected pipeline is under `analysis_v2/`, the revision record under `revision_v2/` (`CHANGELOG.md`, `text_changes.md`), and the original code is preserved unchanged in the history of this repository (branch `main` before tag `v2-corrected`). The F1 allele-specific expression analysis (Fig. 2) and the survey of published practice (Fig. 1) were not affected.
+> **Reproducible gene-level reference-genome mapping bias in FVB mouse RNA-seq: implications for animal study reproducibility**
+> Masaki Watanabe, Nobuya Sasaki. *Laboratory Animal Research* (revised manuscript).
 
-Analysis code and figure-generation scripts for:
+## Versions
 
-> **"SNP-mediated reference-genome mapping bias in FVB RNA-seq: a systematic characterisation
-> across five tissue datasets with a 32-gene bias catalog"**
-> *(manuscript in preparation)*
+**The branch `v2-corrected` and the tag `v2-corrected-r1` contain the analysis reported in the revised manuscript.** The earlier
+content of this repository (branch `main`) corresponds to the originally submitted version, whose dataset selection was corrected
+in the revision; it is kept unchanged in the history, and its scripts are under `legacy/v1/` on this branch for reference.
 
----
+## Summary
 
-## Overview
+RNA-seq reads from FVB/NJ mice were quantified in three alignment arms — naive alignment to the C57BL/6J reference GRCm39, the
+same alignment after WASP filtering, and alignment to an FVB/NJ-personalised GRCm39 built with g2gtools from the Mouse Genomes
+Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene was compared between arms.
 
-This repository contains the analysis pipeline and figure scripts used to characterise
-SNP-mediated reference-genome mapping bias in FVB versus C57BL/6J (B6) RNA-seq experiments.
-Raw FASTQ/BAM files are **not** included; all source datasets are publicly available on
-NCBI GEO (accession numbers below). The code is provided for transparency and reproducibility.
+- **Strain comparison:** 36 FVB/NJ and 34 C57BL/6J animals in four tissues from two laboratories —
+  mesenteric adipose tissue, hypothalamus and liver from a fructose-feeding study (GSE123875, GSE123893, GSE123894), and back
+  skin from an imiquimod strain panel (GSE86315).
+- **F1 allele-specific expression:** 12 F1 (C57BL/6J × FVB) animals from GSE293440 and GSE200632.
+- **Negative control:** 13 mammary tumours of the C57BL/6-congenic B6.FVB-Tg(MMTV-PyVT) line (GSE175625).
+- **Catalog:** 138 genes whose FVB/B6 estimate depends on the reference; at 57 of them FVB/NJ reads are demonstrably recovered
+  on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects
+  C57BL/6J reads lost on that reference.
+- **Survey of practice:** 154 public GEO series with FVB RNA-seq data: 140 stated a B6 reference, 14 did not report one,
+  and none reported a strain-aware method (`survey/`).
 
----
+Every animal was checked against its recorded strain by the allele fractions at FVB/NJ-homozygous exonic SNP sites before
+use (sample-identity check; results in `analysis_v2/results/qc/sample_identity_verification.tsv`).
 
-## GEO datasets
+## Datasets
 
-| GEO accession | Tissue | Substrain | Library | n FVB | n B6 |
-|---|---|---|---|---|---|
-| GSE123875 | Mesenteric adipose | FVB/NJ | Paired-end | 6 | 6 |
-| GSE123893 | Liver | FVB/NJ | Paired-end | 6 | 6 |
-| GSE123894 | Kidney | FVB/NJ | Paired-end | 6 | 6 |
-| GSE135230 | Cardiac muscle | FVB/N | Single-end | 10 | 12 |
-| GSE175625 | Mammary tumour (PyVT) | FVB/N | Single-end | 7 | 6 |
-| GSE293440 | Frontal cortex (F1) | FVB/NJ | Paired-end | 8 | — |
-| GSE200632 | Keratinocytes (F1) | FVB/N | Paired-end | 4 | — |
+Generated from the sample manifest (`revision_v2/manifest/manifest.tsv`) by `revision_v2/scripts/make_table1.py`, the same
+source as Table 1 of the manuscript.
 
-Reference genome: GRCm39 (Ensembl release 110).  
-FVB/NJ variant calls: Mouse Genomes Project REL-2021 (`REL-2112-v8-SNPs_Indels/`).
+### Three-arm strain comparison datasets (FVB/NJ versus C57BL/6J)
 
----
+| GEO accession | Tissue | Cohort | *n* FVB/NJ (conditions) | *n* C57BL/6J (conditions) | Library | Read length | Runs per animal | Sequence identity QC passed |
+|---|---|---|---|---|---|---|---|---|
+| GSE123875 | Mesenteric adipose | Fructose study (PRJNA510125; SubSeries of GSE123896) | 8 (fructose ×5; water ×3) | 6 (fructose ×2; water ×4) | Paired-end | 69 bp | 3 | 14/14 |
+| GSE123893 | Hypothalamus | Fructose study (PRJNA510129; SubSeries of GSE123896) | 8 (fructose ×4; water ×4) | 8 (fructose ×4; water ×4) | Paired-end | 101 bp | 3 | 16/16 |
+| GSE123894 | Liver | Fructose study (PRJNA510133; SubSeries of GSE123896) | 12 (fructose ×6; water ×6) | 12 (fructose ×6; water ×6) | Paired-end | 69 bp | 3 | 24/24 |
+| GSE86315 | Back skin | Imiquimod strain panel (PRJNA341396) | 8 (IMQ F ×2; IMQ M ×2; control F ×2; control M ×2) | 8 (IMQ F ×2; IMQ M ×2; control F ×2; control M ×2) | Single-end | 52 bp | 1 | 16/16 |
 
-## Software versions
+### Negative-control dataset (no FVB/NJ-versus-C57BL/6J contrast)
 
-| Tool | Version | Purpose |
-|---|---|---|
-| STAR | 2.7.10a | Read alignment (B6 and FVB reference) |
-| fastp | 1.3.3 | Read quality control and adapter trimming |
-| samtools | 1.17 | BAM sorting, filtering, indexing |
-| featureCounts (Subread) | 2.0.3 | Gene-level read counting (unique-only primary; −M −−fraction for sensitivity) |
-| g2gtools | 0.2.7 | FVB/NJ personalised reference construction |
-| GATK ASEReadCounter | 4.6.2.0 | Allele-specific expression at SNP sites |
-| Python | 3.11 | Analysis and figure scripts |
-| NumPy | 2.4.6 | |
-| SciPy | 1.17.1 | |
-| pandas | 3.0.3 | |
-| matplotlib | 3.11.0 | |
-| pysam | 0.22 | VCF/BAM access from Python |
-| R | 4.2.2 | edgeR differential expression |
-| edgeR | 3.40.2 | TMM normalisation and quasi-likelihood F-tests |
+| GEO accession | Tissue | Strain (GEO attribute) | *n* | Conditions | Library | Read length | Sequence identity QC |
+|---|---|---|---|---|---|---|---|
+| GSE175625 | Mammary tumour (MMTV-PyVT) | B6.FVB-Tg(MMTV-PyVT)634Mul/LellJ (C57BL/6 congenic) | 13 | Methylparaben ×4; Propylparaben ×6; Vehicle ×3 | Single-end | 101 bp | 13/13 (expected: C57BL/6) |
 
----
+### F1 hybrid datasets used for allele-specific expression analysis (Fig. 2)
 
-## Repository structure
+| GEO accession | Tissue | Cross (GEO attribute) | *n* (F1) | Library | Read length | Sequence identity QC |
+|---|---|---|---|---|---|---|
+| GSE293440 | Cerebral (frontal) cortex | B6xFVB | 8 | Paired-end | 150 bp | 8/8 (expected: F1) |
+| GSE200632 | Primary keratinocytes (LSL-KrasG12D, Cre-transduced) | C57BL/6:FVB/N (F1:50/50) | 4 | Paired-end | 151 bp | 4/4 (expected: F1) |
 
-```
-github_repo/
-├── README.md
-├── LICENSE
-├── CITATION.cff
-├── environment.yml          # conda environment (Python dependencies)
-├── scripts/
-│   ├── pipeline/
-│   │   ├── 01_build_references.sh       # VCF filtering → g2gtools VCI → STAR indexes
-│   │   ├── 02_align_wasp_featurecounts.sh  # 3-arm alignment + featureCounts
-│   │   ├── 03_f1_ase.sh                 # F1 ASE alignment + GATK ASEReadCounter
-│   │   ├── 04_bias_analysis.py          # CPM normalisation → bias table → catalog
-│   │   └── 05_multimapping_sensitivity.py  # −M −−fraction re-counting + Δ/mechanism
-│   └── figures/
-│       ├── fig01_survey.py
-│       ├── fig02_f1_ase.py
-│       ├── fig03_strain_comp.py
-│       ├── fig04_predictors.py
-│       ├── fig05_catalog.py
-│       ├── fig06_worked_example.py
-│       └── sfig_s1_multimap.py
-└── tables/
-    └── README_tables.md     # Column descriptions for Supplementary Tables S1–S4
-```
+Sequence identity QC: allele fractions at 203,510 FVB/NJ-homozygous exonic SNP sites in the B6-reference alignment (manuscript Methods, *Sample identity verification*); full per-sample results in Supplementary Table S1.
+Sex and age are not recorded in the GEO/BioSample attributes of the fructose study; the imiquimod study records sex (M/F). All FVB/NJ animals are from the Jackson Laboratory substrain, matched to the FVB_NJ variant set.
 
----
+Raw reads are not included; all datasets are public in NCBI GEO / SRA (downloaded from ENA by the pipeline).
 
-## Analysis execution order
+## Directory map
 
-Set the project root before running any script:
+| Path | Contents |
+|---|---|
+| `revision_v2/manifest/` | sample manifest (one row per sample: accession, strain, tissue, condition, inclusion and reason) |
+| `revision_v2/scripts/` | manifest construction, sample-identity check (`strain_identity_qc.py`, `A2_*`), Table 1, supplementary tables, figures (`fig*.py`, `make_figures.sh`), manuscript assembly and `final_check.sh` |
+| `analysis_v2/pipeline/` | per-animal processing (`run_sample.sh`), batch control, count merging, edgeR and bias analysis, decomposition, F1 allele-specific expression, follow-up analyses |
+| `analysis_v2/params.yaml` | fixed analysis parameters and reference paths |
+| `analysis_v2/results/` | result tables: `qc/` (sample-identity check), `catalog/`, `predictors/`, `negative_control/`, `sensitivity_matched/`, `within_fvb/`, `f1_ase/`, `identity/`, `worked_examples/`, `survey/` |
+| `analysis_v2/figures/` | data plotted in every figure panel (`*_data.tsv`) and checksums |
+| `survey/` | GEO survey script and classification table (see `survey/README.md`) |
+| `scripts/pipeline/01_build_references.sh` | reference construction (GRCm39, MGP FVB/NJ variants, g2gtools personalised genome, STAR indices) |
+| `manuscript/revised_v2/` | manuscript sources, generated numbers (`generated/numbers.tsv`) and supplementary tables |
+| `revision_v2/` | revision records: `CHANGELOG.md`, `text_changes.md`, `change_ledger.tsv`, audit notes (`audit/`), number freeze and independent recomputation (`freeze/`) |
+| `legacy/v1/` | scripts of the originally submitted version (not used by the revised analysis) |
 
-```bash
-export FVB_PROJ=/path/to/your/working/directory
-```
+## How to run (pipeline order)
 
-Then run the pipeline steps in order:
+The scripts expect the project root in the variable `PROJ` near the top of each script; set it to your working directory.
+Software versions are listed in `environment.yml` and in the manuscript Methods.
 
-```bash
-# 1. Build reference genome and FVB/NJ personalised reference
-bash scripts/pipeline/01_build_references.sh
-
-# 2. Three-arm alignment (naive / WASP / FVB reference) + featureCounts
-#    Download FASTQs from SRA before this step (see SRR accessions in script header)
-bash scripts/pipeline/02_align_wasp_featurecounts.sh
-
-# 3. F1 ASE analysis (optional; requires GSE293440 and GSE200632 FASTQs)
-bash scripts/pipeline/03_f1_ase.sh
-
-# 4. Bias quantification and catalog construction (outputs to $FVB_PROJ/results/stage6/)
-python scripts/pipeline/04_bias_analysis.py
-
-# 5. Multi-mapping sensitivity analysis (Supplementary Note 2)
-python scripts/pipeline/05_multimapping_sensitivity.py
-```
-
-### Regenerating figures
-
-```bash
-# Main figures (requires step 4 to have completed)
-python scripts/figures/fig01_survey.py
-python scripts/figures/fig02_f1_ase.py
-python scripts/figures/fig03_strain_comp.py
-python scripts/figures/fig04_predictors.py
-python scripts/figures/fig05_catalog.py
-python scripts/figures/fig06_worked_example.py
-
-# Supplementary Figure S1 (requires step 5 to have completed)
-python scripts/figures/sfig_s1_multimap.py
-```
-
-All figures are saved as PNG (200 dpi) and PDF to `$FVB_PROJ/results/figures/`.
-
----
-
-## Important notes
-
-**Raw data**: FASTQ files must be downloaded from SRA/ENA before running the alignment step.
-The SRR accession lists for each dataset are at the top of
-`scripts/pipeline/02_align_wasp_featurecounts.sh`. Tools such as `prefetch` + `fasterq-dump`
-(SRA Toolkit) or `aria2c` with ENA FTP URLs can be used.
-
-**Disk usage**: Peak disk use during alignment is approximately 150 GB (raw FASTQs + BAMs
-for one dataset). BAMs and trimmed FASTQs should be deleted after featureCounts runs per
-dataset to manage disk space.
-
-**g2gtools Python 3 compatibility**: g2gtools v0.2.7 requires a two-line patch to
-`chain.py` to replace deprecated `.next()` iterator calls with Python 3 `next()`.
-See `scripts/pipeline/01_build_references.sh` for details.
-
-**PyVT tumour dataset**: GSE175625 (mammary, FVB/N) carries somatic copy number variants
-driven by the MMTV-PyVT transgene. Bias values for this dataset are retained as a separate
-annotation column (`pvt_bias`) in Supplementary Table S2 but are excluded from the primary
-catalog criterion (see Methods).
-
-**FVB/N vs FVB/NJ substrain mismatch**: The personalised reference was built from FVB/NJ
-(JAX) variant calls. GSE135230 and GSE175625 used FVB/N mice; FVB/N-private variants are
-not corrected by this VCI. See Methods and Discussion for details.
-
-**Manuscript version**: The version of this repository corresponding to the submitted
-manuscript is archived on Zenodo at [DOI — to be added upon acceptance].
-
----
+1. **References:** `scripts/pipeline/01_build_references.sh` — GRCm39 FASTA and Ensembl 110 GTF, MGP REL-2021 FVB_NJ variants,
+   g2gtools VCI/patch/GTF conversion, STAR indices for both references.
+2. **Manifest:** `revision_v2/scripts/A1_fetch_metadata.py`, `A1_merge_metadata.py`, `B1_fetch_fructose_samples.py`,
+   `build_manifest.py` — sample attributes from GEO, ENA and BioSample, and the inclusion rules.
+3. **Identity-check sites:** `revision_v2/scripts/A2_build_qc_sites.sh` (FVB/NJ-homozygous exonic SNP sites; verdict rules in
+   `strain_identity_qc.py`).
+4. **Per-animal processing:** `analysis_v2/pipeline/run_batch.sh <batch>` (or `scheduler.sh`), which runs `run_sample.sh` per animal:
+   ENA download and md5 → fastp → STAR naive arm with WASP tags → sample-identity check (stops on a mismatch) → WASP filter →
+   STAR FVB/NJ arm → featureCounts (unique-only and multi-mapping).
+5. **Gene metadata:** `analysis_v2/pipeline/gene_meta.sh`.
+6. **Primary analysis:** `analysis_v2/pipeline/final_run.sh` — `merge_counts.py` → `bias_analysis.py` (edgeR via `run_edger.R`;
+   catalog, predictors, within-FVB comparisons) → `revision_v2/scripts/make_figures.sh`.
+7. **Further analyses** in `analysis_v2/pipeline/`: `pyvt_fullsite_recount.sh` → `followup_analysis.py` (negative control,
+   matched-reference sensitivity) → `bias_decomposition.py`; `catalog_clusters_exonic_snps.py`, `rps2_*.py`.
+8. **F1 allele-specific expression:** `f1_ase_rerun.sh` → `f1_ase_summary_v2.py`, `f1_wasp_allele_removal.py`,
+   `f1_sites_catalog_vs_other.py`.
+9. **Survey:** `survey/stage3_survey_v2.py`; Fig. 1 by `revision_v2/scripts/fig1_survey.py`.
+10. **Numbers, tables and checks:** `revision_v2/scripts/results_numbers.py` (`numbers.tsv`), `make_table1.py`,
+    `build_supplementary_tables.py`, then `build_submission.sh build` and `final_check.sh`.
 
 ## Citation
 
-If you use these scripts or the bias catalog, please cite the manuscript (citation below)
-and this repository. A machine-readable citation is provided in `CITATION.cff`.
-
----
+Please cite the article (see `CITATION.cff`):
+Watanabe M, Sasaki N. Reproducible gene-level reference-genome mapping bias in FVB mouse RNA-seq: implications for animal study reproducibility. *Laboratory Animal Research* (in revision).
 
 ## License
 
-Code: MIT License (see `LICENSE`).  
-Bias catalog (Supplementary Table S2): CC BY 4.0.
+MIT (see `LICENSE`).

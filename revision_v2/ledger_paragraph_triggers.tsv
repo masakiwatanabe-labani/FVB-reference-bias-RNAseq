@@ -23,7 +23,7 @@ methods.md	1	H	# Methods
 methods.md	2	H	## Systematic survey of reference genome usage in publicly available FVB RNA-seq
 methods.md	3	KEEP	We searched NCBI GEO to examine how FVB RNA-seq studies have been processed [CIT
 methods.md	4	KEEP	We included studies that generated RNA-seq data from FVB mice. We considered FVB
-methods.md	5	KEEP	After manual review, 154 GEO series met the inclusion criteria. These series for
+methods.md	5	KEEP/PHASE-S3	After manual review, 154 GEO series met the inclusion criteria. These series for
 methods.md	6	KEEP/PHASE-S/PHASE-S2	Each study was assigned to one of three categories. The first, B6 reference stat
 methods.md	7	KEEP	Classification was performed in priority order. Strain-aware classification took
 methods.md	8	H	<!-- BEGIN generated/methods_datasets.md (rendered from revision_v2/manifest/man
@@ -266,7 +266,7 @@ supplementary_table_captions.md	14	NEW-NC	Sheet *S3f — PyVT residual donor seg
 supplementary_table_captions.md	15	H	**Supplementary Table S4. Alignment statistics and WASP read attrition per anima
 supplementary_table_captions.md	16	CORR	One row per animal × arm (naive, WASP, FVB reference) for the 83 animals process
 supplementary_table_captions.md	17	H	**Supplementary Table S5. Systematic survey of reference genome usage in publicl
-supplementary_table_captions.md	18	KEEP/PHASE-S2	GEO series-level classification of 154 publicly available RNA-seq datasets gener
+supplementary_table_captions.md	18	KEEP/PHASE-S2/PHASE-S3	GEO series-level classification of 154 publicly available RNA-seq datasets gener
 supplementary_note1.md	1	H	# Supplementary Note 1. Failure of g2gtools BAM coordinate liftover and its reso
 supplementary_note1.md	2	H	## Background
 supplementary_note1.md	3	KEEP	After aligning FVB/NJ reads to the personalised FVB reference genome (Arm 3), th

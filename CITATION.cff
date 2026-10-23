@@ -1,18 +1,21 @@
 cff-version: 1.2.0
-message: "If you use this software or the bias catalog, please cite as below."
+message: "If you use this software or the bias catalog, please cite the article below."
 type: software
-title: "FVB Reference-Genome Mapping Bias RNA-seq Analysis Pipeline"
+title: "FVB reference-genome mapping bias in RNA-seq: analysis code"
+version: "v2-corrected-r1"
 abstract: >
-  Analysis code and figure-generation scripts for systematic characterisation of
-  SNP-mediated reference-genome mapping bias in FVB mouse RNA-seq experiments,
-  including a 32-gene bias catalog and three-arm pipeline (naive / WASP / FVB personalised reference).
+  Code, sample manifest and result tables for the revised manuscript: three-arm RNA-seq quantification (naive GRCm39,
+  WASP-filtered, FVB/NJ-personalised reference) of FVB/NJ and C57BL/6J animals, F1 allele-specific expression, a
+  negative control, the gene catalog and its decomposition, and a survey of reference-genome practice.
 authors:
   - family-names: "Watanabe"
     given-names: "Masaki"
     email: vm15139.jitudou@gmail.com
+  - family-names: "Sasaki"
+    given-names: "Nobuya"
 repository-code: "https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq"
 license: MIT
-date-released: "2026-01-01"
+date-released: "2026-10-23"
 keywords:
   - RNA-seq
   - reference bias
@@ -22,14 +25,13 @@ keywords:
   - WASP
   - featureCounts
   - SNP-mediated bias
-references:
-  - type: article
-    title: >
-      SNP-mediated reference-genome mapping bias in FVB RNA-seq: a systematic
-      characterisation across five tissue datasets with a 32-gene bias catalog
-    authors:
-      - family-names: "Watanabe"
-        given-names: "Masaki"
-    journal: "[Journal]"
-    year: 2026
-    doi: "[DOI — to be added]"
+preferred-citation:
+  type: article
+  title: "Reproducible gene-level reference-genome mapping bias in FVB mouse RNA-seq: implications for animal study reproducibility"
+  authors:
+    - family-names: "Watanabe"
+      given-names: "Masaki"
+    - family-names: "Sasaki"
+      given-names: "Nobuya"
+  journal: "Laboratory Animal Research"
+  year: 2026

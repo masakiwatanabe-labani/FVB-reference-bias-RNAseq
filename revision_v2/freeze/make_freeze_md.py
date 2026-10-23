@@ -125,4 +125,12 @@ if os.path.exists(f"{F}/before_hashes_S2.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b3.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_S3.tsv"):
+    b4 = pd.read_csv(f"{F}/before_hashes_S3.tsv", sep="\t", dtype=str, keep_default_na=False)
+    b4 = b4[[r.change != "rebuilt deliverable" or r.before != sha(r.file) for r in b4.itertuples()]]
+    L += ["## Phase S3 (2026-10-23): public repository in line with the revised manuscript — authorised exceptions", "",
+          "No analysis, no number changes. Repository README/CITATION generated (numbers from numbers.tsv, in the M-1 audit as 'repo README.md'); v1 scripts moved to legacy/v1/ on the branch; Methods/S5 survey-field sentences corrected to what stage3_survey_v2.py does. Repository files are hashed at HEAD cc9ae4d (before) and in the working tree (after). Only deliverables whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b4.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

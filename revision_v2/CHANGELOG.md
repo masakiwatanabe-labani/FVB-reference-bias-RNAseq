@@ -285,3 +285,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE S2: survey reproducible from the public repository
 - `survey_release/` (copied to `github_repo/survey/` by `commit_phase_h.sh`): survey script without local paths, classification table, README. `build_phase_j.py` `S2_REPL` (Methods survey, Availability, S5 caption). `final_check.sh`: survey release check (154; 140/14/0; table = S5; no local paths/e-mail/API keys). `token_audit.py`: the 600-character truncation length is a STRUCT constant (it had matched unrelated keys by value). M-2 399 PASS / 0 FAIL.
+
+### 2026-10-23 — PHASE S3: public repository in line with the revised manuscript
+- `make_repo_readme.py` → `repo_release/README.md`, `CITATION.cff`; `commit_phase_h.sh` copies them, moves v1 scripts to `legacy/v1/` (index-only), stages the LOG fix of `scripts/pipeline/01_build_references.sh`; `token_audit.py` audits the README; `final_check.sh` README/CITATION check (no v1 strings; accessions = Table 1); `build_phase_j.py` `S3_REPL` (Methods survey fields, S5 caption). M-2 399 PASS / 0 FAIL.

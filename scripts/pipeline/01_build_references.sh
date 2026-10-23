@@ -26,6 +26,7 @@ REF=$PROJ/ref
 THREADS=${THREADS:-8}
 
 
+LOG=${LOG:-$REF/build_references.log}   # Phase S3: LOG was undefined (set -u stopped the script here)
 exec > >(tee -a "$LOG") 2>&1
 echo "[$(date)] Stage 2 START"
 
