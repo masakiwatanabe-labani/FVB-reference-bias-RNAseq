@@ -138,6 +138,18 @@ for f in ("LAR_main_text_v2","LAR_main_text_v2_marked","LAR_additional_file_1","
     out.append(f"{f} {len(h)}" + (f" {sorted(set(h))}" if h else ""))
 print("; ".join(out)); sys.exit(1 if tot else 0)
 PYEOF
+# Phase S2: the survey files released in survey/ (full June 2026 GEO texts were not cached, so no re-classification is possible):
+# classification table 154 rows, 140/14/0, identical gse/category/keyword to Supplementary Table S5; script without local paths
+python3 - <<'PYEOF' > /tmp/claude_survey.txt && ok "survey release (survey_release/ → survey/): $(cat /tmp/claude_survey.txt)" || bad "survey release: $(cat /tmp/claude_survey.txt)"
+import pandas as pd, re, ast, sys
+P="/usr/local/jupyter/FVB_bias"; c=pd.read_csv(f"{P}/survey_release/survey_classification.tsv",sep="\t",dtype=str,keep_default_na=False)
+s5=pd.read_csv(f"{P}/manuscript/revised_v2/supplementary_tables/TableS5_survey_of_practice.tsv",sep="\t",dtype=str,keep_default_na=False)
+n=c.category.value_counts(); cnt=(len(c), n.get("stated_B6",0), n.get("not_reported",0), n.get("strain_aware",0))
+same=c[["gse_acc","category","matched_keyword"]].reset_index(drop=True).equals(s5[["gse_acc","category","matched_keyword"]].reset_index(drop=True))
+src=open(f"{P}/survey_release/stage3_survey_v2.py").read(); ast.parse(src); leak=re.findall(r"/usr/local|/root|/home|jupyter|@[\w-]+\.\w|api_key|email", src, re.I)
+print(f"{cnt[0]} series, {cnt[1]}/{cnt[2]}/{cnt[3]} stated_B6/not_reported/strain_aware, table = Supplementary Table S5: {same}, local paths/e-mail/API keys in script: {len(leak)}")
+sys.exit(0 if cnt==(154,140,14,0) and same and not leak else 1)
+PYEOF
 python3 - <<'PYEOF' > /tmp/claude_t1.txt && ok "Table 1 survives PDF conversion (LibreOffice headless): $(cat /tmp/claude_t1.txt)" || bad "Table 1 PDF conversion: $(cat /tmp/claude_t1.txt)"
 import subprocess, tempfile, re, sys, os
 P="/usr/local/jupyter/FVB_bias"; tmp=tempfile.mkdtemp()

@@ -276,12 +276,31 @@ def phase_s(name, txt, trig):
         txt=txt[:i]+R(new)+txt[j:]; S_USED[n]+=1
         if trig!="H" and "PHASE-S" not in trig: trig+="/PHASE-S"
     return txt, trig
+# ---- Phase S2 (2026-10-23): survey reproducible from the repository (survey/ in the code repository); trigger PHASE-S2
+S2_REPL=[
+ ("methods.md","any word beginning with \"personali\" (personalised, personalized)","","personalised or personalized"),
+ ("methods.md","but no reference-genome keyword was identified.","",
+  "but no reference-genome keyword was identified. The complete keyword lists are given in the survey script in the code repository."),
+ ("declarations.md","the sample-identity check code and results,","","the sample-identity check code and results, the GEO survey script and classification table,"),
+ ("supplementary_table_captions.md","(any mention of WASP, g2gtools, personalised genome construction, N-masking, allele-specific alignment, or diploid genome)","",
+  "(any of the strain-aware keywords listed in Methods; the complete list is in the survey script in the code repository)"),
+ ("supplementary_table_captions.md","evidence_text, raw data-processing text retrieved from GEO SOFT metadata","",
+  "evidence_text, the first 600 characters of the data-processing text retrieved from GEO SOFT metadata in June 2026 (the classification used the full text)"),
+]
+S2_USED=[0]*len(S2_REPL)
+def phase_s2(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(S2_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a)
+        txt=txt[:i]+R(new)+txt[j:]; S2_USED[n]+=1
+        if trig!="H" and "PHASE-S2" not in trig: trig+="/PHASE-S2"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); txt,trig=phase_s(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); txt,trig=phase_s(name,txt,trig); txt,trig=phase_s2(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -672,6 +691,7 @@ assert all(u==1 for u in Q_USED), ("Phase Q replacements not applied exactly onc
 assert all(u==1 for u in R_USED), ("Phase R replacements not applied exactly once", [(R_REPL[n][:2],u) for n,u in enumerate(R_USED) if u!=1])
 assert all(u==1 for u in R2_USED), ("Phase R2 replacements not applied exactly once", [(R2_REPL[n][:2],u) for n,u in enumerate(R2_USED) if u!=1])
 assert all(u==1 for u in S_USED), ("Phase S replacements not applied exactly once", [(S_REPL[n][:2],u) for n,u in enumerate(S_USED) if u!=1])
+assert all(u==1 for u in S2_USED), ("Phase S2 replacements not applied exactly once", [(S2_REPL[n][:2],u) for n,u in enumerate(S2_USED) if u!=1])
 assert all(u==1 for u in P_USED), ("Phase P replacements not applied exactly once", [(P_REPL[n][:2],u) for n,u in enumerate(P_USED) if u!=1])
 assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])
 assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])

@@ -28,7 +28,9 @@ mkdir -p analysis_v2/results/identity/full_site_tables analysis_v2/results/worke
 cp $PROJ/analysis_v2/results/identity/full_site_tables/* analysis_v2/results/identity/full_site_tables/; cp $PROJ/analysis_v2/results/worked_examples/*.tsv analysis_v2/results/worked_examples/
 find $PROJ/revision_v2/freeze -maxdepth 1 -type f -exec cp {} revision_v2/freeze/ \;
 cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/; cp $PROJ/revision_v2/audit/wong2012_excerpts.txt revision_v2/audit/; cp $PROJ/analysis_v2/results/catalog/catalog_clusters.tsv analysis_v2/results/catalog/; cp $PROJ/analysis_v2/results/predictors/gene_exonic_snp_counts.tsv analysis_v2/results/predictors/
-git add analysis_v2 revision_v2 manuscript
+# Phase S2 (2026-10-23): GEO survey script (absolute paths replaced by arguments) and classification table, under survey/
+mkdir -p survey; cp $PROJ/survey_release/stage3_survey_v2.py $PROJ/survey_release/survey_classification.tsv $PROJ/survey_release/README.md survey/
+git add analysis_v2 revision_v2 manuscript survey
 git commit -q -m "${COMMIT_MSG_HEAD:-v2-corrected: Phase H — F1 ASE re-derived at the identity-QC site set, bias decomposition, LAR format}
 
 F1 allele-specific expression recomputed on re-aligned BAMs at the 203,510 FVB/NJ-homozygous exonic sites (the v1 values were

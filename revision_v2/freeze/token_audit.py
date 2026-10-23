@@ -106,6 +106,7 @@ def struct_reason(tok, num, sec, before, after, sent, fname, is_fig):
     if v == 0.5 and re.search(r"expect|parity|equal|balanced", sent): return "design constant (expected F1 allele fraction)"
     if v in (0.5, 0.50) and "%" not in tok and re.search(r"0\.50?\s*log₂|bias\s*[≥>]", sent) : return "threshold fixed in Methods"
     if v == 255 and re.search(r"MAPQ|mapping quality|uniquely", sent): return "STAR MAPQ (parameter)"
+    if v == 600 and re.match(r"\s*characters of the data-processing text", a): return "survey script constant (evidence_text truncated to 600 characters; Phase S2)"
     if v == 20 and re.search(r"depth|reads per site|≥ 20|total count", sent): return "site depth threshold (Methods)"
     if v == 10 and "%" in tok and re.search(r"top|bottom|decile|subset", sent): return "decile/subset definition (Methods)"
     if v is not None and re.search(r"(?:CO₂|°C|μg|µg|mg|ml|μl|nM|mM)", a[:4]): return "unit constant"

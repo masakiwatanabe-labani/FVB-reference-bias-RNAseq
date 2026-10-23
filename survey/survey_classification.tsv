@@ -1,0 +1,155 @@
+gse_acc	title	category	matched_keyword	matched_field
+GSE103345	RNAseq of FACS Drd1 and Drd2 receptor expressing medium spiny neurons (direct and indirect medium spiny neurons) from 5-6 month Q175 Huntington's disease model mice, compared to WT littermates.	not_reported		none (searched !Sample_data_processing)
+GSE103885	Gene expression profiling of mouse liver with hepatocyte-specific knockout of STAT5a/STAT5b genes (STAT5ab-KO)	stated_B6	mm9	!Sample_data_processing
+GSE106468	RNA-seq profiles of WT and Qk-KO corpus callosum and oligodendrocytes	stated_B6	mm10	!Sample_data_processing
+GSE106856	Developmental dynamics of two bipotent progenitors of thymic epithelium	not_reported		none (searched !Sample_data_processing)
+GSE106960	The single cell RNA seq of pulmonary alveolar epithelial cells	stated_B6	mm10	!Sample_data_processing
+GSE107608	Expression difference between stem cell Krt6a+ and differentiated cell WAP+ in mammary precancerous early lesions	stated_B6	mm10	!Sample_data_processing
+GSE108658	EGFR-targeted therapy-induced resistance mechanism in glioblastoma	stated_B6	grcm38	!Sample_data_processing
+GSE118164	The MMTV-Wnt1 murine model produces two phenotypically distinct subtypes of mammary tumors with unique therapeutic responses to an EGFR inhibitor	stated_B6	mm9	!Sample_data_processing
+GSE121223	RNA-seq profiles of WT and QK-KO microglia	stated_B6	mm10	!Sample_data_processing
+GSE121708	Multi-omics profiling of mouse gastrulation at single cell resolution	stated_B6	grcm38	!Sample_data_processing
+GSE122529	The epigenetic regulator Histone Deacetylase 3 regulates the ontogeny and maintenance of tissue-resident macrophage [scRNA-Seq]	stated_B6	mm10	!Sample_data_processing
+GSE123875	Fructose diet FVB vs B6 - tissue A	stated_B6	mm10	!Sample_data_processing
+GSE123893	Fructose diet FVB vs B6 - tissue B	stated_B6	mm10	!Sample_data_processing
+GSE123894	Fructose diet FVB vs B6 - tissue C	stated_B6	mm10	!Sample_data_processing
+GSE124868	Expression profiling of microglia lacking Tgfbr2	stated_B6	mm10	!Sample_data_processing
+GSE125581	RNA-seq profiles of  WT and Qk-KO freshly isolated oligodendrocytes	stated_B6	mm10	!Sample_data_processing
+GSE126119	RNAseq carcinogen induced signatures in lung adenocarcinoma cell lines	stated_B6	mm10	!Sample_data_processing
+GSE126288	Platinoid drugs augment immunotherapy via histone acetylation of MHCI machinery genes	stated_B6	grcm38	!Sample_data_processing
+GSE126577	Genome-wide maps of Qki-5 and PPARb in mouse oligodendrocytes	stated_B6	mm10	!Sample_data_processing
+GSE127723	Hippocampus RNA-seq in CD x Gtf2i*	stated_B6	grcm38	!Sample_data_processing
+GSE133687	Single-cell methylation and accessibility of mouse embryoid body cells, day 3 to day 7. Includes wild type and Tet TKO.	stated_B6	grcm38	!Sample_data_processing
+GSE133689	Single-cell RNA-seq of mouse embryoid body cells, day 3 to day 7. Includes wild type and Tet TKO.	stated_B6	grcm38	!Sample_data_processing
+GSE134064	scRNA-Seq of Mouse Trachea Basal Cells	stated_B6	mm10	!Sample_data_processing
+GSE134521	Gcn5-mediated histone acetylation governs nucleosome dynamics in spermiogenesis [RNA-Seq]	stated_B6	mm9	!Sample_data_processing
+GSE134561	Gcn5-mediated histone acetylation governs nucleosome dynamics in spermiogenesis	stated_B6	grcm38	!Sample_data_processing
+GSE134686	RNAseq data comparing iKPC cells overexpressing WT-USP21 and ED-USP21	stated_B6	mm9	!Sample_data_processing
+GSE135230	Bin1 overexpression FVB vs B6 brain	stated_B6	mm10	!Sample_data_processing
+GSE140579	Cd302 and Cr1l restrict human hepatotropic virus cross-species transmission to mice [3PMH]	stated_B6	mm9	!Sample_data_processing
+GSE140582	Cd302 and Cr1l restrict human hepatotropic virus cross-species transmission to mice [4Total liver]	stated_B6	mm9	!Sample_data_processing
+GSE140591	Cd302 and Cr1l restrict human hepatotropic virus cross-species transmission to mice	stated_B6	mm9	!Sample_data_processing
+GSE144035	Loss of Ikaros promotes oncogene independence in a model of Lmo2-induced T-cell acute lymphoblastic leukemia	stated_B6	mm10	!Sample_data_processing
+GSE144756	Genome-wide maps of Qki-5, Srebp2, and Pol II in oligodendrocytes	stated_B6	mm10	!Sample_data_processing
+GSE144757	Genome-wide maps of QKI-5, SREBP2, and POL II in eye lens cells	stated_B6	mm10	!Sample_data_processing
+GSE148351	HIF1-driven transcriptional changes in the heart	not_reported		none (searched !Sample_data_processing)
+GSE149112	Proliferation and neural stem cell potential of diencephalic astrocytes revealed by genome-wide expression is SMAd4 dependent – RNAseq	stated_B6	mm9	!Sample_data_processing
+GSE149115	Proliferation and neural stem cell potential of diencephalic astrocytes revealed by genome-wide expression is SMAd4 dependent	stated_B6	grcm38	!Sample_data_processing
+GSE149900	Transcriptional profiling of striatum from 6-month-old mice heterozygous knockout for 52 genes and corresponding wildtype control mice	stated_B6	grcm38	!Sample_data_processing
+GSE150928	Metastasis-specific gene expression in autochthonous and allograft mouse mammary tumor models: stratification and identification of targetable signatures	stated_B6	mm9	!Sample_data_processing
+GSE151222	RNA Sequencing on hippocampal tissue after ASO treatment overtime in MECP2 duplication mice	stated_B6	mm10	!Sample_data_processing
+GSE155284	Gene expression profiling of mouse liver cells treated with or without MET/CAT and SB transposase	not_reported		none (searched !Sample_data_processing)
+GSE155787	RNA-seq reveals differential expression of potential miR-486 target transcripts	not_reported		none (searched !Sample_data_processing)
+GSE155966	Single cell RNA seq analysis of postnatal mouse utricle	stated_B6	mm10	!Sample_data_processing
+GSE156404	Transgenic mice with an R342X mutation in Phf6 have reduced protein levels and behavior deficits yet few prominent features of Börjeson-Forssman-Lehmann Syndrome (BFLS).	stated_B6	grcm38	!Sample_data_processing
+GSE156414	TRAP-based allelic translation efficiency imbalance analysis to identify genetic regulation of ribosome occupancy in specific cell types in vivo	not_reported		none (searched !Sample_data_processing)
+GSE158388	Single guide RNA CRISPR /Cas(sg) editing 3 nucleotides and  prime editing (pe) single nucleotide of CArG element in Tspan2 promoter effect on transcriptome in aortas	stated_B6	grcm38	!Sample_data_processing
+GSE161387	High proliferation and delamination during skin epidermal stratification	stated_B6	mm10	!Sample_data_processing
+GSE164017	10X Genomics scRNA-seq profiling of mammary gland cells from mice at different life stages	stated_B6	mm10	!Sample_data_processing
+GSE164023	Tissue-resident memory T cells (TRM) Interactions within the Tissue Ecosystem Network	stated_B6	grcm38	!Sample_data_processing
+GSE166403	Mapping the cardiac vascular niche in heart failure	stated_B6	mm10	!Sample_data_processing
+GSE167328	RNA-sequencing of 14 diverse mouse strains treated with 2,3,7,8-tetrachlorodibenzo-p-dioxin (TCDD)	stated_B6	mm9	!Sample_data_processing
+GSE167562	Molecular profiling of Ebf2+ and Ebf2- PαS  mesenchymal stem cells from mouse dorsal skin	stated_B6	grcm38	!Sample_data_processing
+GSE168037	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma [bulk RNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE168038	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma [10X scRNA-seq]	not_reported		none (searched !Sample_data_processing)
+GSE168039	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma [RNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE168040	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma.	stated_B6	mm10	!Sample_data_processing
+GSE169042	RNAseq analysis of cochlear glial sphere and induced neurons transcriptomes from  SCDM, SCDM/FGF and FIBCL differentiation in vitro	not_reported		none (searched !Sample_data_processing)
+GSE169697	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts [Murine_co-culture_RNA_seq]	stated_B6	mm10	!Sample_data_processing
+GSE169703	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts [Murine_Fibroblast_RNA_seq]	stated_B6	mm10	!Sample_data_processing
+GSE169704	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts [Murine_Wound_Tissue_scRNAseq]	stated_B6	mm10	!Sample_data_processing
+GSE169725	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts	stated_B6	mm10	!Sample_data_processing
+GSE172322	Genome-wide enhancer analysis reveals the role of AP-1 transcription factor in head and neck squamous cell carcinoma [RNA-Seq]	stated_B6	mm10	!Sample_data_processing
+GSE172324	Genome-wide enhancer analysis reveals the role of AP-1 transcription factor in head and neck squamous cell carcinoma	stated_B6	mm10	!Sample_data_processing
+GSE173968	Differential gene expression in mice with inducible loss of Bmal1 and HNF4α in the liver	stated_B6	mm10	!Sample_data_processing
+GSE174113	SMCHD1 has separable roles in chromatin architecture and gene silencing that could be targeted in disease	stated_B6	grcm38	!Sample_data_processing
+GSE175625	PyVT mammary tumor FVB vs B6	stated_B6	grcm38	!Sample_data_processing
+GSE178113	ATRX loss in glioma results in epigenetic dysregulation of cell cycle phase transition [RNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE178116	ATRX loss in glioma results in epigenetic dysregulation of cell cycle phase transition	stated_B6	mm10	!Sample_data_processing
+GSE178420	Loss of epigenetic regulation disrupts lineage commitment and promotes breast cancer (RNA-Seq)	stated_B6	grcm38	!Sample_data_processing
+GSE178424	Loss of epigenetic regulation disrupts lineage commitment and promotes breast cancer	stated_B6	grcm38	!Sample_data_processing
+GSE178576	Targeting epithelial-mesenchymal plasticity via ribosome inhibition to reduce chemoresistant metastasis of breast cancer [bulk RNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE178577	Single cell sequencing of Tri-PyMT cells [10X Genomics]	stated_B6	mm10	!Sample_data_processing
+GSE178578	Single cell sequencing of GFP+ Tri-PyMT cells from lung metastasis	stated_B6	mm10	!Sample_data_processing
+GSE178579	Targeting epithelial-mesenchymal plasticity via ribosome inhibition to reduce chemoresistant metastasis of breast cancer	stated_B6	mm10	!Sample_data_processing
+GSE178778	miR-486 is an epigenetic modulator of Duchenne muscular dystrophy pathologies	stated_B6	grcm38	!Sample_data_processing
+GSE179229	Molecular pathogenesis of several neurodevelopmental disorders converges on MeCP2-TCF20 complex interactions	stated_B6	grcm38	!Sample_data_processing
+GSE182202	Single cell transcriptomic analysis of P8 and P15 mouse cochlea (control and three overexpression conditions) and simultaneous single cell transcriptomic and accessible chromatin analysis of P1 and P8 mouse cochlea (wildtype)	stated_B6	mm10	!Sample_data_processing
+GSE183368	Characterizing the Tumor Immune Microenvironment of Syngeneic Mouse Models of Ovarian Cancer to Predict Response to PD-L1 blockade	stated_B6	mm10	!Sample_data_processing
+GSE184208	PRC1-mediated epigenetic programming is required to generate the ovarian reserve	stated_B6	grcm38	!Sample_data_processing
+GSE184857	Nucleolin aptamer N6L reprograms the translational machinery and acts synergistically with mTORi to inhibit pancreatic cancer proliferation	stated_B6	mm10	!Sample_data_processing
+GSE190764	Activator E2F family transcription factors are master regulators of the molecular signatures instructing the quiescent and activated adult neural stem cell state	stated_B6	grcm38	!Sample_data_processing
+GSE190766	Rb family proteins and Activator E2F family transcription factors are master regulators of the molecular signatures instructing the quiescent and activated adult neural stem cell state	stated_B6	grcm38	!Sample_data_processing
+GSE196778	Fibrosis induced by resident macrophages has divergent roles in pancreas inflammatory injury and PDAC	stated_B6	mm10	!Sample_data_processing
+GSE197018	Epigenetic modules governing skin epidermal homeostasis [neonate skin epidermis]	stated_B6	mm10	!Sample_data_processing
+GSE197024	Epigenetic modules governing skin epidermal homeostasis	stated_B6	mm10	!Sample_data_processing
+GSE197686	ARID1A loss shapes immunosuppression tumor microenvironment via NF-kB induced MDSC chemotaxis to promote prostate Cancer metastasis [RNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE197688	ARID1A loss shapes immunosuppression tumor microenvironment via NF-kB induced MDSC chemotaxis to promote prostate Cancer metastasis	stated_B6	grcm38	!Sample_data_processing
+GSE198438	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma [mir-NRF2]	stated_B6	mm10	!Sample_data_processing
+GSE198439	Cellular senescence in malignant cells promotes tumorigenesis in mouse and patient glioblastoma [p16]	stated_B6	mm10	!Sample_data_processing
+GSE199308	Single cell, whole embryo phenotyping of pleiotropic disorders of mammalian development	stated_B6	mm10	!Sample_data_processing
+GSE200431	Pleiotrophin drives a pro-metastatic immune niche within the breast tumor microenvironment	stated_B6	grcm38	!Sample_data_processing
+GSE200632	F1 C57BL6xFVBN RNA-seq allelic expression	stated_B6	mm10	!Sample_data_processing
+GSE201559	CD169 is a marker of IFN-γ-stimulated inflammatory macrophages in brain tumor	stated_B6	mm10	!Sample_data_processing
+GSE204922	The Kupffer cell-specifying factor Id3 endows macrophages with antimetastatic activity	not_reported		none (searched !Sample_data_processing)
+GSE207086	Three-dimensional morphologic and molecular atlases of human/mouse nasal vasculatures	stated_B6	mm10	!Sample_data_processing
+GSE210023	RNA sequencing of Cd44-positive and Cd44-negative primary osteosarcoma isolated from Nf2 - mutant mice	stated_B6	grcm38	!Sample_data_processing
+GSE210358	Lineage plasticity in prostate cancer depends on JAK/STAT inflammatory signaling	not_reported		none (searched !Sample_data_processing)
+GSE212047	Opposing Roles of Hepatic Stellate Cell Subpopulations in Hepatocarcinogenesis	stated_B6	grcm38	!Sample_data_processing
+GSE213815	RNA-Sequencing analysis of liver tissue from female Foxa3-Cre YAP1 knockout mice, Foxa3-Cre YAP1 KO TAZ heterozygous mice, and WT littermate controls, at 3-4 months of age	stated_B6	grcm38	!Sample_data_processing
+GSE215753	miR-22 gene therapy as a novel option for HCC treatment in part via augmentation of retinoic acid but silencing IL17 signaling in orthotopic murine models	stated_B6	grcm39	!Sample_data_processing
+GSE215964	Resistance of MMTV-NeuT/ATTAC mice to anti-PD-1 immune checkpoint therapy is associated with activation of the Wnt pathway	stated_B6	mm10	!Sample_data_processing
+GSE217892	Intratumoral heterogeneity of glioblastoma is attributed to precancerous cells derived from neural stem cells	stated_B6	mm10	!Sample_data_processing
+GSE219203	Hypoxia extends lifespan and neurological function in a mouse model of aging	stated_B6	mm10	!Sample_data_processing
+GSE219317	Evidence of shared transcriptomic dysregulation of HNRNPU-related disorder between human organoids and embryonic mice	stated_B6	grcm38	!Sample_data_processing
+GSE221020	RNA sequencing of wildtype, PTEN single knockout (SKO), and PTEN;Rb1 double knockout (DKO) mouse prostate organoids	stated_B6	grcm38	!Sample_data_processing
+GSE221021	RNA sequencing of PTEN,Rb1 double knockout (DKO) mouse prostate organoids treated with vehicle or the small molecule mitochondrial pyruvate carrier (MPC) inhibitor UK5099	stated_B6	mm10	!Sample_data_processing
+GSE221023	Mouse prostate organoid metabolism	stated_B6	grcm39	!Sample_data_processing
+GSE221943	PRC1 directs PRC2-H3K27me3 deposition to shield adult spermatogonial stem cells from differentiation [RNA-seq]	stated_B6	grcm38	!Sample_data_processing
+GSE221944	PRC1 directs PRC2-H3K27me3 deposition to shield adult spermatogonial stem cells from differentiation	stated_B6	grcm38	!Sample_data_processing
+GSE223531	Impaired neurovascular remodeling mediated by Apelin signaling and Cdc42 activity in endothelial Rbpj deficient brain arteriovenous malformation [RNA-seq]	stated_B6	grcm39	!Sample_data_processing
+GSE223533	Impaired neurovascular remodeling mediated by Apelin signaling and Cdc42 activity in endothelial Rbpj deficient brain arteriovenous malformation	stated_B6	grcm39	!Sample_data_processing
+GSE223630	Mouse Mammary Tumor Models of Various Molecular Subtypes Including Basal-like and Claudin-low TNBC	stated_B6	mm10	!Sample_data_processing
+GSE224563	DNA methylation in the mouse cochlea promotes maturation of supporting cells and contributes to the failure of hair cell regeneration	stated_B6	grcm38	!Sample_data_processing
+GSE22657	High-throughput semi-quantitative analysis of insertional mutations in heterogeneous tumors	not_reported		none (searched !Sample_data_processing)
+GSE226827	Tyrosinase-induced neuromelanin accumulation triggers rapid dysregulation and degeneration of the mouse locus coeruleus	stated_B6	mm10	!Sample_data_processing
+GSE228630	RNA sequencing of Cd44-positive and Cd44-negative livers  isolated from Nf2 - mutant mice	stated_B6	grcm38	!Sample_data_processing
+GSE228945	MYC oncogene reprograms the local tissue microenvironment during prostate carcinogenesis	stated_B6	mm10	!Sample_data_processing
+GSE241814	Single-Cell RNA Sequencing of Mouse Fibroblasts Grown as Spheroids Reveals Presence of Mesenchymal Stem-Like Cells	stated_B6	mm10	!Sample_data_processing
+GSE244269	Distinct mesenchymal cell states mediate prostate cancer progression (mouse)	stated_B6	grcm38	!Sample_data_processing
+GSE244270	Distinct mesenchymal cell states mediate prostate cancer progression	stated_B6	grcm38	!Sample_data_processing
+GSE248463	Keratin 5 Basal Cells are Temporally Regulated Developmental and Tissue Repair Progenitors in Bladder Urothelium.	stated_B6	mm10	!Sample_data_processing
+GSE252089	Activation of XBP1s attenuates disease severity in models of proteotoxic Charcot-Marie-Tooth type 1B	stated_B6	grcm38	!Sample_data_processing
+GSE252551	Disease-associated astrocyte epigenetic memory promotes CNS pathology [ATAC-Seq and RNA-Seq]	stated_B6	grcm39	!Sample_data_processing
+GSE261842	Caloric restriction enhances the activity of anti-androgen therapy by inhibiting androgen receptor translation in prostate cancer	stated_B6	mm39	!Sample_data_processing
+GSE262253	Gene expression patterns in cMyBP-CΔC10mut HCM mice and cMyBP-C(t/t) DCM mice	stated_B6	mm10	!Sample_data_processing
+GSE262485	NOTCH dimerization contributes to maintenance of intestinal homeostasis	stated_B6	mm10	!Sample_data_processing
+GSE266131	Sex-specific regulation of the cardiac transcriptome by the protein phosphatase 2A regulatory subunit B55α	stated_B6	grcm39	!Sample_data_processing
+GSE267672	Epigenetic effects (H3K9ac, H3K14ac, H3K23ac and Pol II) of Kat6b loss in mouse neural stem cells (CUT&Tag)	stated_B6	mm39	!Sample_data_processing
+GSE267675	Effects of loss and gain of the histone acetyltransferase KAT6B on DNA accessibility (ATAC-seq)	stated_B6	mm39	!Sample_data_processing
+GSE268588	StealTHY: enabling CRISPR-Cas9 screens in immunocompetent hosts to expose concealed metastatic regulators [CRISPR]	not_reported		none (searched !Sample_data_processing)
+GSE271529	Class A Scavenger receptors promote tumor progression and induce a unique macrophage phenotype in a mouse model of spontaneous breast cancer	stated_B6	mm10	!Sample_data_processing
+GSE272083	A molecular pathway for cancer cachexia-induced muscle atrophy revealed at single nucleus resolution [Bulk_RNAseq]	stated_B6	mm10	!Sample_data_processing
+GSE272085	A molecular pathway for cancer cachexia-induced muscle atrophy revealed at single nucleus resolution [scRNA]	stated_B6	grcm38	!Sample_data_processing
+GSE273306	Chromatin remodeler CHD4 establishes chromatin states required for ovarian reserve formation, maintenance, and germ cell survival [RNA-seq]	stated_B6	grcm38	!Sample_data_processing
+GSE273309	Chromatin remodeler CHD4 establishes chromatin states required for ovarian reserve formation, maintenance, and germ cell survival	stated_B6	grcm38	!Sample_data_processing
+GSE274992	Splenic fibroblasts control marginal zone B-cell movement and function via two distinct Notch2-dependent regulatory programs	stated_B6	grcm38	!Sample_data_processing
+GSE277228	Changing dynamics of the fibroblast differentiation hierarchy during mammary gland morphogenesis and tumorigenesis [scRNA-Seq I]	stated_B6	mm10	!Sample_data_processing
+GSE277526	RNA-seq profiling of CD34-high and CD34-low fibroblasts from mouse mammary tumors	stated_B6	grcm38	!Sample_data_processing
+GSE279077	Altered Ten Eleven Translocation Methylcytosine Dioxygenase Expression and DNA Hydroxymethylation in a Mouse Model of Prostate Cancer [RNA-seq]	stated_B6	grcm38	!Sample_data_processing
+GSE280783	Effects of loss and gain of KAT6B on gene expression in neural stem and progenitor cells [NSC_Kat6b_RNAseq]	stated_B6	mm10	!Sample_data_processing
+GSE284641	Cellular cartography reveals mouse prostate organization and determinants of castration resistance [scRNA-seq]	stated_B6	mm10	!Sample_data_processing
+GSE289925	Changing dynamics of the fibroblast differentiation hierarchy during mammary gland morphogenesis and tumorigenesis	stated_B6	mm10	!Sample_data_processing
+GSE291126	Tractable mouse TNBC models capture the heterogeneous tumor immune microenvironment and adaptation to PD-L1 blockade	stated_B6	mm10	!Sample_data_processing
+GSE292146	Tractable mouse TNBC models capture the heterogeneous tumor immune microenvironment and adaptation to PD-L1 blockade	stated_B6	mm10	!Sample_data_processing
+GSE299754	High-grade serous ovarian cancer induced in different sites of origin in mice exemplifies diverse features of the human disease	stated_B6	grcm38	!Sample_data_processing
+GSE304727	Pan-cancer single-cell atlas of mouse and human tumor-associated dendritic cells	stated_B6	grcm38	!Sample_data_processing
+GSE314950	Pathogenic tau in the mouse locus coeruleus produces noradrenergic hyperactivity and neuropsychiatric phenotypes reminiscent of prodromal Alzheimer’s disease	stated_B6	grcm38	!Sample_data_processing
+GSE44665	Genome wide RNA-seq analysis of E9.5 Smchd1 wild type and mutant embryos	stated_B6	mm10	!Sample_data_processing
+GSE44668	Genome wide RNA-seq analysis of E14.5 Smchd1 wild type and mutant placenta	stated_B6	mm10	!Sample_data_processing
+GSE44669	Genome wide RNA-seq analysis of Smchd1 wild type and mutant	stated_B6	mm10	!Sample_data_processing
+GSE89983	microRNA-seq of TPR50 Tau P301S Transgenic Mouse in different brain regions and time-points	not_reported		none (searched !Sample_data_processing)
+GSE90693	RNA-seq of TPR50 Tau P301S Transgenic Mouse in different brain regions and time-points	not_reported		none (searched !Sample_data_processing)
+GSE90696	Identification of evolutionary conserved gene networks that mediate neurodegenerative dementia	stated_B6	grcm38	!Sample_data_processing
+GSE90987	RNA-seq of inguinal adipose tissue of mice with selective ablation of Hdac3 in adipose tissue	stated_B6	grcm38	!Sample_data_processing
+GSE99522	The effect of Tmem135 overexpression on the mouse heart	stated_B6	mm10	!Sample_data_processing

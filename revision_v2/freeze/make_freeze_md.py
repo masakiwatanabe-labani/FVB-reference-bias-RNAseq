@@ -117,4 +117,12 @@ if os.path.exists(f"{F}/before_hashes_S.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bs.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_S2.tsv"):
+    b3 = pd.read_csv(f"{F}/before_hashes_S2.tsv", sep="\t", dtype=str, keep_default_na=False)
+    b3 = b3[[r.change != "rebuilt deliverable" or r.before != sha(r.file) for r in b3.itertuples()]]
+    L += ["## Phase S2 (2026-10-23): survey reproducible from the public repository — authorised exceptions", "",
+          "Text and repository only; numbers.tsv, the xlsx and every figure unchanged. survey/ in the repository: survey script (absolute local paths replaced by arguments; no API key or e-mail present), classification table (154; 140/14/0; identical to Supplementary Table S5 in gse/category/keyword), README (full June 2026 GEO texts not cached). token_audit: the 600-character truncation length classified STRUCT. Only deliverables whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b3.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))
