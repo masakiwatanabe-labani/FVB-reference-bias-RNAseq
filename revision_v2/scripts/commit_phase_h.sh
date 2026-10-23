@@ -27,7 +27,7 @@ cp -r $PROJ/manuscript/revised_v2/*.md $PROJ/manuscript/revised_v2/generated $PR
 mkdir -p analysis_v2/results/identity/full_site_tables analysis_v2/results/worked_examples revision_v2/freeze
 cp $PROJ/analysis_v2/results/identity/full_site_tables/* analysis_v2/results/identity/full_site_tables/; cp $PROJ/analysis_v2/results/worked_examples/*.tsv analysis_v2/results/worked_examples/
 find $PROJ/revision_v2/freeze -maxdepth 1 -type f -exec cp {} revision_v2/freeze/ \;
-cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/
+cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/; cp $PROJ/revision_v2/audit/wong2012_excerpts.txt revision_v2/audit/; cp $PROJ/analysis_v2/results/catalog/catalog_clusters.tsv analysis_v2/results/catalog/; cp $PROJ/analysis_v2/results/predictors/gene_exonic_snp_counts.tsv analysis_v2/results/predictors/
 git add analysis_v2 revision_v2 manuscript
 git commit -q -m "${COMMIT_MSG_HEAD:-v2-corrected: Phase H — F1 ASE re-derived at the identity-QC site set, bias decomposition, LAR format}
 

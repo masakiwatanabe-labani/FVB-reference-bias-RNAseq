@@ -1,7 +1,7 @@
-# Phase J — final check (2026-10-23 14:45 JST)
+# Phase J — final check (2026-10-23 15:36 JST)
 
 ## 1. Integrity of results and figures
-- [x] analysis_v2/results: all 243 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
+- [x] analysis_v2/results: all 245 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
 - [x] analysis_v2/figures: all 28 files match FIGURES.md5 (Fig 1–6, SFig 1–3: PDF + TIFF + _data.tsv)
 - [x] Fig. 2 (regenerated from f1_ase/v2/, with panel D) and Supplementary Fig. S3 are listed in FIGURES.md5
 - [x] 83 done.all markers (83 animals processed through the three arms); 12 done.f1_ase markers: 12
@@ -13,7 +13,7 @@
 - [x] table1.md == generated/table1.md
 - [x] Methods 'RNA-seq datasets' block == generated/methods_datasets.md (BEGIN/END markers)
 - [x] supplementary tables rebuild byte-identical (12 sheets)
-- [x] results_numbers.py ran: 803 numbers with evidence paths
+- [x] results_numbers.py ran: 817 numbers with evidence paths
 
 ## 3. Manuscript checks
 - [x] figure citation order (incl. Supplementary Fig. S3): all figures and panels in numerical order (check_figure_order.py --legend-check)
@@ -21,7 +21,7 @@
 - (exempt, data tables) EXEMPT (data) [cardiac]: 2 line(s): manuscript/revised_v2/supplementary_tables/TableS5_survey_of_practice.tsv 
 - (exempt, data tables) EXEMPT (data) [heart]: 3 line(s): manuscript/revised_v2/supplementary_tables/TableS5_survey_of_practice.tsv 
 - [x] no [CITE placeholder left in any main-text or Additional-file section
-- [x] numbered citations: 22 references, numbered 1..22 consecutively; all 22 cited; first appearances in increasing order: True
+- [x] numbered citations: 23 references, numbered 1..23 consecutively; all 23 cited; first appearances in increasing order: True
 - [x] all DOIs in references.md resolve (HTTP 301/302 from doi.org; revision_v2/audit/doi_check_final.txt)
 - [x] structured Abstract: 278 words (≤ 350), 4 headings (Background/Methods/Results/Conclusions)
 - [x] deliverables sealed (Phase M-4): assemble_lar.py not re-run, because pandoc would rewrite the docx bytes; the sealed files are checked against deliverables.sha256 below
@@ -32,12 +32,12 @@
 - [x] Availability (Methods, Declarations) and response item 5 name branch v2-corrected, tag v2-corrected-r1; 'branch and tag' 0 hits (Phase L-2)
 
 ## 3b. Phase J checks (minimal-change reconstruction on the submitted text)
-- [x] change ledger rebuilt: total {'KEEP': 504, 'NEW': 497, 'EDIT': 153, 'DROP': 319}; body sentences 733: KEEP 381 (52%)
-- [x] ledger completeness: 1473 rows; 733 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
-- [x] response letter: every 'Changed:' pointer resolves to ledger rows with the matching trigger (18 pointers)
+- [x] change ledger rebuilt: total {'KEEP': 500, 'NEW': 506, 'EDIT': 154, 'DROP': 324}; body sentences 737: KEEP 377 (51%)
+- [x] ledger completeness: 1484 rows; 737 body sentences with a row; KEEP sentences not found verbatim in v1: 0; EDIT/NEW numbers not in numbers.tsv: 0; EDIT/NEW/DROP rows without trigger: 0
+- [x] response letter: every 'Changed:' pointer resolves to ledger rows with the matching trigger (21 pointers)
 - [x] Abstract ≤ 350 words both ways (body 278, with headings 283)
 - [x] '3Rs' is used in the text (Discussion), so the abbreviation entry is used
-- [x] abbreviation list: 30 entries, unused: []
+- [x] abbreviation list: 31 entries, unused: []
 - [x] Phase I/K-1′ wording present: read fate 'multi-mappers on both references' (8 places), classes defined operationally by |Δ| (Methods, Note 2), 'expected to be heterozygous' (Methods), 'Mechanism 1./2.' labels (Note 2)
 - [x] K-1′ withdrawn read-fate phrases: 0 hits in main text, Additional file 1 and both letters
 - [x] every Rps2-skin recovery statement carries 'under unique-only counting'
@@ -45,12 +45,13 @@
 - [x] all Rps2/pseudogene CPM keys in numbers.tsv use the single definition (evidence rps2_multimap_cpm.tsv)
 - [x] J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps
 - [x] every 'largest single-tissue bias' carries the class qualifier (8 occurrences)
-- [x] marked copy present (78373 bytes; generated from the ledger by mark_from_ledger.py)
-- [x] Phase M freeze: all 275 frozen inputs (numbers.tsv, supplementary_tables_v2.xlsx, RESULTS.md5 and FIGURES.md5 files) match revision_v2/freeze/inputs.sha256
-- [x] Phase M-1 token audit: 1568 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
-- [x] Phase M-2 independent recomputation: 368 claims PASS, 0 FAIL (recompute_report.tsv)
-- [x] Phase M-3 D3 double-rounding scan: keys printed in the text: 198; checked against full precision: 197; double-rounding defects: 0
+- [x] marked copy present (79008 bytes; generated from the ledger by mark_from_ledger.py)
+- [x] Phase M freeze: all 277 frozen inputs (numbers.tsv, supplementary_tables_v2.xlsx, RESULTS.md5 and FIGURES.md5 files) match revision_v2/freeze/inputs.sha256
+- [x] Phase M-1 token audit: 1665 numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)
+- [x] Phase M-2 independent recomputation: 384 claims PASS, 0 FAIL (recompute_report.tsv)
+- [x] Phase M-3 D3 double-rounding scan: keys printed in the text: 209; checked against full precision: 208; double-rounding defects: 0
 - [x] Phase M-4 seal: all 34 files of revision_v2/submission/ match deliverables.sha256
+- [x] response letter: every quoted passage of the revised text occurs verbatim in the main text (12 quotes, 0 not found)
 
 ## 4. Rules 0.4
 - [x] 0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2
@@ -65,30 +66,30 @@
 - [x] 0.4-10 heavy jobs backgrounded with logs: analysis_v2/logs/*.log (f1_ase_rerun.log, f1_oldsites_recount.log)
 
 ## 5. Deliverables (revision_v2/submission/)
-- [x] revision_v2/submission/LAR_main_text_v2.docx (76792 bytes)
-- [x] revision_v2/submission/LAR_additional_file_1.docx (48381 bytes)
-- [x] revision_v2/submission/supplementary_tables_v2.xlsx (158098 bytes)
-- [x] revision_v2/submission/response_to_reviewers_v2.docx (43945 bytes)
+- [x] revision_v2/submission/LAR_main_text_v2.docx (77365 bytes)
+- [x] revision_v2/submission/LAR_additional_file_1.docx (48456 bytes)
+- [x] revision_v2/submission/supplementary_tables_v2.xlsx (158803 bytes)
+- [x] revision_v2/submission/response_to_reviewers_v2.docx (46981 bytes)
 - [x] revision_v2/submission/cover_letter_v2.docx (38574 bytes)
 - [x] figures/: 9 PDF + 9 TIFF (Fig 1–6, SFig S1–S3)
 - [x] manuscript/revised_v2/abstract_structured.md (284 words)
-- [x] manuscript/revised_v2/introduction.md (771 words)
-- [x] manuscript/revised_v2/results.md (4699 words)
-- [x] manuscript/revised_v2/discussion.md (3345 words)
-- [x] manuscript/revised_v2/methods.md (4491 words)
+- [x] manuscript/revised_v2/introduction.md (842 words)
+- [x] manuscript/revised_v2/results.md (4754 words)
+- [x] manuscript/revised_v2/discussion.md (3389 words)
+- [x] manuscript/revised_v2/methods.md (4501 words)
 - [x] manuscript/revised_v2/figure_legends.md (2120 words)
 - [x] manuscript/revised_v2/table1.md (412 words)
-- [x] manuscript/revised_v2/supplementary_table_captions.md (1349 words)
+- [x] manuscript/revised_v2/supplementary_table_captions.md (1384 words)
 - [x] manuscript/revised_v2/supplementary_note1.md (821 words)
 - [x] manuscript/revised_v2/supplementary_note2.md (1651 words)
-- [x] manuscript/revised_v2/references.md (591 words)
+- [x] manuscript/revised_v2/references.md (623 words)
 - [x] manuscript/revised_v2/declarations.md (259 words)
-- [x] manuscript/revised_v2/abbreviations.md (134 words)
+- [x] manuscript/revised_v2/abbreviations.md (138 words)
 - [x] manuscript/revised_v2/keywords.md (15 words)
-- [x] revision_v2/text_changes.md (5739 words)
-- [x] revision_v2/response_to_reviewers.md (2728 words)
+- [x] revision_v2/text_changes.md (6266 words)
+- [x] revision_v2/response_to_reviewers.md (4324 words)
 - [x] revision_v2/cover_letter.md (624 words)
-- [x] revision_v2/CHANGELOG.md (11990 words)
+- [x] revision_v2/CHANGELOG.md (12059 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.

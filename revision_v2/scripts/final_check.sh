@@ -119,6 +119,14 @@ nu=$(awk -F'\t' 'NR>1 && $5=="UNMAPPED" && $4!="1,047" && $4!="290"' $F/token_au
 nf=$(awk -F'\t' 'NR>1 && $9=="FAIL"' $F/recompute_report.tsv | wc -l); np=$(awk -F'\t' 'NR>1 && $9=="PASS"' $F/recompute_report.tsv | wc -l); [ "$nf" -eq 0 ] && [ "$np" -gt 300 ] && ok "Phase M-2 independent recomputation: $np claims PASS, 0 FAIL (recompute_report.tsv)" || bad "Phase M-2: $nf FAIL"
 python3 $F/double_rounding_scan.py > /tmp/claude_dr.txt 2>&1 && ok "Phase M-3 D3 double-rounding scan: $(head -1 /tmp/claude_dr.txt)" || bad "double-rounding scan: $(head -1 /tmp/claude_dr.txt)"
 [ -s $F/deliverables.sha256 ] && { sha256sum -c --quiet $F/deliverables.sha256 >/dev/null 2>&1 && ok "Phase M-4 seal: all $(wc -l < $F/deliverables.sha256) files of revision_v2/submission/ match deliverables.sha256" || bad "Phase M-4 seal: a deliverable changed after sealing"; } || ok "Phase M-4 seal: deliverables.sha256 not yet written (written by the seal step)"
+python3 - <<'PYEOF' > /tmp/claude_quotes.txt && ok "response letter: every quoted passage of the revised text occurs verbatim in the main text ($(cat /tmp/claude_quotes.txt))" || bad "response letter quotes: $(cat /tmp/claude_quotes.txt)"
+import re, sys
+P="/usr/local/jupyter/FVB_bias"; norm=lambda x: re.sub(r"\s+"," ",x).strip()
+main=norm(open(f"{P}/revision_v2/submission/LAR_main_text_v2.plain.txt",encoding="utf-8").read())
+q=[l[3:-1] for l in open(f"{P}/revision_v2/response_to_reviewers.md",encoding="utf-8").read().splitlines() if l.startswith("> “") and l.endswith("”")]
+bad=[x[:60] for x in q if norm(x) not in main]
+print(f"{len(q)} quotes, {len(bad)} not found" + ("" if not bad else ": "+" | ".join(bad))); sys.exit(1 if bad or not q else 0)
+PYEOF
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"
 ok "0.4-2 no SRR block selection: scheduler.sh sel() and merge_counts.py select by manifest attributes (role, include, tissue, strain, design)"

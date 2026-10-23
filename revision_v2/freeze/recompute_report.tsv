@@ -334,7 +334,7 @@ K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO 
 K6	K letters and survey	main	Among these 154 series, 140 reported	140	140	140	int	PASS	
 K7	K letters and survey	main	The remaining 14 studies did not report	14	14	14	int	PASS	
 K8	K letters and survey	main	and none reported a strain-aware alignment strategy	0	0	0	int	PASS	
-K8r	K letters and survey	resp	every one of the 140 FVB studies	140	140	140	int	PASS	
+K8r	K letters and survey	resp	none of the 140 FVB RNA-seq studies that reported a reference used an FVB assembly	140	140	140	int	PASS	
 K9_stated_B6	K letters and survey	Fig1_survey	90.9%	90.9	90.9091	90.9	num	PASS	
 K9_not_reported	K letters and survey	Fig1_survey	9.1%	9.1	9.09091	9.1	num	PASS	
 K9_strain_aware	K letters and survey	Fig1_survey	0.0%	0.0	0	0.0	num	PASS	
@@ -369,3 +369,19 @@ N6_2	N figure text (Phase N)	Fig4_predictors		2,169	2169	2169	int	PASS	Fig. 4D b
 N6_3	N figure text (Phase N)	Fig4_predictors		141	141	141	int	PASS	Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)
 N6_4	N figure text (Phase N)	Fig4_predictors		2,533	2533	2533	int	PASS	
 N5	N figure text (Phase N)	af1	lie outside the part that the pseudogenes copy	11	11	11	int	PASS	N-2a: 10 in exon segments absent from the copied transcript ENSMUST00000146867, 1 (17:24,940,701) in that transcript just past the copied span
+P1	P Phase P (genome-level differences, clusters)	main	48.1% of the genes tested here carry no exonic FVB/NJ SNP	48.1	48.1321	48.1	num	PASS	13,348 of 27,732 tested genes; exons = union of all Ensembl 110 exons of the gene; SNPs = every FVB_NJ SNP record
+P2	P Phase P (genome-level differences, clusters)	main	(30,048 of at least 50 bp in the first FVB/NJ genome study [4])	30048	30048	30048	eq	PASS	literature value; verified against the verbatim source sentence (revision_v2/audit/wong2012_excerpts.txt, Wong et al. 2012)
+P2b	P Phase P (genome-level differences, clusters)	main	the Pde6b nonsense mutation that causes early-onset retinal degeneration and the 2-bp Hc deletion that causes C5 deficie	2	2	2	eq	PASS	literature statement checked against the source sentences
+P2c	P Phase P (genome-level differences, clusters)	resp	about 50-fold Illumina coverage aligned to the C57BL/6J reference	50	50	50	eq	PASS	response letter; Wong et al. 2012
+P3	P Phase P (genome-level differences, clusters)	main	39 of the 138 lie in 10 clusters of at least three catalog genes	10	10	10	int	PASS	chr1: Ifi209, Ifi204, Ifi203-ps; chr12: Gm5784, Gm9259, Gm49700; chr13: H3c10, H2bc15, H2bc11; chr13: H2ac6, H2bc4, H4c3, H3c3, H2bc3, H2ac4, H3c2, H3c1; chr13: Gm17938, Gm49064, Zfp456; chr17: Atp6v0c, Rnps1, Rps2; chr17: Rps28, Kifc1, Rps18, AA388235, H2-DMb1; chr17: H2-Q5, H2-T23, H2-T10, Gm8909; chr18: Pcdhb8, Pcdhb9, Gm10268, Gnpda1; chr4: Mup7, Mup11, Mup17
+P3b	P Phase P (genome-level differences, clusters)	main	39 of the 138 lie in 10 clusters	39	39	39	int	PASS	
+P3c	P Phase P (genome-level differences, clusters)	main	26 of these 39 genes are in the SNP-induced multi-mapping class	26	26	26	int	PASS	
+P4_mhc	P Phase P (genome-level differences, clusters)	main	the MHC on chromosome 17 (9 genes in two clusters)	9	9	9	int	PASS	2 cluster(s)
+P4_hist	P Phase P (genome-level differences, clusters)	main	(11 genes in two clusters)	11	11	11	int	PASS	2 cluster(s)
+P4_mup	P Phase P (genome-level differences, clusters)	main	the major urinary protein cluster on chromosome 4 (3 genes)	3	3	3	int	PASS	1 cluster(s)
+P4_ifi	P Phase P (genome-level differences, clusters)	main	the Ifi200 cluster on chromosome 1 (3 genes)	3	3	3	int	PASS	1 cluster(s)
+P5	P Phase P (genome-level differences, clusters)	af1		39	39	39	int	PASS	Supplementary Table S2, column cluster: genes with a cluster label
+P5b	P Phase P (genome-level differences, clusters)	af1		same genes	same genes	same genes	eq	PASS	S2 cluster genes = clusters recomputed here
+N7	N figure text (Phase N)	resp	(170 mm, full page width; Supplementary Fig. S3, 85 mm)	170	170	170	int	PASS	width of every full-width figure as saved (freeze/figure_sizes.tsv)
+N7b	N figure text (Phase N)	resp	(170 mm, full page width; Supplementary Fig. S3, 85 mm)	85	85	85	int	PASS	
+N7c	N figure text (Phase N)	resp	with all lettering at least 7 pt at that size	7	7	7	ge	PASS	smallest text over all figures (freeze/figure_sizes.tsv)

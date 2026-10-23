@@ -80,4 +80,11 @@ if os.path.exists(f"{F}/before_hashes_O.tsv"):
     L += ["", "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bo.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_P.tsv"):
+    bp = pd.read_csv(f"{F}/before_hashes_P.tsv", sep="\t", dtype=str, keep_default_na=False)
+    L += ["## Phase P (2026-10-23): answering the reviewers more directly — authorised exceptions", "",
+          "New numbers only through numbers.tsv and M-2 (group P): share of tested genes without an exonic FVB/NJ SNP (48.1%; exons = union of all Ensembl 110 exons of the gene, SNPs = every FVB_NJ SNP record); catalog clusters by a fixed rule (single linkage of catalog genes on one chromosome with Ensembl gene starts < 1 Mb apart, clusters of ≥ 3): 39 genes in 10 clusters, 26 of them in the SNP-induced multi-mapping class; MHC 9 genes in two clusters, replication-dependent histones 11 in two clusters, Mup 3, Ifi200 3. Literature values (30,048 structural variants ≥ 50 bp; the Pde6b nonsense mutation and the 2-bp Hc deletion; ≈50× coverage on mm9) checked against the verbatim sentences of Wong et al. 2012 (revision_v2/audit/wong2012_excerpts.txt). FVB_NJ_v3 checked with NCBI Datasets: GCA_921998635.2, PacBio, falcon-kit 1.8.1, chromosome level, EMBL-EBI, released 2022-07-01, BioProject PRJEB47108 (no publication linked in NCBI; the BioProject is the data deposit of Helmy et al. 2026, Cell Genom 6:101074, whose assemblies are named {strain}_v3). Supplementary Table S2 gained the column cluster; every other cell of every sheet is identical (cell-by-cell comparison). Letters: every quotation of the revised text is checked verbatim against the main text (final_check). P-6 (FVB_NJ_v3 quantification) not run (no approval).", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bp.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

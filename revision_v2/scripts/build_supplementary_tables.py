@@ -21,8 +21,9 @@ cat["in_control_only_catalog"]=np.where(cat.gene_id.isin(cw.gene_id),"Y","N"); c
 cat["pyvt_median_reference_swap"]=cat.gene_id.map(py.median(axis=1))
 dec=pd.read_csv(f"{RES}/catalog/catalog_decomposition.tsv", sep="\t", index_col=0)   # H-2a (2026-10-20): bias decomposition columns
 cat["bias_matched_mean"]=cat.gene_id.map(dec.bias_matched_mean); cat["b6_loss_mean"]=cat.gene_id.map(dec.b6_loss_mean)
-cols=["gene_id","gene_name","biotype","chrom","start","end","n_tissues","n_tissues_tested","mean_bias","tissues","adipose","hypothalamus","liver","skin","snp_density_per_kb","mean_bias_multi","delta_multi_minus_unique","residual_fraction","mechanism_class","bias_matched_mean","b6_loss_mean","in_control_only_catalog","in_matched_reference_catalog","pyvt_median_reference_swap"]
-w("TableS2_catalog", cat[cols].sort_values("mean_bias",ascending=False), "analysis_v2/results/catalog/catalog.primary.tsv (+ catalog_decomposition.tsv, catalog.water.tsv, sensitivity_matched/catalog.matched.tsv, negative_control/pyvt_reference_swap_per_gene.tsv, gene_meta.tsv)")
+cl=pd.read_csv(f"{RES}/catalog/catalog_clusters.tsv", sep="\t", keep_default_na=False).set_index("gene_id"); cat["cluster"]=cat.gene_id.map(cl.cluster)   # Phase P-1c
+cols=["gene_id","gene_name","biotype","chrom","start","end","n_tissues","n_tissues_tested","mean_bias","tissues","adipose","hypothalamus","liver","skin","snp_density_per_kb","mean_bias_multi","delta_multi_minus_unique","residual_fraction","mechanism_class","bias_matched_mean","b6_loss_mean","in_control_only_catalog","in_matched_reference_catalog","pyvt_median_reference_swap","cluster"]
+w("TableS2_catalog", cat[cols].sort_values("mean_bias",ascending=False), "analysis_v2/results/catalog/catalog.primary.tsv (+ catalog_decomposition.tsv, catalog.water.tsv, sensitivity_matched/catalog.matched.tsv, negative_control/pyvt_reference_swap_per_gene.tsv, gene_meta.tsv, catalog/catalog_clusters.tsv)")
 # S3
 w("TableS3a_sensitivity_primary", pd.read_csv(f"{RES}/catalog/catalog_sensitivity.primary.tsv", sep="\t"), "analysis_v2/results/catalog/catalog_sensitivity.primary.tsv")
 w("TableS3b_sensitivity_control_only", pd.read_csv(f"{RES}/catalog/catalog_sensitivity.water.tsv", sep="\t"), "analysis_v2/results/catalog/catalog_sensitivity.water.tsv")

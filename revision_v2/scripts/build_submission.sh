@@ -15,7 +15,7 @@ build)
   python3 $S/make_change_ledger.py | tail -3 && python3 $S/mark_from_ledger.py $SUB/LAR_main_text_v2.docx $SUB/LAR_main_text_v2_marked.docx   # Phase J-6: blue-marked copy from the change ledger (clean docx untouched)
   # Phase M: numbers frozen — the xlsx and the figure copies are not rewritten once revision_v2/freeze/inputs.sha256 exists (re-packing
   # the xlsx would change its bytes); final_check verifies them against the freeze hashes instead.
-  if [ -s revision_v2/freeze/inputs.sha256 ]; then echo "frozen: supplementary_tables_v2.xlsx and figures/ not rebuilt"; else
+  if [ -s revision_v2/freeze/inputs.sha256 ] && [ -z "${REBUILD_XLSX:-}" ]; then echo "frozen: supplementary_tables_v2.xlsx and figures/ not rebuilt (REBUILD_XLSX=1 for an authorised exception)"; else
   python3 - <<'EOF'
 import pandas as pd, re
 P="/usr/local/jupyter/FVB_bias"; T=f"{P}/manuscript/revised_v2/supplementary_tables"

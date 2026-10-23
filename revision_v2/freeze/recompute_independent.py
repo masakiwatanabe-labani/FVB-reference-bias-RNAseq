@@ -574,7 +574,7 @@ sv = pd.read_csv(f"{RES}/survey/survey_of_practice_v2.tsv", sep="\t"); vc = sv.c
 claim("K5", g, "main", "We retrieved data-processing metadata from 154 GEO series", "154", len(sv), "int")
 claim("K6", g, "main", "Among these 154 series, 140 reported", "140", vc.get("stated_B6", 0), "int"); claim("K7", g, "main", "The remaining 14 studies did not report", "14", vc.get("not_reported", 0), "int")
 claim("K8", g, "main", "and none reported a strain-aware alignment strategy", "0", vc.get("strain_aware", 0), "int")
-claim("K8r", g, "resp", "every one of the 140 FVB studies", "140", vc.get("stated_B6", 0), "int")
+claim("K8r", g, "resp", "none of the 140 FVB RNA-seq studies that reported a reference used an FVB assembly", "140", vc.get("stated_B6", 0), "int")
 for k, txt in (("stated_B6", "90.9"), ("not_reported", "9.1"), ("strain_aware", "0.0")): claim(f"K9_{k}", g, "Fig1_survey", txt + "%", txt, 100 * vc.get(k, 0) / len(sv))
 claim("K10", g, "main", "This search returned 1,047 GEO series", "1047", "", "nr", note="search-hit count: no search log is recorded in the project (the value is carried verbatim from the submitted text); cannot be recomputed")
 claim("K11", g, "main", "taken from a 290-sample series", "290", "", "nr", note="GEO series size of GSE293440: 290 !Series_sample_id entries in the GEO SOFT record (checked online 2026-10-23); not a result file")
@@ -622,6 +622,41 @@ for k_, (lab_, sel_) in enumerate((("17,486", _bt == "protein_coding"), ("5,403"
     claim(f"N6_{k_}", g, "Fig4_predictors", "", lab_, int(sel_.sum()), "int", note="Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)")
 claim("N6_4", g, "Fig4_predictors", "", "2,533", int(len(_bt) - (_bt == "protein_coding").sum() - (_bt == "lncRNA").sum() - _bt.fillna("").str.contains("pseudogene").sum() - (_bt == "miRNA").sum()), "int")
 claim("N5", g, "af1", "lie outside the part that the pseudogenes copy", "11", len(my_snp) - int(((ux.type == "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int", note="N-2a: 10 in exon segments absent from the copied transcript ENSMUST00000146867, 1 (17:24,940,701) in that transcript just past the copied span")
+g = "P Phase P (genome-level differences, clusters)"
+# exonic SNP count per tested gene: union of all exons of the gene (GTF, cache/exons_by_gene.bed) x every FVB_NJ SNP record (cache/snps_all.bed)
+if not os.path.exists(f"{C}/gene_exon_union_snps.tsv"):
+    os.system(f"sort -k4,4 -k1,1 -k2,2n -S 2G {C}/exons_by_gene.bed | awk -F'\\t' 'BEGIN{{OFS=\"\\t\"}} {{if($4==g && $1==c && $2<=e){{if($3>e)e=$3}} else {{if(g!=\"\")print c,s,e,g; c=$1;s=$2;e=$3;g=$4}}}} END{{print c,s,e,g}}' | sort -k1,1 -k2,2n -S 2G | bedtools intersect -c -sorted -a - -b {C}/snps_all.bed | awk -F'\\t' '{{n[$4]+=$5}} END{{for(k in n) print k\"\\t\"n[k]}}' > {C}/gene_exon_union_snps.tsv")
+ge = pd.read_csv(f"{C}/gene_exon_union_snps.tsv", sep="\t", header=None, names=["gene_id", "n"]).set_index("gene_id").n.reindex(genes_any)
+claim("P1", g, "main", "48.1% of the genes tested here carry no exonic FVB/NJ SNP", "48.1", 100 * (ge == 0).mean(), note=f"{int((ge == 0).sum()):,} of {len(ge):,} tested genes; exons = union of all Ensembl 110 exons of the gene; SNPs = every FVB_NJ SNP record")
+wx = open(f"{P}/revision_v2/audit/wong2012_excerpts.txt").read()
+claim("P2", g, "main", "(30,048 of at least 50 bp in the first FVB/NJ genome study [4])", "30048", "30048" if "catalogue of 30,048 structural variants (≥50 bp)" in wx else "not in source", "eq", note="literature value; verified against the verbatim source sentence (revision_v2/audit/wong2012_excerpts.txt, Wong et al. 2012)")
+claim("P2b", g, "main", "the Pde6b nonsense mutation that causes early-onset retinal degeneration and the 2-bp Hc deletion that causes C5 deficiency [4]", "2", "2" if "2-bp deletion in the Hc gene" in wx and "nonsense mutation in the Pde6b gene" in wx else "not in source", "eq", note="literature statement checked against the source sentences")
+claim("P2c", g, "resp", "about 50-fold Illumina coverage aligned to the C57BL/6J reference", "50", "50" if "approximately 50× coverage" in wx and "NCBIM37/mm9" in wx else "not in source", "eq", note="response letter; Wong et al. 2012")
+# clusters: catalog genes (independent CAT), Ensembl gene start = start0 + 1, single linkage with gaps < 1 Mb, clusters of >= 3 genes
+cg_ = G.loc[cat, ["chrom", "start0", "gene_name"]].assign(start=lambda d: d.start0 + 1).sort_values(["chrom", "start"])
+CL = []
+for ch, sdf in cg_.groupby("chrom"):
+    cur = []
+    for gi_, st in zip(sdf.index, sdf.start):
+        if cur and st - cur[-1][1] >= 1_000_000:
+            if len(cur) >= 3: CL.append((ch, [x for x, _ in cur]))
+            cur = []
+        cur.append((gi_, st))
+    if len(cur) >= 3: CL.append((ch, [x for x, _ in cur]))
+ing = [x for _, l in CL for x in l]
+def fam(pred): sel = [l for ch, l in CL if any(pred(G.gene_name[x], str(ch)) for x in l)]; return sum(len(l) for l in sel), len(sel)
+claim("P3", g, "main", "39 of the 138 lie in 10 clusters of at least three catalog genes", "10", len(CL), "int", note="; ".join(f"chr{ch}: {', '.join(G.gene_name[x] for x in l)}" for ch, l in CL))
+claim("P3b", g, "main", "39 of the 138 lie in 10 clusters", "39", len(ing), "int")
+claim("P3c", g, "main", "26 of these 39 genes are in the SNP-induced multi-mapping class", "26", sum(1 for x in ing if x in mul.index), "int")
+for k_, txt_, pr_ in (("mhc", "9", lambda n, ch: ch == "17" and n.startswith("H2-")), ("hist", "11", lambda n, ch: ch == "13" and bool(re.match(r"H(2a|2b|3|4)c\d", n))), ("mup", "3", lambda n, ch: n.startswith("Mup")), ("ifi", "3", lambda n, ch: n.startswith("Ifi"))):
+    n_, c_ = fam(pr_); claim(f"P4_{k_}", g, "main", {"mhc": "the MHC on chromosome 17 (9 genes in two clusters)", "hist": "(11 genes in two clusters)", "mup": "the major urinary protein cluster on chromosome 4 (3 genes)", "ifi": "the Ifi200 cluster on chromosome 1 (3 genes)"}[k_], txt_, n_, "int", note=f"{c_} cluster(s)")
+s2 = pd.read_excel(f"{SUB}/supplementary_tables_v2.xlsx", sheet_name="S2", dtype=str).fillna("")
+claim("P5", g, "af1", "", "39", int((s2.cluster != "").sum()), "int", note="Supplementary Table S2, column cluster: genes with a cluster label")
+claim("P5b", g, "af1", "", "same genes", "same genes" if set(s2.gene_id[s2.cluster != ""]) == set(ing) else "DIFFER", "eq", note="S2 cluster genes = clusters recomputed here")
+fs_ = pd.read_csv(f"{P}/revision_v2/freeze/figure_sizes.tsv", sep="\t")
+claim("N7", "N figure text (Phase N)", "resp", "(170 mm, full page width; Supplementary Fig. S3, 85 mm)", "170", sorted(set(fs_[fs_.figure != "SFig3_bias_decomposition"].width_mm.round(0).astype(int)))[0] if fs_[fs_.figure != "SFig3_bias_decomposition"].width_mm.round(0).nunique() == 1 else -1, "int", note="width of every full-width figure as saved (freeze/figure_sizes.tsv)")
+claim("N7b", "N figure text (Phase N)", "resp", "(170 mm, full page width; Supplementary Fig. S3, 85 mm)", "85", int(round(float(fs_[fs_.figure == "SFig3_bias_decomposition"].width_mm.iloc[0]))), "int")
+claim("N7c", "N figure text (Phase N)", "resp", "with all lettering at least 7 pt at that size", "7", float(fs_.min_text_pt.min()), "ge", note="smallest text over all figures (freeze/figure_sizes.tsv)")
 out = pd.DataFrame(ROWS); out.to_csv(f"{P}/revision_v2/freeze/recompute_report.tsv", sep="\t", index=False)
 print(out.status.value_counts().to_string()); print(out.groupby(["group", "status"]).size().unstack(fill_value=0).to_string())
 print(out[out.status != "PASS"][["claim_id", "location", "text_value", "exact", "at_text_precision", "status", "note"]].to_string(max_colwidth=140))

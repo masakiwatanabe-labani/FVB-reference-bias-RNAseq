@@ -241,3 +241,5 @@ ee80a928dea62268e100b4f6ead367fb  ./identity/full_site_tables/heart_B6_C57_M_12w
 c76ef1000894634a62b6bc7917b5b5e3  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_2.ase.tsv
 0d6b91dd42d96f234421628f1cb55f26  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_3.ase.tsv
 78f20230abd899aee01fcb4bedbe7db1  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_4.ase.tsv
+aaa55639d74aa42528897084cecb6bf1  ./catalog/catalog_clusters.tsv
+a0d693539f3dbaac81aeb3e4218a65e2  ./predictors/gene_exonic_snp_counts.tsv

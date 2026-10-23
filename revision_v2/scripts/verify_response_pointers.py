@@ -31,6 +31,7 @@ for item,plist in ptr.items():
     for ptext in plist:
         for ptr_ in [x.strip().rstrip(".") for x in re.split(r";", ptext) if x.strip()]:
             if re.fullmatch(r"all figure files", ptr_, flags=re.I): report.append((item,ptr_,"figure files (not text)","ok")); continue
+            if re.fullmatch(r"(references [\d, and]+|Supplementary Table S\d+[a-f]?(?: \(.*\))?)", ptr_): report.append((item,ptr_,"reference list / table file (not text)","ok")); continue   # Phase P
             mb=re.match(r"(Abstract|Background|Methods|Results|Discussion|Conclusions)(?:, \*(.+?)\*)?, paragraph beginning \"([^\"]+)\"", ptr_)
             if mb:
                 sec,sub,words=mb.groups(); key=norm(words)

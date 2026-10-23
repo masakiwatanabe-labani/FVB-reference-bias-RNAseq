@@ -316,4 +316,17 @@ put("sfig1_ref_b6_max_hom_fvb", float(_s1[_s1.index.str.startswith("Reference C5
 put("sfig1_ref_fvb_min_hom_fvb", float(_s1[_s1.index.str.startswith("Reference FVB/NJ")].iloc[0].min()), _evs)
 put("identity_subset_validation_n_animals", _n, "analysis_v2/data/<tissue>/<sample>/qc/<sample>.ase.tsv (full set) vs the 20,351-site subset")
 put("identity_subset_validation_max_absdiff", _mx, "analysis_v2/data/<tissue>/<sample>/qc/<sample>.ase.tsv (full set) vs the 20,351-site subset")
+# ---- Phase P-1 (2026-10-23) ----------------------------------------------------------------------------------------------
+_ex=pd.read_csv(f"{RES}/predictors/gene_exonic_snp_counts.tsv", sep="\t").set_index("gene_id"); _tg=pd.read_csv(f"{RES}/predictors/gene_predictors.primary.tsv", sep="\t", index_col=0).index
+_z=_ex.n_exonic_snps.reindex(_tg); _evx=rel(f"{RES}/predictors/gene_exonic_snp_counts.tsv")
+put("n_genes_zero_exonic_snp", int((_z==0).sum()), _evx); put("pct_genes_zero_exonic_snp", float((_z==0).mean()*100), _evx)
+put("lit_wong2012_svs_ge50bp", 30048, "revision_v2/audit/wong2012_excerpts.txt (Wong et al. 2012, Genome Biol 13:R72)")
+_cl=pd.read_csv(f"{RES}/catalog/catalog_clusters.tsv", sep="\t", keep_default_na=False); _c=_cl[_cl.cluster!=""]; _evc=rel(f"{RES}/catalog/catalog_clusters.tsv")
+put("catalog_cluster_n", int(_c.cluster.nunique()), _evc); put("catalog_cluster_genes_n", len(_c), _evc)
+put("catalog_cluster_genes_multi_n", int((_c.mechanism_class=="SNP-induced multi-mapping").sum()), _evc)
+def _fam(pred):
+    labs=[l for l,s in _c.groupby("cluster") if any(pred(n,str(ch)) for n,ch in zip(s.gene_name,s.chrom))]; return labs, int(_c.cluster.isin(labs).sum())
+import re as _re
+for _k,_pred in (("mhc",lambda n,ch: ch=="17" and n.startswith("H2-")),("hist",lambda n,ch: ch=="13" and bool(_re.match(r"H(2a|2b|3|4)c\d",n))),("mup",lambda n,ch: n.startswith("Mup")),("ifi",lambda n,ch: n.startswith("Ifi"))):
+    _labs,_n=_fam(_pred); put(f"catalog_cluster_{_k}_genes", _n, _evc); put(f"catalog_cluster_{_k}_clusters", len(_labs), _evc)
 pd.DataFrame(N).to_csv(OUT, sep="\t", index=False); pd.DataFrame(FULL).to_csv(OUT.replace("numbers.tsv","numbers_fullprecision.tsv"), sep="\t", index=False); print(f"{len(N)} numbers -> {OUT}")

@@ -10,7 +10,7 @@ MAP = {("LAR_main_text_v2.plain.txt", "1,047"): "K10", ("LAR_main_text_v2.plain.
        ("cover_letter_v2.plain.txt", "0.333"): "K18", ("figures/Fig1_survey.pdf", "0.333"): "K12", ("figures/Fig1_survey.pdf", "0.386"): "K13",
        ("figures/Fig2_f1_ase.pdf", "257,514"): "G32", ("figures/Fig2_f1_ase.pdf", "32,067"): "G29", ("figures/Fig2_f1_ase.pdf", "0.483"): "G33",
        ("figures/SFig2_multimapping.pdf", "474"): "D6", ("LAR_main_text_v2.plain.txt", "±0.007"): "B4", ("figures/Fig4_predictors.pdf", "1e-15"): "N3",
-       ("figures/Fig4_predictors.pdf", "486"): "N6_0", ("figures/Fig4_predictors.pdf", "403"): "N6_1"}
+       ("figures/Fig4_predictors.pdf", "486"): "N6_0", ("response_to_reviewers_v2.plain.txt", "170"): "N7", ("figures/Fig4_predictors.pdf", "403"): "N6_1"}
 a["resolved_by"] = [MAP.get((f, t), "") if c in ("UNMAPPED", "XLSX", "M2") else "" for f, t, c in zip(a.file, a.token, a["class"])]
 a["resolved_status"] = [r.status.get(x, "") if x else "" for x in a.resolved_by]
 # tokens whose value is reproduced by a PASS claim of the independent recomputation become class M2 (ref = claim id); tokens that cannot be

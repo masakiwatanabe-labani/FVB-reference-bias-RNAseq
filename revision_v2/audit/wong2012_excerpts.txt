@@ -1,0 +1,10 @@
+# Wong K, et al. Sequencing and characterization of the FVB/NJ mouse genome. Genome Biol. 2012;13:R72 (PMC3491372).
+# Sentences retrieved verbatim from the Europe PMC full text on 2026-10-23 (Phase P-1); evidence for the literature values used in the Background.
+
+We have generated a catalogue of 30,048 structural variants (≥50 bp), which includes 15,358 deletions and 14,246 insertions, and combinations of SVs with complex paired-end mapping patterns (Figure 1 andTable 4 ) as described in Yalcin et al.
+We have generated a catalogue of approximately 4.3 million high-confidence SNPs from the FVB/NJ sequence data (Figure 1 ).
+We have also catalogued 0.82 million small indels in the FVB/NJ genome.
+One well known phenotype of FVB/NJ mice is early onset retinal degeneration, which has been attributed to a nonsense mutation in the Pde6b gene [ 4 ].
+FVB/NJ mice also fail to secrete complement 5 due to a 2-bp deletion in the Hc gene, which causes a truncation of the protein [ 1 , 5 ].
+The sequencing reads were mapped to the C57BL/6J mouse reference genome (NCBIM37/mm9) with BWA [ 18 ], followed by local realignment of reads around indels discovered by the Mouse Genome Project (MGP) using the Genome Analysis Toolkit (GATK) [ 19 ].
+Several factors contribute to our improved sensitivity for identifying large insertions in FVB/NJ, compared to the MGP: higher sequencing depth (approximately 50× coverage compared to an average 25×), longer read length (100-bp HiSeq reads compared to primarily 54- to 76-bp Genome Analyzer II reads), and improvements in read alignment algorithms (BWA versus MAQ).
