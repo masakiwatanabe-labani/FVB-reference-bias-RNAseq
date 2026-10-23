@@ -37,7 +37,7 @@ methods.md	15	CORR	Samples excluded by the manifest rules are listed with the re
 methods.md	16	H	<!-- END generated/methods_datasets.md -->
 methods.md	17	H	## Sample identity verification
 methods.md	18	NEW-ID	Every sample that entered any analysis was checked against its recorded strain b
-methods.md	19	NEW-ID/PHASE-M/PHASE-R	To reduce run time, the animals of the three-arm analysis were evaluated at a fi
+methods.md	19	NEW-ID/PHASE-M/PHASE-R/PHASE-R2	To reduce run time, all animals except the F1 hybrids — the 83 animals of the th
 methods.md	20	H	## Reference genome and variant set
 methods.md	21	KEEP	All analyses used the GRCm39 primary assembly. The genome FASTA was downloaded f
 methods.md	22	KEEP	FVB/NJ genetic variants were obtained from the Mouse Genomes Project REL-2021 re
@@ -252,7 +252,7 @@ figure_legends.md	21	NEW-DEC	Mean bias over the tested tissues (*x*-axis; bias =
 supplementary_table_captions.md	1	H	# Supplementary Table Captions
 supplementary_table_captions.md	2	H	**Supplementary Table S1. Sample manifest and sequence-based strain-identity ver
 supplementary_table_captions.md	3	NEW-ID	Sheet *S1a — manifest*: every candidate sample considered for this study (one ro
-supplementary_table_captions.md	4	NEW-ID/PHASE-R	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
+supplementary_table_captions.md	4	NEW-ID/PHASE-R/PHASE-R2	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
 supplementary_table_captions.md	5	H	**Supplementary Table S2. Catalog of 138 genes consistently showing SNP-mediated
 supplementary_table_captions.md	6	CORR/PHASE-M/PHASE-P	Full catalog of genes meeting the primary bias criterion. A gene was included if
 supplementary_table_captions.md	7	H	**Supplementary Table S3. Sensitivity of the bias catalog to threshold, minimum-

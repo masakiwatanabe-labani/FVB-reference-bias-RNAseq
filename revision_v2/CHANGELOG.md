@@ -276,3 +276,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE R: three wording corrections and one letter deletion
 - `build_phase_j.py` `R_REPL` (R-1 Abstract/Discussion/Methods/S1b caption, R-2 Results, R-3 Results/Discussion; Methods datasets paragraph tagged PHASE-R); `render_methods_datasets.py` negative-control sentence; `response_to_reviewers.md` (R-1 items, R-2 item 2, R-4 deletion, R2 c1 quote refreshed). M-2 needle J4 updated to the new wording ("519 shared and concordant in direction"); value unchanged. M-2 399 PASS / 0 FAIL.
+
+### 2026-10-23 — PHASE R2: site subset of the identity check
+- `build_phase_j.py` `R2_REPL` (Methods identity sentence, S1b caption site_set). M-2 399 PASS / 0 FAIL.

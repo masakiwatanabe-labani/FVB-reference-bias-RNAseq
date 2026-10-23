@@ -101,4 +101,12 @@ if os.path.exists(f"{F}/before_hashes_R.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in br.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_R2.tsv"):
+    b2 = pd.read_csv(f"{F}/before_hashes_R2.tsv", sep="\t", dtype=str, keep_default_na=False)
+    b2 = b2[[r.file.endswith(("build_phase_j.py", "deliverables.sha256")) or r.before != sha(r.file) for r in b2.itertuples()]]
+    L += ["## Phase R2 (2026-10-23): site subset of the identity check — authorised exceptions", "",
+          "Text only (Methods identity sentence; S1b caption site_set); numbers.tsv, the xlsx and every figure unchanged. S1b: the four rejected GSE55788 animals carry site_set sub10pct (20,351 sites); Supplementary Fig. S1 uses their full-site per-site tables. Only files whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b2.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

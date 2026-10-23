@@ -120,11 +120,11 @@ Methods	18	8	NEW	NEW-ID		"A sample was used only if its verdict matched the stra
 Methods	18	9	NEW	NEW-ID		"C57BL/6J animals and the B6-congenic PyVT line: ""B6 pure"";"					
 Methods	18	10	NEW	NEW-ID		"F1 animals: ""F1"");"					
 Methods	18	11	NEW	NEW-ID		any mismatch stopped the pipeline for human review.					
-Methods	19	1	NEW	NEW-ID/PHASE-M/PHASE-R		To reduce run time, the animals of the three-arm analysis were evaluated at a fixed random 10% subset of the sites (20,351 sites;					
-Methods	19	2	NEW	NEW-ID/PHASE-M/PHASE-R		seed 20261016), which was validated on the first animals against the full set (metrics within 0.014 and identical verdicts for the 14 animals evaluated at both site sets);					
-Methods	19	3	NEW	NEW-ID/PHASE-M/PHASE-R		the F1 animals were evaluated at the full set.					
-Methods	19	4	NEW	NEW-ID/PHASE-M/PHASE-R		The per-sample metrics, site set and verdict of every evaluated animal, including the four GSE55788 animals that failed, are given in Supplementary Table S1, and the genomic distribution of homozygous FVB-allele sites in the failed animals is shown in Supplementary Fig. S1.					
-Methods	19	5	NEW	NEW-ID/PHASE-M/PHASE-R		Allele-count tables were also used, restricted to chromosomes 3, 10 and 16 at the full site set, to examine residual donor-strain segments in the PyVT negative-control animals (see *Negative control*).					
+Methods	19	1	NEW	NEW-ID/PHASE-M/PHASE-R/PHASE-R2		To reduce run time, all animals except the F1 hybrids — the 83 animals of the three-arm analysis and the four rejected GSE55788 animals — were evaluated at a fixed random 10% subset of the sites (20,351 sites;					
+Methods	19	2	NEW	NEW-ID/PHASE-M/PHASE-R/PHASE-R2		seed 20261016), which was validated on the first animals against the full set (metrics within 0.014 and identical verdicts for the 14 animals evaluated at both site sets);					
+Methods	19	3	NEW	NEW-ID/PHASE-M/PHASE-R/PHASE-R2		the F1 animals were evaluated at the full set.					
+Methods	19	4	NEW	NEW-ID/PHASE-M/PHASE-R/PHASE-R2		The per-sample metrics, site set and verdict of every evaluated animal, including the four GSE55788 animals that failed, are given in Supplementary Table S1, and the genomic distribution of homozygous FVB-allele sites in the failed animals is shown in Supplementary Fig. S1.					
+Methods	19	5	NEW	NEW-ID/PHASE-M/PHASE-R/PHASE-R2		Allele-count tables were also used, restricted to chromosomes 3, 10 and 16 at the full site set, to examine residual donor-strain segments in the PyVT negative-control animals (see *Negative control*).					
 Methods	21	1	KEEP	KEEP	All analyses used the GRCm39 primary assembly.	All analyses used the GRCm39 primary assembly.	Methods	Reference genome and variant set	13	1	
 Methods	21	2	KEEP	KEEP	The genome FASTA was downloaded from the Ensembl FTP as Mus_musculus.GRCm39.dna.primary_assembly.fa.gz.	The genome FASTA was downloaded from the Ensembl FTP as Mus_musculus.GRCm39.dna.primary_assembly.fa.gz.	Methods	Reference genome and variant set	13	1	
 Methods	21	3	KEEP	KEEP	The corresponding Ensembl release 110 gene annotation was downloaded as Mus_musculus.GRCm39.110.gtf \[12\].	The corresponding Ensembl release 110 gene annotation was downloaded as Mus_musculus.GRCm39.110.gtf [15].	Methods	Reference genome and variant set	13	1	
@@ -906,18 +906,19 @@ Supplementary Table Captions	3	10	NEW	NEW-ID		`role` (strain_comparison, negativ
 Supplementary Table Captions	3	11	NEW	NEW-ID		`design_main`, `design_sensitivity` (membership in the primary and control-only models);					
 Supplementary Table Captions	3	12	NEW	NEW-ID		`n_technical_runs`;					
 Supplementary Table Captions	3	13	NEW	NEW-ID		`read_count_total`.					
-Supplementary Table Captions	4	1	NEW	NEW-ID/PHASE-R		Sheet *S1b — identity verification*: every animal evaluated by the sequence-based check (99 rows: the 83 animals of the three-arm analysis (36 FVB/NJ, 34 C57BL/6J and 13 B6-congenic PyVT tumours) and the 12 F1 animals used in the study, and the 4 GSE55788 animals that failed).					
-Supplementary Table Captions	4	2	NEW	NEW-ID/PHASE-R		**Columns:** sample identifiers and attributes as above;					
-Supplementary Table Captions	4	3	NEW	NEW-ID/PHASE-R		`reads_raw`, `reads_after_fastp`;					
-Supplementary Table Captions	4	4	NEW	NEW-ID/PHASE-R		`n_sites` (sites with depth ≥ 20 in the naive alignment);					
-Supplementary Table Captions	4	5	NEW	NEW-ID/PHASE-R		`mean_alt_fraction` (mean FVB-allele fraction);					
-Supplementary Table Captions	4	6	NEW	NEW-ID/PHASE-R		`frac_hi`, `frac_mid`, `frac_lo` (fraction of sites with FVB-allele fraction > 0.9, 0.1–0.9, < 0.1);					
-Supplementary Table Captions	4	7	NEW	NEW-ID/PHASE-R		`qc_verdict`;					
-Supplementary Table Captions	4	8	NEW	NEW-ID/PHASE-R		`expected` (verdict required by the recorded strain);					
-Supplementary Table Captions	4	9	NEW	NEW-ID/PHASE-R		`match` (Y/N);					
-Supplementary Table Captions	4	10	NEW	NEW-ID/PHASE-R		`site_set` (the fixed 10% subset of 20,351 sites for the animals of the three-arm analysis, the full 203,510-site set for F1 animals);					
-Supplementary Table Captions	4	11	NEW	NEW-ID/PHASE-R		`used_in_analysis` (Y/N);					
-Supplementary Table Captions	4	12	NEW	NEW-ID/PHASE-R		`exclusion_reason`.					
+Supplementary Table Captions	4	1	NEW	NEW-ID/PHASE-R/PHASE-R2		Sheet *S1b — identity verification*: every animal evaluated by the sequence-based check (99 rows: the 83 animals of the three-arm analysis (36 FVB/NJ, 34 C57BL/6J and 13 B6-congenic PyVT tumours) and the 12 F1 animals used in the study, and the 4 GSE55788 animals that failed).					
+Supplementary Table Captions	4	2	NEW	NEW-ID/PHASE-R/PHASE-R2		**Columns:** sample identifiers and attributes as above;					
+Supplementary Table Captions	4	3	NEW	NEW-ID/PHASE-R/PHASE-R2		`reads_raw`, `reads_after_fastp`;					
+Supplementary Table Captions	4	4	NEW	NEW-ID/PHASE-R/PHASE-R2		`n_sites` (sites with depth ≥ 20 in the naive alignment);					
+Supplementary Table Captions	4	5	NEW	NEW-ID/PHASE-R/PHASE-R2		`mean_alt_fraction` (mean FVB-allele fraction);					
+Supplementary Table Captions	4	6	NEW	NEW-ID/PHASE-R/PHASE-R2		`frac_hi`, `frac_mid`, `frac_lo` (fraction of sites with FVB-allele fraction > 0.9, 0.1–0.9, < 0.1);					
+Supplementary Table Captions	4	7	NEW	NEW-ID/PHASE-R/PHASE-R2		`qc_verdict`;					
+Supplementary Table Captions	4	8	NEW	NEW-ID/PHASE-R/PHASE-R2		`expected` (verdict required by the recorded strain);					
+Supplementary Table Captions	4	9	NEW	NEW-ID/PHASE-R/PHASE-R2		`match` (Y/N);					
+Supplementary Table Captions	4	10	NEW	NEW-ID/PHASE-R/PHASE-R2		`site_set` (the fixed 10% subset of 20,351 sites for the animals of the three-arm analysis and the four GSE55788 animals, the full 203,510-site set for F1 animals;					
+Supplementary Table Captions	4	11	NEW	NEW-ID/PHASE-R/PHASE-R2		the genome-wide block plot of the GSE55788 animals in Supplementary Fig. S1 uses the full site set);					
+Supplementary Table Captions	4	12	NEW	NEW-ID/PHASE-R/PHASE-R2		`used_in_analysis` (Y/N);					
+Supplementary Table Captions	4	13	NEW	NEW-ID/PHASE-R/PHASE-R2		`exclusion_reason`.					
 Supplementary Table Captions	6	1	KEEP	CORR/PHASE-M/PHASE-P	Full catalog of genes meeting the primary bias criterion.	Full catalog of genes meeting the primary bias criterion.	Supplementary Table Captions	Supplementary Table S2. Catalog of 32 genes consistently showing SNP-mediated reference-genome mapping bias in FVB/B6 comparisons across non-tumour tissue datasets.	2	1	
 Supplementary Table Captions	6	2	EDIT	CORR/PHASE-M/PHASE-P	A gene was included if it showed bias ≥ 0.5 log₂ units in at least two of the four non-PyVT tissue datasets, namely mesenteric adipose tissue, liver, kidney, and cardiac muscle, and was present in the FVB/NJ GTF after g2gtools coordinate conversion.	A gene was included if it showed bias ≥ 0.5 log₂ units in at least two of the four non-tumour tissue datasets, namely mesenteric adipose tissue, hypothalamus, liver, and back skin, and was present in the FVB/NJ GTF after g2gtools coordinate conversion.	Supplementary Table Captions	Supplementary Table S2. Catalog of 32 genes consistently showing SNP-mediated reference-genome mapping bias in FVB/B6 comparisons across non-tumour tissue datasets.	2	1	
 Supplementary Table Captions	6	3	KEEP	CORR/PHASE-M/PHASE-P	Bias was defined as log₂FC_FVB ref − log₂FC_naive.	Bias was defined as log₂FC_FVB ref − log₂FC_naive.	Supplementary Table Captions	Supplementary Table S2. Catalog of 32 genes consistently showing SNP-mediated reference-genome mapping bias in FVB/B6 comparisons across non-tumour tissue datasets.	2	1	

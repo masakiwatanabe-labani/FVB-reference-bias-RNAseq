@@ -196,3 +196,8 @@ Text only; numbers.tsv, tables, xlsx and figures unchanged.
 - R-2 negative control "on a predominantly C57BL/6J background": Methods datasets sentence (render_methods_datasets.py); Results negative-control section ("a C57BL/6-congenic line with a predominantly C57BL/6J genome (…; a residual donor segment is described below)"); response letter item 2.
 - R-3 "detected with similar power" replaced by the overlap of the DE genes: Results within-strain section; Discussion "Reference-genome choice could in principle also affect"; the quoted Results text in the R2 c1 reply refreshed (the reply text itself did not contain the phrase).
 - R-4 response letter R1 opening: sentence "In the first version of this revision we had cited Wong et al. …" deleted; the description of Wong et al. 2012 as a resequencing study and of FVB_NJ_v1/FVB_NJ_v3 as de novo assemblies kept.
+
+## Phase R2 (2026-10-23) — site subset of the identity check (ledger trigger PHASE-R2)
+Text only. S1b confirms that the four rejected GSE55788 animals carry site_set "sub10pct (20,351 sites)" and that Supplementary Fig. S1 uses their full-site per-site tables.
+- Methods, Sample identity verification: "the animals of the three-arm analysis were evaluated at a fixed random 10% subset" → "all animals except the F1 hybrids — the 83 animals of the three-arm analysis and the four rejected GSE55788 animals — were evaluated at a fixed random 10% subset".
+- Additional file 1, Sheet S1b caption, site_set: "… for the animals of the three-arm analysis and the four GSE55788 animals, the full 203,510-site set for F1 animals; the genome-wide block plot of the GSE55788 animals in Supplementary Fig. S1 uses the full site set".
