@@ -116,12 +116,29 @@ def phase_m(name, txt, trig):
         txt=txt[:i]+R(new)+txt[j:]; M_USED[n]+=1
         if "PHASE-M" not in trig: trig+="/PHASE-M"
     return txt, trig
+# ---- Phase N (2026-10-23): fixes from the package check (trigger PHASE-N); no number changes.
+N_REPL=[
+ # N-1c Supplementary Fig. S1 legend
+ ("figure_legends.md","(mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as","","(both mesenteric adipose tissue, GSE123875; chosen as"),
+ ("figure_legends.md","in 20-Mb bins along the autosomes,","","in 20-Mb bins along the autosomes (bins with at least 10 sites of depth ≥ 20; empty bins are white),"),
+ # N-2a one of the eleven SNPs lies in the copied transcript, just outside the copied span (17:24,940,701)
+ ("results.md","lie in exon segments of other *Rps2* transcripts that the pseudogenes do not contain","","lie outside the part that the pseudogenes copy"),
+ ("supplementary_note2.md","lie in exon segments of other *Rps2* transcripts that the pseudogenes do not contain","","lie outside the part that the pseudogenes copy"),
+]
+N_USED=[0]*len(N_REPL)
+def phase_n(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(N_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i)+len(b)
+        txt=txt[:i]+R(new)+txt[j:]; N_USED[n]+=1
+        if "PHASE-N" not in trig: trig+="/PHASE-N"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -507,6 +524,7 @@ with open(f"{P}/revision_v2/ledger_paragraph_triggers.tsv","w") as o:
     o.write("section\tpara_no\ttrigger\tprefix\n")
     for s,i,t,pre in TRIG: o.write(f"{s}\t{i}\t{t}\t{pre}\n")
 left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
+assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])
 assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])
 assert all(u==1 for u in L_USED), ("Phase L replacements not applied exactly once", [(L_REPL[n][:2],u) for n,u in enumerate(L_USED) if u!=1])
 print("sections written:", list(OUT)); print("unresolved placeholders:", left); print("abbreviations used:", [a for a,_ in used])

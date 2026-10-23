@@ -605,10 +605,23 @@ for f_ in glob.glob(f"{DATA}/*/*/qc/*.ase.tsv"):
     if all((c, p) in sub for c, p in zip(d_.contig, d_.position)): continue
     cnd.append((STR[s_], -int((d_.totalCount >= 20).sum()), s_))
 pick = {st: sorted(x for x in cnd if x[0] == st)[0][2] for st in ("C57BL/6J", "FVB/NJ")}
-claim("L2", g, "af1", "(mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with the most sites of depth ≥ 20)", "adipose_B6_CWM8,adipose_FVB_FWM9", f"{pick['C57BL/6J']},{pick['FVB/NJ']}", "eq", note=f"{len(cnd)} candidates")
+claim("L2", g, "af1", "(both mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with the most sites of depth ≥ 20)", "adipose_B6_CWM8,adipose_FVB_FWM9", f"{pick['C57BL/6J']},{pick['FVB/NJ']}", "eq", note=f"{len(cnd)} candidates")
 b6r, fvr = binfrac(f"{T1}/{pick['C57BL/6J']}.ase.tsv"), binfrac(f"{T1}/{pick['FVB/NJ']}.ase.tsv")
 claim("L3", g, "af1", "The C57BL/6J reference animal has at most 0.033 of sites", "0.033", b6r.max()); claim("L3b", g, "af1", "has at most 0.033", "0.033", b6r.max(), "le")
 claim("L4", g, "af1", "the FVB/NJ reference animal at least 0.69", "0.69", fvr.min()); claim("L4b", g, "af1", "at least 0.69", "0.69", fvr.min(), "ge")
+g = "N figure text (Phase N)"
+claim("N1", g, "Fig3_strain_comparison", "catalog genes tested in liver: 117 of 138", "117", len(set(B["liver"].index) & CAT), "int", note="Fig. 3A key (N-2b)")
+for k_, n_ in ((2, "40"), (3, "31"), (4, "46")):
+    claim(f"N2_{k_}", g, "Fig3_strain_comparison", f"(n = {n_} tested in liver)", n_, int(sum(1 for x in set(B["liver"].index) & CAT if int(nq[x]) == k_)), "int")
+claim("N3", g, "Fig4_predictors", "Spearman ρ = 0.337, p < 1e-15", "1e-15", r.pvalue, "plt", note="Fig. 4A (N-1b): no underflowed p = 0")
+claim("N3b", g, "Fig4_predictors", "", "absent", "absent" if not re.search(r"p = 0\b|0\.0e\+00|0e\+00", FIG["Fig4_predictors"]) and all(not re.search(r"p = 0\b|0\.0e\+00|0e\+00", t_) for t_ in FIG.values()) else "present", "eq", note="no printed p of 0 in any figure")
+claim("N4", g, "Fig6_worked_examples", "(skin +5.36 log₂)", "+5.36", rp["skin"].bias, note="Fig. 6D title (N-1a); title lines: 'largest single-tissue' / 'bias of the direct-misalignment class' / '(skin +5.36 log₂)'")
+claim("N4b", g, "Fig6_worked_examples", "bias of the direct-misalignment class", "qualified", "qualified" if "largest single-tissue bias\n" not in FIG["Fig6_worked_examples"] else "unqualified", "eq")
+_bt = G.biotype.reindex(genes_any)
+for k_, (lab_, sel_) in enumerate((("17,486", _bt == "protein_coding"), ("5,403", _bt == "lncRNA"), ("2,169", _bt.fillna("").str.contains("pseudogene")), ("141", _bt == "miRNA"))):
+    claim(f"N6_{k_}", g, "Fig4_predictors", "", lab_, int(sel_.sum()), "int", note="Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)")
+claim("N6_4", g, "Fig4_predictors", "", "2,533", int(len(_bt) - (_bt == "protein_coding").sum() - (_bt == "lncRNA").sum() - _bt.fillna("").str.contains("pseudogene").sum() - (_bt == "miRNA").sum()), "int")
+claim("N5", g, "af1", "lie outside the part that the pseudogenes copy", "11", len(my_snp) - int(((ux.type == "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int", note="N-2a: 10 in exon segments absent from the copied transcript ENSMUST00000146867, 1 (17:24,940,701) in that transcript just past the copied span")
 out = pd.DataFrame(ROWS); out.to_csv(f"{P}/revision_v2/freeze/recompute_report.tsv", sep="\t", index=False)
 print(out.status.value_counts().to_string()); print(out.groupby(["group", "status"]).size().unstack(fill_value=0).to_string())
 print(out[out.status != "PASS"][["claim_id", "location", "text_value", "exact", "at_text_precision", "status", "note"]].to_string(max_colwidth=140))

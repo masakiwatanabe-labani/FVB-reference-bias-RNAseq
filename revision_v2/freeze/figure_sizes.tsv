@@ -1,0 +1,10 @@
+figure	width_mm	height_mm	min_text_pt	max_text_pt
+Fig1_survey	170.0	124.5	7.0	10.0
+Fig2_f1_ase	170.0	175.3	7.0	10.0
+Fig3_strain_comparison	170.0	167.6	7.0	10.0
+Fig4_predictors	170.0	167.6	7.0	10.0
+Fig5_catalog	170.0	203.2	7.0	10.0
+Fig6_worked_examples	170.0	193.0	7.0	10.0
+SFig1_GSE55792_haplotype_blocks	170.0	83.8	7.0	8.0
+SFig2_multimapping	170.0	210.8	7.0	10.0
+SFig3_bias_decomposition	85.0	109.2	7.0	7.5

@@ -350,8 +350,22 @@ K14	K letters and survey	resp	the FVB allele fraction is 0.480 (not 0.333)	0.480
 K15	K letters and survey	resp	it is 0.512 (not 0.386)	0.512	0.512222	0.512	num	PASS	
 L1	L Supplementary Fig. S1	af1	on chromosomes 2, 3, 8, 10 and 11 at least half of the sites in a bin	2, 3, 8, 10 and 11	2, 3, 8, 10 and 11	2, 3, 8, 10 and 11	eq	PASS	
 L1b	L Supplementary Fig. S1	af1	(for example chromosome 12, 0–20 Mb, in one animal)	1	1	1	int	PASS	
-L2	L Supplementary Fig. S1	af1	(mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with th	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	eq	PASS	10 candidates
+L2	L Supplementary Fig. S1	af1	(both mesenteric adipose tissue, GSE123875; chosen as the animal of each strain with the most sites of depth ≥ 20)	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	adipose_B6_CWM8,adipose_FVB_FWM9	eq	PASS	10 candidates
 L3	L Supplementary Fig. S1	af1	The C57BL/6J reference animal has at most 0.033 of sites	0.033	0.0326316	0.033	num	PASS	
 L3b	L Supplementary Fig. S1	af1	has at most 0.033	0.033	0.0326316	0.033	le	PASS	
 L4	L Supplementary Fig. S1	af1	the FVB/NJ reference animal at least 0.69	0.69	0.691083	0.69	num	PASS	
 L4b	L Supplementary Fig. S1	af1	at least 0.69	0.69	0.691083	0.69	ge	PASS	
+N1	N figure text (Phase N)	Fig3_strain_comparison	catalog genes tested in liver: 117 of 138	117	117	117	int	PASS	Fig. 3A key (N-2b)
+N2_2	N figure text (Phase N)	Fig3_strain_comparison	(n = 40 tested in liver)	40	40	40	int	PASS	
+N2_3	N figure text (Phase N)	Fig3_strain_comparison	(n = 31 tested in liver)	31	31	31	int	PASS	
+N2_4	N figure text (Phase N)	Fig3_strain_comparison	(n = 46 tested in liver)	46	46	46	int	PASS	
+N3	N figure text (Phase N)	Fig4_predictors	Spearman ρ = 0.337, p < 1e-15	1e-15	0	0	plt	PASS	Fig. 4A (N-1b): no underflowed p = 0
+N3b	N figure text (Phase N)	Fig4_predictors		absent	absent	absent	eq	PASS	no printed p of 0 in any figure
+N4	N figure text (Phase N)	Fig6_worked_examples	(skin +5.36 log₂)	+5.36	5.36151	5.36	num	PASS	Fig. 6D title (N-1a); title lines: 'largest single-tissue' / 'bias of the direct-misalignment class' / '(skin +5.36 log₂)'
+N4b	N figure text (Phase N)	Fig6_worked_examples	bias of the direct-misalignment class	qualified	qualified	qualified	eq	PASS	
+N6_0	N figure text (Phase N)	Fig4_predictors		17,486	17486	17486	int	PASS	Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)
+N6_1	N figure text (Phase N)	Fig4_predictors		5,403	5403	5403	int	PASS	Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)
+N6_2	N figure text (Phase N)	Fig4_predictors		2,169	2169	2169	int	PASS	Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)
+N6_3	N figure text (Phase N)	Fig4_predictors		141	141	141	int	PASS	Fig. 4D biotype n (rotated tick label; pdftotext may split the digits)
+N6_4	N figure text (Phase N)	Fig4_predictors		2,533	2533	2533	int	PASS	
+N5	N figure text (Phase N)	af1	lie outside the part that the pseudogenes copy	11	11	11	int	PASS	N-2a: 10 in exon segments absent from the copied transcript ENSMUST00000146867, 1 (17:24,940,701) in that transcript just past the copied span

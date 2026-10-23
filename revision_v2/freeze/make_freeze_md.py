@@ -42,4 +42,22 @@ L += ["", "Full before/after hashes: `before_hashes.tsv` (before) and `inputs.sh
       "- D1.1 grep after the changes: no figure or table script reads outside analysis_v2/results/, revision_v2/manifest/ and ref/ except Sheet S4b (D6).",
       "- `revision_v2/freeze/cache/` (intermediate BEDs of M-2, 431 MB) is not committed.",
       "- `submission_checklist.md` was generated before the seal; its seal line therefore reads \"not yet written\"; the final_check run after the seal (final_check.md) verifies it.", ""]
+if os.path.exists(f"{F}/before_hashes_N.tsv"):
+    bn = pd.read_csv(f"{F}/before_hashes_N.tsv", sep="\t", dtype=str, keep_default_na=False)
+    sz = pd.read_csv(f"{F}/figure_sizes.tsv", sep="\t", dtype=str)
+    L += ["## Phase N (2026-10-23): fixes from the package check — authorised exceptions", "",
+          "No number changed: every _data.tsv is byte-identical to the frozen version; the M-1 token audit of the figure PDFs differs only by layout tokens (axis ticks, digits of rotated labels split by pdftotext), the Fig. 3A key (117 of 138 catalog genes tested in liver; n = 40/31/46 tested in liver) and Fig. 4 p values printed as \"p < 1e-15\" (was 0.0e+00, 2.7e-17, 1.6e-25, 1.8e-35); all are claims of the M-2 report (group N).", "",
+          "- N-1a Fig. 6D title: \"largest single-tissue bias of the direct-misalignment class (skin +5.36 log₂)\"; Supplementary Fig. S2D title: \"two largest |Δ| of the catalog\" (the only other \"largest\" in a figure).",
+          "- N-1b Fig. 4: printed p below 1e-15 shown as \"p < 1e-15\" (no other figure printed a p of 0).",
+          "- N-1c Supplementary Fig. S1 legend: \"(both mesenteric adipose tissue, GSE123875; …)\"; bin filter stated.",
+          "- N-1d Cover letter and response letter: \"(Fig. 1A) was not affected; the schematic in Fig. 1B, which quoted the F1 values, has been updated\".",
+          "- N-2a Results and Note 2: \"the other eleven exonic SNPs lie outside the part that the pseudogenes copy\" (10 lie in exon segments absent from ENSMUST00000146867, the transcript the pseudogenes copy; 17:24,940,701 lies in that transcript just past the copied span).",
+          "- N-2b Fig. 3A key: \"(n = … tested in liver)\" and \"catalog genes tested in liver: 117 of 138\".",
+          "- N-2c TIFFs written as RGB on white (no alpha).",
+          "- N-3 every figure re-laid out at its print size, all text ≥ 7 pt (sizes measured from the figure at save time):", "",
+          "| figure | width (mm) | height (mm) | smallest text (pt) |", "|---|---|---|---|"]
+    L += [f"| {r.figure} | {r.width_mm} | {r.height_mm} | {r.min_text_pt} |" for r in sz.itertuples()]
+    L += ["", "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bn.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

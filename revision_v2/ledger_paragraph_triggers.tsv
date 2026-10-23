@@ -202,7 +202,7 @@ results.md	66	NEW-DEC	The bias compares a quantification in which both strains a
 results.md	67	H	## *Ndufs5* and *Rps2* as worked examples of the two mechanism classes
 results.md	68	NEW-WE	To illustrate the practical consequences of SNP-mediated reference-mapping bias,
 results.md	69	NEW-WE	*Ndufs5* (chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb) is the most robustly eviden
-results.md	70	NEW-WE/PHASE-K1/PHASE-L	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
+results.md	70	NEW-WE/PHASE-K1/PHASE-L/PHASE-N	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
 results.md	71	H	## Reference choice does not alter within-strain comparisons
 results.md	72	NEW-WS	Finally, to assess whether reference-genome choice affects comparisons made enti
 discussion.md	1	H	# Discussion
@@ -244,7 +244,7 @@ figure_legends.md	13	CORR	**(A)** Heatmap of per-tissue bias values for the top 
 figure_legends.md	14	H	**Figure 6. Worked examples of SNP-mediated reference-genome mapping bias: *Nduf
 figure_legends.md	15	NEW-WE/PHASE-K1	The two genes were chosen by rule: *Ndufs5* is the catalog gene qualifying in th
 figure_legends.md	16	H	**Supplementary Figure S1. Sequence-based strain-identity check: the "wild-type 
-figure_legends.md	17	NEW-ID/PHASE-M	Fraction of sites homozygous for the FVB/NJ allele (FVB-allele fraction > 0.9 am
+figure_legends.md	17	NEW-ID/PHASE-M/PHASE-N	Fraction of sites homozygous for the FVB/NJ allele (FVB-allele fraction > 0.9 am
 figure_legends.md	18	H	**Supplementary Figure S2. Multi-mapping sensitivity analysis reveals two mechan
 figure_legends.md	19	CORR	**(A)** Genome-wide distribution of Δ across 82,264 expressed gene-tissue pairs 
 figure_legends.md	20	H	**Supplementary Figure S3. Decomposition of the catalog bias into FVB/NJ-read ga
@@ -307,7 +307,7 @@ supplementary_note2.md	22	H	## The Rps2 skin case
 supplementary_note2.md	23	NEW-WE/PHASE-K1/PHASE-M	The skin *Rps2* bias (+5.36 log₂ unique-only) is the largest single-tissue bias 
 supplementary_note2.md	24	NEW-WE/PHASE-K1	Counts per million of *Rps2* and of the three processed pseudogenes that carry i
 supplementary_note2.md	25	NEW-WE/PHASE-K1	| Gene | B6 ref., FVB/NJ unique | B6 ref., FVB/NJ fractional | B6 ref., C57BL/6J
-supplementary_note2.md	26	NEW-WE/PHASE-K1/PHASE-L	Under unique-only counting the SNP-only personalised reference does not recover 
+supplementary_note2.md	26	NEW-WE/PHASE-K1/PHASE-L/PHASE-N	Under unique-only counting the SNP-only personalised reference does not recover 
 supplementary_note2.md	27	H	## Interpretation
 supplementary_note2.md	28	CORR/PHASE-K1	The multi-mapping sensitivity analysis reveals that the catalog gene list spans 
 supplementary_note2.md	29	NEW-DEC/PHASE-K1	From a correction standpoint, the FVB personalised reference arm recovers FVB/NJ

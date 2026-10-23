@@ -167,3 +167,9 @@ Authorised exceptions to the freeze (authors' decisions D1–D5, D1b, D6, E1–E
 - M-3a "(median −0.43 to −0.66 …)" → "(group mean of the per-animal median −0.43 to −0.66 …)"; M-3b "over the 138 catalog genes" → "over the catalog genes expressed in the tissue (76–86 of 138)"; M-3c S2 caption: Gm26740 note (tested in three tissues under the primary model and four under the matched model; differs by 0.02).
 - D5a "1.2 million indels" → "1.1 million homozygous autosomal indels" (Background; response letter, Reviewer 1 major concern 1).
 - D5b GSE200632 F1 cells (LSL-KrasG12D, Cre-transduced in culture): Methods datasets block (rendered by `render_methods_datasets.py`), Results first mention, Table 1 tissue cell (`make_table1.py`), Discussion substrain paragraph.
+
+## Phase N (2026-10-23) — fixes from the package check (ledger trigger PHASE-N; no number changes)
+- N-1c Supplementary Fig. S1 legend: "(mesenteric adipose tissue, GSE123875; mesenteric adipose tissue, GSE123875; chosen as …)" → "(both mesenteric adipose tissue, GSE123875; chosen as …)"; "in 20-Mb bins along the autosomes," → "in 20-Mb bins along the autosomes (bins with at least 10 sites of depth ≥ 20; empty bins are white),".
+- N-1d Cover letter and response letter (Important note): "The survey of published practice (Fig. 1) was not affected." → "The survey of published practice (Fig. 1A) was not affected; the schematic in Fig. 1B, which quoted the F1 values, has been updated."
+- N-2a Results and Note 2: "the other eleven exonic SNPs lie in exon segments of other *Rps2* transcripts that the pseudogenes do not contain" → "the other eleven exonic SNPs lie outside the part that the pseudogenes copy" (one of the eleven, 17:24,940,701, lies in the copied transcript ENSMUST00000146867 just past the copied span).
+- Figures (N-1a, N-1b, N-2b, N-2c, N-3): see CHANGELOG and freeze/FREEZE.md (Phase N).

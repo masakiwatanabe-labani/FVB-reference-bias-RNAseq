@@ -7,7 +7,11 @@ Environment: RES_DIR  -> analysis results dir (default analysis_v2/results; per-
 Every figure is written as vector PDF + 600-dpi LZW TIFF, and its plotted numbers as <name>_data.tsv next to it."""
 import os, matplotlib
 matplotlib.use("Agg")
-matplotlib.rcParams["pdf.fonttype"]=42; matplotlib.rcParams["ps.fonttype"]=42; matplotlib.rcParams["font.size"]=9
+matplotlib.rcParams["pdf.fonttype"]=42; matplotlib.rcParams["ps.fonttype"]=42
+# Phase N-3: figures are drawn at their final print size (full width 170 mm, single column 85 mm, height <= 225 mm) with all text >= 7 pt
+matplotlib.rcParams.update({"font.size":7,"axes.titlesize":8,"axes.labelsize":7.5,"xtick.labelsize":7,"ytick.labelsize":7,"legend.fontsize":7,
+                            "legend.title_fontsize":7,"axes.linewidth":0.6,"xtick.major.width":0.6,"ytick.major.width":0.6,"lines.linewidth":1.0})
+MM=1/25.4; FULL_W=170*MM; HALF_W=85*MM; MAX_H=225*MM; MIN_PT=7.0
 import matplotlib.pyplot as plt, numpy as np, pandas as pd
 PROJ="/usr/local/jupyter/FVB_bias"
 FINAL=f"{PROJ}/analysis_v2/results"
@@ -55,24 +59,39 @@ def n_animals(tissue):
     ss=load_samples(tissue); return int((ss.strain_short=="FVB").sum()), int((ss.strain_short=="B6").sum())
 
 def panel(ax, letter, x=-0.12, y=1.04):
-    ax.text(x, y, letter, transform=ax.transAxes, fontsize=14, fontweight="bold", va="bottom", ha="right")
+    ax.text(x, y, letter, transform=ax.transAxes, fontsize=10, fontweight="bold", va="bottom", ha="right")
 
 def despine(ax):
     ax.spines[["top","right"]].set_visible(False)
 
 def save(fig, name, data=None):
-    """PDF (vector; rasterized point clouds keep the file small) + 600-dpi TIFF, plus the plotted data table"""
-    fig.savefig(f"{FIG}/{name}.pdf", bbox_inches="tight", facecolor="white")
-    fig.savefig(f"{FIG}/{name}.tiff", dpi=600, bbox_inches="tight", facecolor="white", pil_kwargs={"compression":"tiff_lzw"})
+    """PDF (vector) + 600-dpi RGB TIFF on white (no alpha channel, Phase N-2c), plus the plotted data table. The figure is saved at its
+    exact size (no tight cropping), so its size is the print size; the size and the smallest text are checked (Phase N-3) and logged to
+    revision_v2/freeze/figure_sizes.tsv."""
+    import io, matplotlib.text as mtext
+    from PIL import Image
+    w_mm, h_mm = (x*25.4 for x in fig.get_size_inches())
+    fig.canvas.draw()
+    sizes=[t.get_fontsize() for t in fig.findobj(mtext.Text) if t.get_visible() and t.get_text().strip() and t.get_window_extent().width > 0]
+    fmin=min(sizes); assert w_mm <= 170.5 and h_mm <= 225.5, f"{name}: {w_mm:.0f} x {h_mm:.0f} mm exceeds 170 x 225 mm"
+    assert fmin >= MIN_PT - 1e-9, f"{name}: smallest text {fmin} pt < {MIN_PT} pt"
+    fig.savefig(f"{FIG}/{name}.pdf", facecolor="white")
+    buf=io.BytesIO(); fig.savefig(buf, format="png", dpi=600, facecolor="white"); buf.seek(0)
+    im=Image.open(buf); bg=Image.new("RGB", im.size, (255,255,255)); bg.paste(im, mask=im.split()[3] if im.mode=="RGBA" else None)
+    bg.save(f"{FIG}/{name}.tiff", compression="tiff_lzw", dpi=(600,600))
+    log=f"{PROJ}/revision_v2/freeze/figure_sizes.tsv"; rows={}
+    if os.path.exists(log): rows={l.split("\t")[0]:l for l in open(log).read().splitlines()[1:]}
+    rows[name]=f"{name}\t{w_mm:.1f}\t{h_mm:.1f}\t{fmin:.1f}\t{max(sizes):.1f}"
+    open(log,"w").write("figure\twidth_mm\theight_mm\tmin_text_pt\tmax_text_pt\n"+"\n".join(rows[k] for k in sorted(rows))+"\n")
     if data is not None:
         if isinstance(data, dict):
             with open(f"{FIG}/{name}_data.tsv","w") as o:
                 for k,v in data.items():
                     o.write(f"## {k}\n"); v.to_csv(o, sep="\t"); o.write("\n")
         else: data.to_csv(f"{FIG}/{name}_data.tsv", sep="\t")
-    plt.close(fig); print(f"saved {FIG}/{name}.{{pdf,tiff}}")
+    plt.close(fig); print(f"saved {FIG}/{name}.{{pdf,tiff}}  {w_mm:.0f} x {h_mm:.0f} mm, smallest text {fmin:.1f} pt")
 
-def label_points(ax, xs, ys, names, color="#333333", fontsize=7.5, dx=4, dy=2):
+def label_points(ax, xs, ys, names, color="#333333", fontsize=7, dx=4, dy=2):
     for x,y,n in zip(xs,ys,names):
         ax.annotate(n, (x,y), xytext=(dx,dy), textcoords="offset points", fontsize=fontsize, color=color,
                     arrowprops=dict(arrowstyle="-", color=color, lw=0.4, shrinkB=2))
