@@ -43,7 +43,73 @@ main="\n\n".join(clean(x) for x in (title, abstract, keywords, background, metho
 paper_title=[l.strip() for l in title.splitlines() if l.strip() and not l.startswith("**") and not l.startswith("#")][0]   # first plain line of the title page = the title
 add="\n\n".join(clean(x) for x in ("# Additional file 1\n\nSupplementary figure legends, supplementary table captions and Supplementary Notes 1–2 for: "+paper_title+"\n", supp_legends, rd("supplementary_table_captions.md"), rd("supplementary_note1.md"), rd("supplementary_note2.md")))
 open(f"{OUT}/LAR_main_text_v2.md","w",encoding="utf-8").write(main); open(f"{OUT}/LAR_additional_file_1.md","w",encoding="utf-8").write(add)
+def fix_tables(path, font_pt=8, landscape_from=None):
+    """Phase Q-5: pandoc tables ("Normal Table", equal grid columns, width 100 %) collapse when the docx is converted to PDF by
+    LibreOffice. Give every table explicit widths in dxa that fit the text width (each column at least as wide as its longest word,
+    the rest distributed by the amount of text), the "Table Grid" style, 8-pt text and a header row repeated on each page. Cell
+    paragraphs lose pandoc's "Compact" style, which the localised reference docx lacks and which makes LibreOffice collapse the table
+    (each cell rendered as a separate line, the preceding heading squeezed into a narrow column)."""
+    from docx import Document
+    from docx.shared import Pt
+    from docx.oxml.ns import qn
+    from docx.oxml import OxmlElement
+    import copy
+    d=Document(path)
+    if landscape_from:   # put the content from the heading landscape_from to the end (Table 1) in its own landscape section
+        body=d.element.body; heads=[p for p in d.paragraphs if p.text.strip()==landscape_from]
+        if heads:
+            prev=heads[0]._p.getprevious()
+            while prev is not None and prev.tag!=qn("w:p"): prev=prev.getprevious()
+            final=body.find(qn("w:sectPr")); portrait=copy.deepcopy(final)
+            pPr=prev.find(qn("w:pPr"))
+            if pPr is None: pPr=OxmlElement("w:pPr"); prev.insert(0,pPr)
+            pPr.append(portrait)
+            pg=final.find(qn("w:pgSz")); w_,h_=pg.get(qn("w:w")),pg.get(qn("w:h")); pg.set(qn("w:w"),h_); pg.set(qn("w:h"),w_); pg.set(qn("w:orient"),"landscape")
+    sec=d.sections[-1]; textw=int((sec.page_width-sec.left_margin-sec.right_margin)/635)   # EMU -> twips (the section of the tables)
+    CH=int(font_pt*20*0.62)+1; PAD=200                                                                       # twips per character (bold header) at font_pt; cell padding
+    grid_id=d.styles["Table Grid"].style_id                                                                  # the reference docx is localised: style ids are not the English names
+    for t in d.tables:
+        rows=[[c.text for c in r.cells] for r in t.rows]; n=len(rows[0])
+        longest=[max(len(w) for r in rows for w in (r[j].split() or [""])) for j in range(n)]
+        total=[sum(len(r[j]) for r in rows) for j in range(n)]
+        base=[l*CH+PAD for l in longest]
+        if sum(base)>textw: base=[int(b*textw/sum(base)) for b in base]   # never wider than the text width
+        free=max(0,textw-sum(base)); tw=sum(total) or 1
+        width=[b+int(free*x/tw) for b,x in zip(base,total)]; width[-1]+=textw-sum(width)
+        tblPr=t._tbl.tblPr   # rebuilt in schema order (tblStyle, tblW, tblLayout, tblCellMar, tblLook); pandoc's order confuses LibreOffice
+        look=tblPr.find(qn("w:tblLook"))
+        for e in list(tblPr): tblPr.remove(e)
+        st=OxmlElement("w:tblStyle"); st.set(qn("w:val"),grid_id); tblPr.append(st)
+        tw_=OxmlElement("w:tblW"); tw_.set(qn("w:w"),str(textw)); tw_.set(qn("w:type"),"dxa"); tblPr.append(tw_)
+        lay=OxmlElement("w:tblLayout"); lay.set(qn("w:type"),"fixed"); tblPr.append(lay)
+        mar=OxmlElement("w:tblCellMar")
+        for side,v in (("top",20),("left",60),("bottom",20),("right",60)):
+            e=OxmlElement(f"w:{side}"); e.set(qn("w:w"),str(v)); e.set(qn("w:type"),"dxa"); mar.append(e)
+        tblPr.append(mar)
+        if look is not None: tblPr.append(look)
+        grid=t._tbl.tblGrid
+        for g in list(grid): grid.remove(g)
+        for w in width:
+            gc=OxmlElement("w:gridCol"); gc.set(qn("w:w"),str(w)); grid.append(gc)
+        for i,row in enumerate(t.rows):
+            if i==0:
+                trPr=row._tr.get_or_add_trPr()
+                for e in trPr.findall(qn("w:tblHeader")): trPr.remove(e)
+                h=OxmlElement("w:tblHeader"); trPr.append(h)
+            for j,cell in enumerate(row.cells):
+                tcPr=cell._tc.get_or_add_tcPr()
+                for e in tcPr.findall(qn("w:tcW")): tcPr.remove(e)
+                cw=OxmlElement("w:tcW"); cw.set(qn("w:w"),str(width[j])); cw.set(qn("w:type"),"dxa"); tcPr.insert(0,cw)
+                for p in cell.paragraphs:
+                    ps=p._p.pPr.find(qn("w:pStyle")) if p._p.pPr is not None else None
+                    if ps is not None and ps.get(qn("w:val")) not in {x.style_id for x in d.styles}: p._p.pPr.remove(ps)   # pandoc's "Compact" is absent from the reference docx; LibreOffice then collapses the table
+                    p.paragraph_format.space_before=Pt(0); p.paragraph_format.space_after=Pt(0)
+                    for run in p.runs:
+                        run.font.size=Pt(font_pt)
+                        if i==0: run.font.bold=True
+    d.save(path); return len(d.tables)
 for name in ("LAR_main_text_v2","LAR_additional_file_1"):
     subprocess.run(["pandoc",f"{OUT}/{name}.md","-f","markdown","-t","docx","--reference-doc",REFDOC,"-o",f"{OUT}/{name}.docx"],check=True)
+    print(name, "tables fixed for PDF conversion:", fix_tables(f"{OUT}/{name}.docx", landscape_from="Table 1. RNA-seq datasets used in this study" if name=="LAR_main_text_v2" else None))
     subprocess.run(["pandoc",f"{OUT}/{name}.docx","-t","plain","--wrap=none","-o",f"{OUT}/{name}.plain.txt"],check=True)
     print(name, "words:", len(open(f"{OUT}/{name}.md",encoding="utf-8").read().split()))

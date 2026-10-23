@@ -127,6 +127,26 @@ q=[l[3:-1] for l in open(f"{P}/revision_v2/response_to_reviewers.md",encoding="u
 bad=[x[:60] for x in q if norm(x) not in main]
 print(f"{len(q)} quotes, {len(bad)} not found" + ("" if not bad else ": "+" | ".join(bad))); sys.exit(1 if bad or not q else 0)
 PYEOF
+python3 - <<'PYEOF' > /tmp/claude_t1.txt && ok "Table 1 survives PDF conversion (LibreOffice headless): $(cat /tmp/claude_t1.txt)" || bad "Table 1 PDF conversion: $(cat /tmp/claude_t1.txt)"
+import subprocess, tempfile, re, sys, os
+P="/usr/local/jupyter/FVB_bias"; tmp=tempfile.mkdtemp()
+subprocess.run(["soffice","--headless","--convert-to","pdf","--outdir",tmp,f"{P}/revision_v2/submission/LAR_main_text_v2.docx"],capture_output=True,timeout=600)
+pdf=os.path.join(tmp,"LAR_main_text_v2.pdf")
+if not os.path.exists(pdf): print("conversion failed"); sys.exit(1)
+n=int(re.search(r"Pages:\s+(\d+)",subprocess.run(["pdfinfo",pdf],capture_output=True,text=True).stdout).group(1))
+pages=[p for p in range(1,n+1) if "Table 1. RNA-seq datasets" in subprocess.run(["pdftotext","-f",str(p),"-l",str(p),"-layout",pdf,"-"],capture_output=True,text=True).stdout]
+txt="".join(subprocess.run(["pdftotext","-f",str(p),"-l",str(min(p+1,n)),"-layout",pdf,"-"],capture_output=True,text=True).stdout for p in pages[-1:])
+rows=[[c.strip() for c in l.strip().strip("|").split("|")] for l in open(f"{P}/manuscript/revised_v2/table1.md",encoding="utf-8") if l.startswith("| GSE")]
+lines=txt.splitlines(); bad=[]
+for r in rows:
+    hit=[l for l in lines if r[0] in l]
+    firsts=[re.sub(r"[*]","",c).split()[0] for c in r[1:] if c.strip()]
+    if not hit or not all(w in hit[0] for w in firsts): bad.append(r[0])
+size=re.search(r"Page\s+%d size:\s+([\d.]+) x ([\d.]+)"%pages[-1], subprocess.run(["pdfinfo","-f",str(pages[-1]),"-l",str(pages[-1]),pdf],capture_output=True,text=True).stdout)
+print(f"page {pages[-1]} of {n} ({'landscape' if size and float(size.group(1))>float(size.group(2)) else 'portrait'}); {len(rows)-len(bad)}/{len(rows)} data rows with every cell starting on the row's first line" + (f"; failing: {bad}" if bad else ""))
+sys.exit(1 if bad or not rows else 0)
+PYEOF
+code=$(python3 -c "import urllib.request; print(urllib.request.urlopen(urllib.request.Request('https://ftp.ensembl.org/pub/release-115/gtf/mus_musculus_fvbnj/',headers={'User-Agent':'Mozilla/5.0'}),timeout=60).status)" 2>/dev/null); [ "$code" = "200" ] && ok "reference 'Ensembl FVB 2025' URL resolves (HTTP 200; Ensembl release 115 FVB_NJ_v3 GTF directory); DOIs: revision_v2/audit/doi_check*.txt" || bad "Ensembl annotation URL not reachable (HTTP $code)"
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"
 ok "0.4-2 no SRR block selection: scheduler.sh sel() and merge_counts.py select by manifest attributes (role, include, tissue, strain, design)"

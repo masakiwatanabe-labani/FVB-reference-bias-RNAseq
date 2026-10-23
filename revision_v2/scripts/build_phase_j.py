@@ -160,12 +160,64 @@ def phase_p(name, txt, trig):
         txt=txt[:i]+R(new)+txt[j:]; P_USED[n]+=1
         if "PHASE-P" not in trig: trig+="/PHASE-P"
     return txt, trig
+# ---- Phase Q (2026-10-23): claims aligned with the decomposition; FVB_NJ_v3 rationale; within-strain wording (trigger PHASE-Q)
+Q_REPL=[
+ # Q-1a Discussion, "A natural question"
+ ("discussion.md","The second question is answered empirically by our survey:","a new confounder of every strain contrast.",
+  "Our survey documents the practice — all «survey_stated_B6_n|d» FVB RNA-seq studies that reported a reference used a B6 assembly — but not its reasons. Possible reasons include the curated gene models and identifiers of GRCm39, the availability of standard indexes and pipelines, and direct comparability with other datasets; strain assemblies such as FVB_NJ_v3 now come with their own Ensembl gene annotation [CITE Ensembl FVB 2025], so annotation itself is no longer the obstacle."),
+ ("discussion.md","Our choice follows from the question we set out to answer:","so that the difference can be attributed to the reference sequence alone.",
+  "Our choice follows from the question we set out to answer: we wanted to measure, gene by gene, how the quantification that investigators actually perform departs from one in which FVB/NJ reads meet their own alleles, while keeping the GRCm39 coordinates, gene definitions and counting identical, so that the difference can be attributed to the SNP substitutions in the reference sequence alone. Quantifying each strain against its own assembly and annotation would add differences between the two gene models to every strain contrast."),
+ # Q-2a Methods, bias definition
+ ("methods.md","Positive bias means that the naive B6 alignment underestimated FVB expression relative to B6.","In this case, the FVB/NJ personalised reference recovered additional FVB reads.",
+  "Positive bias means that the FVB/B6 log₂ fold change is higher when both strains are quantified against the FVB/NJ personalised reference than against the B6 reference. It can arise because FVB/NJ reads are gained on the FVB/NJ reference, because C57BL/6J reads are lost on it, or both; the two components are separated below."),
+ # Q-2b Results, genome-wide section
+ ("results.md","A positive value means that naive B6 alignment underestimates FVB expression relative to B6.","",
+  "A positive value means that the FVB/B6 contrast is lower under the B6 reference than under the FVB/NJ reference; its two possible sources are separated in the decomposition below."),
+ # Q-2c Fig. 3 legend
+ ("figure_legends.md","Points above the diagonal have positive bias, meaning that naive B6 alignment underestimates FVB expression.","",
+  "Points above the diagonal have positive bias (a higher FVB/B6 log₂ fold change under the FVB/NJ reference)."),
+ # Q-2d Results, multi-mapping section
+ ("results.md","Under standard pipelines, both mechanisms have the same practical consequence: FVB expression is underestimated at the affected locus.","when using default unique-only featureCounts settings.",
+  "Under standard pipelines, both classes have the same practical consequence: the FVB/B6 contrast reported for the gene depends on the reference. The catalog bias values therefore represent the reference dependence that investigators would observe with default unique-only featureCounts settings."),
+ # Q-2e Results, Ndufs5
+ ("results.md","whereas with the personalised reference it was expressed at a similar or higher level (log₂FC +1.58 to +5.18).","",
+  "whereas with the personalised reference the contrast became «ex_robust_hypothalamus_logFC_fvb|+.2f» to «ex_robust_skin_logFC_fvb|+.2f»; of this change, «decomp_Ndufs5_hypothalamus_bias_matched|.2f»–«decomp_Ndufs5_skin_bias_matched|.2f» log₂ units are FVB/NJ reads recovered on their own reference (bias_matched) and the rest is loss of C57BL/6J reads (b6_loss «decomp_Ndufs5_hypothalamus_b6_loss|+.2f» to «decomp_Ndufs5_skin_b6_loss|+.2f»)."),
+ # Q-2f Discussion, first paragraph
+ ("discussion.md","The main concern is narrower: a small number of SNP-dense loci can be substantially underestimated when FVB reads are aligned to a B6 reference.","",
+  "The main concern is narrower: at a small number of SNP-dense loci the FVB/B6 contrast depends on the reference, and at «decomp_both|d» of the «catalog_n|d» catalog genes FVB/NJ expression is demonstrably underestimated when FVB/NJ reads are aligned to the B6 reference."),
+ # Q-2g Discussion, "Taken together" and the correction-strategy sentences
+ ("discussion.md","A small group of SNP-dense loci, however, shows reproducible and sometimes large underestimation of FVB expression and should be interpreted carefully. For studies focused on catalog genes, we recommend FVB/NJ personalised reference alignment when appropriate, noting that","",
+  "A small group of SNP-dense loci, however, shows a reproducible and sometimes large dependence of the FVB/B6 contrast on the reference — at «decomp_both|d» of them a demonstrable underestimation of FVB/NJ expression — and should be interpreted carefully. For studies focused on catalog genes, we recommend repeating the quantification with the FVB/NJ animals aligned to a strain-matched reference and the C57BL/6J animals to GRCm39, and reporting both results, noting that"),
+ ("discussion.md","We therefore regard personalised reference alignment as the preferred correction strategy when genes of interest appear in the catalog,","",
+  "We therefore regard aligning the FVB/NJ animals to a personalised FVB/NJ reference, with the C57BL/6J animals kept on GRCm39, as the preferred correction strategy when genes of interest appear in the catalog (it demonstrably recovers FVB/NJ reads at «decomp_both|d» of the «catalog_n|d» catalog genes),"),
+ ("discussion.md","For pure-strain FVB versus B6 comparisons, a strain-matched reference is therefore more useful than read-level filtering alone.","",
+  "For pure-strain FVB versus B6 comparisons, a strain-matched reference for the FVB/NJ animals is therefore more useful than read-level filtering alone."),
+ # Q-2h Abstract
+ ("abstract_structured.md","We identified a conservative 138-gene catalog.","",
+  "We identified a «catalog_n|d»-gene catalog whose FVB/B6 estimates changed with the reference; at «decomp_both|d» of these genes FVB/NJ reads were demonstrably recovered when only the FVB/NJ animals were moved to their own reference, whereas at the others the change mainly reflected C57BL/6J reads lost on the FVB/NJ reference."),
+ ("abstract_structured.md","but it can substantially underestimate FVB expression at a small number of SNP-dense loci","",
+  "but at a small number of SNP-dense loci the FVB/B6 estimate depends on the reference, and at a subset of them FVB/NJ expression is demonstrably underestimated"),
+ # Q-3 within-strain wording
+ ("results.md","## Reference choice does not alter within-strain comparisons","","## Reference choice had little effect on the within-strain comparisons examined"),
+ ("results.md","Reference choice therefore changes the absolute level attributed to FVB/NJ alleles at the catalog loci but leaves within-strain contrasts intact.","",
+  "In the diet and treatment comparisons examined here, per-gene log₂ fold changes agreed closely between references and the effect of reference choice was generally small, although the number of genes called significant differed («wf_skin_DE_FDR05_naive|d» under the naive arm and «wf_skin_DE_FDR05_fvb|d» under the FVB/NJ reference in skin); reference choice mainly changes the absolute level attributed to FVB/NJ alleles at the catalog loci."),
+ ("discussion.md","show that the strain-level bias cancels almost completely in such contrasts","","show that the strain-level bias largely cancels in such contrasts"),
+ ("discussion.md","but not for a fold-change between two groups of the same strain","","and much less for a fold change between two groups of the same strain"),
+]
+Q_USED=[0]*len(Q_REPL)
+def phase_q(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(Q_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i)+len(b)
+        txt=txt[:i]+R(new)+txt[j:]; Q_USED[n]+=1
+        if trig!="H" and "PHASE-Q" not in trig: trig+="/PHASE-Q"   # headings keep the trigger H
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -552,6 +604,7 @@ with open(f"{P}/revision_v2/ledger_paragraph_triggers.tsv","w") as o:
     o.write("section\tpara_no\ttrigger\tprefix\n")
     for s,i,t,pre in TRIG: o.write(f"{s}\t{i}\t{t}\t{pre}\n")
 left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
+assert all(u==1 for u in Q_USED), ("Phase Q replacements not applied exactly once", [(Q_REPL[n][:2],u) for n,u in enumerate(Q_USED) if u!=1])
 assert all(u==1 for u in P_USED), ("Phase P replacements not applied exactly once", [(P_REPL[n][:2],u) for n,u in enumerate(P_USED) if u!=1])
 assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])
 assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])

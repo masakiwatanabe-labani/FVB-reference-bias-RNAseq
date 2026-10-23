@@ -157,8 +157,8 @@ E15	E decomposition	af1	they differ from mean_bias by 0.02	0.02	0.0186416	0.02	n
 E16	E decomposition	af1	tested in three tissues under the primary model and four under the matched model	3/4	3/4	3/4	eq	PASS	
 F1a	F worked examples	main	(log₂FC −0.92 to −5.06)	-0.92	-0.916945	-0.92	num	PASS	
 F1b	F worked examples	main	(log₂FC −0.92 to −5.06)	-5.06	-5.05684	-5.06	num	PASS	
-F2a	F worked examples	main	(log₂FC +1.58 to +5.18)	+1.58	1.58407	1.58	num	PASS	
-F2b	F worked examples	main	(log₂FC +1.58 to +5.18)	+5.18	5.18078	5.18	num	PASS	
+F2a	F worked examples	main	the contrast became +1.58 to +5.18	+1.58	1.58407	1.58	num	PASS	
+F2b	F worked examples	main	the contrast became +1.58 to +5.18	+5.18	5.18078	5.18	num	PASS	
 F3a	F worked examples	main	(bias_wasp +1.55 to +5.52)	+1.55	1.54802	1.55	num	PASS	
 F3b	F worked examples	main	(bias_wasp +1.55 to +5.52)	+5.52	5.52362	5.52	num	PASS	
 F3c	F worked examples	main	(bias +3.32 to +10.24 log₂; mean +5.63)	+3.32	3.31928	3.32	num	PASS	
@@ -334,7 +334,7 @@ K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO 
 K6	K letters and survey	main	Among these 154 series, 140 reported	140	140	140	int	PASS	
 K7	K letters and survey	main	The remaining 14 studies did not report	14	14	14	int	PASS	
 K8	K letters and survey	main	and none reported a strain-aware alignment strategy	0	0	0	int	PASS	
-K8r	K letters and survey	resp	none of the 140 FVB RNA-seq studies that reported a reference used an FVB assembly	140	140	140	int	PASS	
+K8r	K letters and survey	resp	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	140	140	int	PASS	
 K9_stated_B6	K letters and survey	Fig1_survey	90.9%	90.9	90.9091	90.9	num	PASS	
 K9_not_reported	K letters and survey	Fig1_survey	9.1%	9.1	9.09091	9.1	num	PASS	
 K9_strain_aware	K letters and survey	Fig1_survey	0.0%	0.0	0	0.0	num	PASS	
@@ -385,3 +385,18 @@ P5b	P Phase P (genome-level differences, clusters)	af1		same genes	same genes	sa
 N7	N figure text (Phase N)	resp	(170 mm, full page width; Supplementary Fig. S3, 85 mm)	170	170	170	int	PASS	width of every full-width figure as saved (freeze/figure_sizes.tsv)
 N7b	N figure text (Phase N)	resp	(170 mm, full page width; Supplementary Fig. S3, 85 mm)	85	85	85	int	PASS	
 N7c	N figure text (Phase N)	resp	with all lettering at least 7 pt at that size	7	7	7	ge	PASS	smallest text over all figures (freeze/figure_sizes.tsv)
+Q1a	Q Phase Q (decomposition wording, within-strain wording)	main	of this change, 1.47–4.61 log₂ units are FVB/NJ reads recovered on their own reference (bias_matched)	1.47	1.47131	1.47	num	PASS	
+Q1b	Q Phase Q (decomposition wording, within-strain wording)	main	of this change, 1.47–4.61 log₂ units	4.61	4.60694	4.61	num	PASS	
+Q1c	Q Phase Q (decomposition wording, within-strain wording)	main	the rest is loss of C57BL/6J reads (b6_loss +1.85 to +5.63)	+1.85	1.84796	1.85	num	PASS	
+Q1d	Q Phase Q (decomposition wording, within-strain wording)	main	the rest is loss of C57BL/6J reads (b6_loss +1.85 to +5.63)	+5.63	5.63068	5.63	num	PASS	
+Q2a	Q Phase Q (decomposition wording, within-strain wording)	main	at 57 of the 138 catalog genes FVB/NJ expression is demonstrably underestimated	57	57	57	int	PASS	
+Q2b	Q Phase Q (decomposition wording, within-strain wording)	main	at 57 of these genes FVB/NJ reads were demonstrably recovered when only the FVB/NJ animals were moved to their own refer	57	57	57	int	PASS	Abstract
+Q2c	Q Phase Q (decomposition wording, within-strain wording)	main	it demonstrably recovers FVB/NJ reads at 57 of the 138 catalog genes	57	57	57	int	PASS	
+Q2d	Q Phase Q (decomposition wording, within-strain wording)	main	at 57 of them a demonstrable underestimation of FVB/NJ expression	57	57	57	int	PASS	
+Q2e	Q Phase Q (decomposition wording, within-strain wording)	cover	demonstrably recovers FVB/NJ reads at 57 of the 138 catalog genes	57	57	57	int	PASS	
+Q2f	Q Phase Q (decomposition wording, within-strain wording)	cover	mean FVB allele fraction 0.480 rather than 0.333	0.480	0.479907	0.480	num	PASS	
+Q2g	Q Phase Q (decomposition wording, within-strain wording)	cover	(0.512 rather than 0.386)	0.512	0.512222	0.512	num	PASS	
+Q2h	Q Phase Q (decomposition wording, within-strain wording)	cover	(0.512 rather than 0.386)	0.386	0.385582	0.386	num	PASS	submitted-version value quoted
+Q3a	Q Phase Q (decomposition wording, within-strain wording)	main	(598 under the naive arm and 539 under the FVB/NJ reference in skin)	598	598	598	int	PASS	
+Q3b	Q Phase Q (decomposition wording, within-strain wording)	main	(598 under the naive arm and 539 under the FVB/NJ reference in skin)	539	539	539	int	PASS	
+Q4	Q Phase Q (decomposition wording, within-strain wording)	main	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	140	140	int	PASS	

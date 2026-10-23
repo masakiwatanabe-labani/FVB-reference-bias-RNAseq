@@ -87,4 +87,11 @@ if os.path.exists(f"{F}/before_hashes_P.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in bp.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_Q.tsv"):
+    bq = pd.read_csv(f"{F}/before_hashes_Q.tsv", sep="\t", dtype=str, keep_default_na=False)
+    L += ["## Phase Q (2026-10-23): claims aligned with the decomposition; FVB_NJ_v3 rationale; within-strain wording; Table 1 — authorised exceptions", "",
+          "Text, letters and the Table 1 layout only; numbers.tsv, the xlsx and every figure unchanged. New text numbers (57 of 138; Ndufs5 bias_matched 1.47–4.61 and b6_loss +1.85 to +5.63; 598 and 539 DE genes; the v1 F1 values in the cover letter) are M-2 claims of group Q. Ensembl annotation of FVB_NJ_v3 verified online (Ensembl release 115, Mus_musculus_fvbnj.FVB_NJ_v3.115.gtf.gz; genebuild last updated 2023-06; own gene identifiers ENSMUSG00205…); cited as reference 'Ensembl FVB 2025'. Table 1: pandoc's cell paragraph style 'Compact' is absent from the localised reference docx, which made LibreOffice collapse the table; cell paragraphs now use the default style, every table has explicit dxa widths, the Table Grid style, 8-pt text and a repeated header row, and Table 1 is in its own landscape section; final_check converts the docx with LibreOffice and checks the layout (freeze/table1_libreoffice_check.png).", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | \`{r.file}\` | \`{r.before[:16]}…\` | \`{sha(r.file)[:16]}…\` |" for r in bq.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

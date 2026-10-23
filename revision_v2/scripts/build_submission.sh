@@ -46,6 +46,7 @@ checklist)
     echo "- uncommitted v1-era modifications left in place (review before push): $(git -C $R status --short | wc -l) paths"; echo
     echo "## Items for the authors before submission"; echo "- Read LAR_main_text_v2.docx and LAR_additional_file_1.docx in full (plain-text dumps: LAR_main_text_v2.plain.txt, LAR_additional_file_1.plain.txt)."
     echo "- Confirm the structured Abstract (≤ 350 words), the Rps2 positioning (a limit of reference-based correction with short single-end reads; the FVB/NJ reads tie with pseudogenes that carry the FVB/NJ alleles) and the F1 wording (2.0-point deficit; WASP overcorrects)."
+    echo "- Public code statement (Phase Q-6): the article names branch v2-corrected and tag v2-corrected-r1; push and tag before uploading, then record here — pushed commit: ________ ; date pushed: ________ (this checklist is not uploaded)."
     echo "- Push branch v2-corrected and create the tag v2-corrected-r1 on the final commit (the Availability statements and the response letter name it); then confirm the repository URL in the Availability statement resolves to the tagged version."
   } > $SUB/submission_checklist.md; cat $SUB/submission_checklist.md ;;
 esac

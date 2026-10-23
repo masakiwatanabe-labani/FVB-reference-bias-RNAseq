@@ -1,11 +1,11 @@
 # Number freeze — Phase M (2026-10-23)
 
-Sealed in the commit that adds this file (parent 516ddfa, branch v2-corrected); that commit is the one the authors tag v2-corrected-r1.
+Sealed in the commit that adds this file (parent d3c7b1a, branch v2-corrected); that commit is the one the authors tag v2-corrected-r1.
 
 ## What was verified
 
 - **M-0 inputs frozen**: `inputs.sha256` lists every frozen input (numbers.tsv, supplementary_tables_v2.xlsx, every file of RESULTS.md5 and FIGURES.md5, and the two md5 lists); final_check fails if any changes. `build_submission.sh` does not rewrite the xlsx or the figures once frozen.
-- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1665 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
+- **M-1 numeric-token audit** (`token_audit.py`, `resolve_tokens.py` → `token_audit.tsv`): 1686 numeric tokens in the main text (all sections, Table 1, legends), Additional file 1, both letters and the text of the nine figure PDFs.
 - **M-2 independent recomputation** (`recompute_independent.py` → `recompute_report.tsv`): no import of the pipeline or of the text/number generators, no numbers.tsv; primary result files only (edgeR tables, count matrices and featureCounts summaries, STAR junction lists and Log.out, F1 and identity per-site tables, WASP allele-removal table, within-strain DE tables, FVB_NJ VCFs and the Ensembl 110 GTF via bcftools/bedtools, rps2_* files, vW tag counts, survey table, submitted-version catalog for the letters). Bounds pass only if the exact value satisfies the bound as printed.
 - **D3 double-rounding scan** (`double_rounding_scan.py`): every key printed in the text compared with the value rounded once from full precision (`generated/numbers_fullprecision.tsv`).
 - **Seal**: `deliverables.sha256` (every file in revision_v2/submission/, figures included).
@@ -14,9 +14,9 @@ Sealed in the commit that adds this file (parent 516ddfa, branch v2-corrected); 
 
 | class | tokens |
 |---|---|
-| KEY | 828 |
-| STRUCT | 819 |
-| M2 | 15 |
+| KEY | 841 |
+| STRUCT | 825 |
+| M2 | 17 |
 | UNMAPPED | 2 |
 | XLSX | 1 |
 
@@ -42,7 +42,8 @@ UNMAPPED (2): **1,047** (GEO search hits, Methods) — carried from the submitte
 | L Supplementary Fig. S1 | 7 | 0 | 0 |
 | N figure text (Phase N) | 17 | 0 | 0 |
 | P Phase P (genome-level differences, clusters) | 13 | 0 | 0 |
-| **total** | **384** | **0** | **2** |
+| Q Phase Q (decomposition wording, within-strain wording) | 15 | 0 | 0 |
+| **total** | **399** | **0** | **2** |
 
 ## Authorised exceptions to the freeze (authors' decisions, 2026-10-23)
 
@@ -146,15 +147,15 @@ No number changed: every _data.tsv is byte-identical to the frozen version; the 
 | N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `6b10132da5147391…` | `5ad18b229ed7c588…` |
 | N-1a/b, N-2b/c, N-3 | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.tiff` | `77129db5c27dd173…` | `c0256957bf34f25a…` |
 | N | FIGURES.md5 (18 lines) | `analysis_v2/figures/FIGURES.md5` | `eb46edcbf2ac2c1b…` | `81b7ed8f13cc3428…` |
-| N-1d | response letter (Fig. 1A/1B sentence) | `revision_v2/response_to_reviewers.md` | `e03de2a7f4dbecf4…` | `f4e41f6a789c2275…` |
-| N-1d | cover letter (Fig. 1A/1B sentence) | `revision_v2/cover_letter.md` | `84979932c300b52f…` | `62ad198e17fcb464…` |
+| N-1d | response letter (Fig. 1A/1B sentence) | `revision_v2/response_to_reviewers.md` | `e03de2a7f4dbecf4…` | `02af69e51f47430a…` |
+| N-1d | cover letter (Fig. 1A/1B sentence) | `revision_v2/cover_letter.md` | `84979932c300b52f…` | `eaff8de1c070a96a…` |
 | N | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `2416d7c113f34bd4…` | `6c045f5b4c935228…` |
-| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `85de2bbf09812085…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `22c349583700fe62…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `201f36053e2d9ccd…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `8aa80783bae22741…` | `757666198c0a43e2…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `2d3bfba585b6529b…` | `02c89198f62e27eb…` |
-| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `495ca793bfbe652a…` | `31a5c982dd0b5585…` |
+| N | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `b3f4dabb7217ce6b…` | `96482d56fedf966e…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `635d0c3cfc140892…` | `1c1462b57d8bc6c6…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `ffb7b6cf9e243783…` | `1a33071ed0800b35…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `8aa80783bae22741…` | `3936481f5858295f…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `2d3bfba585b6529b…` | `c9c1e6f8afb58e58…` |
+| N-1c/d, N-2a | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `495ca793bfbe652a…` | `bf8ecef60a68d02a…` |
 
 ## Phase O (2026-10-23): figure label and occlusion fixes — authorised exceptions
 
@@ -217,9 +218,9 @@ Figure-only changes; no data, number or text outside the figures changed: the le
 | O | figure (submission copy) | `revision_v2/submission/figures/SFig3_bias_decomposition.pdf` | `cc45b9f5340bed88…` | `5ad18b229ed7c588…` |
 | O | FIGURES.md5 (16 lines) | `analysis_v2/figures/FIGURES.md5` | `5f19e67ec77c17dd…` | `81b7ed8f13cc3428…` |
 | O | frozen-input list updated for the figure files | `revision_v2/freeze/inputs.sha256` | `c77b76b556efaa5d…` | `6c045f5b4c935228…` |
-| O | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `c965d45012279410…` | `85de2bbf09812085…` |
-| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_additional_file_1.docx` | `9ab0d10c40b0e638…` | `201f36053e2d9ccd…` |
-| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_main_text_v2.docx` | `10016ec3e3db77a0…` | `22c349583700fe62…` |
+| O | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `c965d45012279410…` | `96482d56fedf966e…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_additional_file_1.docx` | `9ab0d10c40b0e638…` | `1a33071ed0800b35…` |
+| O | docx re-packed by pandoc (text identical: .md and .plain.txt byte-identical) | `revision_v2/submission/LAR_main_text_v2.docx` | `10016ec3e3db77a0…` | `1c1462b57d8bc6c6…` |
 
 ## Phase P (2026-10-23): answering the reviewers more directly — authorised exceptions
 
@@ -233,19 +234,41 @@ New numbers only through numbers.tsv and M-2 (group P): share of tested genes wi
 | P-1b | added: exonic SNP count per gene | `analysis_v2/results/predictors/gene_exonic_snp_counts.tsv` | `(absent)…` | `47e48efc471cc7e8…` |
 | P-1c | added: catalog clusters | `analysis_v2/results/catalog/catalog_clusters.tsv` | `(absent)…` | `7c43a063c14b5790…` |
 | P-1 | RESULTS.md5 (2 lines added) | `analysis_v2/results/RESULTS.md5` | `f81203f92a161c4c…` | `128502d394c1f9f1…` |
-| P-1a | reference list (Helmy 2026 added) | `manuscript/revised_v2/references_source.md` | `a13e27e04f936f20…` | `2ab63279295afd24…` |
-| P-2–P-5 | response letter source | `revision_v2/response_to_reviewers.md` | `aab82cb56f4febf8…` | `f4e41f6a789c2275…` |
+| P-1a | reference list (Helmy 2026 added) | `manuscript/revised_v2/references_source.md` | `a13e27e04f936f20…` | `dbe4270093b207d9…` |
+| P-2–P-5 | response letter source | `revision_v2/response_to_reviewers.md` | `aab82cb56f4febf8…` | `02af69e51f47430a…` |
 | P | frozen-input list | `revision_v2/freeze/inputs.sha256` | `7233afc94d52fc1b…` | `6c045f5b4c935228…` |
-| P | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `ca0c33d458e83376…` | `85de2bbf09812085…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `42c4e75482de48bd…` | `201f36053e2d9ccd…` |
+| P | deliverables re-sealed | `revision_v2/freeze/deliverables.sha256` | `ca0c33d458e83376…` | `96482d56fedf966e…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.docx` | `42c4e75482de48bd…` | `1a33071ed0800b35…` |
 | P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.md` | `7c610e0a886e9af1…` | `0d5a369c84abee55…` |
 | P | rebuilt deliverable | `revision_v2/submission/LAR_additional_file_1.plain.txt` | `557000a03318ac07…` | `053032cc593efd30…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `7edbb3e47fbd2652…` | `22c349583700fe62…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `7d93bb0130f29a3a…` | `b4f516b23b07ff18…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `2dbc09fd813eca0e…` | `1f8447950b55bd35…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `f0ba709ade5d5f6f…` | `31a5c982dd0b5585…` |
-| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `0ef423e923c46f2d…` | `db304961962bce6c…` |
-| P | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `0de42121ef2aa94c…` | `02c89198f62e27eb…` |
-| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `5d5a4a09677db35f…` | `757666198c0a43e2…` |
-| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `871f18ec443667ce…` | `a20a107ea66de3cc…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.docx` | `7edbb3e47fbd2652…` | `1c1462b57d8bc6c6…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.md` | `7d93bb0130f29a3a…` | `308ab6b5706a7dc9…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2.plain.txt` | `2dbc09fd813eca0e…` | `943ff9b1f2d41582…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.docx` | `f0ba709ade5d5f6f…` | `bf8ecef60a68d02a…` |
+| P | rebuilt deliverable | `revision_v2/submission/LAR_main_text_v2_marked.plain.txt` | `0ef423e923c46f2d…` | `87ad693ff4854a1e…` |
+| P | rebuilt deliverable | `revision_v2/submission/cover_letter_v2.docx` | `0de42121ef2aa94c…` | `c9c1e6f8afb58e58…` |
+| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.docx` | `5d5a4a09677db35f…` | `3936481f5858295f…` |
+| P | rebuilt deliverable | `revision_v2/submission/response_to_reviewers_v2.plain.txt` | `871f18ec443667ce…` | `fd79e5b35beb4a9e…` |
 | P | rebuilt deliverable | `revision_v2/submission/supplementary_tables_v2.xlsx` | `014b2144c051ef55…` | `b487a26a5933009d…` |
+
+## Phase Q (2026-10-23): claims aligned with the decomposition; FVB_NJ_v3 rationale; within-strain wording; Table 1 — authorised exceptions
+
+Text, letters and the Table 1 layout only; numbers.tsv, the xlsx and every figure unchanged. New text numbers (57 of 138; Ndufs5 bias_matched 1.47–4.61 and b6_loss +1.85 to +5.63; 598 and 539 DE genes; the v1 F1 values in the cover letter) are M-2 claims of group Q. Ensembl annotation of FVB_NJ_v3 verified online (Ensembl release 115, Mus_musculus_fvbnj.FVB_NJ_v3.115.gtf.gz; genebuild last updated 2023-06; own gene identifiers ENSMUSG00205…); cited as reference 'Ensembl FVB 2025'. Table 1: pandoc's cell paragraph style 'Compact' is absent from the localised reference docx, which made LibreOffice collapse the table; cell paragraphs now use the default style, every table has explicit dxa widths, the Table Grid style, 8-pt text and a repeated header row, and Table 1 is in its own landscape section; final_check converts the docx with LibreOffice and checks the layout (freeze/table1_libreoffice_check.png).
+
+| id | change | file | sha256 before | sha256 after |
+|---|---|---|---|---|
+| Q-1c | reference list (Ensembl FVB_NJ_v3 annotation added) | \`manuscript/revised_v2/references_source.md\` | \`2ab63279295afd24…\` | \`dbe4270093b207d9…\` |
+| Q-1b/Q-3/Q-4 | response letter source | \`revision_v2/response_to_reviewers.md\` | \`f4e41f6a789c2275…\` | \`02af69e51f47430a…\` |
+| Q-3/Q-4 | cover letter source | \`revision_v2/cover_letter.md\` | \`62ad198e17fcb464…\` | \`eaff8de1c070a96a…\` |
+| Q-5 | assembly: tables with explicit widths, Table 1 landscape | \`revision_v2/scripts/assemble_lar.py\` | \`b4608f140d4ee07e…\` | \`6e36f9211e267f92…\` |
+| Q | deliverables re-sealed | \`revision_v2/freeze/deliverables.sha256\` | \`85de2bbf09812085…\` | \`96482d56fedf966e…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_additional_file_1.docx\` | \`201f36053e2d9ccd…\` | \`1a33071ed0800b35…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.docx\` | \`22c349583700fe62…\` | \`1c1462b57d8bc6c6…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.md\` | \`b4f516b23b07ff18…\` | \`308ab6b5706a7dc9…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2.plain.txt\` | \`1f8447950b55bd35…\` | \`943ff9b1f2d41582…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.docx\` | \`31a5c982dd0b5585…\` | \`bf8ecef60a68d02a…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/LAR_main_text_v2_marked.plain.txt\` | \`db304961962bce6c…\` | \`87ad693ff4854a1e…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/cover_letter_v2.docx\` | \`02c89198f62e27eb…\` | \`c9c1e6f8afb58e58…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/cover_letter_v2.plain.txt\` | \`1d96cad87810359e…\` | \`5d2b2f90bd7daef9…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/response_to_reviewers_v2.docx\` | \`757666198c0a43e2…\` | \`3936481f5858295f…\` |
+| Q | rebuilt deliverable | \`revision_v2/submission/response_to_reviewers_v2.plain.txt\` | \`a20a107ea66de3cc…\` | \`fd79e5b35beb4a9e…\` |
