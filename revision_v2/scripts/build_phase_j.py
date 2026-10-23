@@ -212,12 +212,45 @@ def phase_q(name, txt, trig):
         txt=txt[:i]+R(new)+txt[j:]; Q_USED[n]+=1
         if trig!="H" and "PHASE-Q" not in trig: trig+="/PHASE-Q"   # headings keep the trigger H
     return txt, trig
+# ---- Phase R (2026-10-23): wording only — FVB animals of the pure-strain comparison; negative control on a predominantly C57BL/6J
+#      background; overlap of the DE genes instead of "similar power" (trigger PHASE-R). An entry whose replacement is a function
+#      receives the matched text (used where the matched span contains literal values that are kept unchanged).
+R_REPL=[
+ # R-1
+ ("abstract_structured.md","All pure-strain animals were FVB/NJ, so the catalog is substrain-matched throughout.","",
+  "All FVB animals in the pure-strain comparison were Jackson Laboratory FVB/NJ, so the catalog is substrain-matched throughout."),
+ ("discussion.md","Every pure-strain animal in this analysis is a Jackson Laboratory FVB/NJ animal, so the catalog is substrain-matched throughout.","",
+  "Every FVB animal in the pure-strain comparison is a Jackson Laboratory FVB/NJ animal, so the catalog is substrain-matched throughout."),
+ ("discussion.md","the pure-strain animals are all FVB/NJ","","the FVB animals of the pure-strain comparison are all FVB/NJ"),
+ ("supplementary_table_captions.md","the «n_animals_processed_three_arms|d» pure-strain animals and «n_f1|d» F1 animals used in the study","",
+  "the «n_animals_processed_three_arms|d» animals of the three-arm analysis («n_animals_strain_comparison_FVB|d» FVB/NJ, «n_animals_strain_comparison_B6|d» C57BL/6J and «n_pyvt|d» B6-congenic PyVT tumours) and the «n_f1|d» F1 animals used in the study"),
+ ("supplementary_table_captions.md","for pure-strain animals","","for the animals of the three-arm analysis"),
+ ("methods.md","the pure-strain animals were evaluated at a fixed random 10% subset","","the animals of the three-arm analysis were evaluated at a fixed random 10% subset"),
+ # R-2 (the Methods datasets sentence is rendered by render_methods_datasets.py)
+ ("results.md","a C57BL/6-congenic line that carries essentially no FVB/NJ alleles (","\"B6 pure\"; mean FVB-allele fraction ",
+  lambda m: m.replace("that carries essentially no FVB/NJ alleles","with a predominantly C57BL/6J genome")),
+ ("results.md","with a predominantly C57BL/6J genome (all ",")",
+  lambda m: m[:-1]+"; a residual donor segment is described below)"),
+ # R-3
+ ("results.md","in skin the imiquimod response was detected with similar power under all three arms (","between the naive and FVB arms)",
+  "in skin the differentially expressed genes detected under the three arms overlapped largely («wf_skin_DE_FDR05_naive|d» genes under naive, «wf_skin_DE_FDR05_wasp|d» under WASP, «wf_skin_DE_FDR05_fvb|d» under the FVB reference; «wf_skin_DE_concordant_FDR05|d» shared and concordant in direction between the naive and FVB arms)"),
+ ("discussion.md","the imiquimod response in skin was detected with similar power under every arm","","the imiquimod-responsive genes detected in skin overlapped largely between arms"),
+]
+R_REPL=[(f,R(a),R(b),new) for f,a,b,new in R_REPL]
+R_USED=[0]*len(R_REPL)
+def phase_r(name, txt, trig):
+    for n,(f,a,b,new) in enumerate(R_REPL):
+        if f!=name or a not in txt: continue
+        i=txt.index(a); j=i+len(a) if not b else txt.index(b,i+len(a))+len(b)
+        txt=txt[:i]+(new(txt[i:j]) if callable(new) else R(new))+txt[j:]; R_USED[n]+=1
+        if trig!="H" and "PHASE-R" not in trig: trig+="/PHASE-R"
+    return txt, trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -258,7 +291,7 @@ meth=[("H","# Methods"),
 ]
 # the generated datasets block: heading + paragraphs, all CORR
 gparts=[x.strip() for x in re.split(r"\n\s*\n", gen) if x.strip()]
-for g in gparts: meth.append(("H" if g.startswith("## ") else "CORR", g))
+for g in gparts: meth.append(("H" if g.startswith("## ") else "CORR/PHASE-R" if "on a predominantly C57BL/6J background" in g else "CORR", g))
 meth.append(("H","<!-- END generated/methods_datasets.md -->"))
 meth.append(("H","## Sample identity verification"))
 for p in v2sec("methods.md","Sample identity verification"): meth.append(("NEW-ID",p))
@@ -605,6 +638,7 @@ with open(f"{P}/revision_v2/ledger_paragraph_triggers.tsv","w") as o:
     for s,i,t,pre in TRIG: o.write(f"{s}\t{i}\t{t}\t{pre}\n")
 left=[(k,m) for k,v in OUT.items() for m in re.findall(r"«[^»]*»", v)]
 assert all(u==1 for u in Q_USED), ("Phase Q replacements not applied exactly once", [(Q_REPL[n][:2],u) for n,u in enumerate(Q_USED) if u!=1])
+assert all(u==1 for u in R_USED), ("Phase R replacements not applied exactly once", [(R_REPL[n][:2],u) for n,u in enumerate(R_USED) if u!=1])
 assert all(u==1 for u in P_USED), ("Phase P replacements not applied exactly once", [(P_REPL[n][:2],u) for n,u in enumerate(P_USED) if u!=1])
 assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])
 assert all(u==1 for u in M_USED), ("Phase M replacements not applied exactly once", [(M_REPL[n][:2],u) for n,u in enumerate(M_USED) if u!=1])

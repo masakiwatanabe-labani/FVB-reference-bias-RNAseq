@@ -273,3 +273,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE Q: claims aligned with the decomposition; FVB_NJ_v3 rationale; within-strain wording; Table 1
 - `build_phase_j.py` `Q_REPL` (headings keep trigger H); `references_source.md` Ensembl FVB 2025; letters rewritten (R1 M2/M3 order, R2 c1, cover letter maintained/changed); quotes refreshed from the rebuilt text. `assemble_lar.py` `fix_tables()` (explicit widths, Table Grid by its localised id, 8 pt, header row, 'Compact' style removed, Table 1 landscape section). `final_check.sh`: LibreOffice conversion + Table 1 layout check; Ensembl URL check. LibreOffice (libreoffice-writer-nogui) installed for the check. M-2 group Q (399 PASS / 0 FAIL).
+
+### 2026-10-23 — PHASE R: three wording corrections and one letter deletion
+- `build_phase_j.py` `R_REPL` (R-1 Abstract/Discussion/Methods/S1b caption, R-2 Results, R-3 Results/Discussion; Methods datasets paragraph tagged PHASE-R); `render_methods_datasets.py` negative-control sentence; `response_to_reviewers.md` (R-1 items, R-2 item 2, R-4 deletion, R2 c1 quote refreshed). M-2 needle J4 updated to the new wording ("519 shared and concordant in direction"); value unchanged. M-2 399 PASS / 0 FAIL.

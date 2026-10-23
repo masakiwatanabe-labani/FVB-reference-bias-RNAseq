@@ -552,7 +552,7 @@ claim("J1", g, "main", "no gene was differentially expressed between fructose- a
 claim("J2", g, "main", "three genes in liver under the FVB arm", "3", de[("liver", "fvb")], "int", note=f"adipose fvb {de[('adipose','fvb')]}, hypothalamus fvb {de[('hypothalamus','fvb')]}")
 for a, txt in (("naive", "598"), ("wasp", "593"), ("fvb", "539")): claim(f"J3_{a}", g, "main", "(598 genes under naive, 593 under WASP, 539 under the FVB reference", txt, de[("skin", a)], "int")
 sn_, sf_ = WS[("skin", "naive")], WS[("skin", "fvb")]; sh = set(sn_.index[sn_.FDR < 0.05]) & set(sf_.index[sf_.FDR < 0.05])
-claim("J4", g, "main", "519 of them shared and concordant", "519", sum(np.sign(sn_.logFC[x]) == np.sign(sf_.logFC[x]) for x in sh), "int", note=f"shared {len(sh)}")
+claim("J4", g, "main", "519 shared and concordant in direction", "519", sum(np.sign(sn_.logFC[x]) == np.sign(sf_.logFC[x]) for x in sh), "int", note=f"shared {len(sh)}")
 rr, f05, cmd = [], [], []
 for t in TISSUES:
     a, b = WS[(t, "naive")], WS[(t, "fvb")]; com = a.index.intersection(b.index); d_ = b.logFC[com] - a.logFC[com]

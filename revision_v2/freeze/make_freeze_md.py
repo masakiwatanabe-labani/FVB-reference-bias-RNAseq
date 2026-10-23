@@ -94,4 +94,11 @@ if os.path.exists(f"{F}/before_hashes_Q.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | \`{r.file}\` | \`{r.before[:16]}…\` | \`{sha(r.file)[:16]}…\` |" for r in bq.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_R.tsv"):
+    br = pd.read_csv(f"{F}/before_hashes_R.tsv", sep="\t", dtype=str, keep_default_na=False)
+    L += ["## Phase R (2026-10-23): three wording corrections and one letter deletion — authorised exceptions", "",
+          "Text only; numbers.tsv, the xlsx and every figure unchanged. 'Pure-strain animals' restricted to the FVB animals of the pure-strain comparison; the 83 animals of the three-arm analysis described as 36 FVB/NJ, 34 C57BL/6J and 13 B6-congenic PyVT tumours (manifest keys; S1b confirms the PyVT tumours were evaluated at the 10% site subset); the negative control described as on a predominantly C57BL/6J background (residual chromosome 16 donor segment); 'detected with similar power' replaced by the overlap of the DE genes; the response-letter sentence referring to an earlier draft deleted. M-2 needle J4 updated to the new wording (value unchanged). cover_letter_v2.docx re-packed by md_to_docx with unchanged source and plain text.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in br.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

@@ -318,7 +318,7 @@ J2	J within-strain	main	three genes in liver under the FVB arm	3	3	3	int	PASS	ad
 J3_naive	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	598	598	598	int	PASS	
 J3_wasp	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	593	593	593	int	PASS	
 J3_fvb	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under the FVB reference	539	539	539	int	PASS	
-J4	J within-strain	main	519 of them shared and concordant	519	519	519	int	PASS	shared 519
+J4	J within-strain	main	519 shared and concordant in direction	519	519	519	int	PASS	shared 519
 J5a	J within-strain	main	(Pearson r = 0.991–0.997;	0.991	0.991333	0.991	num	PASS	
 J5b	J within-strain	main	(Pearson r = 0.991–0.997;	0.997	0.997169	0.997	num	PASS	
 J5c	J within-strain	main	nearly identical gene by gene (Pearson r ≥ 0.99)	0.99	0.991333	0.99	ge	PASS	

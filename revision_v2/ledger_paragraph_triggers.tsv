@@ -5,7 +5,7 @@ abstract_structured.md	3	KEEP	FVB mice are widely used in transgenic and disease
 abstract_structured.md	4	H	**Methods**
 abstract_structured.md	5	CORR	We surveyed public GEO series containing FVB RNA-seq data, analysed allele-level
 abstract_structured.md	6	H	**Results**
-abstract_structured.md	7	CORR/PHASE-K1/PHASE-L/PHASE-M/PHASE-Q	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
+abstract_structured.md	7	CORR/PHASE-K1/PHASE-L/PHASE-M/PHASE-Q/PHASE-R	Among 140 studies reporting a reference genome, all used a C57BL/6J-derived asse
 abstract_structured.md	8	H	**Conclusions**
 abstract_structured.md	9	KEEP/PHASE-Q	B6-reference alignment does not broadly distort FVB RNA-seq data, but at a small
 keywords.md	1	H	***Keywords***
@@ -31,13 +31,13 @@ methods.md	9	H	## RNA-seq datasets
 methods.md	10	CORR	Samples were selected from a sample-level manifest built from the GEO/SRA sample
 methods.md	11	CORR	For the three-arm strain comparison, FVB/NJ and C57BL/6J animals were taken from
 methods.md	12	CORR	A fourth tissue from an independent laboratory was added from a seven-strain imi
-methods.md	13	CORR	As a negative control carrying no FVB/NJ-specific alleles, 13 mammary tumours fr
+methods.md	13	CORR/PHASE-R	As a negative control on a predominantly C57BL/6J background, 13 mammary tumours
 methods.md	14	CORR	For the F1 allele-specific expression analysis (Fig. 2), two datasets were used.
 methods.md	15	CORR	Samples excluded by the manifest rules are listed with the reason in Supplementa
 methods.md	16	H	<!-- END generated/methods_datasets.md -->
 methods.md	17	H	## Sample identity verification
 methods.md	18	NEW-ID	Every sample that entered any analysis was checked against its recorded strain b
-methods.md	19	NEW-ID/PHASE-M	To reduce run time, the pure-strain animals were evaluated at a fixed random 10%
+methods.md	19	NEW-ID/PHASE-M/PHASE-R	To reduce run time, the animals of the three-arm analysis were evaluated at a fi
 methods.md	20	H	## Reference genome and variant set
 methods.md	21	KEEP	All analyses used the GRCm39 primary assembly. The genome FASTA was downloaded f
 methods.md	22	KEEP	FVB/NJ genetic variants were obtained from the Mouse Genomes Project REL-2021 re
@@ -186,7 +186,7 @@ results.md	50	CORR	Some genes showed very large bias in fewer tissues. *Gm25939*
 results.md	51	CORR	The number of catalog genes differed by tissue. Adipose tissue contained 124 of 
 results.md	52	KEEP	The catalog was also examined under related threshold settings (Supplementary Ta
 results.md	53	H	## The bias is a property of FVB/NJ reads, not of the loci: a B6-background nega
-results.md	54	NEW-NC	To test whether the catalog reflects the FVB/NJ reads rather than some property 
+results.md	54	NEW-NC/PHASE-R	To test whether the catalog reflects the FVB/NJ reads rather than some property 
 results.md	55	NEW-NC/PHASE-M	At the catalog genes the three groups separated cleanly in direction (Supplement
 results.md	56	H	## Multi-mapping sensitivity analysis reveals two mechanistic classes
 results.md	57	KEEP	The primary analysis used the default featureCounts setting, which excludes mult
@@ -204,9 +204,9 @@ results.md	68	NEW-WE	To illustrate the practical consequences of SNP-mediated re
 results.md	69	NEW-WE/PHASE-Q	*Ndufs5* (chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb) is the most robustly eviden
 results.md	70	NEW-WE/PHASE-K1/PHASE-L/PHASE-N	*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene bod
 results.md	71	H	## Reference choice had little effect on the within-strain comparisons examined
-results.md	72	NEW-WS/PHASE-Q	Finally, to assess whether reference-genome choice affects comparisons made enti
+results.md	72	NEW-WS/PHASE-Q/PHASE-R	Finally, to assess whether reference-genome choice affects comparisons made enti
 discussion.md	1	H	# Discussion
-discussion.md	2	CORR/PHASE-Q	This study shows that SNP-mediated reference-genome mapping bias in FVB RNA-seq 
+discussion.md	2	CORR/PHASE-Q/PHASE-R	This study shows that SNP-mediated reference-genome mapping bias in FVB RNA-seq 
 discussion.md	3	REF	We therefore view reference choice as a reproducibility-relevant technical varia
 discussion.md	4	KEEP	This finding is also relevant to the 3Rs in animal research, particularly Reduct
 discussion.md	5	KEEP	The contribution to Refinement is more indirect, but still relevant. Refinement 
@@ -222,8 +222,8 @@ discussion.md	14	CORR/PHASE-Q	This distinction is useful in practice. If investi
 discussion.md	15	NEW-ASM/PHASE-K1/PHASE-L/PHASE-P/PHASE-Q	A natural question is why we quantified against a SNP-patched GRCm39 rather than
 discussion.md	16	NEW-NC	The B6-congenic PyVT tumours also serve their intended purpose as a negative con
 discussion.md	17	NEW-PD	A methodological lesson of this study concerns the public data themselves. We ve
-discussion.md	18	NEW-WS/PHASE-Q	Reference-genome choice could in principle also affect studies conducted entirel
-discussion.md	19	CORR/R1-M2/PHASE-P	This study has several limitations. First, the FVB/NJ personalised reference use
+discussion.md	18	NEW-WS/PHASE-Q/PHASE-R	Reference-genome choice could in principle also affect studies conducted entirel
+discussion.md	19	CORR/R1-M2/PHASE-P/PHASE-R	This study has several limitations. First, the FVB/NJ personalised reference use
 discussion.md	20	CORR/PHASE-L/PHASE-Q	Taken together, these results indicate that B6-reference alignment does not broa
 discussion.md	21	KEEP	The same framework can be applied to other mouse strains. FVB is not unique in t
 discussion.md	22	H	## Conclusions
@@ -252,7 +252,7 @@ figure_legends.md	21	NEW-DEC	Mean bias over the tested tissues (*x*-axis; bias =
 supplementary_table_captions.md	1	H	# Supplementary Table Captions
 supplementary_table_captions.md	2	H	**Supplementary Table S1. Sample manifest and sequence-based strain-identity ver
 supplementary_table_captions.md	3	NEW-ID	Sheet *S1a — manifest*: every candidate sample considered for this study (one ro
-supplementary_table_captions.md	4	NEW-ID	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
+supplementary_table_captions.md	4	NEW-ID/PHASE-R	Sheet *S1b — identity verification*: every animal evaluated by the sequence-base
 supplementary_table_captions.md	5	H	**Supplementary Table S2. Catalog of 138 genes consistently showing SNP-mediated
 supplementary_table_captions.md	6	CORR/PHASE-M/PHASE-P	Full catalog of genes meeting the primary bias criterion. A gene was included if
 supplementary_table_captions.md	7	H	**Supplementary Table S3. Sensitivity of the bias catalog to threshold, minimum-
