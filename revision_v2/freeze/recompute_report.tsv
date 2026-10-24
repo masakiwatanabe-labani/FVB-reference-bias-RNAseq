@@ -3,11 +3,8 @@ A1	A variant set and references	main	about 5.0 million homozygous autosomal SNPs
 A2	A variant set and references	main	and 1.1 million homozygous autosomal indels	1.1	1.1124	1.1	num	PASS	1,112,403 homozygous-alternative autosomal indels (FVB_NJ.indels.GRCm39.vcf.gz); all records 1,214,530
 A2r	A variant set and references	resp	1.1 million homozygous autosomal indels	1.1	1.1124	1.1	num	PASS	
 A3	A variant set and references	main	203,510 of the SNPs within annotated exons	203510	203510	203510	int	PASS	hom-alt autosomal PASS biallelic SNVs overlapping an Ensembl 110 exon (bedtools)
-A4	A variant set and references	main	(20,351 sites; seed 20261016)	20351	20351	20351	int	PASS	subset ⊂ full set: True; 10% of 203,510 = 20351.0
+A4	A variant set and references	main	(20,351 sites; the site list and its validation are in the repository)	20351	20351	20351	int	PASS	subset ⊂ full set: True; 10% of 203,510 = 20351.0
 A4b	A variant set and references	main	fixed random 10% subset	10	10	10	num	PASS	
-A5n	A variant set and references	main	identical verdicts for the 14 animals evaluated at both site sets	14	14	14	int	PASS	
-A5v	A variant set and references	main	identical verdicts for the 14 animals	identical	identical	identical	eq	PASS	verdict rules of Methods applied to both site sets
-A5	A variant set and references	main	(metrics within 0.014 and identical verdicts	0.014	0.0135039	0.014	le	PASS	max |Δ| over 14 samples evaluated at both site sets = 0.0135 (heart_B6_C57_M_12wk_mRNA_4, frac_hi); over the 9 analysis animals only = 0.0015
 A6	A variant set and references	main	1,727 of 56,941 annotated genes were removed	1727	1727	1727	int	PASS	
 A7	A variant set and references	main	1,727 of 56,941 annotated genes were removed	56941	56941	56941	int	PASS	
 A8	A variant set and references	af1	1,727 (3.0%) are absent	3.0	3.03296	3.0	num	PASS	
@@ -86,16 +83,14 @@ C22	C catalog and predictors	main	Pseudogenes showed a more negative mean bias	n
 C23	C catalog and predictors	main	the median bias was within ±0.003 of zero across all biotype categories	0.003	0.00227787	0.002	le	PASS	medians lncRNA -0.00094, other -0.00137, protein_coding -0.00207, pseudogene -0.00228
 C23b	C catalog and predictors	main	Median bias was within ±0.003 of zero in all biotype categories	0.003	0.00227787	0.002	le	PASS	Fig. 4D legend
 C24	C catalog and predictors	main	(Kruskal–Wallis p < 10⁻¹⁵)	1e-15	4.56817e-36	0	plt	PASS	
-C25	C catalog and predictors	main	contained 7 FVB/NJ SNPs across a 5.5-kb gene body	7	7	7	int	PASS	
-C25b	C catalog and predictors	main	across a 5.5-kb gene body	5.5	5.493	5.5	num	PASS	
+C25	C catalog and predictors	main	(chromosome 4; 7 FVB/NJ SNPs	7	7	7	int	PASS	
 C25c	C catalog and predictors	main	(chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb)	1.27	1.27435	1.27	num	PASS	
 C25d	C catalog and predictors	main	(green star; 1.3 SNPs/kb)	1.3	1.27435	1.3	num	PASS	
-C25e	C catalog and predictors	main	This protein-coding gene on chromosome 4	4	4	4	eq	PASS	
-C26_adipose	C catalog and predictors	main	+3.85 in	+3.85	3.84647	3.85	num	PASS	
-C26_hypothalamus	C catalog and predictors	main	+3.32 in	+3.32	3.31928	3.32	num	PASS	
-C26_liver	C catalog and predictors	main	+5.14 in	+5.14	5.13567	5.14	num	PASS	
-C26_skin	C catalog and predictors	main	+10.24 in skin	+10.24	10.2376	10.24	num	PASS	
-C26m	C catalog and predictors	main	with a four-tissue mean bias of +5.63	+5.63	5.63476	5.63	num	PASS	
+C25e	C catalog and predictors	main	Ndufs5 (chromosome 4;	4	4	4	eq	PASS	
+C26_adipose	C catalog and predictors	main	adipose +3.85	+3.85	3.84647	3.85	num	PASS	
+C26_hypothalamus	C catalog and predictors	main	hypothalamus +3.32	+3.32	3.31928	3.32	num	PASS	
+C26_liver	C catalog and predictors	main	liver +5.14	+5.14	5.13567	5.14	num	PASS	
+C26_skin	C catalog and predictors	main	skin +10.24	+10.24	10.2376	10.24	num	PASS	
 C27_adipose	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+5.03	5.03406	5.03	num	PASS	
 C27_hypothalamus	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+5.60	5.60301	5.60	num	PASS	
 C27_liver	C catalog and predictors	main	The values were +5.03, +5.60, and +4.28	+4.28	4.28281	4.28	num	PASS	
@@ -123,34 +118,32 @@ D15_Ndufs5	D multi-mapping	main	(mean residual fraction 0.24)	0.24	0.239173	0.24
 D16_Rps2	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
 D16_Rpl29	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
 D16_Klra1	D multi-mapping	main	These included Rps2, Rpl29 and Klra1	direct	direct	direct	eq	PASS	
-D17	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	0.98	0.975748	0.98	num	PASS	
-D18a	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	0.91	0.907462	0.91	num	PASS	
-D18b	D multi-mapping	main	(residual fraction 0.98 in skin; 0.91–1.04 per tissue)	1.04	1.04031	1.04	num	PASS	
+D17	D multi-mapping	main	(residual fraction 0.98 in skin)	0.98	0.975748	0.98	num	PASS	
 D19	D multi-mapping	af1	(bias_multi = +5.23 log₂; residual fraction 0.98)	+5.23	5.23148	5.23	num	PASS	
 D20	D multi-mapping	main	the largest single-tissue bias in this class (+5.36 log₂, skin)	Rps2/skin	Rps2/skin	Rps2/skin	eq	PASS	
 D21	D multi-mapping	main	the largest single-tissue bias in this class (+5.36 log₂, skin)	+5.36	5.36151	5.36	num	PASS	
 D22	D multi-mapping	af1	Ndufs5 and Mup17 represent the SNP-induced	Ndufs5,Mup17	Ndufs5,Mup17	Ndufs5,Mup17	eq	PASS	rule: largest |Δ| in the multi-mapping class
 D23	D multi-mapping	af1	3000002C10Rik and Rps2 represent the direct	3000002C10Rik,Rps2	3000002C10Rik,Rps2	3000002C10Rik,Rps2	eq	PASS	rule: residual fraction closest to 1 in the direct class
 E1	E decomposition	main	median bias_matched −0.0001	-0.0001	-0.000137463	-0.0001	num	PASS	82,319 gene × tissue pairs with a matched estimate
-E2	E decomposition	main	median b6_loss −0.0009	-0.0009	-0.000851317	-0.0009	num	PASS	over tested pairs (naive, FVB and matched estimates)
+E2	E decomposition	main	and b6_loss −0.0009	-0.0009	-0.000851317	-0.0009	num	PASS	over tested pairs (naive, FVB and matched estimates)
 E3	E decomposition	main	Applying the fixed catalog criterion to bias_matched alone yields 84 genes	84	84	84	int	PASS	
 E4	E decomposition	main	84 genes, 57 of which are in the primary catalog	57	57	57	int	PASS	
-E5	E decomposition	main	which includes 27 genes that do not reach it	27	27	27	int	PASS	
-E6	E decomposition	main	In the other 81 catalog genes	81	81	81	int	PASS	
+E5	E decomposition	main	The other 27 of the 84 do not reach the primary criterion	27	27	27	int	PASS	
+E6	E decomposition	main	In the remaining 81 catalog genes	81	81	81	int	PASS	
 E7	E decomposition	main	b6_loss exceeds bias_matched in 54 of the 81	54	54	54	int	PASS	
-E8	E decomposition	main	the median share of the bias due to C57BL/6J-read loss is 0.61	0.61	0.608522	0.61	num	PASS	share = b6_loss_mean / mean_bias
+E8	E decomposition	main	median share of the bias due to C57BL/6J-read loss 0.61	0.61	0.608522	0.61	num	PASS	share = b6_loss_mean / mean_bias
 E9	E decomposition	main	against 0.42 in the 57 genes	0.42	0.420203	0.42	num	PASS	
 E10	E decomposition	main	and 0.50 over the whole catalog	0.50	0.49757	0.50	num	PASS	
-E11a	E decomposition	main	(bias_matched +1.47 to +4.61 log₂; b6_loss +1.85 to +5.63)	+1.47	1.47131	1.47	num	PASS	
-E11b	E decomposition	main	(bias_matched +1.47 to +4.61 log₂	+4.61	4.60694	4.61	num	PASS	
+E11a	E decomposition	main	of this change, 1.47–4.61 log₂ units are FVB/NJ reads recovered	1.47	1.47131	1.47	num	PASS	
+E11b	E decomposition	main	of this change, 1.47–4.61 log₂ units are FVB/NJ reads recovered	4.61	4.60694	4.61	num	PASS	
 E11c	E decomposition	main	b6_loss +1.85 to +5.63	+1.85	1.84796	1.85	num	PASS	
 E11d	E decomposition	main	b6_loss +1.85 to +5.63	+5.63	5.63068	5.63	num	PASS	
-E11e	E decomposition	main	Ndufs5 meets the criterion under both definitions in all four tissues	4	4	4	int	PASS	
-E12_adipose	E decomposition	main	(+0.73, +1.06, +0.86)	+0.73	0.734399	0.73	num	PASS	
-E12_hypothalamus	E decomposition	main	(+0.73, +1.06, +0.86)	+1.06	1.06153	1.06	num	PASS	
-E12_liver	E decomposition	main	(+0.73, +1.06, +0.86)	+0.86	0.862675	0.86	num	PASS	
-E12s	E decomposition	main	where bias_matched is −0.02 and the whole +5.36	-0.02	-0.0210121	-0.02	num	PASS	
-E13	E decomposition	main	C57BL/6J-read loss (+5.38)	+5.38	5.38252	5.38	num	PASS	
+E11e	E decomposition	main	it meets the catalog criterion under both definitions of the bias	4	4	4	int	PASS	
+E12_adipose	E decomposition	main	bias_matched +0.73, +1.06 and +0.86 log₂	+0.73	0.734399	0.73	num	PASS	
+E12_hypothalamus	E decomposition	main	bias_matched +0.73, +1.06 and +0.86 log₂	+1.06	1.06153	1.06	num	PASS	
+E12_liver	E decomposition	main	bias_matched +0.73, +1.06 and +0.86 log₂	+0.86	0.862675	0.86	num	PASS	
+E12s	E decomposition	main	in skin bias_matched is −0.02 log₂	-0.02	-0.0210121	-0.02	num	PASS	
+E13	E decomposition	main	(b6_loss +5.38)	+5.38	5.38252	5.38	num	PASS	
 E13f	E decomposition	main	(bias_matched +0.73 to +1.06 log₂)	+0.73	0.734399	0.73	num	PASS	
 E14	E decomposition	af1	for one gene, Gm26740, tested in three tissues under the primary model and four under the matched model	Gm26740 only	Gm26740 only	Gm26740 only	eq	PASS	bias_matched_mean + b6_loss_mean − mean_bias = -0.0186; tissues tested (primary) ['adipose', 'liver', 'skin']; tissues with a matched estimate ['adipose', 'hypothalamus', 'liver', 'skin'] — the means are over different tissue sets, not a computation error
 E15	E decomposition	af1	they differ from mean_bias by 0.02	0.02	0.0186416	0.02	num	PASS	S2 caption (M-3c)
@@ -162,13 +155,13 @@ F2b	F worked examples	main	the contrast became +1.58 to +5.18	+5.18	5.18078	5.18
 F3a	F worked examples	main	(bias_wasp +1.55 to +5.52)	+1.55	1.54802	1.55	num	PASS	
 F3b	F worked examples	main	(bias_wasp +1.55 to +5.52)	+5.52	5.52362	5.52	num	PASS	
 F3c	F worked examples	main	(bias +3.32 to +10.24 log₂; mean +5.63)	+3.32	3.31928	3.32	num	PASS	
-F4	F worked examples	main	(log₂FC −5.89); the FVB arm reported log₂FC −0.53	-5.89	-5.89452	-5.89	num	PASS	
+F4	F worked examples	main	(log₂FC −5.89) and the FVB arm reported log₂FC −0.53	-5.89	-5.89452	-5.89	num	PASS	
 F5	F worked examples	main	the FVB arm reported log₂FC −0.53	-0.53	-0.533011	-0.53	num	PASS	
 F6	F worked examples	main	at about 1/59 of the C57BL/6J level	59	59.4879	59	num	PASS	
 F6b	F worked examples	main	(bias +5.36 log₂)	+5.36	5.36151	5.36	num	PASS	
-F7_adipose	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.12	1.11779	1.12	num	PASS	
-F7_hypothalamus	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.36	1.36172	1.36	num	PASS	
-F7_liver	F worked examples	main	(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂	+1.14	1.14491	1.14	num	PASS	
+F7_adipose	F worked examples	main	(bias +1.12, +1.36 and +1.14 log₂	+1.12	1.11779	1.12	num	PASS	
+F7_hypothalamus	F worked examples	main	(bias +1.12, +1.36 and +1.14 log₂	+1.36	1.36172	1.36	num	PASS	
+F7_liver	F worked examples	main	(bias +1.12, +1.36 and +1.14 log₂	+1.14	1.14491	1.14	num	PASS	
 F8_naive	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.2	2.21221	2.2	num	PASS	
 F8_wasp	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.1	2.13717	2.1	num	PASS	
 F8_fvb	F worked examples	main	(mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference)	2.2	2.19705	2.2	num	PASS	
@@ -207,14 +200,8 @@ F10_Rps2-ps6_fvb_unique_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0
 F10_Rps2-ps6_fvb_multi_FVB	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	6.23	6.22604	6.23	num	PASS	
 F10_Rps2-ps6_fvb_unique_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	0.12	0.117615	0.12	num	PASS	
 F10_Rps2-ps6_fvb_multi_B6	F worked examples	af1	Rps2-ps6 0.10 7.64 0.11 2.49 0.09 6.23 0.12 6.43	6.43	6.43474	6.43	num	PASS	
-F11a	F worked examples	main	(fractional counts 49.4 and 44.4 counts per million in FVB/NJ skin against 13.0 at Rps2)	49.4	49.4181	49.4	num	PASS	
-F11b	F worked examples	main	(fractional counts 49.4 and 44.4	44.4	44.4099	44.4	num	PASS	
-F11c	F worked examples	main	against 13.0 at Rps2	13.0	13.0032	13.0	num	PASS	
-F12_Rps2	F worked examples	main	(41.8, 37.8 and 32.6)	41.8	41.8449	41.8	num	PASS	
-F12_Rps2-ps10	F worked examples	main	(41.8, 37.8 and 32.6)	37.8	37.8262	37.8	num	PASS	
-F12_Rps2-ps13	F worked examples	main	(41.8, 37.8 and 32.6)	32.6	32.5794	32.6	num	PASS	
-F13a	F worked examples	main	(by 1.66 and 1.54 log₂ units)	1.66	1.65999	1.66	num	PASS	
-F13b	F worked examples	main	(by 1.66 and 1.54 log₂ units)	1.54	1.53584	1.54	num	PASS	instruction listed 1.53; the text prints 1.54
+F13a	F worked examples	af1	(by 1.66 and 1.54 log₂ units)	1.66	1.65999	1.66	num	PASS	
+F13b	F worked examples	af1	(by 1.66 and 1.54 log₂ units)	1.54	1.53584	1.54	num	PASS	instruction listed 1.53; the text prints 1.54
 F13c	F worked examples	af1	(by 1.66 and 1.54 log₂ units)	1.54	1.53584	1.54	num	PASS	
 F14	F worked examples	main	(ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene body, 13.9 SNPs/kb)	53	53	53	int	PASS	
 F15	F worked examples	main	53 FVB/NJ SNPs in a 3.8-kb gene body	3.8	3.814	3.8	num	PASS	
@@ -224,12 +211,12 @@ F18	F worked examples	af1	53 FVB/NJ SNPs and 12 homozygous indels in 3.8 kb	12	1
 F19	F worked examples	af1	(16 SNPs and 5 indels within exons	5	5	5	int	PASS	exonic hom-alt indels: 24939228 CTCT>C; 24940293 TA>T; 24940464 G>GC; 24940465 T>TGGGATCAAAGGC; 24940562 C>CTT
 F17x	F worked examples	af1		same sets	same sets	same sets	eq	PASS	exonic SNP/indel positions recomputed here (VCF + GTF union) = positions in rps2_exonic_variants_union.tsv
 F21	F worked examples	main	carry the FVB/NJ allele at all five exonic SNP positions	5	5	5	int	PASS	union SNPs inside the copied part; each of them is in rps2_pseudogene_alleles.tsv with the same call: True
-F22_Rps2-ps10	F worked examples	main	(Rps2-ps6 at three;	5	5	5	int	PASS	
-F22_Rps2-ps13	F worked examples	main	(Rps2-ps6 at three;	5	5	5	int	PASS	
-F22_Rps2-ps6	F worked examples	main	(Rps2-ps6 at three;	3	3	3	int	PASS	
-F23	F worked examples	main	the other eleven exonic SNPs	11	11	11	int	PASS	
-F24	F worked examples	main	The five exonic indels of the FVB/NJ allele all lie outside that part	0	0	0	int	PASS	
-F24n	F worked examples	main	The five exonic indels of the FVB/NJ allele	5	5	5	int	PASS	
+F22_Rps2-ps10	F worked examples	af1	(Rps2-ps6 at three;	5	5	5	int	PASS	
+F22_Rps2-ps13	F worked examples	af1	(Rps2-ps6 at three;	5	5	5	int	PASS	
+F22_Rps2-ps6	F worked examples	af1	(Rps2-ps6 at three;	3	3	3	int	PASS	
+F23	F worked examples	af1	the other eleven exonic SNPs	11	11	11	int	PASS	
+F24	F worked examples	af1	The five exonic indels of the FVB/NJ allele all lie outside that part	0	0	0	int	PASS	
+F24n	F worked examples	af1	The five exonic indels of the FVB/NJ allele	5	5	5	int	PASS	
 G1	G F1 allele-specific expression	main	across all 12 F1 samples was 0.480 ± 0.0003	0.480	0.479907	0.480	num	PASS	
 G2	G F1 allele-specific expression	main	0.480 ± 0.0003	0.0003	0.000325569	0.0003	num	PASS	standard error over 12 animals
 G3	G F1 allele-specific expression	main	(t = -61.7, p = 2.5 × 10⁻¹⁵; Fig. 2A)	-61.7	-61.7172	-61.7	num	PASS	
@@ -321,7 +308,6 @@ J3_fvb	J within-strain	main	(598 genes under naive, 593 under WASP, 539 under th
 J4	J within-strain	main	519 shared and concordant in direction	519	519	519	int	PASS	shared 519
 J5a	J within-strain	main	(Pearson r = 0.991–0.997;	0.991	0.991333	0.991	num	PASS	
 J5b	J within-strain	main	(Pearson r = 0.991–0.997;	0.997	0.997169	0.997	num	PASS	
-J5c	J within-strain	main	nearly identical gene by gene (Pearson r ≥ 0.99)	0.99	0.991333	0.99	ge	PASS	
 J6a	J within-strain	main	0.09–0.38% of genes differed by ≥ 0.5 log₂	0.09	0.0852555	0.09	num	PASS	
 J6b	J within-strain	main	0.09–0.38% of genes differed	0.38	0.383895	0.38	num	PASS	
 J7a	J within-strain	main	(median |Δ log₂FC| 0.02–0.08)	0.02	0.0219582	0.02	num	PASS	
@@ -397,6 +383,3 @@ Q2e	Q Phase Q (decomposition wording, within-strain wording)	cover	demonstrably 
 Q2f	Q Phase Q (decomposition wording, within-strain wording)	cover	mean FVB allele fraction 0.480 rather than 0.333	0.480	0.479907	0.480	num	PASS	
 Q2g	Q Phase Q (decomposition wording, within-strain wording)	cover	(0.512 rather than 0.386)	0.512	0.512222	0.512	num	PASS	
 Q2h	Q Phase Q (decomposition wording, within-strain wording)	cover	(0.512 rather than 0.386)	0.386	0.385582	0.386	num	PASS	submitted-version value quoted
-Q3a	Q Phase Q (decomposition wording, within-strain wording)	main	(598 under the naive arm and 539 under the FVB/NJ reference in skin)	598	598	598	int	PASS	
-Q3b	Q Phase Q (decomposition wording, within-strain wording)	main	(598 under the naive arm and 539 under the FVB/NJ reference in skin)	539	539	539	int	PASS	
-Q4	Q Phase Q (decomposition wording, within-strain wording)	main	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	140	140	int	PASS	

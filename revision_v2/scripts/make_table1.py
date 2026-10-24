@@ -34,6 +34,6 @@ L+=["","## F1 hybrid datasets used for allele-specific expression analysis (Fig.
 for gse in ("GSE293440","GSE200632"):
     rows=[r for r in M if r["role"]=="f1_ase" and r["GSE"]==gse]
     if rows: L.append(f"| {gse} | {TISSUE_LABEL[rows[0]['tissue']]} | {rows[0]['strain']} | {len(rows)} | {rows[0]['library_layout'].capitalize()}-end | {int(float(rows[0]['read_length']))} bp | {nq(rows)} (expected: F1) |")
-L+=["","Sequence identity QC: allele fractions at 203,510 FVB/NJ-homozygous exonic SNP sites in the B6-reference alignment (see *Sample identity verification*); full per-sample results in Supplementary Table S1.",
+L+=["","Sequence identity QC: allele fractions at FVB/NJ-homozygous exonic SNP sites (203,510; a fixed 10% subset for all but the F1 animals) in the B6-reference alignment (see *Sample identity verification*); full per-sample results in Supplementary Table S1.",
     "Sex and age are not recorded in the GEO/BioSample attributes of the fructose study; the imiquimod study records sex (M/F). All FVB/NJ animals are from the Jackson Laboratory substrain, matched to the FVB_NJ variant set."]
 open(OUT,"w").write("\n".join(L)+"\n"); print(open(OUT).read())

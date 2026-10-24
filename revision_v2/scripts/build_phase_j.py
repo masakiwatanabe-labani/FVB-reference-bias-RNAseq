@@ -325,12 +325,85 @@ def phase_s4(name, txt, trig):
         txt=txt[:i]+R(new)+txt[j:]; S4_USED[n]+=1
         if trig!="H" and "PHASE-S4" not in trig: trig+="/PHASE-S4"
     return txt, trig
+# ---- Phase T (2026-10-24): dataset source studies cited (T-1: rendered by render_methods_datasets.py — the generated block must
+#      equal generated/methods_datasets.md); Results/Discussion shortened at the authors' request with final wording (T-2); figure
+#      citations in Methods that broke the citation order in LAR section order removed (T-3); Unicode minus signs in command text
+#      -> ASCII (T-4). Trigger PHASE-T. Entry (file, a, b, new): b "" = replace a only; b "¶" = the paragraph that starts with a is
+#      replaced as a whole; otherwise the span from a through b. An empty result deletes the paragraph (headings included).
+T_RPS2=("*Rps2* (ribosomal protein S2; chromosome 17; 53 FVB/NJ SNPs in a 3.8-kb gene body, 13.9 SNPs/kb) is the catalog gene of the direct-misalignment class with the largest single-tissue bias, and it marks a limit of what a personalised reference can correct with short single-end reads. "
+ "In skin, naive alignment reported FVB/NJ *Rps2* at about 1/59 of the C57BL/6J level (log₂FC −5.89) and the FVB arm reported log₂FC −0.53 (bias +5.36 log₂). "
+ "Per-animal expression shows, however, that the difference disappears not because FVB/NJ reads are recovered (Fig. 6B): FVB/NJ *Rps2* counts per million were low and essentially the same in every arm (mean log₂(CPM + 1) 2.2 naive, 2.1 WASP, 2.2 FVB reference), whereas C57BL/6J counts fell from 7.7 (naive) to 2.5 (WASP) and 2.6 (FVB reference); accordingly, in skin bias_matched is −0.02 log₂ and the entire bias is loss of C57BL/6J reads on the FVB/NJ reference (b6_loss +5.38). "
+ "Under unique-only counting the FVB/NJ reads at this locus are not recovered by the SNP-patched reference, and the bias is essentially unchanged by multi-mapping inclusion (residual fraction 0.98 in skin). "
+ "The reads are not absent: on both references they are multi-mappers shared with two processed pseudogenes, *Rps2-ps10* and *Rps2-ps13*, which carry the FVB/NJ allele at all five exonic SNP positions in the part of the transcript they copy, so a 52-bp FVB/NJ read from that part cannot be assigned to *Rps2* on either reference (Supplementary Note 2). "
+ "The true expression of *Rps2* in FVB/NJ skin is therefore undetermined by this study. Both worked-example genes lie among the SNP-dense, positively biased loci relative to the genome-wide background (Fig. 6C). "
+ "In adipose, hypothalamus and liver, where the reads are longer and paired, *Rps2* qualifies under both bias definitions (bias +1.12, +1.36 and +1.14 log₂; bias_matched +0.73, +1.06 and +0.86 log₂; Fig. 6D) and part of the FVB/NJ signal is recovered.")
+T_DEC=("The bias has two components (Methods): the FVB/NJ reads gained when FVB/NJ animals meet their own alleles (bias_matched), which alone measures whether naive B6 mapping underestimates FVB/NJ expression, and the C57BL/6J reads lost when C57BL/6J animals are aligned to the FVB/NJ sequence (b6_loss). "
+ "Genome-wide, both are centred on zero (median bias_matched −0.0001 and b6_loss −0.0009 log₂ over all tested gene × tissue pairs). "
+ "Applying the fixed catalog criterion to bias_matched alone yields 84 genes, 57 of which are in the primary catalog of 138 (Supplementary Table S3c; Supplementary Fig. S3); at these 57 genes the personalised reference demonstrably recovers FVB/NJ reads (column `in_matched_reference_catalog` in Supplementary Table S2). "
+ "The other 27 of the 84 do not reach the primary criterion because the loss of C57BL/6J reads there is negative or small. "
+ "In the remaining 81 catalog genes the loss of C57BL/6J reads is the larger component (b6_loss exceeds bias_matched in 54 of the 81; median share of the bias due to C57BL/6J-read loss 0.61, against 0.42 in the 57 genes and 0.50 over the whole catalog). "
+ "The catalog is reported unchanged, with both components given per gene (Supplementary Table S2).")
+T_REPL=[
+ # T-2a (Results, F1 section)
+ ("results.md","For this analysis, we used F1 hybrid mice from two independent datasets.","by the sequence-based identity check described below.",
+  "For this analysis, we used F1 hybrid mice from two independent datasets (GSE293440 and GSE200632; Methods)."),
+ ("results.md","(the site set of the identity check described below)","","(the site set of the identity check; Methods)"),   # its target section is deleted (T-2b)
+ # T-2b/d (sample identity: Results section deleted, Methods carries the outcome)
+ ("results.md","## Every sample entering the pure-strain comparison was verified by sequence","¶",""),
+ ("results.md","Because the pure-strain analysis depends entirely on the strain of each animal","¶",""),
+ ("results.md","The check also rejected one candidate dataset.","¶",""),
+ ("methods.md","To reduce run time, all animals except the F1 hybrids","¶",
+  "All animals other than the F1 hybrids were evaluated at a fixed random 10% subset of these sites («qc_sites_subset_n|,d» sites; the site list and its validation are in the repository). All «n_animals_processed_three_arms|d» animals of the three-arm analysis matched their recorded strain and all «n_f1|d» F1 animals were confirmed as F1 hybrids; the per-sample metrics, site set and verdict of every evaluated animal, including the four rejected GSE55788 animals, are given in Supplementary Table S1."),
+ # T-2c (Methods, figure paragraph)
+ ("methods.md","All figures were drawn at their printed size","¶",""),
+ # T-2e (Results, catalog)
+ ("results.md"," These are regions in which strains differ in haplotype and gene structure, not only at single nucleotides, and in which paralogous copies compete for the same reads.","",""),
+ ("results.md","*Ndufs5* was the most consistently biased gene.","¶",""),
+ ("results.md","The 46 four-tissue genes included several ribosomal protein genes","¶",""),
+ # T-2f (Results, decomposition / Rps2 / within-strain)
+ ("results.md","The bias compares a quantification in which both strains","¶",T_DEC),
+ ("results.md","*Rps2* (ribosomal protein S2; chromosome 17","¶",T_RPS2),
+ ("results.md"," In the diet and treatment comparisons examined here, per-gene log₂ fold changes agreed closely","attributed to FVB/NJ alleles at the catalog loci.",""),
+ # T-2g (FVB_NJ_v3 rationale)
+ ("introduction.md","WASP-filtered B6 alignment, and FVB/NJ personalised reference alignment.","",
+  "WASP-filtered B6 alignment, and FVB/NJ personalised reference alignment. The personalised reference substitutes FVB/NJ SNPs into GRCm39 rather than replacing it with a de novo FVB/NJ assembly, which now has its own Ensembl annotation [CITE Helmy 2026, Ensembl FVB 2025]: keeping coordinates, gene models and counting identical between arms lets any difference be attributed to the reference sequence alone, whereas quantifying each strain against its own assembly and annotation would add differences between gene models to every strain contrast."),
+ ("discussion.md","A natural question is why we quantified against a SNP-patched GRCm39","¶",
+  "Our survey documents that every FVB study reporting a reference used a B6 assembly, but not why; possible reasons include the curated gene models and identifiers of GRCm39, standard indexes and pipelines, and direct comparability with other datasets. A de novo strain assembly additionally corrects indels, structural variants and assembly gaps and is the better choice when a complete FVB/NJ quantification, rather than a controlled comparison, is the goal; the clusters described in the Results (the MHC, histone, Mup and Ifi200 families) are where this difference is most likely to matter, because a SNP-patched B6 sequence cannot represent copy number or gene structure that differs between the strains."),
+ # T-2h (Discussion)
+ ("discussion.md","A methodological lesson of this study concerns the public data themselves.","¶",
+  "Strain labels of publicly deposited samples cannot be taken for granted. A sequence-based identity check on the naive alignment, which the pipeline produces anyway, takes minutes per sample; here it revealed a nominally wild-type C57BL/6J group carrying fixed non-B6 haplotype blocks (GSE55792; Supplementary Fig. S1) and a residual donor segment on chromosome 16 in every tumour of the B6-congenic PyVT line, neither of which is visible in the metadata or affects the designs of the original studies. For any analysis that depends on the strain of public samples, we recommend this check as a routine quality-control step, with per-sample results reported (as in Supplementary Table S1)."),
+ ("discussion.md","Reference-genome choice could in principle also affect studies conducted entirely within the FVB background","¶",
+  "For the many FVB studies that compare groups within one FVB background, the strain-level bias largely cancels (Results). What the reference changes in such designs is the absolute expression attributed to catalog genes, for example the apparent level of *Rps2* or *Ndufs5* in an FVB/NJ sample; this matters when expression levels are compared across strains or studies, when a gene is used as a normaliser, or when absolute abundance is interpreted, and much less for a fold change between two groups of the same strain."),
+ # T-3 (citation order in LAR section order; "(Fig. 2)" of the Methods F1 sentence is dropped in render_methods_datasets.py)
+ ("methods.md",", and the two means are compared in Supplementary Fig. S3.","","."),
+ ("methods.md","The two genes shown in Fig. 6 were chosen by rule","","The two worked-example genes were chosen by rule"),
+]
+T_USED=[0]*len(T_REPL)
+T_TRIG={"WASP-filtered B6 alignment, and FVB/NJ personalised reference alignment.":"R1-M2"}   # the new Background sentence answers R1 major 2
+T4_MINUS=[0]   # T-4: "−M −−fraction" (U+2212) -> ASCII; assemble_lar.clean() escapes the "--" (Phase S-1)
+def phase_t(name, txt, trig):
+    t0=txt
+    for n,(f,a,b,new) in enumerate(T_REPL):
+        if f!=name or a not in txt: continue
+        if b=="¶":
+            if not txt.startswith(a): continue
+            txt=R(new)
+        else:
+            i=txt.index(a); j=i+len(a) if not b else txt.index(b,i+len(a))+len(b)
+            txt=txt[:i]+R(new)+txt[j:]
+        T_USED[n]+=1
+        if a in T_TRIG and T_TRIG[a] not in trig: trig+="/"+T_TRIG[a]
+    k=txt.count("−M −−fraction"); T4_MINUS[0]+=k; txt=txt.replace("−M −−fraction","-M --fraction")
+    if txt!=t0 and trig!="H" and "PHASE-T" not in trig: trig+="/PHASE-T"
+    return txt.strip(), trig
 OUT={}; TRIG=[]
 def section(name, items):
     """items: list of (trigger, paragraph) ; headings use trigger 'H'"""
     paras=[]
     for trig,txt in items:
-        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); txt,trig=phase_s(name,txt,trig); txt,trig=phase_s2(name,txt,trig); txt,trig=phase_s3(name,txt,trig); txt,trig=phase_s4(name,txt,trig); paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
+        txt=R(txt).strip(); txt,trig=phase_l(name,txt,trig); txt,trig=phase_m(name,txt,trig); txt,trig=phase_n(name,txt,trig); txt,trig=phase_p(name,txt,trig); txt,trig=phase_q(name,txt,trig); txt,trig=phase_r(name,txt,trig); txt,trig=phase_r2(name,txt,trig); txt,trig=phase_s(name,txt,trig); txt,trig=phase_s2(name,txt,trig); txt,trig=phase_s3(name,txt,trig); txt,trig=phase_s4(name,txt,trig); txt,trig=phase_t(name,txt,trig)
+        if not txt: continue   # Phase T: paragraph deleted
+        paras.append(txt); TRIG.append((name, len(paras), trig, re.sub(r"\s+"," ",txt)[:80]))
     OUT[name]="\n\n".join(paras)+"\n"
 KEEP="KEEP"
 # ============================================================ ABSTRACT (J-1) =================================================
@@ -371,7 +444,7 @@ meth=[("H","# Methods"),
 ]
 # the generated datasets block: heading + paragraphs, all CORR
 gparts=[x.strip() for x in re.split(r"\n\s*\n", gen) if x.strip()]
-for g in gparts: meth.append(("H" if g.startswith("## ") else "CORR/PHASE-R" if "on a predominantly C57BL/6J background" in g else "CORR", g))
+for g in gparts: meth.append(("H" if g.startswith("## ") else ("CORR/PHASE-R" if "on a predominantly C57BL/6J background" in g else "CORR")+("/PHASE-T" if "[CITE " in g else ""), g))
 meth.append(("H","<!-- END generated/methods_datasets.md -->"))
 meth.append(("H","## Sample identity verification"))
 for p in v2sec("methods.md","Sample identity verification"): meth.append(("NEW-ID",p))
@@ -723,6 +796,8 @@ assert all(u==1 for u in R2_USED), ("Phase R2 replacements not applied exactly o
 assert all(u==1 for u in S_USED), ("Phase S replacements not applied exactly once", [(S_REPL[n][:2],u) for n,u in enumerate(S_USED) if u!=1])
 assert all(u==1 for u in S2_USED), ("Phase S2 replacements not applied exactly once", [(S2_REPL[n][:2],u) for n,u in enumerate(S2_USED) if u!=1])
 assert all(u==1 for u in S3_USED), ("Phase S3 replacements not applied exactly once", [(S3_REPL[n][:2],u) for n,u in enumerate(S3_USED) if u!=1])
+assert all(u==1 for u in T_USED), ("Phase T replacements not applied exactly once", [(T_REPL[n][:2],u) for n,u in enumerate(T_USED) if u!=1])
+assert T4_MINUS[0]==5, ("Phase T-4: expected 5 '−M −−fraction'", T4_MINUS[0])
 assert all(u==1 for u in S4_USED), ("Phase S4 replacements not applied exactly once", [(S4_REPL[n][:2],u) for n,u in enumerate(S4_USED) if u!=1])
 assert all(u==1 for u in P_USED), ("Phase P replacements not applied exactly once", [(P_REPL[n][:2],u) for n,u in enumerate(P_USED) if u!=1])
 assert all(u==1 for u in N_USED), ("Phase N replacements not applied exactly once", [(N_REPL[n][:2],u) for n,u in enumerate(N_USED) if u!=1])

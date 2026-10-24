@@ -58,6 +58,7 @@ for r in csv.DictReader(open(f"{M}/generated/numbers.tsv"), delimiter="\t"):
     if 0<x<100: NUM.add(f"{x:.0f}")
 IGNORE={"20261016","0.50","0.5","0.25","1.0","0.3","0.30","0.1","0.9","0.10","0.90","0.55","2021","2026","110","14","20","255","100","4","8","3","0.05","0.70","80","1,047","2112"}
 def num_check(s):
+    s=re.sub(r"\\?\[\d+(?:[,–]\d+)*\\?\]","",s)   # Phase T: numbered citations such as [9,13] are not numbers
     s=re.sub(r"GSE\d+|GSM\d+|SRR\d+|ENSMUSG\d+|v\d+(\.\d+)*|Fig\. ?S?\d+[A-D]?|Table S?\d+[a-f]?|Note \d|REL-\d+|GRCm3\d|mm\d+|chromosome \d+|10[⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+","",s)
     bad=[]
     for n in re.findall(r"(?<![A-Za-z\d_])\d[\d,]*\.?\d*(?![A-Za-z\d_])", s):

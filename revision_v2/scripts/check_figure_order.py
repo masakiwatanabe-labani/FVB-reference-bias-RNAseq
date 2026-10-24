@@ -4,10 +4,12 @@ check_figure_order.py — extract the order of first citation of every figure an
 panel in a Markdown manuscript, and list violations of numerical order.
 
 Usage:
-  python3 check_figure_order.py MANUSCRIPT.md [--all-sections] [--legend-check]
+  python3 check_figure_order.py MANUSCRIPT.md [--all-sections] [--legend-check] [--section-order A,B,...]
 
 By default only the main text (everything before a line starting with
 '# Figure Legends') is scanned; --all-sections scans the whole file.
+--section-order scans only the listed top-level sections, in the listed order (use the
+order of the submitted article: Abstract, Background, Methods, Results, Discussion).
 --legend-check additionally parses the Figure Legends section for panel labels
 (**(A)** ...) and reports panels that are never cited in the main text.
 
@@ -54,14 +56,34 @@ def main():
     ap.add_argument("--legend-check", action="store_true")
     ap.add_argument("--stop-at", default="# Figure Legends",
                     help="line prefix at which main-text scanning stops")
+    ap.add_argument("--section-order", default=None,
+                    help="comma-separated top-level ('# ') headings, e.g. 'Abstract,Background,Methods,Results,Discussion': "
+                         "the main text is these sections in this order (the order of the submitted article, whatever the order "
+                         "of the input file); every listed section must be present")
     args = ap.parse_args()
 
     lines = open(args.manuscript, encoding="utf-8").read().splitlines()
     main_lines = []
-    for i, l in enumerate(lines, 1):
-        if not args.all_sections and l.strip().startswith(args.stop_at):
-            break
-        main_lines.append((i, l))
+    if args.section_order:
+        # Phase T (2026-10-24): the combined file follows the v1 order (Methods after Discussion), so a citation in Methods was
+        # scanned last; scan the sections in the order in which the article presents them instead
+        sec, cur = {}, None
+        for i, l in enumerate(lines, 1):
+            if l.startswith("# "):
+                cur = l[2:].strip(); sec.setdefault(cur, [])
+            if cur is not None:
+                sec[cur].append((i, l))
+        for name in [x.strip() for x in args.section_order.split(",")]:
+            hits = [k for k in sec if k.lower() == name.lower()]
+            if not hits:
+                sys.exit(f"section '# {name}' not found")
+            main_lines.extend(sec[hits[0]])
+        print("== Sections scanned (in this order) ==\n  " + " → ".join(x.strip() for x in args.section_order.split(",")) + "\n")
+    else:
+        for i, l in enumerate(lines, 1):
+            if not args.all_sections and l.strip().startswith(args.stop_at):
+                break
+            main_lines.append((i, l))
 
     first_fig, first_panel, order = {}, {}, []
     for i, l in main_lines:

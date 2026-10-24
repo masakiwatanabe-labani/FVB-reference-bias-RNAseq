@@ -86,7 +86,7 @@ for l in gzip.open(f"{P}/analysis_v2/qc/fvbnj_homalt_exonic.hetGT.sub10pct.seed2
 full = set()
 for l in gzip.open(f"{P}/analysis_v2/qc/fvbnj_homalt_exonic.hetGT.vcf.gz", "rt"):
     if l[0] != "#": c, p = l.split("\t")[:2]; full.add((c, int(p)))
-claim("A4", g, "main", "(20,351 sites; seed 20261016)", "20351", len(sub), "int", note=f"subset ⊂ full set: {sub <= full}; 10% of {len(full):,} = {len(full)*0.1:.1f}")
+claim("A4", g, "main", "(20,351 sites; the site list and its validation are in the repository)", "20351", len(sub), "int", note=f"subset ⊂ full set: {sub <= full}; 10% of {len(full):,} = {len(full)*0.1:.1f}")
 claim("A4b", g, "main", "fixed random 10% subset", "10", 100 * len(sub) / len(full), "num")
 # subset validation: every sample evaluated at both site sets (full-set ase.tsv present), metrics over sites with depth >= 20
 def idmet(d):
@@ -108,9 +108,11 @@ for f in sorted(glob.glob(f"{DATA}/*/*/qc/*.ase.tsv")):
     m1, m2 = idmet(d), idmet(d2); dd = np.abs(m1 - m2).max(); dif_all.append((s, dd)); verd.append(vrule(m1) == vrule(m2))
     if not s.startswith("heart"): dif_animals.append(dd)
 all_same = all(verd); mx = max(x for _, x in dif_all); who = max(dif_all, key=lambda t: t[1])[0]
-claim("A5n", g, "main", "identical verdicts for the 14 animals evaluated at both site sets", "14", len(dif_all), "int")
-claim("A5v", g, "main", "identical verdicts for the 14 animals", "identical", "identical" if all_same else "DIFFER", "eq", note="verdict rules of Methods applied to both site sets")
-claim("A5", g, "main", "(metrics within 0.014 and identical verdicts", "0.014", mx, "le", note=f"max |Δ| over {len(dif_all)} samples evaluated at both site sets = {mx:.4f} ({who}, frac_hi); over the 9 analysis animals only = {max(dif_animals):.4f}")
+# Phase T (2026-10-24): the subset-validation sentence was deleted from Methods (the validation is in identity_check/ of the
+# repository), so A5n/A5v/A5 are no longer text claims; the values above are still computed (dif_all, all_same, mx) but not reported.
+# claim("A5n", g, "main", "identical verdicts for the 14 animals evaluated at both site sets", "14", len(dif_all), "int")   # retired in Phase T
+# claim("A5v", g, "main", "identical verdicts for the 14 animals", "identical", "identical" if all_same else "DIFFER", "eq", note="verdict rules of Methods applied to both site sets")   # retired in Phase T
+# claim("A5", g, "main", "(metrics within 0.014 and identical verdicts", "0.014", mx, "le", note=f"max |Δ| over {len(dif_all)} samples evaluated at both site sets = {mx:.4f} ({who}, frac_hi); over the 9 analysis animals only = {max(dif_animals):.4f}")   # retired in Phase T
 b6ids = set(G.index); miss = sorted(b6ids - FVBGTF)
 claim("A6", g, "main", "1,727 of 56,941 annotated genes were removed", "1727", len(miss), "int")
 claim("A7", g, "main", "1,727 of 56,941 annotated genes were removed", "56941", len(b6ids), "int")
@@ -242,12 +244,12 @@ claim("C23b", g, "main", "Median bias was within ±0.003 of zero in all biotype 
 kw = stats.kruskal(*[pg.mean_bias[pg.bgroup == k] for k in ("protein_coding", "lncRNA", "pseudogene", "other")])
 claim("C24", g, "main", "(Kruskal–Wallis p < 10⁻¹⁵)", "1e-15", kw.pvalue, "plt")
 nd = G.loc["ENSMUSG00000028648"] if "ENSMUSG00000028648" in G.index else G.loc[gid("Ndufs5")]
-claim("C25", g, "main", "contained 7 FVB/NJ SNPs across a 5.5-kb gene body", "7", nd.snps_all, "int"); claim("C25b", g, "main", "across a 5.5-kb gene body", "5.5", nd.length / 1000)
+claim("C25", g, "main", "(chromosome 4; 7 FVB/NJ SNPs", "7", nd.snps_all, "int")   # Phase T: needle moved to the worked example; C25b (5.5-kb gene body) retired with the deleted Ndufs5 paragraph
 claim("C25c", g, "main", "(chromosome 4; 7 FVB/NJ SNPs, 1.27 SNPs/kb)", "1.27", nd.density); claim("C25d", g, "main", "(green star; 1.3 SNPs/kb)", "1.3", nd.density)
-claim("C25e", g, "main", "This protein-coding gene on chromosome 4", "4", nd.chrom, "eq")
+claim("C25e", g, "main", "Ndufs5 (chromosome 4;", "4", nd.chrom, "eq")   # Phase T: needle moved to the worked example
 def tb(name, t): return B[t].bias.get(gid(name), np.nan)
-for t, txt in zip(TISSUES, ["+3.85", "+3.32", "+5.14", "+10.24"]): claim(f"C26_{t}", g, "main", f"{txt} in" if t != "skin" else "+10.24 in skin", txt, tb("Ndufs5", t))
-claim("C26m", g, "main", "with a four-tissue mean bias of +5.63", "+5.63", mb_gene[gid("Ndufs5")])
+for t, txt in zip(TISSUES, ["+3.85", "+3.32", "+5.14", "+10.24"]): claim(f"C26_{t}", g, "main", f"{t} {txt}", txt, tb("Ndufs5", t))   # Phase T: needle moved to the worked example ("adipose +3.85, …")
+# claim("C26m", g, "main", "with a four-tissue mean bias of +5.63", "+5.63", mb_gene[gid("Ndufs5")])   # retired in Phase T (Ndufs5 paragraph deleted)
 for t, txt in zip(["adipose", "hypothalamus", "liver"], ["+5.03", "+5.60", "+4.28"]): claim(f"C27_{t}", g, "main", "The values were +5.03, +5.60, and +4.28", txt, tb("Gm25939", t))
 claim("C27s", g, "main", "It was not detected in skin", "absent", "absent" if gid("Gm25939") not in B["skin"].index else "tested", "eq")
 
@@ -272,9 +274,9 @@ for nm, txt, nd_ in (("Rps2", "0.97", "Rps2 had a residual fraction of 0.97"), (
     claim(f"D15_{nm}", g, "main", nd_, txt, cg.res[gid(nm)])
 for nm in ("Rps2", "Rpl29", "Klra1"): claim(f"D16_{nm}", g, "main", "These included Rps2, Rpl29 and Klra1", "direct", "direct" if gid(nm) in dirc.index else "multi", "eq")
 ds = B["skin"].loc[gid("Rps2")]
-claim("D17", g, "main", "(residual fraction 0.98 in skin; 0.91–1.04 per tissue)", "0.98", ds.bias_multi / ds.bias)
+claim("D17", g, "main", "(residual fraction 0.98 in skin)", "0.98", ds.bias_multi / ds.bias)
 rt = [B[t].loc[gid("Rps2")].bias_multi / B[t].loc[gid("Rps2")].bias for t in TISSUES]
-claim("D18a", g, "main", "(residual fraction 0.98 in skin; 0.91–1.04 per tissue)", "0.91", min(rt)); claim("D18b", g, "main", "(residual fraction 0.98 in skin; 0.91–1.04 per tissue)", "1.04", max(rt))
+# claim("D18a", …, "0.91", min(rt)); claim("D18b", …, "1.04", max(rt))   # retired in Phase T (per-tissue range removed from the Rps2 paragraph)
 claim("D19", g, "af1", "(bias_multi = +5.23 log₂; residual fraction 0.98)", "+5.23", ds.bias_multi)
 dclass = [(gg, t, B[t].loc[gg].bias) for gg in dirc.index for t in TISSUES if gg in B[t].index]
 best = max(dclass, key=lambda x: x[2])
@@ -292,27 +294,27 @@ for t in TISSUES:   # bias_matched is defined wherever the naive and matched mod
     f_ = eg(t, "primary", "fvb", "unique").logFC; bm_ = (m_ - n_).dropna()
     DMr.append(pd.DataFrame({"gene_id": bm_.index, "tissue": t, "bias_matched": bm_.values, "b6_loss": (f_.reindex(bm_.index) - m_.reindex(bm_.index)).values}))
 dm = pd.concat(DMr, ignore_index=True)
-claim("E1", g, "main", "median bias_matched −0.0001", "-0.0001", dm.bias_matched.median(), note=f"{len(dm):,} gene × tissue pairs with a matched estimate"); claim("E2", g, "main", "median b6_loss −0.0009", "-0.0009", ALL.b6_loss.median(), note="over tested pairs (naive, FVB and matched estimates)")
+claim("E1", g, "main", "median bias_matched −0.0001", "-0.0001", dm.bias_matched.median(), note=f"{len(dm):,} gene × tissue pairs with a matched estimate"); claim("E2", g, "main", "and b6_loss −0.0009", "-0.0009", ALL.b6_loss.median(), note="over tested pairs (naive, FVB and matched estimates)")
 qm = dm[dm.bias_matched >= 0.5].groupby("gene_id").size(); catm = {x for x, k in qm.items() if k >= 2 and x in FVBGTF}
 claim("E3", g, "main", "Applying the fixed catalog criterion to bias_matched alone yields 84 genes", "84", len(catm), "int")
 claim("E4", g, "main", "84 genes, 57 of which are in the primary catalog", "57", len(catm & CAT), "int")
-claim("E5", g, "main", "which includes 27 genes that do not reach it", "27", len(catm - CAT), "int")
+claim("E5", g, "main", "The other 27 of the 84 do not reach the primary criterion", "27", len(catm - CAT), "int")
 both = sorted(catm & CAT); oth = sorted(CAT - catm)
-claim("E6", g, "main", "In the other 81 catalog genes", "81", len(oth), "int")
+claim("E6", g, "main", "In the remaining 81 catalog genes", "81", len(oth), "int")
 pgd = pd.DataFrame({"bm": dm.groupby("gene_id").bias_matched.mean(), "bl": dm.dropna(subset=["b6_loss"]).groupby("gene_id").b6_loss.mean()})
 mbias_all = per_gene.bias.mean()
 pgd["mean_bias"] = mbias_all.reindex(pgd.index); pgd["share"] = pgd.bl / pgd.mean_bias
 claim("E7", g, "main", "b6_loss exceeds bias_matched in 54 of the 81", "54", int((pgd.loc[oth, "bl"] > pgd.loc[oth, "bm"]).sum()), "int")
-claim("E8", g, "main", "the median share of the bias due to C57BL/6J-read loss is 0.61", "0.61", pgd.loc[oth, "share"].median(), note="share = b6_loss_mean / mean_bias")
+claim("E8", g, "main", "median share of the bias due to C57BL/6J-read loss 0.61", "0.61", pgd.loc[oth, "share"].median(), note="share = b6_loss_mean / mean_bias")
 claim("E9", g, "main", "against 0.42 in the 57 genes", "0.42", pgd.loc[both, "share"].median()); claim("E10", g, "main", "and 0.50 over the whole catalog", "0.50", pgd.loc[cat, "share"].median())
 nd5 = [B[t].loc[gid("Ndufs5")] for t in TISSUES]
-claim("E11a", g, "main", "(bias_matched +1.47 to +4.61 log₂; b6_loss +1.85 to +5.63)", "+1.47", min(x.bias_matched for x in nd5)); claim("E11b", g, "main", "(bias_matched +1.47 to +4.61 log₂", "+4.61", max(x.bias_matched for x in nd5))
+claim("E11a", g, "main", "of this change, 1.47–4.61 log₂ units are FVB/NJ reads recovered", "1.47", min(x.bias_matched for x in nd5)); claim("E11b", g, "main", "of this change, 1.47–4.61 log₂ units are FVB/NJ reads recovered", "4.61", max(x.bias_matched for x in nd5))
 claim("E11c", g, "main", "b6_loss +1.85 to +5.63", "+1.85", min(x.b6_loss for x in nd5)); claim("E11d", g, "main", "b6_loss +1.85 to +5.63", "+5.63", max(x.b6_loss for x in nd5))
-claim("E11e", g, "main", "Ndufs5 meets the criterion under both definitions in all four tissues", "4", sum(x.bias_matched >= 0.5 for x in nd5), "int")
+claim("E11e", g, "main", "it meets the catalog criterion under both definitions of the bias", "4", sum(x.bias_matched >= 0.5 for x in nd5), "int")
 rp = {t: B[t].loc[gid("Rps2")] for t in TISSUES}
-for t, txt in zip(["adipose", "hypothalamus", "liver"], ["+0.73", "+1.06", "+0.86"]): claim(f"E12_{t}", g, "main", "(+0.73, +1.06, +0.86)", txt, rp[t].bias_matched)
-claim("E12s", g, "main", "where bias_matched is −0.02 and the whole +5.36", "-0.02", rp["skin"].bias_matched)
-claim("E13", g, "main", "C57BL/6J-read loss (+5.38)", "+5.38", rp["skin"].b6_loss)
+for t, txt in zip(["adipose", "hypothalamus", "liver"], ["+0.73", "+1.06", "+0.86"]): claim(f"E12_{t}", g, "main", "bias_matched +0.73, +1.06 and +0.86 log₂", txt, rp[t].bias_matched)
+claim("E12s", g, "main", "in skin bias_matched is −0.02 log₂", "-0.02", rp["skin"].bias_matched)
+claim("E13", g, "main", "(b6_loss +5.38)", "+5.38", rp["skin"].b6_loss)
 claim("E13f", g, "main", "(bias_matched +0.73 to +1.06 log₂)", "+0.73", min(rp[t].bias_matched for t in TISSUES[:3]))
 # Gm26740: bias_matched_mean + b6_loss_mean vs mean_bias
 gm = gid("Gm26740"); tp = [t for t in TISSUES if gm in B[t].index]; tm = sorted(dm[dm.gene_id == gm].tissue)
@@ -329,11 +331,11 @@ claim("F1a", g, "main", "(log₂FC −0.92 to −5.06)", "-0.92", max(x.lfc_naiv
 claim("F2a", g, "main", "the contrast became +1.58 to +5.18", "+1.58", min(x.lfc_fvb for x in nl)); claim("F2b", g, "main", "the contrast became +1.58 to +5.18", "+5.18", max(x.lfc_fvb for x in nl))
 claim("F3a", g, "main", "(bias_wasp +1.55 to +5.52)", "+1.55", min(x.bias_wasp for x in nl)); claim("F3b", g, "main", "(bias_wasp +1.55 to +5.52)", "+5.52", max(x.bias_wasp for x in nl))
 claim("F3c", g, "main", "(bias +3.32 to +10.24 log₂; mean +5.63)", "+3.32", min(x.bias for x in nl))
-claim("F4", g, "main", "(log₂FC −5.89); the FVB arm reported log₂FC −0.53", "-5.89", rp["skin"].lfc_naive); claim("F5", g, "main", "the FVB arm reported log₂FC −0.53", "-0.53", rp["skin"].lfc_fvb)
+claim("F4", g, "main", "(log₂FC −5.89) and the FVB arm reported log₂FC −0.53", "-5.89", rp["skin"].lfc_naive); claim("F5", g, "main", "the FVB arm reported log₂FC −0.53", "-0.53", rp["skin"].lfc_fvb)
 claim("F6", g, "main", "at about 1/59 of the C57BL/6J level", "59", 2 ** -rp["skin"].lfc_naive, "num")
 claim("F6b", g, "main", "(bias +5.36 log₂)", "+5.36", rp["skin"].bias)
 for t, txt in zip(TISSUES, ["+1.12", "+1.36", "+1.14"]):
-    claim(f"F7_{t}", g, "main", "(bias adipose +1.12, hypothalamus +1.36, liver +1.14, log₂", txt, rp[t].bias)
+    claim(f"F7_{t}", g, "main", "(bias +1.12, +1.36 and +1.14 log₂", txt, rp[t].bias)
 # per-animal CPM, Rps2 skin; normalisation: every arm divided by the naive-arm unique-only library size of the same animal
 def cmat(t, arm, cnt): return pd.read_csv(f"{RES}/counts/{t}.{arm}.{cnt}.tsv", sep="\t").set_index("gene_id")
 smp = pd.read_csv(f"{RES}/counts/skin.samples.tsv", sep="\t").set_index("sample_id")
@@ -359,11 +361,12 @@ for gn, row in tabtxt.items():
     vals = row.split(); keys = [(gn, a, c, s) for a in ("naive", "fvb") for s in ("FVB", "B6") for c in ("unique", "multi")]
     for k, tv in zip(keys, vals):
         claim(f"F10_{gn}_{k[1]}_{k[2]}_{k[3]}", g, "af1", f"{gn} {row}", tv, CPM[k])
-claim("F11a", g, "main", "(fractional counts 49.4 and 44.4 counts per million in FVB/NJ skin against 13.0 at Rps2)", "49.4", CPM[("Rps2-ps10", "naive", "multi", "FVB")])
-claim("F11b", g, "main", "(fractional counts 49.4 and 44.4", "44.4", CPM[("Rps2-ps13", "naive", "multi", "FVB")]); claim("F11c", g, "main", "against 13.0 at Rps2", "13.0", CPM[("Rps2", "naive", "multi", "FVB")])
-for gn, txt in (("Rps2", "41.8"), ("Rps2-ps10", "37.8"), ("Rps2-ps13", "32.6")): claim(f"F12_{gn}", g, "main", "(41.8, 37.8 and 32.6)", txt, CPM[(gn, "fvb", "multi", "FVB")])
+# claim("F11a", g, "main", "(fractional counts 49.4 and 44.4 counts per million in FVB/NJ skin against 13.0 at Rps2)", "49.4", CPM[("Rps2-ps10", "naive", "multi", "FVB")])   # retired in Phase T (sentence deleted)
+# claim("F11b", g, "main", "(fractional counts 49.4 and 44.4", "44.4", CPM[("Rps2-ps13", "naive", "multi", "FVB")]); claim("F11c", g, "main", "against 13.0 at Rps2", "13.0", CPM[("Rps2", "naive", "multi", "FVB")])   # retired in Phase T (sentence deleted)
+# for gn, txt in (("Rps2", "41.8"), ("Rps2-ps10", "37.8"), ("Rps2-ps13", "32.6")): claim(f"F12_{gn}", g, "main", "(41.8, 37.8 and 32.6)", txt, CPM[(gn, "fvb", "multi", "FVB")])   # retired in Phase T (sentence deleted)
 def shift(arm): return math.log2(CPM[("Rps2", arm, "multi", "FVB")] / CPM[("Rps2", arm, "multi", "B6")]) - math.log2(CPM[("Rps2", arm, "unique", "FVB")] / CPM[("Rps2", arm, "unique", "B6")])
-claim("F13a", g, "main", "(by 1.66 and 1.54 log₂ units)", "1.66", shift("naive")); claim("F13b", g, "main", "(by 1.66 and 1.54 log₂ units)", "1.54", shift("fvb"), note="instruction listed 1.53; the text prints 1.54")
+# Phase T: F13a/b, F22, F23, F24/F24n — the sentences were removed from the Results Rps2 paragraph and remain in Supplementary Note 2
+claim("F13a", g, "af1", "(by 1.66 and 1.54 log₂ units)", "1.66", shift("naive")); claim("F13b", g, "af1", "(by 1.66 and 1.54 log₂ units)", "1.54", shift("fvb"), note="instruction listed 1.53; the text prints 1.54")
 claim("F13c", g, "af1", "(by 1.66 and 1.54 log₂ units)", "1.54", shift("fvb"))
 # Rps2 variants from the VCF / GTF
 rg = G.loc[r2]
@@ -386,10 +389,10 @@ ux = pd.read_csv(f"{RES}/worked_examples/rps2_exonic_variants_union.tsv", sep="\
 my_snp = set(int(b) for a, b in zip(rs[1], rs[2]) if inex(a, b)); my_ind = set(int(a) + 1 for a, b in zip(exi.s0, exi.e))
 claim("F17x", g, "af1", "", "same sets", "same sets" if (set(ux[ux.type == "SNP"].pos) == my_snp and set(ux[ux.type != "SNP"].pos) == my_ind) else "DIFFER", "eq", note="exonic SNP/indel positions recomputed here (VCF + GTF union) = positions in rps2_exonic_variants_union.tsv")
 claim("F21", g, "main", "carry the FVB/NJ allele at all five exonic SNP positions", "5", int(((ux.type == "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int", note="union SNPs inside the copied part; each of them is in rps2_pseudogene_alleles.tsv with the same call: " + str(all(len(sn[(sn.pseudogene == "Rps2-ps10") & (sn.variant == f"SNP 17:{p} {r_}>{a_}") & (sn.allele_carried != "not in pseudogene")]) == 1 for p, r_, a_ in zip(ux.pos[(ux.type=="SNP")&(ux.in_copied_part_any=="Y")], ux.ref[(ux.type=="SNP")&(ux.in_copied_part_any=="Y")], ux.alt[(ux.type=="SNP")&(ux.in_copied_part_any=="Y")]))))
-for p_, txt in (("Rps2-ps10", "5"), ("Rps2-ps13", "5"), ("Rps2-ps6", "3")): claim(f"F22_{p_}", g, "main", "(Rps2-ps6 at three;", txt, int((sn[sn.pseudogene == p_].allele_carried == "FVB/NJ").sum()), "int")
-claim("F23", g, "main", "the other eleven exonic SNPs", "11", len(my_snp) - int(((ux.type == "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int")
-claim("F24", g, "main", "The five exonic indels of the FVB/NJ allele all lie outside that part", "0", int(((ux.type != "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int")
-claim("F24n", g, "main", "The five exonic indels of the FVB/NJ allele", "5", len(my_ind), "int")
+for p_, txt in (("Rps2-ps10", "5"), ("Rps2-ps13", "5"), ("Rps2-ps6", "3")): claim(f"F22_{p_}", g, "af1", "(Rps2-ps6 at three;", txt, int((sn[sn.pseudogene == p_].allele_carried == "FVB/NJ").sum()), "int")
+claim("F23", g, "af1", "the other eleven exonic SNPs", "11", len(my_snp) - int(((ux.type == "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int")
+claim("F24", g, "af1", "The five exonic indels of the FVB/NJ allele all lie outside that part", "0", int(((ux.type != "SNP") & (ux.in_copied_part_any == "Y")).sum()), "int")
+claim("F24n", g, "af1", "The five exonic indels of the FVB/NJ allele", "5", len(my_ind), "int")
 
 # ---------------------------------------------------------------- F1 ASE ------------------------------------------------------------
 g = "G F1 allele-specific expression"
@@ -558,7 +561,7 @@ for t in TISSUES:
     a, b = WS[(t, "naive")], WS[(t, "fvb")]; com = a.index.intersection(b.index); d_ = b.logFC[com] - a.logFC[com]
     rr.append(stats.pearsonr(a.logFC[com], b.logFC[com]).statistic); f05.append(100 * (d_.abs() >= 0.5).mean()); cmd.append(d_[[x for x in com if x in CAT]].abs().median())
 claim("J5a", g, "main", "(Pearson r = 0.991–0.997;", "0.991", min(rr)); claim("J5b", g, "main", "(Pearson r = 0.991–0.997;", "0.997", max(rr))
-claim("J5c", g, "main", "nearly identical gene by gene (Pearson r ≥ 0.99)", "0.99", min(rr), "ge")
+# claim("J5c", g, "main", "nearly identical gene by gene (Pearson r ≥ 0.99)", "0.99", min(rr), "ge")   # retired in Phase T (sentence deleted)
 claim("J6a", g, "main", "0.09–0.38% of genes differed by ≥ 0.5 log₂", "0.09", min(f05)); claim("J6b", g, "main", "0.09–0.38% of genes differed", "0.38", max(f05))
 claim("J7a", g, "main", "(median |Δ log₂FC| 0.02–0.08)", "0.02", min(cmd)); claim("J7b", g, "main", "(median |Δ log₂FC| 0.02–0.08)", "0.08", max(cmd))
 
@@ -668,8 +671,8 @@ claim("Q2d", g, "main", "at 57 of them a demonstrable underestimation of FVB/NJ 
 claim("Q2e", g, "cover", "demonstrably recovers FVB/NJ reads at 57 of the 138 catalog genes", "57", len(catm & CAT), "int")
 claim("Q2f", g, "cover", "mean FVB allele fraction 0.480 rather than 0.333", "0.480", an.mean()); claim("Q2g", g, "cover", "(0.512 rather than 0.386)", "0.512", aw.mean())
 claim("Q2h", g, "cover", "(0.512 rather than 0.386)", "0.386", v1w, note="submitted-version value quoted")
-claim("Q3a", g, "main", "(598 under the naive arm and 539 under the FVB/NJ reference in skin)", "598", de[("skin", "naive")], "int"); claim("Q3b", g, "main", "(598 under the naive arm and 539 under the FVB/NJ reference in skin)", "539", de[("skin", "fvb")], "int")
-claim("Q4", g, "main", "all 140 FVB RNA-seq studies that reported a reference used a B6 assembly", "140", vc.get("stated_B6", 0), "int")
+# claim("Q3a", g, "main", "(598 under the naive arm and 539 under the FVB/NJ reference in skin)", "598", de[("skin", "naive")], "int"); claim("Q3b", g, "main", "(598 under the naive arm and 539 under the FVB/NJ reference in skin)", "539", de[("skin", "fvb")], "int")   # retired in Phase T (sentence deleted)
+# claim("Q4", g, "main", "all 140 FVB RNA-seq studies that reported a reference used a B6 assembly", "140", vc.get("stated_B6", 0), "int")   # retired in Phase T (sentence deleted)
 out = pd.DataFrame(ROWS); out.to_csv(f"{P}/revision_v2/freeze/recompute_report.tsv", sep="\t", index=False)
 print(out.status.value_counts().to_string()); print(out.groupby(["group", "status"]).size().unstack(fill_value=0).to_string())
 print(out[out.status != "PASS"][["claim_id", "location", "text_value", "exact", "at_text_precision", "status", "note"]].to_string(max_colwidth=140))

@@ -149,4 +149,12 @@ if os.path.exists(f"{F}/before_hashes_S5.tsv"):
           "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
     L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b6.itertuples()]
     L += [""]
+if os.path.exists(f"{F}/before_hashes_T.tsv"):
+    b7 = pd.read_csv(f"{F}/before_hashes_T.tsv", sep="\t", dtype=str, keep_default_na=False)
+    b7 = b7[[r.change != "rebuilt deliverable" or r.before != sha(r.file) for r in b7.itertuples()]]
+    L += ["## Phase T (2026-10-24): dataset source citations, shortened Results/Discussion, citation order, Unicode minus signs — authorised exceptions", "",
+          "Text, references and letters only; numbers.tsv, the xlsx and every figure unchanged. Six references added (dataset sources; PMIDs checked against !Series_pubmed_id), references renumbered by first citation; Results and Discussion shortened with the authors\' final wording; Methods figure citations that broke the LAR citation order removed; U+2212 option dashes in Additional file 1 made ASCII. M-2: 17 claims retired with their sentences, 8 moved to Additional file 1, 24 needles updated. Only deliverables whose bytes changed are listed.", "",
+          "| id | change | file | sha256 before | sha256 after |", "|---|---|---|---|---|"]
+    L += [f"| {r.id} | {r.change} | `{r.file}` | `{r.before[:16]}…` | `{sha(r.file)[:16]}…` |" for r in b7.itertuples()]
+    L += [""]
 open(f"{F}/FREEZE.md", "w").write("\n".join(L)); print("\n".join(L[:12]))

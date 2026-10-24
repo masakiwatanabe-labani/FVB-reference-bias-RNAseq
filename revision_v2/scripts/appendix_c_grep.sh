@@ -18,9 +18,9 @@ GENES_CONDITIONAL=("Rsph3a" "Fau" "Pgam1" "Gm25939" "Atp5g2" "Mir6236" "Gm8909" 
 CAT=analysis_v2/results/catalog/catalog.primary.tsv
 rc=0; nex=0
 # ACCEPTED (user decisions 2026-10-20 ①②): lines matching these contexts are new values / true GEO attributes, not v1 residues.
-#  "+1.14" = Rps2 liver bias (numbers.tsv ex_extreme_liver_bias 1.1449); "0.005" = liver WASP − naive mean log2FC (0.00495);
+#  "+1.14" = Rps2 liver bias (numbers.tsv ex_extreme_liver_bias 1.1449; Phase T wording "+1.36 and +1.14 log₂" is the same value); "0.005" = liver WASP − naive mean log2FC (0.00495);
 #  "heart" = GEO tissue attribute of the rejected GSE55792/GSE55788 samples (prose unified to "heart", same as the tables).
-ACCEPTED_RE='liver \+1\.14,|liver: \+0\.005;|\+0\.005 in liver|GSE55792|GSE55788'
+ACCEPTED_RE='liver \+1\.14,|\+1\.36 and \+1\.14 log₂|liver: \+0\.005;|\+0\.005 in liver|GSE55792|GSE55788'
 hit(){ # $1 pattern, $2 file list, $3 mode (FAIL|EXEMPT)
   local p="$1" files="$2" mode="$3" out
   out=$(grep -n -F -w -- "$p" $files 2>/dev/null | grep -Ev -- "$ACCEPTED_RE" | cut -c1-160)

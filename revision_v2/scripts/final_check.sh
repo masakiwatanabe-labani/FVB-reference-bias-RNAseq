@@ -20,15 +20,17 @@ echo; echo "## 2. Manifest-driven generation (rule 0.4-1): re-render and diff"
 python3 -I $S/render_methods_datasets.py > /dev/null 2>&1 && ok "render_methods_datasets.py ran" || bad "render_methods_datasets.py failed"
 python3 -I $S/make_table1.py > /dev/null 2>&1 && ok "make_table1.py ran" || bad "make_table1.py failed"
 diff -q $M/generated/table1.md $M/table1.md > /dev/null && ok "table1.md == generated/table1.md" || bad "table1.md differs from generated/table1.md"
-python3 - <<'EOF' && ok "Methods 'RNA-seq datasets' block == generated/methods_datasets.md (BEGIN/END markers)" || bad "Methods datasets block differs from generated/methods_datasets.md"
+python3 - <<'EOF' && ok "Methods 'RNA-seq datasets' block == generated/methods_datasets.md (BEGIN/END markers; [CITE] keys numbered)" || bad "Methods datasets block differs from generated/methods_datasets.md"
 m=open("manuscript/revised_v2/methods.md").read(); g=open("manuscript/revised_v2/generated/methods_datasets.md").read().strip()
 i=m.find("<!-- BEGIN generated/methods_datasets.md"); j=m.find("<!-- END generated/methods_datasets.md")
-blk=m[m.find("\n",i)+1:j].strip(); raise SystemExit(0 if blk==g else 1)
+blk=m[m.find("\n",i)+1:j].strip()
+import re; nc=lambda x: re.sub(r" \[(?:CITE [^\]]+|\d+(?:[,–]\d+)*)\]","",x)   # Phase T: [CITE key] in the generated block is numbered in methods.md
+raise SystemExit(0 if nc(blk)==nc(g) and len(re.findall(r" \[\d+(?:[,–]\d+)*\]",blk))==g.count(" [CITE ") else 1)
 EOF
 cp -r $M/supplementary_tables /tmp/claude_supp_before && python3 -I $S/build_supplementary_tables.py > /dev/null 2>&1 && diff -rq /tmp/claude_supp_before $M/supplementary_tables > /dev/null && ok "supplementary tables rebuild byte-identical ($(ls $M/supplementary_tables/*.tsv | wc -l) sheets)" || bad "supplementary tables changed on rebuild"; rm -rf /tmp/claude_supp_before
 python3 -I $S/results_numbers.py > /dev/null 2>&1 && ok "results_numbers.py ran: $(($(wc -l < $M/generated/numbers.tsv)-1)) numbers with evidence paths" || bad "results_numbers.py failed"
 echo; echo "## 3. Manuscript checks"
-bash $S/combine_manuscript.sh > /tmp/claude_comb.log 2>&1; grep -q "none — all figures and panels first appear in numerical order" /tmp/claude_comb.log && ok "figure citation order (incl. Supplementary Fig. S3): all figures and panels in numerical order (check_figure_order.py --legend-check)" || bad "figure citation order violations (see /tmp/claude_comb.log)"
+bash $S/combine_manuscript.sh > /tmp/claude_comb.log 2>&1; grep -q "none — all figures and panels first appear in numerical order" /tmp/claude_comb.log && ok "figure citation order in LAR section order (Abstract, Background, Methods, Results, Discussion; incl. Supplementary Figs.): all figures and panels in numerical order (check_figure_order.py --legend-check --section-order)" || bad "figure citation order violations (see /tmp/claude_comb.log)"
 grep -q "Appendix C grep: .* PASS" /tmp/claude_comb.log && ok "Appendix C grep (incl. the H-1d additions 0.333, 0.386, 17 percentage, 274, 872): PASS" || { echo "- [ ] **Appendix C grep: FAILED** — hits:"; grep -A2 "^FORBIDDEN" /tmp/claude_comb.log | sed 's/^/      /' | cut -c1-200; FAIL=$((FAIL+1)); }
 grep "^EXEMPT" /tmp/claude_comb.log | sed 's/^/- (exempt, data tables) /'
 n=$(grep -c '\[CITE' $M/abstract_structured.md $M/introduction.md $M/methods.md $M/results.md $M/discussion.md $M/figure_legends.md $M/table1.md $M/supplementary_table_captions.md $M/supplementary_note1.md $M/supplementary_note2.md | awk -F: '{s+=$2} END{print s}')
@@ -108,7 +110,7 @@ EOF
 n_i=$(cat $M/methods.md $M/results.md $M/discussion.md $M/supplementary_note2.md | grep -o "multi-mappers on both references" | wc -l); grep -q "expected to be heterozygous" $M/methods.md && grep -q "Mechanism 1\\." $M/supplementary_note2.md && grep -q "defined operationally by |Δ|" $M/methods.md && [ "$n_i" -ge 6 ] && ok "Phase I/K-1′ wording present: read fate 'multi-mappers on both references' ($n_i places), classes defined operationally by |Δ| (Methods, Note 2), 'expected to be heterozygous' (Methods), 'Mechanism 1./2.' labels (Note 2)" || bad "Phase I/K-1′ wording missing (places=$n_i)"
 L=revision_v2/submission; nb=$(grep -c "shared between Rps2\|absent from both the multi-mapper pool\|fail to align or are assigned to another locus under both references\|clear direct-misalignment pattern" $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$nb" -eq 0 ] && ok "K-1′ withdrawn read-fate phrases: 0 hits in main text, Additional file 1 and both letters" || bad "K-1′ withdrawn phrases: $nb hits"
 nr=$(cat $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | tr "\n" " " | sed "s/\. /.\n/g" | grep -E "recovers no|recovers none|not recover|not recovery of FVB/NJ reads|rather than recovery of FVB/NJ reads|not recovered by the SNP-only|are recovered, so" | grep -E "Rps2|skin|SNP-only|SNP-patched" | grep -vc "unique-only counting"); [ "$nr" -eq 0 ] && ok "every Rps2-skin recovery statement carries 'under unique-only counting'" || bad "$nr Rps2-skin recovery statements without the qualifier"
-nl=$(grep -c "indel set\|first place such a comparison\|limit of a SNP-only\|SNP-only personalised reference is not sufficient\|SNP-only reference is not sufficient\|indels of the FVB/NJ allele are not in the reference" $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); nt=$(cat $P $L/LAR_additional_file_1.plain.txt | grep -o "The pseudogenes explain the tie" | wc -l); [ "$nl" -eq 0 ] && [ "$nt" -eq 2 ] && ok "Phase L-1 greps: 0 hits for the six withdrawn indel/SNP-only phrases; pseudogene-allele explanation present in Results and Note 2" || bad "Phase L-1: withdrawn-phrase hits=$nl, tie explanation=$nt"
+nl=$(grep -c "indel set\|first place such a comparison\|limit of a SNP-only\|SNP-only personalised reference is not sufficient\|SNP-only reference is not sufficient\|indels of the FVB/NJ allele are not in the reference" $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); nt=$(grep -o "The pseudogenes explain the tie" $L/LAR_additional_file_1.plain.txt | wc -l); ntr=$(grep -o "which carry the FVB/NJ allele at all five exonic SNP positions" $P | wc -l); [ "$nl" -eq 0 ] && [ "$nt" -eq 1 ] && [ "$ntr" -eq 1 ] && ok "Phase L-1 greps: 0 hits for the six withdrawn indel/SNP-only phrases; pseudogene-allele explanation present in Results ('which carry the FVB/NJ allele at all five exonic SNP positions'; rule reworded in Phase T) and Note 2 ('The pseudogenes explain the tie')" || bad "Phase L-1: withdrawn-phrase hits=$nl, tie explanation=$nt"
 nd=$(awk -F'\t' 'NR>1 && ($1 ~ /^rps2_skin_|^rps2_pseudogenes_skin_|^rps2mm_|^rps2_family/) && $3 !~ /worked_examples\/rps2_multimap_cpm.tsv/' $M/generated/numbers.tsv | wc -l); [ "$nd" -eq 0 ] && ok "all Rps2/pseudogene CPM keys in numbers.tsv use the single definition (evidence rps2_multimap_cpm.tsv)" || bad "$nd Rps2/pseudogene CPM keys with another evidence source"
 n_ban=$(grep -c "WASP improved\|partially corrected\|did not normalize\|five pure-strain\|five datasets\|30 of the 32\|pvt_discordant\|FVB-enriched F3" $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$n_ban" -eq 0 ] && ok "J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps" || bad "J-0 ban list: $n_ban hits in the docx dumps"
 nq=$(cat $P $SUB/LAR_additional_file_1.plain.txt | tr "\n" " " | sed "s/\. /.\n/g" | grep "largest single-tissue bias" | grep -vc "class"); [ "$nq" -eq 0 ] && ok "every 'largest single-tissue bias' carries the class qualifier ($(grep -o "largest single-tissue bias" $P $SUB/LAR_additional_file_1.plain.txt | wc -l) occurrences)" || bad "$nq 'largest single-tissue bias' without class qualifier"
@@ -128,10 +130,12 @@ bad=[x[:60] for x in q if norm(x) not in main]
 print(f"{len(q)} quotes, {len(bad)} not found" + ("" if not bad else ": "+" | ".join(bad))); sys.exit(1 if bad or not q else 0)
 PYEOF
 # Phase S-1 (permanent): command text in the BUILT docx text keeps ASCII (pandoc smart turns "--" into an en dash and straight quotes
-# into curly ones): no en dash starting an option, no curly quote right after '=' or inside a samtools -e expression
-python3 - <<'PYEOF' > /tmp/claude_ascii.txt && ok "ASCII command text in every built docx (no '–option', no curly quote after '=' or in 'samtools view -e'): $(cat /tmp/claude_ascii.txt)" || bad "command text mangled in the built docx: $(cat /tmp/claude_ascii.txt)"
+# into curly ones): no en dash starting an option, no curly quote right after '=' or inside a samtools -e expression. Phase T-4: any of
+# U+2010–U+2015 or U+2212 (one or two of them, e.g. "−M", "−−fraction") right after start of line, space, "(", "/", "," or ";" and
+# before a letter counts as a mangled option
+python3 - <<'PYEOF' > /tmp/claude_ascii.txt && ok "ASCII command text in every built docx (no U+2010–2015/U+2212 option dash, no curly quote after '=' or in 'samtools view -e'): $(cat /tmp/claude_ascii.txt)" || bad "command text mangled in the built docx: $(cat /tmp/claude_ascii.txt)"
 import re, sys
-S="/usr/local/jupyter/FVB_bias/revision_v2/submission"; R=[re.compile(r"(^|[\s(/])–[A-Za-z]", re.M), re.compile(r"=[“”‘’]"), re.compile(r"samtools view -e [^\n]*?[“”‘’]")]
+S="/usr/local/jupyter/FVB_bias/revision_v2/submission"; R=[re.compile(r"(^|[\s(/,;])[\u2010-\u2015\u2212]{1,2}[A-Za-z]", re.M), re.compile(r"=[“”‘’]"), re.compile(r"samtools view -e [^\n]*?[“”‘’]")]
 out=[]; tot=0
 for f in ("LAR_main_text_v2","LAR_main_text_v2_marked","LAR_additional_file_1","response_to_reviewers_v2","cover_letter_v2"):
     t=open(f"{S}/{f}.plain.txt",encoding="utf-8").read(); h=[m.group(0) for r in R for m in r.finditer(t)]; tot+=len(h)
@@ -200,6 +204,27 @@ print(f"page {pages[-1]} of {n} ({'landscape' if size and float(size.group(1))>f
 sys.exit(1 if bad or not rows else 0)
 PYEOF
 code=$(python3 -c "import urllib.request; print(urllib.request.urlopen(urllib.request.Request('https://ftp.ensembl.org/pub/release-115/gtf/mus_musculus_fvbnj/',headers={'User-Agent':'Mozilla/5.0'}),timeout=60).status)" 2>/dev/null); [ "$code" = "200" ] && ok "reference 'Ensembl FVB 2025' URL resolves (HTTP 200; Ensembl release 115 FVB_NJ_v3 GTF directory); DOIs: revision_v2/audit/doi_check*.txt" || bad "Ensembl annotation URL not reachable (HTTP $code)"
+# Phase T: every reanalysed dataset (and GSE55788 of Supplementary Fig. S1) carries a citation of its source at its first mention in
+# Methods, RNA-seq datasets; the cited PMIDs equal !Series_pubmed_id (checked online); the GEO dataset reference URL resolves
+python3 - <<'PYEOF' > /tmp/claude_dscite.txt && ok "dataset source citations: $(cat /tmp/claude_dscite.txt)" || bad "dataset source citations: $(cat /tmp/claude_dscite.txt)"
+import re, sys, json, urllib.request
+P="/usr/local/jupyter/FVB_bias"; M=f"{P}/manuscript/revised_v2"
+m=open(f"{M}/methods.md",encoding="utf-8").read(); blk=m[m.find("<!-- BEGIN generated/methods_datasets.md"):m.find("<!-- END generated/methods_datasets.md")]
+refs={int(n):t for n,t in re.findall(r"^(\d+)\. (.*)$", open(f"{M}/references.md",encoding="utf-8").read(), re.M)}
+# accession at its first mention -> (DOI or URL fragment in the cited reference, PMID from GEO or None)
+EXP={"GSE123896":("10.1016/j.bbadis.2019.165569","31669422"),"GSE86315":("10.1186/s13073-017-0415-3","28279190"),"GSE175625":("10.1210/endocr/bqad007","36683225"),
+     "GSE293440":("acc=GSE293440",None),"GSE200632":("10.1093/carcin/bgac083","36306264"),"GSE55788":("10.1161/CIRCRESAHA.114.303786","24763458")}
+bad=[]
+def geo(g): return urllib.request.urlopen(urllib.request.Request(f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={g}&targ=self&form=text&view=brief",headers={"User-Agent":"Mozilla/5.0"}),timeout=60).read().decode()
+for g,(frag,pmid) in EXP.items():
+    c=re.search(re.escape(g)+r" \[(\d+)\]", blk)
+    if not c or blk.find(g)!=c.start() or frag not in refs.get(int(c.group(1)),""): bad.append(f"{g}: not cited at first mention"); continue
+    ids=re.findall(r"^!Series_pubmed_id = (\d+)", geo(g), re.M)
+    if (pmid is None and ids) or (pmid is not None and pmid not in ids): bad.append(f"{g}: !Series_pubmed_id {ids} != {pmid}")
+code=urllib.request.urlopen(urllib.request.Request("https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE293440",headers={"User-Agent":"Mozilla/5.0"}),timeout=60).status
+print(f"{len(EXP)-len(bad)}/{len(EXP)} datasets cited at first mention with PMID = !Series_pubmed_id (GSE293440: no PMID, GEO record cited; URL HTTP {code})" + ("; "+"; ".join(bad) if bad else ""))
+sys.exit(0 if not bad and code==200 else 1)
+PYEOF
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"
 ok "0.4-2 no SRR block selection: scheduler.sh sel() and merge_counts.py select by manifest attributes (role, include, tissue, strain, design)"

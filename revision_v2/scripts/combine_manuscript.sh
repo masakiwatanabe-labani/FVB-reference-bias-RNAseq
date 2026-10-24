@@ -10,5 +10,7 @@ PROJ=/usr/local/jupyter/FVB_bias; M=$PROJ/manuscript/revised_v2; cd $M
   done
 } > manuscript_combined.md
 echo "combined: $(wc -l < manuscript_combined.md) lines, $(wc -w < manuscript_combined.md) words"
-echo "== figure citation order (main text)"; python3 $PROJ/revision/scripts/check_figure_order.py manuscript_combined.md --legend-check
+# Phase T: the combined file keeps the v1 section order (Methods after Discussion); the citation order is checked in the order of the
+# LAR article (Background → Methods → Results → Discussion, as assembled by assemble_lar.py)
+echo "== figure citation order (main text, LAR section order)"; python3 $PROJ/revision/scripts/check_figure_order.py manuscript_combined.md --legend-check --section-order "Abstract,Background,Methods,Results,Discussion"
 echo "== Appendix C grep"; bash $PROJ/revision_v2/scripts/appendix_c_grep.sh
