@@ -1,4 +1,4 @@
-# Phase J — final check (2026-10-23 22:02 JST)
+# Phase J — final check (2026-10-24 11:32 JST)
 
 ## 1. Integrity of results and figures
 - [x] analysis_v2/results: all 245 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
@@ -54,7 +54,7 @@
 - [x] response letter: every quoted passage of the revised text occurs verbatim in the main text (12 quotes, 0 not found)
 - [x] ASCII command text in every built docx (no '–option', no curly quote after '=' or in 'samtools view -e'): LAR_main_text_v2 0; LAR_main_text_v2_marked 0; LAR_additional_file_1 0; response_to_reviewers_v2 0; cover_letter_v2 0
 - [x] survey release (survey_release/ → survey/): 154 series, 140/14/0 stated_B6/not_reported/strain_aware, table = Supplementary Table S5: True, local paths/e-mail/API keys in script: 0
-- [x] repository README/CITATION: v1 strings 0; README accessions 8 = Table 1 accessions 8: True; committed copies on v2-corrected match: True
+- [x] repository README/CITATION: v1 strings 0; README accessions 8 = Table 1 accessions 8: True; CITATION e-mail addresses 0, preferred-citation status submitted: True; committed copies on v2-corrected match: True
 - [x] identity_check release: 20351 sites = subset VCF used: True; intervals identical: True; committed copies match: True
 - [x] github_repo working tree clean (git status --porcelain: 0 lines)
 - [x] Table 1 survives PDF conversion (LibreOffice headless): page 34 of 34 (landscape); 7/7 data rows with every cell starting on the row's first line
@@ -96,7 +96,7 @@
 - [x] revision_v2/text_changes.md (7767 words)
 - [x] revision_v2/response_to_reviewers.md (4410 words)
 - [x] revision_v2/cover_letter.md (703 words)
-- [x] revision_v2/CHANGELOG.md (12459 words)
+- [x] revision_v2/CHANGELOG.md (12527 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.

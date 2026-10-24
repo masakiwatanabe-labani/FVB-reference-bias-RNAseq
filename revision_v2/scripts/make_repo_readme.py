@@ -3,7 +3,8 @@
 Numbers: «key|fmt» placeholders resolved from manuscript/revised_v2/generated/numbers.tsv (M-1 audits the output).
 Dataset table: the body of manuscript/revised_v2/generated/table1.md (make_table1.py, from the sample manifest), i.e. the same
 source as Table 1. Title: revision_v2/submission/title_page.md. Output: repo_release/README.md, repo_release/CITATION.cff
-(copied into github_repo by commit_phase_h.sh). Usage: make_repo_readme.py"""
+(copied into github_repo by commit_phase_h.sh). Usage: make_repo_readme.py
+Phase S5 (2026-10-24): CITATION.cff — preferred-citation status: submitted; author e-mail removed; date-released 2026-10-24."""
 import csv, re, os
 P = "/usr/local/jupyter/FVB_bias"; OUT = f"{P}/repo_release"; os.makedirs(OUT, exist_ok=True)
 N = {r["key"]: r["value"] for r in csv.DictReader(open(f"{P}/manuscript/revised_v2/generated/numbers.tsv"), delimiter="\t")}
@@ -127,12 +128,11 @@ abstract: >
 authors:
   - family-names: "Watanabe"
     given-names: "Masaki"
-    email: vm15139.jitudou@gmail.com
   - family-names: "Sasaki"
     given-names: "Nobuya"
 repository-code: "https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq"
 license: MIT
-date-released: "2026-10-23"
+date-released: "2026-10-24"
 keywords:
   - RNA-seq
   - reference bias
@@ -152,6 +152,7 @@ preferred-citation:
       given-names: "Nobuya"
   journal: "Laboratory Animal Research"
   year: 2026
+  status: submitted
 """
 open(f"{OUT}/CITATION.cff", "w", encoding="utf-8").write(cff)
 print("README.md", len(readme.split()), "words; CITATION.cff written")

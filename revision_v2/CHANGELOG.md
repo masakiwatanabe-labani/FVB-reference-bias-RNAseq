@@ -291,3 +291,6 @@ Observations to carry into Phase D (no wording written yet): (a) 16 catalog gene
 
 ### 2026-10-23 — PHASE S4: clean working tree, identity-check subset, wording
 - `revision_v2/backup_v1_worktree/` (outside the repository); `identity_check_release/` → `identity_check/` (commit_phase_h.sh); `make_repo_readme.py` references it; `build_phase_j.py` `S4_REPL`; `final_check.sh`: identity_check release check and clean working tree. M-2 399 PASS / 0 FAIL.
+
+### 2026-10-24 — PHASE S5: CITATION.cff only
+- `make_repo_readme.py` (generator; the file is not edited by hand): preferred-citation `status: submitted` (CFF 1.2.0 reference status; journal and year kept); author e-mail removed (authors' decision); `date-released: "2026-10-24"` (planned push date). README.md unchanged. `cffconvert 2.0.0 --validate`: "Citation metadata are valid according to schema version 1.2.0." `final_check.sh`: CITATION.cff has no e-mail address and carries `status: submitted`. Manuscript text, numbers and deliverables unchanged.

@@ -160,8 +160,10 @@ v1=re.findall(V1, rd+cf, re.I)
 acc_r=set(re.findall(r"GSE\d+", rd)); acc_t=set(re.findall(r"GSE\d+", open(f"{P}/manuscript/revised_v2/generated/table1.md").read()))
 def head(f): return subprocess.run(["git","-C",f"{P}/github_repo","show",f"v2-corrected:{f}"],capture_output=True,text=True).stdout
 committed = head("README.md")==rd and head("CITATION.cff")==cf
-print(f"v1 strings {len(v1)}; README accessions {len(acc_r)} = Table 1 accessions {len(acc_t)}: {acc_r==acc_t}; committed copies on v2-corrected match: {committed}")
-sys.exit(0 if not v1 and acc_r==acc_t else 1)
+# Phase S5: CITATION.cff without e-mail addresses; the article is cited with status: submitted
+mail=re.findall(r"[\w.+-]+@[\w-]+\.[\w.]+|^\s*email:", cf, re.M); status="\n  status: submitted\n" in cf.split("preferred-citation:")[-1]
+print(f"v1 strings {len(v1)}; README accessions {len(acc_r)} = Table 1 accessions {len(acc_t)}: {acc_r==acc_t}; CITATION e-mail addresses {len(mail)}, preferred-citation status submitted: {status}; committed copies on v2-corrected match: {committed}")
+sys.exit(0 if not v1 and acc_r==acc_t and not mail and status else 1)
 PYEOF
 # Phase S4: identity_check/ release = the subset actually used (sites = records of the subset VCF; intervals byte-identical);
 # committed copies on v2-corrected equal the release files
