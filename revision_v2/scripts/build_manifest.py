@@ -7,7 +7,8 @@ Selection rules are code, not hand edits:
                      design_main = all animals of the tissue (primary model, both diets/treatments); design_sensitivity =
                      control-diet/control-treatment animals only (control-only sensitivity model). Phase U-2 (2026-10-24): the two
                      flags were inverted relative to the Methods and to the models fitted (bias_analysis.py: "primary" on all 70
-                     animals, "water" on the 35 control animals); swapped here. include_reason texts are unchanged.
+                     animals, "water" on the 35 control animals); swapped here, and the include_reason texts of the
+                     water and fructose rows reworded to match (IMQ and control-cream texts were already correct).
   DBA/2J: excluded. GSE135230: excluded (single mixed background). GSE175625: candidate negative control
   (include = PENDING until the human decides, rule B-5). F1 (GSE200632, GSE293440): include = Y (reused).
 """
@@ -90,8 +91,8 @@ def decide(s):
     if s["role"]=="strain_comparison":
         if s["strain"]=="DBA/2J": return "N","strain DBA/2J: not part of the FVB/NJ vs C57BL/6J comparison","N","N"
         if s["strain"] not in ("FVB/NJ","C57BL/6J"): return "N",f"strain '{s['strain']}' not FVB/NJ or C57BL/6J","N","N"
-        if s["diet"]=="water": return "Y",f"{s['strain']} {s['tissue']} control diet (water): main design","Y","Y"
-        if s["diet"]=="fructose": return "Y",f"{s['strain']} {s['tissue']} fructose diet: sensitivity design (~ diet + strain) only","Y","N"
+        if s["diet"]=="water": return "Y",f"{s['strain']} {s['tissue']} control diet (water): main design and control-only sensitivity","Y","Y"
+        if s["diet"]=="fructose": return "Y",f"{s['strain']} {s['tissue']} fructose diet: main design (~ diet + strain) only","Y","N"
         return "N",f"unexpected diet '{s['diet']}'","N","N"
     if s["role"]=="f1_ase": return "Y","F1 hybrid for allele-specific expression (Phase A QC: F1)","-","-"
     if s["role"]=="negative_control_candidate": return "Y","negative control (decision 2026-10-14, Option A): B6.FVB-Tg(MMTV-PyVT) congenic tumours, Phase A QC 'B6 pure' ×13; evaluated with the per-sample reference-swap ratio, not the strain-contrast bias","-","-"
