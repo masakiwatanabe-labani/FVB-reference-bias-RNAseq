@@ -13,7 +13,7 @@ def fp(p): return "p < 1e-15" if p < 1e-15 else f"p = {p:.1e}"   # Phase N-1b: n
 BOX=dict(boxstyle="round,pad=0.3",facecolor="white",edgecolor=LGRAY,alpha=0.9)
 # A
 axA=axes[0,0]; a=pr[pr.snp_density_per_kb.notna()].copy(); cap=a.snp_density_per_kb.quantile(0.995); xs=a.snp_density_per_kb.clip(upper=cap)
-ya=clip_for_display(axA,a.mean_bias); axA.scatter(xs,ya,s=3,alpha=0.12,color=BLUE,edgecolors="none",rasterized=True); axA.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5)
+ya=clip_for_display(axA,a.mean_bias,hi=max(3,*[a.loc[ex[k],"mean_bias"] for k in ("robust","extreme") if ex.get(k) in a.index])); axA.scatter(xs,ya,s=3,alpha=0.12,color=BLUE,edgecolors="none",rasterized=True); axA.axhline(0,color="black",lw=0.8,ls="--",alpha=0.5)   # Phase U-1: the y limit reaches the worked-example genes (Ndufs5 +5.63 drawn at its value)
 q75=a.snp_density_per_kb.quantile(0.75); txt=""
 if len(cat):
     c=a[a.index.isin(cat.index)]; axA.scatter(c.snp_density_per_kb.clip(upper=cap),c.mean_bias,s=30,color=GREEN,marker="*",edgecolors="white",lw=0.5,zorder=6,label=f"catalog genes (n = {len(c)})")

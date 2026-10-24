@@ -43,7 +43,7 @@ axB.set_xlim(-0.8,8.3); axB.set_ylabel("log₂(CPM + 1),\nnaive-arm library size
 axB.set_title(f"{N2} — per-animal expression,\n{TISSUE_LABEL[T2].replace(chr(10),' ').lower()} (bar: group mean; bias {b2.loc[T2,'bias']:+.2f} log₂)",fontsize=8,pad=6,style="italic")
 # C context
 a=pr[pr.snp_density_per_kb.notna()]; cap=a.snp_density_per_kb.quantile(0.99); xs=a.snp_density_per_kb.clip(upper=cap)
-yc=clip_for_display(axC,a.mean_bias); axC.scatter(xs,yc,s=3,alpha=0.1,color=GRAY,edgecolors="none",rasterized=True,label="all tested genes")
+yc=clip_for_display(axC,a.mean_bias,hi=max(3,*[a.loc[g,"mean_bias"] for g in (G1,G2) if g in a.index])); axC.scatter(xs,yc,s=3,alpha=0.1,color=GRAY,edgecolors="none",rasterized=True,label="all tested genes")   # Phase U-1: the y limit reaches the worked-example genes (Ndufs5 +5.63 drawn at its value)
 edges=np.unique(np.percentile(xs,np.linspace(0,100,21))); idx=np.digitize(xs,edges); bx=[];by=[]
 for b in range(1,len(edges)):
     s=a.mean_bias[idx==b]

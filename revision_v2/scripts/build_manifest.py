@@ -4,7 +4,10 @@ Inputs: revision_v2/manifest/fructose_all_runs.tsv (B-1), revision_v2/audit/old_
         analysis_v2/qc/strain_identity_qc.tsv (A-2, old BAMs only).
 Selection rules are code, not hand edits:
   strain comparison: GEO sample attribute strain == "FVB/NJ" or "C57BL/6J" (exact), tissue from the series,
-                     design_main = water (control-diet) animals only; design_sensitivity = both diets.
+                     design_main = all animals of the tissue (primary model, both diets/treatments); design_sensitivity =
+                     control-diet/control-treatment animals only (control-only sensitivity model). Phase U-2 (2026-10-24): the two
+                     flags were inverted relative to the Methods and to the models fitted (bias_analysis.py: "primary" on all 70
+                     animals, "water" on the 35 control animals); swapped here. include_reason texts are unchanged.
   DBA/2J: excluded. GSE135230: excluded (single mixed background). GSE175625: candidate negative control
   (include = PENDING until the human decides, rule B-5). F1 (GSE200632, GSE293440): include = Y (reused).
 """
@@ -83,12 +86,12 @@ def decide(s):
         return "Y",f"{s['strain']} whole heart male {s['age']}: additional tissue (no diet factor; model ~ strain)","Y","Y"
     if s["role"]=="strain_comparison" and s["tissue"]=="skin":
         if s["diet"]=="control": return "Y",f"{s['strain']} skin {s['sex']} control cream: additional tissue, main design (~ treatment + sex + strain) and control-only sensitivity","Y","Y"
-        return "Y",f"{s['strain']} skin {s['sex']} IMQ-treated: additional tissue, main design only","N","Y"
+        return "Y",f"{s['strain']} skin {s['sex']} IMQ-treated: additional tissue, main design only","Y","N"
     if s["role"]=="strain_comparison":
         if s["strain"]=="DBA/2J": return "N","strain DBA/2J: not part of the FVB/NJ vs C57BL/6J comparison","N","N"
         if s["strain"] not in ("FVB/NJ","C57BL/6J"): return "N",f"strain '{s['strain']}' not FVB/NJ or C57BL/6J","N","N"
         if s["diet"]=="water": return "Y",f"{s['strain']} {s['tissue']} control diet (water): main design","Y","Y"
-        if s["diet"]=="fructose": return "Y",f"{s['strain']} {s['tissue']} fructose diet: sensitivity design (~ diet + strain) only","N","Y"
+        if s["diet"]=="fructose": return "Y",f"{s['strain']} {s['tissue']} fructose diet: sensitivity design (~ diet + strain) only","Y","N"
         return "N",f"unexpected diet '{s['diet']}'","N","N"
     if s["role"]=="f1_ase": return "Y","F1 hybrid for allele-specific expression (Phase A QC: F1)","-","-"
     if s["role"]=="negative_control_candidate": return "Y","negative control (decision 2026-10-14, Option A): B6.FVB-Tg(MMTV-PyVT) congenic tumours, Phase A QC 'B6 pure' ×13; evaluated with the per-sample reference-swap ratio, not the strain-contrast bias","-","-"

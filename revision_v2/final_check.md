@@ -1,4 +1,4 @@
-# Phase J — final check (2026-10-24 15:37 JST)
+# Phase J — final check (2026-10-24 21:21 JST)
 
 ## 1. Integrity of results and figures
 - [x] analysis_v2/results: all 245 files match RESULTS.md5 (includes f1_ase/v2/: 24 + 24 per-site tables, per-animal/summary tables, catalog decomposition)
@@ -97,7 +97,7 @@
 - [x] revision_v2/text_changes.md (8266 words)
 - [x] revision_v2/response_to_reviewers.md (4239 words)
 - [x] revision_v2/cover_letter.md (703 words)
-- [x] revision_v2/CHANGELOG.md (12620 words)
+- [x] revision_v2/CHANGELOG.md (12929 words)
 
 ## 6. Open items for the authors (human decision)
 - Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples.

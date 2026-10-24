@@ -11,8 +11,10 @@ def est(rows):
     reads=sum(int(r["read_count_total"]) for r in rows)/1e6; by=sum(int(r["fastq_bytes_total"]) for r in rows)
     mins=reads*(1.30+0.74+0.6)
     return len(rows), reads, by/1e9, mins/60, by*2.4/1e9
-for name,flt in [("Design 1 (main): water only", lambda r:r["role"]=="strain_comparison" and r["design_main"]=="Y"),
-                 ("Design 2 (sensitivity): water + fructose", lambda r:r["role"]=="strain_comparison" and r["design_sensitivity"]=="Y"),
+# Phase U-2 (2026-10-24): manifest flags swapped at the source (design_main = all animals, design_sensitivity = control only); the
+# Phase B planning labels below are kept and each reads the flag that now holds its animal set, so the output is unchanged.
+for name,flt in [("Design 1 (main): water only", lambda r:r["role"]=="strain_comparison" and r["design_sensitivity"]=="Y"),
+                 ("Design 2 (sensitivity): water + fructose", lambda r:r["role"]=="strain_comparison" and r["design_main"]=="Y"),
                  ("Negative control (PyVT, pending)", lambda r:r["role"]=="negative_control_candidate")]:
     rows=[r for r in M if flt(r)]
     n,reads,gb,hrs,disk=est(rows)
