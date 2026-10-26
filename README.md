@@ -7,7 +7,8 @@ Code, sample manifest, results tables and revision records for:
 
 ## Versions
 
-**The branch `v2-corrected` and the tag `v2-corrected-r1` contain the analysis reported in the revised manuscript.** The earlier
+**The branch `v2-corrected` and the tag `v2-corrected-r2` contain the analysis reported in the revised manuscript.** The tag
+`v2-corrected-r1` is the state before the survey re-screen and the animal/sample correction. The earlier
 content of this repository (branch `main`) corresponds to the originally submitted version, whose dataset selection was corrected
 in the revision; it is kept unchanged in the history, and its scripts are under `legacy/v1/` on this branch for reference.
 

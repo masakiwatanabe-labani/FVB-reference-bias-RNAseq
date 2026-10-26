@@ -4,7 +4,9 @@ Numbers: «key|fmt» placeholders resolved from manuscript/revised_v2/generated/
 Dataset table: the body of manuscript/revised_v2/generated/table1.md (make_table1.py, from the sample manifest), i.e. the same
 source as Table 1. Title: revision_v2/submission/title_page.md. Output: repo_release/README.md, repo_release/CITATION.cff
 (copied into github_repo by commit_phase_h.sh). Usage: make_repo_readme.py
-Phase S5 (2026-10-24): CITATION.cff — preferred-citation status: submitted; author e-mail removed; date-released 2026-10-24."""
+Phase S5 (2026-10-24): CITATION.cff — preferred-citation status: submitted; author e-mail removed; date-released 2026-10-24.
+Phase Y (2026-10-26): tag v2-corrected-r2 (survey rebuilt, animal counts, absolute residual fraction); CITATION.cff version and
+date-released 2026-10-26; README names v2-corrected-r2 and keeps one line on v2-corrected-r1."""
 import csv, re, os
 P = "/usr/local/jupyter/FVB_bias"; OUT = f"{P}/repo_release"; os.makedirs(OUT, exist_ok=True)
 N = {r["key"]: r["value"] for r in csv.DictReader(open(f"{P}/manuscript/revised_v2/generated/numbers.tsv"), delimiter="\t")}
@@ -29,7 +31,8 @@ Code, sample manifest, results tables and revision records for:
 
 ## Versions
 
-**The branch `v2-corrected` and the tag `v2-corrected-r1` contain the analysis reported in the revised manuscript.** The earlier
+**The branch `v2-corrected` and the tag `v2-corrected-r2` contain the analysis reported in the revised manuscript.** The tag
+`v2-corrected-r1` is the state before the survey re-screen and the animal/sample correction. The earlier
 content of this repository (branch `main`) corresponds to the originally submitted version, whose dataset selection was corrected
 in the revision; it is kept unchanged in the history, and its scripts are under `legacy/v1/` on this branch for reference.
 
@@ -124,7 +127,7 @@ cff = f"""cff-version: 1.2.0
 message: "If you use this software or the bias catalog, please cite the article below."
 type: software
 title: "FVB reference-genome mapping bias in RNA-seq: analysis code"
-version: "v2-corrected-r1"
+version: "v2-corrected-r2"
 abstract: >
   Code, sample manifest and result tables for the revised manuscript: three-arm RNA-seq quantification (naive GRCm39,
   WASP-filtered, FVB/NJ-personalised reference) of FVB/NJ and C57BL/6J animals, F1 allele-specific expression, a
@@ -136,7 +139,7 @@ authors:
     given-names: "Nobuya"
 repository-code: "https://github.com/masakiwatanabe-labani/FVB-reference-bias-RNAseq"
 license: MIT
-date-released: "2026-10-24"
+date-released: "2026-10-26"
 keywords:
   - RNA-seq
   - reference bias
