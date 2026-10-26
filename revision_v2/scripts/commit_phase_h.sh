@@ -30,6 +30,8 @@ find $PROJ/revision_v2/freeze -maxdepth 1 -type f -exec cp {} revision_v2/freeze
 cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/; cp $PROJ/revision_v2/audit/wong2012_excerpts.txt revision_v2/audit/; cp $PROJ/analysis_v2/results/catalog/catalog_clusters.tsv analysis_v2/results/catalog/; cp $PROJ/analysis_v2/results/predictors/gene_exonic_snp_counts.tsv analysis_v2/results/predictors/
 # Phase S2 (2026-10-23): GEO survey script (absolute paths replaced by arguments) and classification table, under survey/
 mkdir -p survey; cp $PROJ/survey_release/stage3_survey_v2.py $PROJ/survey_release/survey_classification.tsv $PROJ/survey_release/README.md survey/
+# Phase W-1 (2026-10-26): re-screen scripts, decisions, candidate list, per-series table and the cached GEO/SRA records
+mkdir -p survey/raw; cp $PROJ/survey_release/rescreen_*.py $PROJ/survey_release/rescreen_decisions.tsv $PROJ/survey_release/rescreen_series.tsv $PROJ/survey_release/candidates_154.tsv $PROJ/survey_release/summary_stats_rescreen.txt survey/; cp $PROJ/survey_release/raw/* survey/raw/
 # Phase S4 (2026-10-23): fixed 10% site subset of the identity check (identity_check_release/ -> identity_check/)
 mkdir -p identity_check; cp $PROJ/identity_check_release/* identity_check/
 git add analysis_v2 revision_v2 manuscript survey identity_check

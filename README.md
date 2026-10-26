@@ -25,7 +25,8 @@ Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene
 - **Catalog:** 138 genes whose FVB/B6 estimate depends on the reference; at 57 of them FVB/NJ reads are demonstrably recovered
   on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects
   C57BL/6J reads lost on that reference.
-- **Survey of practice:** 154 public GEO series with FVB RNA-seq data: 140 stated a B6 reference, 14 did not report one,
+- **Survey of practice:** 36 public GEO series with FVB RNA-seq data (of 154 candidates, re-screened for RNA-Seq library
+  strategy and FVB background per sample): 35 stated a B6 reference, 1 did not report one,
   and none reported a strain-aware method (`survey/`).
 
 Every animal was checked against its recorded strain by the allele fractions at FVB/NJ-homozygous exonic SNP sites before
@@ -103,7 +104,8 @@ Software versions are listed in `environment.yml` and in the manuscript Methods.
    matched-reference sensitivity) → `bias_decomposition.py`; `catalog_clusters_exonic_snps.py`, `rps2_*.py`.
 8. **F1 allele-specific expression:** `f1_ase_rerun.sh` → `f1_ase_summary_v2.py`, `f1_wasp_allele_removal.py`,
    `f1_sites_catalog_vs_other.py`.
-9. **Survey:** `survey/stage3_survey_v2.py`; Fig. 1 by `revision_v2/scripts/fig1_survey.py`.
+9. **Survey:** `survey/rescreen_fetch.py` (GEO/SRA records cached in `survey/raw/`), `survey/rescreen_classify.py` (re-screen and
+   classification with `classify()` of `survey/stage3_survey_v2.py`); Fig. 1 by `revision_v2/scripts/fig1_survey.py`.
 10. **Numbers, tables and checks:** `revision_v2/scripts/results_numbers.py` (`numbers.tsv`), `make_table1.py`,
     `build_supplementary_tables.py`, then `build_submission.sh build` and `final_check.sh`.
 

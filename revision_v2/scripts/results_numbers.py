@@ -40,6 +40,19 @@ put("qc_failed_verdicts", ";".join(sorted(set(hx.qc_verdict))), ev)
 s1=pd.read_csv(f"{FIG}/Fig1_survey_data.tsv", sep="\t"); ev=rel(f"{FIG}/Fig1_survey_data.tsv")
 for _,r in s1.iterrows(): put(f"survey_{r.category}_n", int(r.n), ev); put(f"survey_{r.category}_pct", float(r.pct), ev)
 put("survey_total", int(s1.n.sum()), ev)
+# Phase W-1 (2026-10-26): re-screen of the candidate series (survey/rescreen_classify.py): exclusions, assemblies, data types
+_rs=pd.read_csv(f"{RES}/survey/rescreen_series.tsv", sep="\t", dtype=str, keep_default_na=False); evr=rel(f"{RES}/survey/rescreen_series.tsv")
+_k=_rs[_rs.include=="Y"]; _x=_rs[_rs.include!="Y"]; _b6=_k[_k.category=="stated_B6"]
+put("survey_candidates_n", len(_rs), evr); put("survey_excluded_n", len(_x), evr)
+put("survey_excluded_non_rnaseq_n", int(_x.reason.str.startswith("non-RNA-seq").sum()), evr); put("survey_excluded_not_fvb_background_n", int(_x.reason.str.startswith("not FVB background").sum()), evr)
+put("survey_excluded_superseries_n", int(_x.reason.str.startswith("duplicate of SubSeries").sum()), evr); put("survey_previous_stated_B6_excluded_n", int((_x.previous_category=="stated_B6").sum()), evr)
+put("survey_b6_grcm38_mm10_n", int(_b6.assemblies_named.str.contains("GRCm38/mm10").sum()), evr); put("survey_b6_grcm39_mm39_n", int(_b6.assemblies_named.str.contains("GRCm39/mm39").sum()), evr)
+put("survey_b6_mm9_n", int(_b6.assemblies_named.str.contains("mm9").sum()), evr); put("survey_b6_no_assembly_named_n", int((_b6.assemblies_named=="").sum()), evr)
+put("survey_b6_mm10_or_mm39_only_n", int(_b6.assemblies_named.isin(["GRCm38/mm10","GRCm39/mm39","GRCm38/mm10;GRCm39/mm39"]).sum()), evr)
+put("survey_singlecell_only_n", int((_k.data_type=="single-cell").sum()), evr); put("survey_bulk_only_n", int((_k.data_type=="bulk").sum()), evr); put("survey_bulk_and_singlecell_n", int((_k.data_type=="mixed").sum()), evr)
+put("survey_mixed_strategy_kept_n", int((_k.mixed_strategy=="Y").sum()), evr); put("survey_series_level_strain_n", int((_k.strain_evidence=="series_level").sum()), evr)
+put("survey_judgement_n", int((_rs.borderline_type!="").sum()), evr); put("survey_judgement_included_n", int(((_rs.borderline_type!="")&(_rs.include=="Y")).sum()), evr)
+put("survey_fvb_rnaseq_samples_n", int(_k.n_fvb_rnaseq_samples.astype(int).sum()), evr)
 # ---- F1 ASE (Fig. 2) -------------------------------------------------------------------------------------------------
 # Phase H-1 (2026-10-21): recomputed on the re-aligned F1 BAMs at the 203,510 identity-QC sites (f1_ase_rerun.sh, f1_ase_summary_v2.py);
 # the v1 tables in f1_ase/ (94,351 MGP-heterozygous sites, an artefact of a genotype-unfiltered VCF; H-1a) are no longer read.

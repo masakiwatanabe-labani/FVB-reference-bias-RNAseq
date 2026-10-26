@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Figure 1. (A) reference-genome practice among GEO FVB RNA-seq series (analysis_v2/results/survey/survey_of_practice_v2.tsv,
-unchanged by the sample correction); (B) schematic of SNP-mediated reference-mapping bias. The F1 allele fractions quoted in the
+"""Figure 1. (A) reference-genome practice among GEO FVB RNA-seq series (analysis_v2/results/survey/survey_of_practice_rescreen.tsv:
+the series that passed the Phase W-1 re-screen — RNA-Seq library strategy and FVB background per sample, survey/rescreen_classify.py;
+before Phase W the panel used survey_of_practice_v2.tsv, 154 series); (B) schematic of SNP-mediated reference-mapping bias. The F1 allele fractions quoted in the
 schematic are read from analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.tsv (the per-animal table of Fig. 2; mean over the 12 F1
 animals per arm), not typed in. Phase M-3 D1: the earlier path read the submitted-version table at the old site set."""
 import matplotlib.patches as mpatches
 from fig_common import *
 
-df=pd.read_csv(f"{FINAL}/survey/survey_of_practice_v2.tsv", sep="\t")
+df=pd.read_csv(f"{FINAL}/survey/survey_of_practice_rescreen.tsv", sep="\t")
 n_total=len(df); n_b6=int((df.category=="stated_B6").sum()); n_nr=int((df.category=="not_reported").sum()); n_sa=int((df.category=="strain_aware").sum())
 f1=pd.read_csv(f"{FINAL}/f1_ase/v2/f1_ase_per_sample_v2.tsv", sep="\t")
 af_naive=f1[f1.arm=="naive"].mean_fvb_fraction.mean(); af_wasp=f1[f1.arm=="wasp"].mean_fvb_fraction.mean()
@@ -15,8 +16,8 @@ fig=plt.figure(figsize=(FULL_W,4.9)); gs=fig.add_gridspec(2,1,height_ratios=[1,2
 axA=fig.add_subplot(gs[0]); axB=fig.add_subplot(gs[1]); axA.set_position([0.21,0.755,0.76,0.2])
 cats=["B6 reference reported","Reference not reported","Strain-aware correction"]; vals=[n_b6,n_nr,n_sa]; cols=[BLUE,GRAY,GREEN]
 bars=axA.barh(range(3), vals, height=0.55, color=cols, zorder=3); axA.invert_yaxis()
-for b,v,c in zip(bars,vals,cols):
-    axA.text(v+2, b.get_y()+b.get_height()/2, f"{v} ({v/n_total*100:.1f}%)", ha="left", va="center", fontsize=7.5, fontweight="bold", color=c if c!=GRAY else "#555555")
+for b,v,c in zip(bars,vals,cols):   # Phase W-1: label offset scaled to the axis (was +2 series at n = 154)
+    axA.text(v+n_total*0.013, b.get_y()+b.get_height()/2, f"{v} ({v/n_total*100:.1f}%)", ha="left", va="center", fontsize=7.5, fontweight="bold", color=c if c!=GRAY else "#555555")
 axA.set_yticks(range(3)); axA.set_yticklabels(cats, fontsize=7.5); axA.set_xlabel("Number of GEO series", fontsize=7.5)
 axA.set_xlim(0,n_total*1.2); despine(axA)
 axA.set_title(f"Reference-genome practice, {n_total} FVB RNA-seq series (GEO)", fontsize=8, pad=4); panel(axA,"A",x=-0.235)

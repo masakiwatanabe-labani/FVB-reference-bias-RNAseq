@@ -1,0 +1,37 @@
+gse_acc	title	category	matched_keyword	assemblies_named	data_type	n_fvb_rnaseq_samples	strain_evidence
+GSE118164	The MMTV-Wnt1 murine model produces two phenotypically distinct subtypes of mammary tumors with unique therapeutic responses to an EGFR inhibitor	stated_B6	mm9	mm9	bulk	26	sample_title
+GSE123875	Differential Metabolic and Multi-tissue Transcriptomic Responses to Fructose Consumption among Genetically Diverse Mice [Adipose]	stated_B6	mm10	GRCm38/mm10	bulk	8	sample_level
+GSE123893	Differential Metabolic and Multi-tissue Transcriptomic Responses to Fructose Consumption among Genetically Diverse Mice [Hypothalamus]	stated_B6	mm10	GRCm38/mm10	bulk	8	sample_level
+GSE123894	Differential Metabolic and Multi-tissue Transcriptomic Responses to Fructose Consumption among Genetically Diverse Mice [Liver]	stated_B6	mm10	GRCm38/mm10	bulk	12	sample_level
+GSE126119	RNAseq carcinogen induced signatures in lung adenocarcinoma cell lines	stated_B6	mm10	GRCm38/mm10	bulk	6	sample_level
+GSE126288	Platinoid drugs augment immunotherapy via histone acetylation of MHCI machinery genes	stated_B6	grcm38	GRCm38/mm10	bulk	22	sample_level
+GSE140579	Cd302 and Cr1l restrict human hepatotropic virus cross-species transmission to mice [3PMH]	stated_B6	mm9	mm9	bulk	1	sample_level
+GSE140582	Cd302 and Cr1l restrict human hepatotropic virus cross-species transmission to mice [4Total liver]	stated_B6	mm9	mm9	bulk	1	sample_level
+GSE149115	Proliferation and neural stem cell potential of diencephalic astrocytes revealed by genome-wide expression is SMAd4 dependent	stated_B6	mm9	mm9	single-cell	1	sample_level
+GSE149900	Transcriptional profiling of striatum from 6-month-old mice heterozygous knockout for 52 genes and corresponding wildtype control mice	stated_B6	grcm38	GRCm38/mm10	bulk	16	sample_level
+GSE150928	Metastasis-specific gene expression in autochthonous and allograft mouse mammary tumor models: stratification and identification of targetable signatures	stated_B6	mm9	mm9	bulk	177	sample_level
+GSE155787	RNA-seq reveals differential expression of potential miR-486 target transcripts	not_reported			bulk	4	sample_level
+GSE156404	Transgenic mice with an R342X mutation in Phf6 have reduced protein levels and behavior deficits yet few prominent features of Börjeson-Forssman-Lehmann Syndrome (BFLS).	stated_B6	grcm38	GRCm38/mm10	bulk	8	sample_level
+GSE164017	10X Genomics scRNA-seq profiling of mammary gland cells from mice at different life stages	stated_B6	mm10	GRCm38/mm10	single-cell	10	sample_level
+GSE164023	Tissue-resident memory T cells (TRM) Interactions within the Tissue Ecosystem Network	stated_B6	mm10	GRCm38/mm10	single-cell	2	sample_level
+GSE167328	RNA-sequencing of 14 diverse mouse strains treated with 2,3,7,8-tetrachlorodibenzo-p-dioxin (TCDD)	stated_B6	mm9	mm9	bulk	6	sample_level
+GSE167562	Molecular profiling of Ebf2+ and Ebf2- PαS  mesenchymal stem cells from mouse dorsal skin	stated_B6	grcm38	GRCm38/mm10	bulk	6	sample_level
+GSE169703	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts [Murine_Fibroblast_RNA_seq]	stated_B6	mm10	GRCm38/mm10	bulk	6	sample_level
+GSE174113	SMCHD1 has separable roles in chromatin architecture and gene silencing that could be targeted in disease	stated_B6	grcm38	GRCm38/mm10	bulk	32	sample_level
+GSE183368	Characterizing the Tumor Immune Microenvironment of Syngeneic Mouse Models of Ovarian Cancer to Predict Response to PD-L1 blockade	stated_B6	mm10	GRCm38/mm10	single-cell	1	protocol
+GSE196778	Fibrosis induced by resident macrophages has divergent roles in pancreas inflammatory injury and PDAC	stated_B6	mm10	GRCm38/mm10	single-cell	5	sample_level
+GSE197018	Epigenetic modules governing skin epidermal homeostasis [neonate skin epidermis]	stated_B6	mm10	GRCm38/mm10	bulk	8	sample_level
+GSE197686	ARID1A loss shapes immunosuppression tumor microenvironment via NF-kB induced MDSC chemotaxis to promote prostate Cancer metastasis [RNA-seq]	stated_B6	mm10	GRCm38/mm10	bulk	4	sample_level
+GSE200431	Pleiotrophin drives a pro-metastatic immune niche within the breast tumor microenvironment	stated_B6	grcm38	GRCm38/mm10	bulk	6	sample_level
+GSE201559	CD169 is a marker of IFN-γ-stimulated inflammatory macrophages in brain tumor	stated_B6	mm10	GRCm38/mm10	single-cell	2	sample_level
+GSE207086	Three-dimensional morphologic and molecular atlases of human/mouse nasal vasculatures	stated_B6	mm10	GRCm38/mm10	single-cell	1440	sample_level
+GSE212047	Opposing Roles of Hepatic Stellate Cell Subpopulations in Hepatocarcinogenesis	stated_B6	mm10	GRCm38/mm10	single-cell	1	sample_level
+GSE215753	miR-22 gene therapy as a novel option for HCC treatment in part via augmentation of retinoic acid but silencing IL17 signaling in orthotopic murine models	stated_B6	grcm39	GRCm39/mm39	bulk	9	protocol_and_design (sample field says C57BL/6)
+GSE223630	Mouse Mammary Tumor Models of Various Molecular Subtypes Including Basal-like and Claudin-low TNBC	stated_B6	mm10	GRCm38/mm10	bulk	15	sample_level
+GSE228945	MYC oncogene reprograms the local tissue microenvironment during prostate carcinogenesis	stated_B6	mm10	GRCm38/mm10	single-cell	20	sample_level
+GSE244269	Distinct mesenchymal cell states mediate prostate cancer progression (mouse)	stated_B6	grcm38	GRCm38/mm10	single-cell	2	sample_level
+GSE262253	Gene expression patterns in cMyBP-CΔC10mut HCM mice and cMyBP-C(t/t) DCM mice	stated_B6	mm10	GRCm38/mm10	bulk	2	"sample_level (field ""cell line"")"
+GSE284641	Cellular cartography reveals mouse prostate organization and determinants of castration resistance [scRNA-seq]	stated_B6	mm10	GRCm38/mm10	single-cell	1	sample_level
+GSE292146	Tractable mouse TNBC models capture the heterogeneous tumor immune microenvironment and adaptation to PD-L1 blockade	stated_B6	mm10	GRCm38/mm10	bulk	9	sample_level
+GSE299754	High-grade serous ovarian cancer induced in different sites of origin in mice exemplifies diverse features of the human disease	stated_B6	grcm38	GRCm38/mm10	bulk	8	sample_level
+GSE304727	Pan-cancer single-cell atlas of mouse and human tumor-associated dendritic cells	stated_B6	grcm38	GRCm38/mm10	single-cell	1	sample_level
