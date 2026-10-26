@@ -72,6 +72,7 @@ Raw reads are not included; all datasets are public in NCBI GEO / SRA (downloade
 | `analysis_v2/params.yaml` | fixed analysis parameters and reference paths |
 | `analysis_v2/results/` | result tables: `qc/` (sample-identity check), `catalog/`, `predictors/`, `negative_control/`, `sensitivity_matched/`, `within_fvb/`, `f1_ase/`, `identity/`, `worked_examples/`, `survey/` |
 | `analysis_v2/figures/` | data plotted in every figure panel (`*_data.tsv`) and checksums |
+| `revision_v2/submission/figures/` | Figures 1–6 and Supplementary Figures S1–S3 as submitted (PDF and 600-dpi TIFF; md5 in `analysis_v2/figures/FIGURES.md5`) |
 | `survey/` | GEO survey script and classification table (see `survey/README.md`) |
 | `identity_check/` | the fixed 10% site subset of the sample-identity check, its traversal intervals and the script that regenerates them (see `identity_check/README.md`) |
 | `scripts/pipeline/01_build_references.sh` | reference construction (GRCm39, MGP FVB/NJ variants, g2gtools personalised genome, STAR indices) |
