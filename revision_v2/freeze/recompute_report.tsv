@@ -316,15 +316,15 @@ K1	K letters and survey	resp	Of the 32 genes of the submitted catalog	32	32	32	i
 K2	K letters and survey	resp	24 are in the new catalog	24	24	24	int	PASS	
 K3	K letters and survey	resp	26 reach the threshold in at least one tissue	26	26	26	int	PASS	
 K4	K letters and survey	resp	(one of them now shows negative bias in all four tissues)	1	1	1	int	PASS	submitted worked examples Fau, Rsph3a; negative in all four: ['Rsph3a']; in new catalog: []
-K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO series	154	36	36	int	REWRITE	W-1 survey re-screen (RNA-Seq library strategy, FVB background per sample)
-K6	K letters and survey	main	Among these 154 series, 140 reported	140	35	35	int	REWRITE	W-1 survey re-screen
-K7	K letters and survey	main	The remaining 14 studies did not report	14	1	1	int	REWRITE	W-1 survey re-screen
+K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO series	154	671	671	int	REWRITE	W-1 survey re-screen (RNA-Seq library strategy, FVB background per sample)
+K6	K letters and survey	main	Among these 154 series, 140 reported	140	631	631	int	REWRITE	W-1 survey re-screen
+K7	K letters and survey	main	The remaining 14 studies did not report	14	40	40	int	REWRITE	W-1 survey re-screen
 K8	K letters and survey	main	and none reported a strain-aware alignment strategy	0	0	0	int	PASS	
-K8r	K letters and survey	resp	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	35	35	int	REWRITE	W-1 survey re-screen
-K9_stated_B6	K letters and survey	Fig1_survey	97.2%	97.2	97.2222	97.2	num	PASS	
-K9_not_reported	K letters and survey	Fig1_survey	2.8%	2.8	2.77778	2.8	num	PASS	
-K9_strain_aware	K letters and survey	Fig1_survey	0.0%	0.0	0	0.0	num	PASS	
-K9_total	K letters and survey	Fig1_survey	36 FVB RNA-seq series	36	36	36	int	PASS	Fig. 1A title
+K8r	K letters and survey	resp	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	631	631	int	REWRITE	W-1 survey re-screen
+K9_stated_B6	K letters and survey	Fig1_survey	631 (94.0%)	94.0	94.0387	94.0	num	PASS	
+K9_not_reported	K letters and survey	Fig1_survey	40 (6.0%)	6.0	5.96125	6.0	num	PASS	
+K9_strain_aware	K letters and survey	Fig1_survey	0 (0.0%)	0.0	0	0.0	num	PASS	
+K9_total	K letters and survey	Fig1_survey	671 FVB RNA-seq series	671	671	671	int	PASS	Fig. 1A title
 W3a	K letters and survey	main	(36 FVB/NJ and 34 C57BL/6J animals)	36	23	23	int	REWRITE	FVB/NJ samples 36; W-3: samples, not animals (fructose-study tissues share animals)
 W3b	K letters and survey	main	(36 FVB/NJ and 34 C57BL/6J animals)	34	23	23	int	REWRITE	C57BL/6J samples 34; W-3: samples, not animals
 W3c	K letters and survey	main	All 83 animals of the three-arm analysis	83	59	59	int	REWRITE	13 PyVT mice, one tumour each; W-3: 83 samples from the animals counted here

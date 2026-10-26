@@ -1,0 +1,12 @@
+# run 2026-10-26 14:18 JST
+query	strain_term	term	count	retrieved
+Q1	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	1073	1073
+Q1o	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	126	126
+Q1n	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	36	36
+Q2	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	41638	41638 GSM -> 2131 GSE -> 1198 with a high-throughput-sequencing type
+# added 2026-10-26 15:18 JST: variant FVBN (same queries, FVBN in place of FVB)
+Q1	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	43	43
+Q1o	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	9	9
+Q1n	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	1	1
+Q2	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	1424	1424 GSM -> 101 GSE -> 46 with a high-throughput-sequencing type
+variant_added	FVBN		56	47 accessions not in the FVB union appended (source_query = FVBN)

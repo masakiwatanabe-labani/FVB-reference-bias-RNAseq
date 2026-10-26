@@ -59,12 +59,19 @@ put("animals_pyvt_n", int((_y.role=="negative_control_candidate").sum()), evm)
 s1=pd.read_csv(f"{FIG}/Fig1_survey_data.tsv", sep="\t"); ev=rel(f"{FIG}/Fig1_survey_data.tsv")
 for _,r in s1.iterrows(): put(f"survey_{r.category}_n", int(r.n), ev); put(f"survey_{r.category}_pct", float(r.pct), ev)
 put("survey_total", int(s1.n.sum()), ev)
-# Phase W-1 (2026-10-26): re-screen of the candidate series (survey/rescreen_classify.py): exclusions, assemblies, data types
+# Phase W-1 / X (2026-10-26): screen of the candidate series (survey/rescreen_classify.py): exclusions, assemblies, data types
 _rs=pd.read_csv(f"{RES}/survey/rescreen_series.tsv", sep="\t", dtype=str, keep_default_na=False); evr=rel(f"{RES}/survey/rescreen_series.tsv")
 _k=_rs[_rs.include=="Y"]; _x=_rs[_rs.include!="Y"]; _b6=_k[_k.category=="stated_B6"]
 put("survey_candidates_n", len(_rs), evr); put("survey_excluded_n", len(_x), evr)
 put("survey_excluded_non_rnaseq_n", int(_x.reason.str.startswith("non-RNA-seq").sum()), evr); put("survey_excluded_not_fvb_background_n", int(_x.reason.str.startswith("not FVB background").sum()), evr)
-put("survey_excluded_superseries_n", int(_x.reason.str.startswith("duplicate of SubSeries").sum()), evr); put("survey_previous_stated_B6_excluded_n", int((_x.previous_category=="stated_B6").sum()), evr)
+put("survey_excluded_superseries_n", int(_x.reason.str.startswith("duplicate of SubSeries").sum()), evr)
+# Phase X (2026-10-26): broad candidate list; sibling SubSeries merged per SuperSeries; judgement patterns
+_an=_b6.assemblies_named
+put("survey_b6_mm10_only_n", int((_an=="GRCm38/mm10").sum()), evr); put("survey_b6_mm39_only_n", int((_an=="GRCm39/mm39").sum()), evr); put("survey_b6_mm9_only_n", int((_an=="mm9").sum()), evr)
+put("survey_b6_multiple_assemblies_n", int(_an.str.contains(";").sum()), evr)
+put("survey_excluded_authors_deposit_n", int(_x.reason.str.startswith("deposited by the authors").sum()), evr)   # Phase X: GSE348802, authors' own series
+put("survey_studies_siblings_merged_n", int(_k[_k.subseries_of==""].shape[0] + _k[_k.subseries_of!=""].subseries_of.str.split(";").str[0].nunique()), evr)
+for _p,_n in _rs[_rs.pattern!=""].pattern.value_counts().items(): put(f"survey_pattern_{_p}_n", int(_n), evr)
 put("survey_b6_grcm38_mm10_n", int(_b6.assemblies_named.str.contains("GRCm38/mm10").sum()), evr); put("survey_b6_grcm39_mm39_n", int(_b6.assemblies_named.str.contains("GRCm39/mm39").sum()), evr)
 put("survey_b6_mm9_n", int(_b6.assemblies_named.str.contains("mm9").sum()), evr); put("survey_b6_no_assembly_named_n", int((_b6.assemblies_named=="").sum()), evr)
 put("survey_b6_mm10_or_mm39_only_n", int(_b6.assemblies_named.isin(["GRCm38/mm10","GRCm39/mm39","GRCm38/mm10;GRCm39/mm39"]).sum()), evr)

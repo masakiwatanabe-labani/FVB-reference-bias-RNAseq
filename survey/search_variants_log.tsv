@@ -1,0 +1,36 @@
+# run 2026-10-26 14:22 JST
+query	strain_term	term	count	retrieved
+Q1	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	1073	1073
+Q1o	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	126	126
+Q1n	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	36	36
+Q2	FVB	(FVB[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	41638	41638 GSM -> 2131 GSE -> 1198 with a high-throughput-sequencing type
+Q1	"FVB/N"	("FVB/N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	290	290
+Q1o	"FVB/N"	("FVB/N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	26	26
+Q1n	"FVB/N"	("FVB/N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	6	6
+Q2	"FVB/N"	("FVB/N"[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	11591	11591 GSM -> 623 GSE -> 324 with a high-throughput-sequencing type
+variant	"FVB/N"		344	adds nothing
+Q1	"FVB/NJ"	("FVB/NJ"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	200	200
+Q1o	"FVB/NJ"	("FVB/NJ"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	18	18
+Q1n	"FVB/NJ"	("FVB/NJ"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	8	8
+Q2	"FVB/NJ"	("FVB/NJ"[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	6429	6429 GSM -> 317 GSE -> 212 with a high-throughput-sequencing type
+variant	"FVB/NJ"		235	adds nothing
+Q1	"FVB/NCrl"	("FVB/NCrl"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	0	0
+Q1o	"FVB/NCrl"	("FVB/NCrl"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	0	0
+Q1n	"FVB/NCrl"	("FVB/NCrl"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	0	0
+Q2	"FVB/NCrl"	("FVB/NCrl"[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	0	0 GSM -> 0 GSE -> 0 with a high-throughput-sequencing type
+variant	"FVB/NCrl"		0	adds nothing
+Q1	"FVB/NTac"	("FVB/NTac"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	0	0
+Q1o	"FVB/NTac"	("FVB/NTac"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	0	0
+Q1n	"FVB/NTac"	("FVB/NTac"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	0	0
+Q2	"FVB/NTac"	("FVB/NTac"[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	1	1 GSM -> 1 GSE -> 0 with a high-throughput-sequencing type
+variant	"FVB/NTac"		0	adds nothing
+Q1	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	43	43
+Q1o	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	9	9
+Q1n	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	1	1
+Q2	FVBN	(FVBN[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	1424	1424 GSM -> 101 GSE -> 46 with a high-throughput-sequencing type
+variant	FVBN		56	adds GSE11337,GSE11389,GSE12721,GSE72560,GSE76123,GSE79050,GSE85810,GSE111527,GSE115363,GSE126913,GSE131272,GSE139485,GSE140628,GSE145164,GSE145170,GSE145173,GSE152422,GSE163306,GSE171758,GSE178580,GSE179416,GSE181986,GSE189223,GSE195813,GSE195848,GSE197328,GSE198079,GSE198080,GSE200521,GSE205740,GSE205741,GSE234157,GSE234159,GSE241988,GSE245265,GSE267164,GSE267165,GSE267166,GSE267167,GSE268241,GSE268971,GSE285405,GSE288421,GSE288427,GSE293207,GSE302562,GSE335239
+Q1	"FVB-N"	("FVB-N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Expression profiling by high throughput sequencing"[DataSet Type]	295	295
+Q1o	"FVB-N"	("FVB-N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Other"[DataSet Type]	28	28
+Q1n	"FVB-N"	("FVB-N"[All Fields]) AND "Mus musculus"[Organism] AND gse[Entry Type] AND "Non-coding RNA profiling by high throughput sequencing"[DataSet Type]	6	6
+Q2	"FVB-N"	("FVB-N"[All Fields]) AND "Mus musculus"[Organism] AND gsm[Entry Type]	11627	11627 GSM -> 630 GSE -> 328 with a high-throughput-sequencing type
+variant	"FVB-N"		350	adds nothing

@@ -22,6 +22,17 @@ ITEMS = {   # trigger -> [(regex on the sentence, what changes)]
   (r"GRCm38/mm10 or GRCm39/mm39|legacy mm9|\bmm9\b", f"assemblies among stated B6: GRCm38/mm10 {n('survey_b6_grcm38_mm10_n')}, mm9 {n('survey_b6_mm9_n')}, GRCm39/mm39 {n('survey_b6_grcm39_mm39_n')} (survey_b6_*_n)"),
   (r"Studies were retrieved from NCBI GEO", "S5 caption: search terms as in the main text; add the re-screen rule and the new columns (series_type, library_strategies, data_type, n_fvb_rnaseq_samples, strain_evidence, strain_text, assemblies_named, borderline_type) and sheet S5b"),
  ],
+ "X": [   # Phase X: survey rebuilt from a broad GEO search (replaces the W-1 rows)
+  (r"returned 1,047 GEO series", f"search: E-utilities db=gds, 2026-10-26 (survey/search_log.tsv); union of the series and sample queries {n('survey_candidates_n')} candidates"),
+  (r"FVB was not the main experimental strain|transgenic host background or as a cell-line origin|fewer than three samples", "criteria superseded by the Phase W/X rule (RNA-Seq library strategy, FVB background per sample; FVB-derived cell lines and grafts in FVB hosts count)"),
+  (r"After manual review, 154", f"154 -> {n('survey_total')} (survey_total) of {n('survey_candidates_n')} candidates; excluded {n('survey_excluded_n')}"),
+  (r"154 GEO series|154 public|154 publicly|154 series|these 154|of 154", f"154 -> {n('survey_total')} (survey_total)"),
+  (r"\b140\b", f"140 -> {n('survey_stated_B6_n')} (survey_stated_B6_n); assemblies: GRCm38/mm10 {n('survey_b6_grcm38_mm10_n')}, mm9 {n('survey_b6_mm9_n')}, GRCm39/mm39 {n('survey_b6_grcm39_mm39_n')}"),
+  (r"\b14 (studies|series|did)|remaining 14", f"14 -> {n('survey_not_reported_n')} (survey_not_reported_n)"),
+  (r"GRCm38/mm10 or GRCm39/mm39|legacy mm9|\bmm9\b", f"assemblies among stated B6: GRCm38/mm10 {n('survey_b6_grcm38_mm10_n')}, mm9 {n('survey_b6_mm9_n')}, GRCm39/mm39 {n('survey_b6_grcm39_mm39_n')} (survey_b6_*_n)"),
+  (r"Studies were retrieved from NCBI GEO", "S5 caption: search as in survey/search_log.tsv; screen rule; S5 columns and sheet S5b"),
+  (r"single-cell|single cell", f"single-cell-only series {n('survey_singlecell_only_n')}, bulk-only {n('survey_bulk_only_n')}, both {n('survey_bulk_and_singlecell_n')}"),
+ ],
  "W-2": [
   (r"Thirty-seven of these 82|37 genes had residual fractions", f"37 -> {n('mech_multi_absresidual_le_0.30')} with |bias_multi|/|bias_unique| <= 0.30 (mech_multi_absresidual_le_0.30); the signed ratio also admits the {n('mech_multi_signed_not_abs_le_0.30_n')} sign-reversing genes {n('mech_multi_signed_not_abs_le_0.30_genes')}"),
   (r"more than 70% of", "the 70% reading holds only for |residual| <= 0.30 (abs_residual_fraction, Supplementary Table S2)"),
@@ -45,7 +56,8 @@ def sentences(t):
     t = re.sub(r"[ \t]+", " ", t)
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z(“0-9])|\n\s*\n", t) if s.strip()]
 want = sys.argv[1:] or list(ITEMS)
-rows = [r for r in csv.DictReader(open(LED), delimiter="\t") if r["trigger"] not in want]
+drop = set(want) | ({"W-1"} if "X" in want else set())   # Phase X supersedes the W-1 survey rows
+rows = [r for r in csv.DictReader(open(LED), delimiter="\t") if r["trigger"] not in drop]
 cols = list(csv.DictReader(open(LED), delimiter="\t").fieldnames)
 new = []
 for trig in want:

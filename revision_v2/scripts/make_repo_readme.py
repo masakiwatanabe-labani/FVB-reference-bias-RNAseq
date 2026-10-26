@@ -48,9 +48,9 @@ Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene
 - **Catalog:** «catalog_n|d» genes whose FVB/B6 estimate depends on the reference; at «decomp_both|d» of them FVB/NJ reads are demonstrably recovered
   on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects
   C57BL/6J reads lost on that reference.
-- **Survey of practice:** «survey_total|d» public GEO series with FVB RNA-seq data (of «survey_candidates_n|d» candidates, re-screened for RNA-Seq library
-  strategy and FVB background per sample): «survey_stated_B6_n|d» stated a B6 reference, «survey_not_reported_n|d» did not report one,
-  and none reported a strain-aware method (`survey/`).
+- **Survey of practice:** «survey_total|d» public GEO series with FVB RNA-seq data (of «survey_candidates_n|d» candidates from a broad GEO search, screened
+  for RNA-Seq library strategy and FVB background per sample): «survey_stated_B6_n|d» stated a B6 reference, «survey_not_reported_n|d» did not report one,
+  and none reported a strain-aware method (`survey/`; the series deposited by the authors' group is not counted).
 
 Every animal was checked against its recorded strain by the allele fractions at FVB/NJ-homozygous exonic SNP sites before
 use (sample-identity check; results in `analysis_v2/results/qc/sample_identity_verification.tsv`).
@@ -104,7 +104,7 @@ Software versions are listed in `environment.yml` and in the manuscript Methods.
    matched-reference sensitivity) → `bias_decomposition.py`; `catalog_clusters_exonic_snps.py`, `rps2_*.py`.
 8. **F1 allele-specific expression:** `f1_ase_rerun.sh` → `f1_ase_summary_v2.py`, `f1_wasp_allele_removal.py`,
    `f1_sites_catalog_vs_other.py`.
-9. **Survey:** `survey/rescreen_fetch.py` (GEO/SRA records cached in `survey/raw/`), `survey/rescreen_classify.py` (re-screen and
+9. **Survey:** `survey/broad_search.py` (candidate list), `survey/rescreen_fetch.py` (GEO/SRA records cached in `survey/raw/`), `survey/rescreen_classify.py` (re-screen and
    classification with `classify()` of `survey/stage3_survey_v2.py`); Fig. 1 by `revision_v2/scripts/fig1_survey.py`.
 10. **Numbers, tables and checks:** `revision_v2/scripts/results_numbers.py` (`numbers.tsv`), `make_table1.py`,
     `build_supplementary_tables.py`, then `build_submission.sh build` and `final_check.sh`.

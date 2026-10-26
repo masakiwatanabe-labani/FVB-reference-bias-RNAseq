@@ -14,5 +14,5 @@
 | TableS3f_pyvt_residual_segments | `analysis_v2/results/negative_control/pyvt_fullsite_chr3_10_16.per_animal.tsv` | 87 |
 | TableS4_alignment_stats_per_animal_arm | `analysis_v2/results/qc/mapping_stats_per_sample.tsv` | 249 |
 | TableS4b_wasp_attrition_by_group | `manuscript/revised_v2/generated/wasp_attrition_by_group.tsv (results_numbers.py)` | 9 |
-| TableS5_survey_of_practice | `analysis_v2/results/survey/survey_of_practice_rescreen.tsv` | 36 |
-| TableS5b_excluded_on_rescreen | `analysis_v2/results/survey/excluded_on_rescreen.tsv` | 118 |
+| TableS5_survey_of_practice | `analysis_v2/results/survey/survey_of_practice_rescreen.tsv` | 671 |
+| TableS5b_excluded_on_rescreen | `analysis_v2/results/survey/excluded_on_rescreen.tsv` | 698 |

@@ -25,7 +25,7 @@ def samples(raw, gse):
     for l in t.splitlines():
         if l.startswith("^SAMPLE"):
             cur = dict(gsm=l.split("=", 1)[1].strip(), title="", source="", organism=[], characteristics=[], strategy="", source_lib="",
-                       molecule="", data_processing=[], srx="", type="", description=[], extract=[]); out.append(cur); continue
+                       molecule="", data_processing=[], srx="", type="", description=[], extract=[], protocol=[]); out.append(cur); continue
         if cur is None or not l.startswith("!Sample_"): continue
         k, _, v = l.partition(" = "); k = k[8:]; v = v.strip()
         if k == "title": cur["title"] = v
@@ -39,6 +39,7 @@ def samples(raw, gse):
         elif k == "type": cur["type"] = v
         elif k == "description": cur["description"].append(v)
         elif k.startswith("extract_protocol"): cur["extract"].append(v)
+        elif k.startswith(("growth_protocol", "treatment_protocol")): cur["protocol"].append(v)
         elif k == "relation" and v.startswith("SRA:"):
             m = re.search(r"(SRX\d+)", v); cur["srx"] = m.group(1) if m else ""
     ri = _read(f"{raw}/{gse}.sra_runinfo.csv.gz"); sra = {}

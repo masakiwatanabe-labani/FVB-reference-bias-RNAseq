@@ -32,7 +32,7 @@ def get(url, data=None, tries=4):
                 out = r.read().decode("utf-8", errors="replace")
             return out
         except (URLError, HTTPError, TimeoutError) as e:
-            print(f"  retry {k+1}: {e}", file=sys.stderr); time.sleep(3 * (k + 1))
+            print(f"  retry {k+1}: {e} [{url[:90]}]", file=sys.stderr); time.sleep(3 * (k + 1))
     raise RuntimeError(f"failed: {url}")
 
 def cache(path, fn):
@@ -65,13 +65,21 @@ def runinfo(srx):
 if __name__ == "__main__":
     os.makedirs(RAW, exist_ok=True)
     gses = [r["gse_acc"] for r in csv.DictReader(open(INPUT_TSV), delimiter="\t")]
+    LOG = open(f"{RAW}/fetch.log", "a"); T0 = time.time(); done = [0]; lk = threading.Lock()
+    LOG.write(f"# start {time.strftime('%Y-%m-%d %H:%M:%S %Z')}: {len(gses)} series, 4 workers\n"); LOG.flush()
     def one(ig):
         i, g = ig
         s = cache(f"{RAW}/{g}.series.soft.gz", lambda: soft(g, "self"))
         m = cache(f"{RAW}/{g}.samples.soft.gz", lambda: soft(g, "gsm"))
         srx = sorted(set(re.findall(r"^!Sample_relation = SRA: \S*?term=(SRX\d+)", m, flags=re.M)))
         ri = cache(f"{RAW}/{g}.sra_runinfo.csv.gz", lambda: runinfo(srx))
-        print(f"[{i}/{len(gses)}] {g}: samples={m.count('^SAMPLE')} srx={len(srx)} runs={max(0, ri.count(chr(10)) - 1)}", flush=True)
+        msg = f"[{i}/{len(gses)}] {g}: samples={m.count('^SAMPLE')} srx={len(srx)} runs={max(0, ri.count(chr(10)) - 1)}"
+        with lk:
+            done[0] += 1; el = time.time() - T0
+            LOG.write(f"{time.strftime('%H:%M:%S')} {msg} elapsed={el:.0f}s\n")
+            if done[0] % 100 == 0: LOG.write(f"## {done[0]} series done, {el/60:.1f} min elapsed ({el/done[0]*100/60:.1f} min per 100)\n")
+            LOG.flush()
+        print(msg, flush=True)
     with ThreadPoolExecutor(4) as ex: list(ex.map(one, enumerate(gses, 1)))   # 4 series at a time (GEO acc.cgi is slow)
     for g in gses:   # contact lines out of every cached SOFT record (idempotent)
         for kind in ("series", "samples"):

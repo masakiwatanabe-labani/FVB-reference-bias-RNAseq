@@ -586,7 +586,9 @@ claim("K5", g, "main", "We retrieved data-processing metadata from 154 GEO serie
 claim("K6", g, "main", "Among these 154 series, 140 reported", "140", vc.get("stated_B6", 0), "int"); claim("K7", g, "main", "The remaining 14 studies did not report", "14", vc.get("not_reported", 0), "int")
 claim("K8", g, "main", "and none reported a strain-aware alignment strategy", "0", vc.get("strain_aware", 0), "int")
 claim("K8r", g, "resp", "all 140 FVB RNA-seq studies that reported a reference used a B6 assembly", "140", vc.get("stated_B6", 0), "int")
-for k, txt in (("stated_B6", "97.2"), ("not_reported", "2.8"), ("strain_aware", "0.0")): claim(f"K9_{k}", g, "Fig1_survey", txt + "%", txt, 100 * vc.get(k, 0) / len(sv))   # Phase W-1 values (Fig. 1A regenerated)
+for k in ("stated_B6", "not_reported", "strain_aware"):   # Phase X: the printed percentage is read from the regenerated Fig. 1A at the position of the count
+    n_ = int(vc.get(k, 0)); m_ = re.search(rf"\b{n_} \((\d+\.\d)%\)", FIG["Fig1_survey"]); txt = m_.group(1) if m_ else "absent"
+    claim(f"K9_{k}", g, "Fig1_survey", f"{n_} ({txt}%)", txt, 100 * n_ / len(sv))
 claim("K9_total", g, "Fig1_survey", f"{len(sv)} FVB RNA-seq series", str(len(sv)), len(sv), "int", note="Fig. 1A title")
 # Phase W-3: animals of the strain comparison, from the sample identifiers of the manifest (fructose study: strain letter, diet
 # letter, tissue code, animal number numbered per strain; skin: one sample per animal); not from the manifest animal_id column

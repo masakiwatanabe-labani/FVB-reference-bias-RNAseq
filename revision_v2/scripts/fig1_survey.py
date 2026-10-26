@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Figure 1. (A) reference-genome practice among GEO FVB RNA-seq series (analysis_v2/results/survey/survey_of_practice_rescreen.tsv:
-the series that passed the Phase W-1 re-screen — RNA-Seq library strategy and FVB background per sample, survey/rescreen_classify.py;
+the series that passed the screen — Phase X: candidates from a broad GEO search (survey/broad_search.py), RNA-Seq library strategy and FVB background per sample (survey/rescreen_classify.py);
 before Phase W the panel used survey_of_practice_v2.tsv, 154 series); (B) schematic of SNP-mediated reference-mapping bias. The F1 allele fractions quoted in the
 schematic are read from analysis_v2/results/f1_ase/v2/f1_ase_per_sample_v2.tsv (the per-animal table of Fig. 2; mean over the 12 F1
 animals per arm), not typed in. Phase M-3 D1: the earlier path read the submitted-version table at the old site set."""

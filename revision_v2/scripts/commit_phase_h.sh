@@ -32,7 +32,7 @@ cp $PROJ/revision_v2/audit/fvb_vcf_counts.txt revision_v2/audit/; cp $PROJ/revis
 mkdir -p survey; cp $PROJ/survey_release/stage3_survey_v2.py $PROJ/survey_release/survey_classification.tsv $PROJ/survey_release/README.md survey/
 # Phase W-1 (2026-10-26): re-screen scripts, decisions, candidate list, per-series table and the cached GEO/SRA records
 cp $PROJ/revision_v2/audit/sex_marker_counts.tsv revision_v2/audit/   # Phase W-3: sex markers of the F1 and PyVT samples
-mkdir -p survey/raw; cp $PROJ/survey_release/rescreen_*.py $PROJ/survey_release/rescreen_decisions.tsv $PROJ/survey_release/rescreen_series.tsv $PROJ/survey_release/candidates_154.tsv $PROJ/survey_release/summary_stats_rescreen.txt survey/; cp $PROJ/survey_release/raw/* survey/raw/
+mkdir -p survey/raw; cp $PROJ/survey_release/rescreen_*.py $PROJ/survey_release/broad_search.py $PROJ/survey_release/search_log.tsv $PROJ/survey_release/candidates_broad.tsv $PROJ/survey_release/rescreen_decisions.tsv $PROJ/survey_release/rescreen_series.tsv $PROJ/survey_release/candidates_154.tsv $PROJ/survey_release/summary_stats_rescreen.txt survey/; cp $PROJ/survey_release/raw/* survey/raw/
 # Phase S4 (2026-10-23): fixed 10% site subset of the identity check (identity_check_release/ -> identity_check/)
 mkdir -p identity_check; cp $PROJ/identity_check_release/* identity_check/
 git add analysis_v2 revision_v2 manuscript survey identity_check

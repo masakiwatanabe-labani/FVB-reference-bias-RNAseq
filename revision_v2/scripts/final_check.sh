@@ -159,21 +159,21 @@ for f in ("LAR_main_text_v2","LAR_main_text_v2_marked","LAR_additional_file_1","
 print("; ".join(out)); sys.exit(1 if tot else 0)
 PYEOF
 else skipped "ASCII command text in the built docx"; fi
-# Phase S2 / W-1: the survey files released in survey/: the re-screen (rescreen_classify.py on the cached GEO/SRA records in raw/,
+# Phase S2 / W-1 / X: the survey files released in survey/ (Phase X: candidates = broad GEO search, candidates_broad.tsv): the re-screen (rescreen_classify.py on the cached GEO/SRA records in raw/,
 # 3 files per candidate series) gives the classification table; its counts equal numbers.tsv (survey_*), its rows equal Supplementary
 # Table S5 (gse/category/keyword), S5 + S5b = all candidates; the scripts carry no local paths, e-mail addresses or API keys
 python3 - <<'PYEOF' > /tmp/claude_survey.txt && ok "survey release (survey_release/ → survey/): $(cat /tmp/claude_survey.txt)" || bad "survey release: $(cat /tmp/claude_survey.txt)"
 import pandas as pd, re, ast, sys, glob, csv
 P="/usr/local/jupyter/FVB_bias"; c=pd.read_csv(f"{P}/survey_release/survey_classification.tsv",sep="\t",dtype=str,keep_default_na=False)
 T=f"{P}/manuscript/revised_v2/supplementary_tables"; s5=pd.read_csv(f"{T}/TableS5_survey_of_practice.tsv",sep="\t",dtype=str,keep_default_na=False)
-s5b=pd.read_csv(f"{T}/TableS5b_excluded_on_rescreen.tsv",sep="\t",dtype=str,keep_default_na=False); cand=pd.read_csv(f"{P}/survey_release/candidates_154.tsv",sep="\t",dtype=str)
+s5b=pd.read_csv(f"{T}/TableS5b_excluded_on_rescreen.tsv",sep="\t",dtype=str,keep_default_na=False); cand=pd.read_csv(f"{P}/survey_release/candidates_broad.tsv",sep="\t",dtype=str)
 N={r["key"]:r["value"] for r in csv.DictReader(open(f"{P}/manuscript/revised_v2/generated/numbers.tsv"),delimiter="\t")}
 n=c.category.value_counts(); cnt=(len(c), n.get("stated_B6",0), n.get("not_reported",0), n.get("strain_aware",0))
 exp=tuple(int(N[k]) for k in ("survey_total","survey_stated_B6_n","survey_not_reported_n","survey_strain_aware_n"))
 same=c[["gse_acc","category","matched_keyword"]].reset_index(drop=True).equals(s5[["gse_acc","category","matched_keyword"]].reset_index(drop=True))
 part=sorted(set(s5.gse_acc)|set(s5b.gse_acc))==sorted(cand.gse_acc) and not set(s5.gse_acc)&set(s5b.gse_acc)
 raw=len(glob.glob(f"{P}/survey_release/raw/GSE*.gz")); leak=[]
-for f in ("stage3_survey_v2.py","rescreen_fetch.py","rescreen_parse.py","rescreen_classify.py"):
+for f in ("stage3_survey_v2.py","rescreen_fetch.py","rescreen_parse.py","rescreen_classify.py","broad_search.py"):
     src=open(f"{P}/survey_release/{f}").read(); ast.parse(src); leak+=re.findall(r"/usr/local|/root|/home|jupyter|@[\w-]+\.\w|api_key|email", src, re.I)
 print(f"{cnt[0]} of {len(cand)} candidates, {cnt[1]}/{cnt[2]}/{cnt[3]} stated_B6/not_reported/strain_aware (numbers.tsv {exp}), table = Supplementary Table S5: {same}, S5 + S5b = candidates: {part}, cached records {raw}/{3*len(cand)}, local paths/e-mail/API keys in scripts: {len(leak)}")
 sys.exit(0 if cnt==exp and same and part and raw==3*len(cand) and not leak else 1)

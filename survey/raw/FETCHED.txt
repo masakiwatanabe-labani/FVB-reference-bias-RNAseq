@@ -1,2 +1,1 @@
-fetched 2026-10-26 13:39 JST from GEO (acc.cgi, form=text, view=brief) and SRA (E-utilities runinfo); 154 series
-contact lines (!Series_contact_*, !Sample_contact_*) removed from the cached SOFT records 2026-10-26 (rescreen_fetch.py)
+fetched 2026-10-26 14:52 JST from GEO (acc.cgi, form=text, view=brief) and SRA (E-utilities runinfo); 1322 series
