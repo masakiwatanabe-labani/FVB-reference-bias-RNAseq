@@ -107,8 +107,10 @@ Software versions are listed in `environment.yml` and in the manuscript Methods.
    matched-reference sensitivity) → `bias_decomposition.py`; `catalog_clusters_exonic_snps.py`, `rps2_*.py`.
 8. **F1 allele-specific expression:** `f1_ase_rerun.sh` → `f1_ase_summary_v2.py`, `f1_wasp_allele_removal.py`,
    `f1_sites_catalog_vs_other.py`.
-9. **Survey:** `survey/broad_search.py` (candidate list), `survey/rescreen_fetch.py` (GEO/SRA records cached in `survey/raw/`), `survey/rescreen_classify.py` (re-screen and
-   classification with `classify()` of `survey/stage3_survey_v2.py`); Fig. 1 by `revision_v2/scripts/fig1_survey.py`.
+9. **Survey:** `survey/broad_search.py` (candidate list), `survey/rescreen_fetch.py` (GEO/SRA records cached in `survey/raw/`), `survey/rescreen_classify.py` (re-screen; the
+   reference-genome category — stated_B6 / not_reported / strain_aware — is assigned by the sentence-level regular-expression
+   patterns of `survey/reference_classifier.py`, with the manual decisions in `survey/rescreen_decisions.tsv`); Fig. 1 by
+   `revision_v2/scripts/fig1_survey.py`.
 10. **Numbers, tables and checks:** `revision_v2/scripts/results_numbers.py` (`numbers.tsv`), `make_table1.py`,
     `build_supplementary_tables.py`, then `build_submission.sh build` and `final_check.sh`.
 
