@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Survey screen and classification (Phase W-1 rules; Phase X: broad candidate list, judgement patterns) from the cached GEO/SRA
-records (raw/, rescreen_fetch.py); re-runs the unchanged reference-genome classifier of stage3_survey_v2.py on the RNA-Seq samples.
+records (raw/, rescreen_fetch.py); the reference-genome category of the RNA-Seq samples is assigned by classify_reference() of
+survey/reference_classifier.py (sentence-level patterns; manual decisions in survey/rescreen_decisions.tsv).
 
 Rule (authors' decision, Phases W-1 and X):
   * an FVB RNA-seq series contains >= 1 Mus musculus sample with library_strategy == "RNA-Seq" (SRA run table; the GEO field where the
