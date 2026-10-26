@@ -354,6 +354,17 @@ mech_direct_mean_absdelta	0.17315582465089616
 mech_multi_residual_le_0.30	37
 mech_multi_residual_min	-9.511730345715453
 mech_multi_residual_max	2.259624316065387
+mech_multi_absresidual_le_0.30	31
+mech_multi_absresidual_ge_0.70	17
+mech_multi_residual_ge_0.70	11
+mech_multi_absresidual_0.30_0.70	34
+mech_multi_sign_reversed_n	11
+mech_direct_sign_reversed_n	0
+mech_multi_signed_not_abs_le_0.30_n	6
+mech_multi_signed_not_abs_le_0.30_genes	H2bc11, Gm8909, H2-T10, Gm15931, Ifi203-ps, Hspa8
+mech_multi_sign_reversed_genes	Mup17, Gm3248, H2bc11, Gm8909, 9030624G23Rik, H2-T10, Gm15931, Gm10268, Gm9892, Ifi203-ps, Hspa8
+mech_multi_absresidual_max	9.511730345715472
+mech_multi_absresidual_min	0.005375270823702037
 mech_direct_residual_ge_0.80	19
 mech_direct_residual_min	0.362355369335067
 mech_direct_residual_max	1.1402301234033223

@@ -354,6 +354,17 @@ mech_direct_mean_absdelta	0.173156	analysis_v2/results/catalog/catalog.primary.t
 mech_multi_residual_le_0.30	37	analysis_v2/results/catalog/catalog.primary.tsv
 mech_multi_residual_min	-9.51173	analysis_v2/results/catalog/catalog.primary.tsv
 mech_multi_residual_max	2.25962	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_absresidual_le_0.30	31	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_absresidual_ge_0.70	17	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_residual_ge_0.70	11	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_absresidual_0.30_0.70	34	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_sign_reversed_n	11	analysis_v2/results/catalog/catalog.primary.tsv
+mech_direct_sign_reversed_n	0	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_signed_not_abs_le_0.30_n	6	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_signed_not_abs_le_0.30_genes	H2bc11, Gm8909, H2-T10, Gm15931, Ifi203-ps, Hspa8	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_sign_reversed_genes	Mup17, Gm3248, H2bc11, Gm8909, 9030624G23Rik, H2-T10, Gm15931, Gm10268, Gm9892, Ifi203-ps, Hspa8	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_absresidual_max	9.51173	analysis_v2/results/catalog/catalog.primary.tsv
+mech_multi_absresidual_min	0.00537527	analysis_v2/results/catalog/catalog.primary.tsv
 mech_direct_residual_ge_0.80	19	analysis_v2/results/catalog/catalog.primary.tsv
 mech_direct_residual_min	0.362355	analysis_v2/results/catalog/catalog.primary.tsv
 mech_direct_residual_max	1.14023	analysis_v2/results/catalog/catalog.primary.tsv

@@ -164,6 +164,13 @@ cw=pd.read_csv(f"{RES}/catalog/catalog.water.tsv", sep="\t", index_col=0); evw=r
 mc=cat.mechanism_class; mm=cat[mc=="SNP-induced multi-mapping"]; md=cat[mc=="direct SNP misalignment"]
 put("mech_multi_n", len(mm), evc); put("mech_direct_n", len(md), evc); put("mech_multi_mean_absdelta", float(mm.delta_multi_minus_unique.abs().mean()), evc); put("mech_direct_mean_absdelta", float(md.delta_multi_minus_unique.abs().mean()), evc)
 put("mech_multi_residual_le_0.30", int((mm.residual_fraction<=0.30).sum()), evc); put("mech_multi_residual_min", float(mm.residual_fraction.min()), evc); put("mech_multi_residual_max", float(mm.residual_fraction.max()), evc)
+# Phase W-2 (2026-10-26): residual_fraction is signed; a gene whose multi-mapping bias reverses sign has a negative ratio and satisfies
+# "<= 0.30" whatever its magnitude. abs_residual = |bias_multi| / |bias_unique| measures the fraction of the unique-only bias that remains.
+_ar=mm.mean_bias_multi.abs()/mm.mean_bias.abs(); _rev=np.sign(mm.mean_bias_multi)!=np.sign(mm.mean_bias)
+put("mech_multi_absresidual_le_0.30", int((_ar<=0.30).sum()), evc); put("mech_multi_absresidual_ge_0.70", int((_ar>=0.70).sum()), evc); put("mech_multi_residual_ge_0.70", int((mm.residual_fraction>=0.70).sum()), evc)
+put("mech_multi_absresidual_0.30_0.70", int(((_ar>0.30)&(_ar<0.70)).sum()), evc); put("mech_multi_sign_reversed_n", int(_rev.sum()), evc); put("mech_direct_sign_reversed_n", int((np.sign(md.mean_bias_multi)!=np.sign(md.mean_bias)).sum()), evc)
+put("mech_multi_signed_not_abs_le_0.30_n", int(((mm.residual_fraction<=0.30)&~(_ar<=0.30)).sum()), evc); put("mech_multi_signed_not_abs_le_0.30_genes", ", ".join(mm[(mm.residual_fraction<=0.30)&~(_ar<=0.30)].gene_name), evc)
+put("mech_multi_sign_reversed_genes", ", ".join(mm[_rev].gene_name), evc); put("mech_multi_absresidual_max", float(_ar.max()), evc); put("mech_multi_absresidual_min", float(_ar.min()), evc)
 put("mech_direct_residual_ge_0.80", int((md.residual_fraction>=0.80).sum()), evc); put("mech_direct_residual_min", float(md.residual_fraction.min()), evc); put("mech_direct_residual_max", float(md.residual_fraction.max()), evc)
 put("mech_multi_biotype_pseudogene", int(bt[mc=="SNP-induced multi-mapping"].eq("pseudogene").sum()), evc); put("mech_direct_biotype_pseudogene", int(bt[mc=="direct SNP misalignment"].eq("pseudogene").sum()), evc)
 sf=open(f"{FIG}/SFig2_multimapping_data.tsv").read().split("## genome_wide")[1].split("\n")[2].split("\t"); evs=rel(f"{FIG}/SFig2_multimapping_data.tsv")
