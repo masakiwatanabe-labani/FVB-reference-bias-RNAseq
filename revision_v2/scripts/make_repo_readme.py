@@ -50,7 +50,7 @@ Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene
   C57BL/6J reads lost on that reference.
 - **Survey of practice:** «survey_total|d» public GEO series with FVB RNA-seq data (of «survey_candidates_n|d» candidates from a broad GEO search, screened
   for RNA-Seq library strategy and FVB background per sample): «survey_stated_B6_n|d» stated a B6 reference, «survey_not_reported_n|d» did not report one,
-  and none reported a strain-aware method (`survey/`; the series deposited by the authors' group is not counted).
+  and «survey_strain_aware_n|d» reported a strain-aware method (`survey/`; the series deposited by the authors' group is not counted).
 
 Every animal was checked against its recorded strain by the allele fractions at FVB/NJ-homozygous exonic SNP sites before
 use (sample-identity check; results in `analysis_v2/results/qc/sample_identity_verification.tsv`).

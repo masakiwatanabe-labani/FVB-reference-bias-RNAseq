@@ -173,7 +173,7 @@ exp=tuple(int(N[k]) for k in ("survey_total","survey_stated_B6_n","survey_not_re
 same=c[["gse_acc","category","matched_keyword"]].reset_index(drop=True).equals(s5[["gse_acc","category","matched_keyword"]].reset_index(drop=True))
 part=sorted(set(s5.gse_acc)|set(s5b.gse_acc))==sorted(cand.gse_acc) and not set(s5.gse_acc)&set(s5b.gse_acc)
 raw=len(glob.glob(f"{P}/survey_release/raw/GSE*.gz")); leak=[]
-for f in ("stage3_survey_v2.py","rescreen_fetch.py","rescreen_parse.py","rescreen_classify.py","broad_search.py"):
+for f in ("stage3_survey_v2.py","rescreen_fetch.py","rescreen_parse.py","rescreen_classify.py","broad_search.py","reference_classifier.py"):
     src=open(f"{P}/survey_release/{f}").read(); ast.parse(src); leak+=re.findall(r"/usr/local|/root|/home|jupyter|@[\w-]+\.\w|api_key|email", src, re.I)
 print(f"{cnt[0]} of {len(cand)} candidates, {cnt[1]}/{cnt[2]}/{cnt[3]} stated_B6/not_reported/strain_aware (numbers.tsv {exp}), table = Supplementary Table S5: {same}, S5 + S5b = candidates: {part}, cached records {raw}/{3*len(cand)}, local paths/e-mail/API keys in scripts: {len(leak)}")
 sys.exit(0 if cnt==exp and same and part and raw==3*len(cand) and not leak else 1)

@@ -17,15 +17,17 @@ Rule (authors' decision, Phases W-1 and X):
 Judgement patterns (column `pattern`; proposed decision applied provisionally; each series with a pattern gets a row in
 rescreen_decisions.tsv, source = pattern): see PATTERNS. Rows with source = manual (Phase W) override the pattern; a pattern row whose
 `decision` differs from its `proposed_decision` (an author's change) is kept and applied on the next run.
-Reference-genome category: classify() of stage3_survey_v2.py (keyword lists unchanged) on the de-duplicated !Sample_data_processing
-text of the FVB RNA-Seq samples (of all RNA-Seq samples of the series if none is FVB, for the record).
+Reference-genome category (Phase Z): classify_reference() of reference_classifier.py on the full de-duplicated !Sample_data_processing
+text of the FVB RNA-Seq samples (of all RNA-Seq samples of the series if none is FVB, for the record); a manual row may set
+`category_override` (with the reason in `evidence`). Phase Z-2: a retained SuperSeries of a retained series is removed at the end
+(pairs in OUT_DIR/superseries_pairs_removed.tsv).
 Outputs (OUT_DIR): rescreen_series.tsv (all candidates), survey_of_practice_rescreen.tsv (survivors; Supplementary Table S5 and
 Fig. 1A source), excluded_on_rescreen.tsv (Supplementary Table S5b source), survey_classification.tsv (survivors, short form),
 summary_stats_rescreen.txt; DECISIONS_TSV rewritten (manual rows kept, pattern rows regenerated).
 Usage: rescreen_classify.py CANDIDATES_TSV RAW_DIR DECISIONS_TSV OUT_DIR"""
 import sys, os, re, csv, collections
 from rescreen_parse import series, samples
-from stage3_survey_v2 import classify
+from reference_classifier import classify_reference   # Phase Z (replaces classify() of stage3_survey_v2.py)
 
 CAND, RAW, DEC, OUT = sys.argv[1:5]
 STRAIN_KEY = re.compile(r"^\s*(strain|background|genetic background|background strain|strain background|mouse strain|mouse line|mouseline|"
@@ -173,16 +175,30 @@ def main():
             if final == "Y" and (auto == "N" or reason.startswith("not FVB")): reason = "included on judgement: " + btype
         if final == "N" and reason == "FVB RNA-seq": reason = "excluded on judgement"
         basis = fvb_rna or rna
-        dp = " | ".join(dict.fromkeys(x for s in basis for x in s["data_processing"]))
-        cat, kw = classify(dp) if dp else ("not_reported", "")
-        t = dp.lower()
-        asm = ";".join(a for a, pat in (("GRCm38/mm10", r"grcm38|mm10|ncbi38"), ("GRCm39/mm39", r"grcm39|mm39"), ("mm9", r"\bmm9|ncbi37")) if re.search(pat, t))
+        dpl = list(dict.fromkeys(x for s in basis for x in s["data_processing"])); dp = " | ".join(dpl)
+        cr = classify_reference(dpl); cat, kw, asm = cr["category"], cr["matched_keyword"], cr["assemblies_named"]
+        if d and d.get("category_override"):   # manual verification overrule (Phase Z-1.5)
+            cat, kw = d["category_override"], "manual: " + d["borderline_type"]
+            if cat != "strain_aware": cr["strain_aware_method"] = ""
         rows.append(dict(gse_acc=g, title=S["title"] or r.get("title", ""), include=final, reason=reason, auto_decision=auto, pattern=pattern if source == "pattern" else (d.get("pattern", "") if d else ""),
             decision_source=source, borderline_type=btype, borderline_evidence=bev, proposed_decision=prop, series_type="; ".join(S["types"]),
             library_strategies=";".join(strategies), mixed_strategy="Y" if (rna and non_rna_strat) else "N", data_type=data_type, n_samples=len(sm),
             n_mouse_rnaseq_samples=len(rna), n_fvb_rnaseq_samples=n_fvb_rna, strain_evidence=evidence, strain_text=strain_text, superseries_of=";".join(S["superseries_of"]),
             subseries_of=";".join(S["subseries_of"]), source_query=r.get("source_query", ""), previous_category=r.get("category", ""), category=cat, matched_keyword=kw,
-            assemblies_named=asm, evidence_source="GEO_sample_dp" if dp else "none", evidence_text=dp[:600], validation_url=f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={g}"))
+            assemblies_named=asm, strain_aware_method=cr["strain_aware_method"], reference_named_without_assembly=cr["reference_named_without_assembly"], human_assembly_named=cr["human_assembly_named"],
+            decisive_sentence=cr["sentence"][:500], release_date=r.get("release_date", ""), evidence_source="GEO_sample_dp" if dp else "none", evidence_text=dp[:600], validation_url=f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={g}"))
+    # Phase Z-2: a retained series that is the SuperSeries of another retained series is a duplicate (relations read from both sides)
+    kept = {x["gse_acc"] for x in rows if x["include"] == "Y"}; byg = {x["gse_acc"]: x for x in rows}; pairs = []
+    for x in rows:
+        if x["include"] != "Y": continue
+        subs = set(filter(None, x["superseries_of"].split(";"))) | {y["gse_acc"] for y in rows if x["gse_acc"] in y["subseries_of"].split(";")}
+        live = sorted(subs & kept - {x["gse_acc"]})
+        if live:
+            pairs.append((x["gse_acc"], live)); x["include"] = "N"; x["reason"] = "duplicate of SubSeries (" + ", ".join(live) + ", retained)"
+            for p_ in pattern_rows:
+                if p_["gse_acc"] == x["gse_acc"]: p_["decision"] = p_["proposed_decision"] = "N"; p_["reason"] = x["reason"]   # rule outcome, not an author change
+    with open(f"{OUT}/superseries_pairs_removed.tsv", "w") as o:
+        o.write("superseries\tretained_subseries\n"); [o.write(f"{a}\t{';'.join(b)}\n") for a, b in pairs]
     os.makedirs(OUT, exist_ok=True); cols = list(rows[0])
     def wr(path, rr, cc):
         with open(path, "w", newline="") as o:
@@ -190,11 +206,12 @@ def main():
     wr(f"{OUT}/rescreen_series.tsv", rows, cols)
     keep = [x for x in rows if x["include"] == "Y"]; drop = [x for x in rows if x["include"] != "Y"]
     wr(f"{OUT}/survey_of_practice_rescreen.tsv", keep, ["gse_acc", "title", "category", "evidence_source", "matched_keyword", "assemblies_named", "evidence_text",
-       "validation_url", "series_type", "library_strategies", "data_type", "n_fvb_rnaseq_samples", "strain_evidence", "strain_text", "borderline_type"])
+       "validation_url", "series_type", "library_strategies", "data_type", "n_fvb_rnaseq_samples", "strain_evidence", "strain_text", "borderline_type",
+       "strain_aware_method", "reference_named_without_assembly", "human_assembly_named", "decisive_sentence", "release_date"])
     wr(f"{OUT}/survey_classification.tsv", keep, ["gse_acc", "title", "category", "matched_keyword", "assemblies_named", "data_type", "n_fvb_rnaseq_samples", "strain_evidence"])
     wr(f"{OUT}/excluded_on_rescreen.tsv", drop, ["gse_acc", "title", "reason", "previous_category", "series_type", "library_strategies", "strain_evidence", "strain_text",
        "borderline_type", "validation_url"])
-    dcols = ["gse_acc", "decision", "proposed_decision", "borderline_type", "evidence", "reason", "fvb_gsm", "strain_evidence", "strain_text", "pattern", "source"]
+    dcols = ["gse_acc", "decision", "proposed_decision", "borderline_type", "evidence", "reason", "fvb_gsm", "strain_evidence", "strain_text", "pattern", "source", "category_override"]
     man_rows = [dict(r, source="manual", pattern=r.get("pattern") or "manual") for r in dec_rows if r.get("source", "manual") == "manual"]
     wr(DEC, man_rows + [p for p in pattern_rows if p["gse_acc"] not in manual], dcols)
     c = collections.Counter(x["category"] for x in keep); n = len(keep)

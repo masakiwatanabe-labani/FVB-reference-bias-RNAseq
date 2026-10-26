@@ -21,14 +21,23 @@
   FVB-derived cell lines, primary cells and tumours grown in FVB hosts); B6-congenic lines, mixed backgrounds with FVB as one
   contributor, F1/F2/F3 hybrids and multi-strain pools are not FVB background. Strain per sample from the characteristics; where no
   sample names a strain, from the series summary/design, then the sample titles, then the sample protocols. A SuperSeries is dropped
-  when one of its SubSeries is a candidate, unless it holds FVB RNA-Seq samples outside them. The reference-genome category is
-  assigned by `classify()` of `stage3_survey_v2.py` (keyword lists unchanged) on the data-processing text of the FVB RNA-Seq samples.
-- `rescreen_decisions.tsv` — every series whose decision needs judgement: `source = manual` (the 16 Phase W decisions, applied as
-  written) and `source = pattern` (one row per series matched by a judgement pattern, `pattern` column; the proposed decision of the
+  when one of its SubSeries is a candidate, unless it holds FVB RNA-Seq samples outside them; at the end, any retained SuperSeries of
+  a retained series is removed (`superseries_pairs_removed.tsv`). The reference-genome category is assigned by
+  `reference_classifier.py` on the full data-processing text of the FVB RNA-Seq samples.
+- `reference_classifier.py` — Phase Z classifier (case-insensitive regular expressions, per sentence; the lists are in the file,
+  `PATTERN_LISTS`): strain-aware (priority; FVB/NJ genome or transcriptome names, pseudogenomes, personalised/individualised/diploid
+  genomes, WASP, g2gtools, N-masking, SNPsplit, Seqnature, EMASE, allele-specific alignment, strain-/SNP-aware, FVB within 40
+  characters of genome/transcriptome/cDNA/reference), only in a sentence about alignment, mapping, quantification, index or
+  reference; stated B6 (GRCm38/39 with space or dot variants, the typo GRCme8, mm9/mm10/mm39, GENCODE M releases, C57BL/6, B6
+  genome/reference, NCBI build/m 37/38, MGSCv37); GRCh and hg are human and never count; not reported otherwise, with the flags
+  `reference_named_without_assembly` (Ensembl/RefSeq/UCSC/iGenomes or a human assembly named without a mouse assembly) and
+  `human_assembly_named`. Columns `strain_aware_method` and `decisive_sentence` give the method and the sentence that decided.
+- `rescreen_decisions.tsv` — every series whose decision needs judgement: `source = manual` (Phase W and later decisions, applied as
+  written; `category_override` overrules the classifier after manual verification) and `source = pattern` (one row per series matched by a judgement pattern, `pattern` column; the proposed decision of the
   pattern is applied provisionally; a row whose `decision` is changed from `proposed_decision` is kept and applied on the next run).
 - `rescreen_series.tsv` — every candidate with the decision, reason, pattern and evidence columns and the category.
 - `survey_classification.tsv` — the series kept (Supplementary Table S5 has the full columns; the excluded ones are in sheet S5b).
 - `summary_stats_rescreen.txt` — counts.
-- `stage3_survey_v2.py` — the original survey script; `classify()` and its keyword lists are used unchanged.
+- `stage3_survey_v2.py` — the original survey script (June 2026); its keyword classifier was replaced in Phase Z.
 
 The classification uses the GEO records as fetched on 2026-10-26, which the submitters may have edited since earlier fetches.

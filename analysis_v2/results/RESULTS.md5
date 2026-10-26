@@ -243,8 +243,9 @@ c76ef1000894634a62b6bc7917b5b5e3  ./identity/full_site_tables/heart_B6_C57_M_12w
 78f20230abd899aee01fcb4bedbe7db1  ./identity/full_site_tables/heart_B6_C57_M_12wk_mRNA_4.ase.tsv
 aaa55639d74aa42528897084cecb6bf1  ./catalog/catalog_clusters.tsv
 a0d693539f3dbaac81aeb3e4218a65e2  ./predictors/gene_exonic_snp_counts.tsv
-f96a370d4ea1a01edf7977fd878d7337  ./survey/survey_of_practice_rescreen.tsv
-552969455b8b7582c40d9156ce41f2b0  ./survey/excluded_on_rescreen.tsv
-b1c1884a9e662011264abe0c55645062  ./survey/rescreen_series.tsv
-9428c226ff6dc8157f45563978b32111  ./survey/survey_classification.tsv
-3e3563151326957cc7f4cd5d2f6e80de  ./survey/summary_stats_rescreen.txt
+6838d65f91b224d24d6128a429084442  ./survey/survey_of_practice_rescreen.tsv
+a3455635ae6438e7c7f6eee3980edae6  ./survey/excluded_on_rescreen.tsv
+d476354dc61fe935660857cb926a00aa  ./survey/rescreen_series.tsv
+8d5fb99fe23f5cfae5d101cdc5ea9700  ./survey/survey_classification.tsv
+a1b928572b36bcf13d617cc5785c9d7b  ./survey/summary_stats_rescreen.txt
+e63dced48677a23dad5135a6141c8470  ./survey/superseries_pairs_removed.tsv

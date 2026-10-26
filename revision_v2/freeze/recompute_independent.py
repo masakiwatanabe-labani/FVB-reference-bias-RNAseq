@@ -40,7 +40,7 @@ def decimals(s):
 # (2026-10-24 dumps, not rebuilt here); the exact value is recomputed with the corrected definition and the claim is reported as
 # REWRITE (printed value pending the authors' rewrite) instead of FAIL. A REWRITE claim whose text already matches becomes PASS.
 REWRITE = {"K5": "W-1 survey re-screen (RNA-Seq library strategy, FVB background per sample)", "K6": "W-1 survey re-screen", "K7": "W-1 survey re-screen",
-           "K8r": "W-1 survey re-screen", "D11": "W-2: |bias_multi|/|bias_unique| <= 0.30 (the signed ratio also admits six sign-reversing genes)",
+           "K8r": "W-1 survey re-screen", "K8": "Phase Z: strain-aware series in the survey (reference_classifier.py)", "D11": "W-2: |bias_multi|/|bias_unique| <= 0.30 (the signed ratio also admits six sign-reversing genes)",
            "W3a": "W-3: samples, not animals (fructose-study tissues share animals)", "W3b": "W-3: samples, not animals", "W3c": "W-3: 83 samples from the animals counted here"}
 def claim(cid, group, where, needle, text, exact, kind="num", note="", scale=1.0):
     """kind: num (rounded equality at printed precision) | int | le (|exact| <= text) | lt (exact < text) | ge (exact >= text) |

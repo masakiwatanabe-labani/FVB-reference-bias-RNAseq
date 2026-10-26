@@ -67,14 +67,20 @@ put("survey_excluded_non_rnaseq_n", int(_x.reason.str.startswith("non-RNA-seq").
 put("survey_excluded_superseries_n", int(_x.reason.str.startswith("duplicate of SubSeries").sum()), evr)
 # Phase X (2026-10-26): broad candidate list; sibling SubSeries merged per SuperSeries; judgement patterns
 _an=_b6.assemblies_named
-put("survey_b6_mm10_only_n", int((_an=="GRCm38/mm10").sum()), evr); put("survey_b6_mm39_only_n", int((_an=="GRCm39/mm39").sum()), evr); put("survey_b6_mm9_only_n", int((_an=="mm9").sum()), evr)
+put("survey_b6_mm10_only_n", int((_an=="GRCm38").sum()), evr); put("survey_b6_mm39_only_n", int((_an=="GRCm39").sum()), evr); put("survey_b6_mm9_only_n", int((_an=="mm9").sum()), evr)
 put("survey_b6_multiple_assemblies_n", int(_an.str.contains(";").sum()), evr)
+# Phase Z: reference_classifier.py categories
+_nr=_k[_k.category=="not_reported"]; put("survey_reference_named_without_assembly_n", int((_nr.reference_named_without_assembly=="Y").sum()), evr); put("survey_human_assembly_named_n", int((_nr.human_assembly_named=="Y").sum()), evr)
+put("survey_b6_c57bl6_without_assembly_n", int((_an=="").sum()), evr)
+for _m,_n in _k[_k.category=="strain_aware"].strain_aware_method.value_counts().items(): put("survey_strain_aware_" + re.sub(r"[^a-z0-9]+","_",_m.lower()).strip("_") + "_n", int(_n), evr)
+put("survey_strain_aware_series", ", ".join(_k[_k.category=="strain_aware"].gse_acc), evr)
+put("survey_superseries_pairs_removed_n", sum(1 for _ in open(f"{RES}/survey/superseries_pairs_removed.tsv")) - 1, rel(f"{RES}/survey/superseries_pairs_removed.tsv"))
 put("survey_excluded_authors_deposit_n", int(_x.reason.str.startswith("deposited by the authors").sum()), evr)   # Phase X: GSE348802, authors' own series
 put("survey_studies_siblings_merged_n", int(_k[_k.subseries_of==""].shape[0] + _k[_k.subseries_of!=""].subseries_of.str.split(";").str[0].nunique()), evr)
 for _p,_n in _rs[_rs.pattern!=""].pattern.value_counts().items(): put(f"survey_pattern_{_p}_n", int(_n), evr)
-put("survey_b6_grcm38_mm10_n", int(_b6.assemblies_named.str.contains("GRCm38/mm10").sum()), evr); put("survey_b6_grcm39_mm39_n", int(_b6.assemblies_named.str.contains("GRCm39/mm39").sum()), evr)
+put("survey_b6_grcm38_mm10_n", int(_b6.assemblies_named.str.contains("GRCm38").sum()), evr); put("survey_b6_grcm39_mm39_n", int(_b6.assemblies_named.str.contains("GRCm39").sum()), evr)   # Phase Z labels GRCm38 / GRCm39 / mm9
 put("survey_b6_mm9_n", int(_b6.assemblies_named.str.contains("mm9").sum()), evr); put("survey_b6_no_assembly_named_n", int((_b6.assemblies_named=="").sum()), evr)
-put("survey_b6_mm10_or_mm39_only_n", int(_b6.assemblies_named.isin(["GRCm38/mm10","GRCm39/mm39","GRCm38/mm10;GRCm39/mm39"]).sum()), evr)
+put("survey_b6_mm10_or_mm39_only_n", int(_b6.assemblies_named.isin(["GRCm38","GRCm39","GRCm38;GRCm39"]).sum()), evr)
 put("survey_singlecell_only_n", int((_k.data_type=="single-cell").sum()), evr); put("survey_bulk_only_n", int((_k.data_type=="bulk").sum()), evr); put("survey_bulk_and_singlecell_n", int((_k.data_type=="mixed").sum()), evr)
 put("survey_mixed_strategy_kept_n", int((_k.mixed_strategy=="Y").sum()), evr); put("survey_series_level_strain_n", int((_k.strain_evidence=="series_level").sum()), evr)
 put("survey_judgement_n", int((_rs.borderline_type!="").sum()), evr); put("survey_judgement_included_n", int(((_rs.borderline_type!="")&(_rs.include=="Y")).sum()), evr)

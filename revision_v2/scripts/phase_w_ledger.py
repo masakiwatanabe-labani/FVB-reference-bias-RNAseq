@@ -31,6 +31,8 @@ ITEMS = {   # trigger -> [(regex on the sentence, what changes)]
   (r"\b14 (studies|series|did)|remaining 14", f"14 -> {n('survey_not_reported_n')} (survey_not_reported_n)"),
   (r"GRCm38/mm10 or GRCm39/mm39|legacy mm9|\bmm9\b", f"assemblies among stated B6: GRCm38/mm10 {n('survey_b6_grcm38_mm10_n')}, mm9 {n('survey_b6_mm9_n')}, GRCm39/mm39 {n('survey_b6_grcm39_mm39_n')} (survey_b6_*_n)"),
   (r"Studies were retrieved from NCBI GEO", "S5 caption: search as in survey/search_log.tsv; screen rule; S5 columns and sheet S5b"),
+  (r"(?i)none reported (a )?strain-aware|no study reported|No study’s data-processing text|every FVB study reporting a reference used a B6|all studies that reported a reference genome used a B6|all used a C57BL/6J-derived assembly", f"strain-aware {n('survey_strain_aware_n')} ({n('survey_strain_aware_series')}); not 'none'"),
+  (r"(?i)strain-aware alignment|strain-aware keywords|WASP, g2gtools", "Phase Z classifier: strain-aware patterns in survey/reference_classifier.py (FVB/NJ genome or transcriptome, pseudogenome, WASP, SNPsplit, g2gtools, ...); stated-B6 patterns incl. GRCm 38 / GRCme8 / GENCODE M / NCBI build 37; GRCh/hg never B6"),
   (r"single-cell|single cell", f"single-cell-only series {n('survey_singlecell_only_n')}, bulk-only {n('survey_bulk_only_n')}, both {n('survey_bulk_and_singlecell_n')}"),
  ],
  "W-2": [
