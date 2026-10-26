@@ -76,7 +76,7 @@ Raw reads are not included; all datasets are public in NCBI GEO / SRA (downloade
 | `survey/` | GEO survey script and classification table (see `survey/README.md`) |
 | `identity_check/` | the fixed 10% site subset of the sample-identity check, its traversal intervals and the script that regenerates them (see `identity_check/README.md`) |
 | `scripts/pipeline/01_build_references.sh` | reference construction (GRCm39, MGP FVB/NJ variants, g2gtools personalised genome, STAR indices) |
-| `manuscript/revised_v2/` | manuscript sources, generated numbers (`generated/numbers.tsv`) and supplementary tables |
+| `manuscript/revised_v2/` | generated numbers (`generated/numbers.tsv`) and supplementary tables. The manuscript and its supplementary files are available from the journal. |
 | `revision_v2/` | revision records: `CHANGELOG.md`, `text_changes.md`, `change_ledger.tsv`, audit notes (`audit/`), number freeze and independent recomputation (`freeze/`) |
 | `legacy/v1/` | scripts of the originally submitted version (not used by the revised analysis) |
 

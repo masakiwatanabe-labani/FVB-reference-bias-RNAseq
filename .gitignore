@@ -41,3 +41,14 @@ Thumbs.db
 *.env
 .env
 config_local.sh
+
+# manuscript documents stay with the journal; only figures are tracked here
+revision_v2/submission/*
+!revision_v2/submission/figures/
+# Phase V-1: manuscript prose, letters and the token audit (it quotes the letters) are not tracked; commit_phase_h.sh copies
+# them into this tree, and these rules keep `git add` from picking them up again
+/manuscript/revised_v2/*.md
+/manuscript/revised_v2/generated/methods_datasets.md
+/revision_v2/response_to_reviewers.md
+/revision_v2/cover_letter.md
+/revision_v2/freeze/token_audit.tsv
