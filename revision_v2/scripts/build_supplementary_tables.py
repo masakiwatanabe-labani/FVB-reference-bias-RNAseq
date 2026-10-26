@@ -10,7 +10,12 @@ def w(name, df, source):
     p=f"{OUT}/{name}.tsv"; df.to_csv(p, sep="\t", index=False); src.append((name, source, len(df))); print(f"{name}: {len(df)} rows")
 # S1
 man=pd.read_csv(f"{PROJ}/revision_v2/manifest/manifest.tsv", sep="\t", dtype=str)
-w("TableS1a_manifest", man[["sample_id","GSE","GSM","BioSample","SRR","strain","tissue","diet","sex","age","library_layout","read_length","include","include_reason","role","design_main","design_sensitivity","n_technical_runs","read_count_total"]], "revision_v2/manifest/manifest.tsv")
+w("TableS1a_manifest", man[["sample_id","GSE","GSM","BioSample","SRR","strain","tissue","diet","sex","age","animal_id","n_tissues_from_animal","library_layout","read_length","include","include_reason","role","design_main","design_sensitivity","n_technical_runs","read_count_total"]], "revision_v2/manifest/manifest.tsv")
+# Phase W-3 (2026-10-26): S1c — one row per animal contributing at least one included sample (manifest animal_id)
+ia=man[man.include=="Y"]
+w("TableS1c_animals", ia.groupby("animal_id", sort=False).agg(strain=("strain","first"), diet_or_condition=("diet","first"), dataset=("GSE", lambda x: ";".join(sorted(set(x)))),
+    tissues_sampled=("tissue", lambda x: ";".join(sorted(set(x)))), n_samples=("sample_id","size"), role=("role","first")).reset_index().sort_values(["role","strain","dataset","animal_id"], key=lambda c: c.map({"strain_comparison":0,"negative_control_candidate":1,"f1_ase":2}).fillna(c) if c.name=="role" else c),
+    "revision_v2/manifest/manifest.tsv (animal_id; included samples)")
 qc=pd.read_csv(f"{RES}/qc/sample_identity_verification.tsv", sep="\t", dtype=str); w("TableS1b_identity_verification", qc, "analysis_v2/results/qc/sample_identity_verification.tsv")
 # S2
 cat=pd.read_csv(f"{RES}/catalog/catalog.primary.tsv", sep="\t"); meta=pd.read_csv(f"{RES}/gene_meta.tsv", sep="\t", index_col=0)

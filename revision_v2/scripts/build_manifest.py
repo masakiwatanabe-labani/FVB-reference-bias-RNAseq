@@ -11,6 +11,12 @@ Selection rules are code, not hand edits:
                      water and fructose rows reworded to match (IMQ and control-cream texts were already correct).
   DBA/2J: excluded. GSE135230: excluded (single mixed background). GSE175625: candidate negative control
   (include = PENDING until the human decides, rule B-5). F1 (GSE200632, GSE293440): include = Y (reused).
+Phase W-3 (2026-10-26): animal_id and n_tissues_from_animal (function animal_id). The fructose-study titles encode strain, diet, tissue and
+  animal number (FFM12 = FVB/NJ, fructose, mesenteric adipose, animal 12; FFHyp12; FFL12), numbered in one sequence per strain across both
+  diets, so adipose, hypothalamus and liver samples with the same strain and number are three tissues of one animal (GEO and BioSample
+  carry no animal attribute; the basis is the ID structure). Skin (GSE86315), PyVT tumours (one primary tumour per mouse, Tong et al.
+  2023 Methods), F1 cortex (GSE293440) and the GSE55792 hearts: one sample per animal. GSE200632 keratinocyte cultures: donor animals
+  not recorded (cultures from newborn pups; all four female, revision_v2/audit/sex_marker_counts.tsv), one id per culture.
 """
 import collections, csv
 PROJ="/usr/local/jupyter/FVB_bias"; MAN=f"{PROJ}/revision_v2/manifest"; AUD=f"{PROJ}/revision_v2/audit"
@@ -98,8 +104,24 @@ def decide(s):
     if s["role"]=="negative_control_candidate": return "Y","negative control (decision 2026-10-14, Option A): B6.FVB-Tg(MMTV-PyVT) congenic tumours, Phase A QC 'B6 pure' ×13; evaluated with the per-sample reference-swap ratio, not the strain-contrast bias","-","-"
     return "N","GSE135230: all animals on one mixed B6.129 × FVB/N-Tg background (QC F1-like / backcross-like); no FVB vs B6 contrast","-","-"
 
+import re
+def animal_id(s):
+    """strain-diet-number for the fructose study; one id per sample elsewhere (see the docstring)"""
+    t=s["title"].replace(" ","")
+    m=re.match(r"^([CFD])([FW])(M|Hyp|L)(\d+)$",t)
+    if s["GSE"] in TISSUE and m: return f"{ {'C':'B6','F':'FVB','D':'DBA'}[m.group(1)]}-{ {'F':'fructose','W':'water'}[m.group(2)]}-{m.group(4)}"
+    m=re.match(r"^(B6|FVB)([FM])(CTL|IMQ)(\d+)$",t)
+    if s["GSE"]=="GSE86315" and m: return f"{m.group(1)}-{ {'CTL':'control','IMQ':'IMQ'}[m.group(3)]}-{m.group(2)}{m.group(4)}"
+    m=re.match(r"^mammarytumor(\d+)$",t)
+    if s["GSE"]=="GSE175625" and m: return f"PyVT-{s['diet']}-tumour{m.group(1)}"
+    m=re.match(r"^KrasC57_replicate(\d+)$",t)
+    if s["GSE"]=="GSE200632" and m: return f"F1-keratinocyte-culture{m.group(1)}"
+    return f"{s['GSE']}-{re.sub(r'[^A-Za-z0-9]+','-',s['title']).strip('-')}"
+for s in samples.values(): s["animal_id"]=animal_id(s)
+_nt=collections.Counter(s["animal_id"] for s in samples.values())
+assert all(len({x["tissue"] for x in samples.values() if x["animal_id"]==a})==n for a,n in _nt.items()), "an animal_id repeats a tissue"
 cols=["sample_id","GSE","GSM","BioSample","SRR","strain","tissue","diet","sex","age","library_layout","read_length","include","include_reason","qc_verdict",
-      "role","design_main","design_sensitivity","n_technical_runs","read_count_total","fastq_bytes_total","fastq_ftp","fastq_md5"]
+      "role","design_main","design_sensitivity","n_technical_runs","read_count_total","fastq_bytes_total","fastq_ftp","fastq_md5","animal_id","n_tissues_from_animal"]
 with open(f"{MAN}/manifest.tsv","w") as o:
     o.write("\t".join(cols)+"\n")
     for s in sorted(samples.values(), key=lambda s:(s["role"]!="strain_comparison", s["GSE"], s["tissue"], s["strain"], s["diet"], s["title"])):
@@ -108,7 +130,7 @@ with open(f"{MAN}/manifest.tsv","w") as o:
         sid=f"{s['tissue']}_{code}_{s['title'].replace(' ','').replace(',','_')}"
         o.write("\t".join([sid,s["GSE"],s["GSM"],s["BioSample"],",".join(sorted(s["SRR"])),s["strain"],s["tissue"],s["diet"],s["sex"],s["age"],
             s["library_layout"],str(s["read_length"]),inc,reason,agg_qc(s["SRR"]),s["role"],dm,ds,str(len(s["SRR"])),str(s["reads"]),str(s["bytes"]),
-            ";".join(x for x in s["ftp"] if x),";".join(x for x in s["md5"] if x)])+"\n")
+            ";".join(x for x in s["ftp"] if x),";".join(x for x in s["md5"] if x),s["animal_id"],str(_nt[s["animal_id"]])])+"\n")
 # summary
 c=collections.Counter()
 for s in samples.values():

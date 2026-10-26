@@ -38,6 +38,7 @@ ITEMS = {   # trigger -> [(regex on the sentence, what changes)]
   (r"at least two of the four|≥ 2 of 4|in ≥ 2 tissues|in at least two", "catalog criterion counts tissues; two qualifying tissues may come from the same animals (fructose study); see animals_pairs_* in numbers.tsv"),
   (r"independent laboratory|two laboratories", "the fructose-study tissues are one laboratory and shared animals; skin is the only animal-independent tissue"),
   (r"One row per animal × arm|per animal\b|negative control per animal", "rows are samples (sample × arm); 83 samples from 59 animals"),
+  (r"Sheet S1a — manifest", "S1a gains animal_id and n_tissues_from_animal; new sheet S1c — animals (animal_id, strain, diet_or_condition, dataset, tissues_sampled, n_samples, role; one row per animal with an included sample)"),
  ],
 }
 def sentences(t):

@@ -105,7 +105,7 @@ D7	D multi-mapping	main	Eighty-two of the 138 catalog genes showed |Δ| > 0.3	82
 D8	D multi-mapping	main	The remaining 56 catalog genes	56	56	56	int	PASS	
 D9	D multi-mapping	main	The mean |Δ| in this class was 1.01	1.01	1.00695	1.01	num	PASS	
 D10	D multi-mapping	main	The mean |Δ| in this class was 0.17	0.17	0.173156	0.17	num	PASS	
-D11	D multi-mapping	main	Thirty-seven of these 82 genes had residual fractions at or below 0.30	37	37	37	int	PASS	
+D11	D multi-mapping	main	Thirty-seven of these 82 genes had residual fractions at or below 0.30	37	31	31	int	REWRITE	Phase W-2: absolute ratio; the signed ratio gives 37; W-2: |bias_multi|/|bias_unique| <= 0.30 (the signed ratio also admits six sign-reversing genes)
 D12a	D multi-mapping	af1	residual fractions ranged from -9.51 to 2.26	-9.51	-9.51173	-9.51	num	PASS	
 D12b	D multi-mapping	af1	residual fractions ranged from -9.51 to 2.26	2.26	2.25962	2.26	num	PASS	
 D13a	D multi-mapping	af1	residual fractions 0.36–1.14	0.36	0.362355	0.36	num	PASS	
@@ -316,14 +316,18 @@ K1	K letters and survey	resp	Of the 32 genes of the submitted catalog	32	32	32	i
 K2	K letters and survey	resp	24 are in the new catalog	24	24	24	int	PASS	
 K3	K letters and survey	resp	26 reach the threshold in at least one tissue	26	26	26	int	PASS	
 K4	K letters and survey	resp	(one of them now shows negative bias in all four tissues)	1	1	1	int	PASS	submitted worked examples Fau, Rsph3a; negative in all four: ['Rsph3a']; in new catalog: []
-K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO series	154	154	154	int	PASS	
-K6	K letters and survey	main	Among these 154 series, 140 reported	140	140	140	int	PASS	
-K7	K letters and survey	main	The remaining 14 studies did not report	14	14	14	int	PASS	
+K5	K letters and survey	main	We retrieved data-processing metadata from 154 GEO series	154	36	36	int	REWRITE	W-1 survey re-screen (RNA-Seq library strategy, FVB background per sample)
+K6	K letters and survey	main	Among these 154 series, 140 reported	140	35	35	int	REWRITE	W-1 survey re-screen
+K7	K letters and survey	main	The remaining 14 studies did not report	14	1	1	int	REWRITE	W-1 survey re-screen
 K8	K letters and survey	main	and none reported a strain-aware alignment strategy	0	0	0	int	PASS	
-K8r	K letters and survey	resp	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	140	140	int	PASS	
-K9_stated_B6	K letters and survey	Fig1_survey	90.9%	90.9	90.9091	90.9	num	PASS	
-K9_not_reported	K letters and survey	Fig1_survey	9.1%	9.1	9.09091	9.1	num	PASS	
+K8r	K letters and survey	resp	all 140 FVB RNA-seq studies that reported a reference used a B6 assembly	140	35	35	int	REWRITE	W-1 survey re-screen
+K9_stated_B6	K letters and survey	Fig1_survey	97.2%	97.2	97.2222	97.2	num	PASS	
+K9_not_reported	K letters and survey	Fig1_survey	2.8%	2.8	2.77778	2.8	num	PASS	
 K9_strain_aware	K letters and survey	Fig1_survey	0.0%	0.0	0	0.0	num	PASS	
+K9_total	K letters and survey	Fig1_survey	36 FVB RNA-seq series	36	36	36	int	PASS	Fig. 1A title
+W3a	K letters and survey	main	(36 FVB/NJ and 34 C57BL/6J animals)	36	23	23	int	REWRITE	FVB/NJ samples 36; W-3: samples, not animals (fructose-study tissues share animals)
+W3b	K letters and survey	main	(36 FVB/NJ and 34 C57BL/6J animals)	34	23	23	int	REWRITE	C57BL/6J samples 34; W-3: samples, not animals
+W3c	K letters and survey	main	All 83 animals of the three-arm analysis	83	59	59	int	REWRITE	13 PyVT mice, one tumour each; W-3: 83 samples from the animals counted here
 K10	K letters and survey	main	This search returned 1,047 GEO series	1047			nr	NOT_RECOMPUTABLE	search-hit count: no search log is recorded in the project (the value is carried verbatim from the submitted text); cannot be recomputed
 K11	K letters and survey	main	taken from a 290-sample series	290			nr	NOT_RECOMPUTABLE	GEO series size of GSE293440: 290 !Series_sample_id entries in the GEO SOFT record (checked online 2026-10-23); not a result file
 K12	K letters and survey	Fig1_survey	naive B6 mapping 0.480; WASP 0.512 (Fig. 2)	0.480	0.479907	0.480	num	PASS	Fig. 1B regenerated in Phase M-3 (D1)

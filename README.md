@@ -17,10 +17,11 @@ RNA-seq reads from FVB/NJ mice were quantified in three alignment arms — naive
 same alignment after WASP filtering, and alignment to an FVB/NJ-personalised GRCm39 built with g2gtools from the Mouse Genomes
 Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene was compared between arms.
 
-- **Strain comparison:** 36 FVB/NJ and 34 C57BL/6J animals in four tissues from two laboratories —
-  mesenteric adipose tissue, hypothalamus and liver from a fructose-feeding study (GSE123875, GSE123893, GSE123894), and back
-  skin from an imiquimod strain panel (GSE86315).
-- **F1 allele-specific expression:** 12 F1 (C57BL/6J × FVB) animals from GSE293440 and GSE200632.
+- **Strain comparison:** 36 FVB/NJ and 34 C57BL/6J samples (23 and 23 animals) in four tissues from
+  two laboratories — mesenteric adipose tissue, hypothalamus and liver from a fructose-feeding study (GSE123875, GSE123893,
+  GSE123894; the three tissues come from the same animals), and back skin from an imiquimod strain panel (GSE86315).
+- **F1 allele-specific expression:** 12 F1 (C57BL/6J × FVB) samples: 8 animals from GSE293440 and 4 keratinocyte cultures
+  from GSE200632 (donor animals not recorded).
 - **Negative control:** 13 mammary tumours of the C57BL/6-congenic B6.FVB-Tg(MMTV-PyVT) line (GSE175625).
 - **Catalog:** 138 genes whose FVB/B6 estimate depends on the reference; at 57 of them FVB/NJ reads are demonstrably recovered
   on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects
@@ -39,7 +40,7 @@ source as Table 1 of the manuscript.
 
 ### Three-arm strain comparison datasets (FVB/NJ versus C57BL/6J)
 
-| GEO accession | Tissue | Cohort | *n* FVB/NJ (conditions) | *n* C57BL/6J (conditions) | Library | Read length | Runs per animal | Sequence identity QC passed |
+| GEO accession | Tissue | Cohort | *n* FVB/NJ (conditions) | *n* C57BL/6J (conditions) | Library | Read length | Runs per sample | Sequence identity QC passed |
 |---|---|---|---|---|---|---|---|---|
 | GSE123875 | Mesenteric adipose | Fructose study (PRJNA510125; SubSeries of GSE123896) | 8 (fructose ×5; water ×3) | 6 (fructose ×2; water ×4) | Paired-end | 69 bp | 3 | 14/14 |
 | GSE123893 | Hypothalamus | Fructose study (PRJNA510129; SubSeries of GSE123896) | 8 (fructose ×4; water ×4) | 8 (fructose ×4; water ×4) | Paired-end | 101 bp | 3 | 16/16 |
@@ -54,12 +55,13 @@ source as Table 1 of the manuscript.
 
 ### F1 hybrid datasets used for allele-specific expression analysis (Fig. 2)
 
-| GEO accession | Tissue | Cross (GEO attribute) | *n* (F1) | Library | Read length | Sequence identity QC |
+| GEO accession | Tissue | Cross (GEO attribute) | *n* (F1 samples) | Library | Read length | Sequence identity QC |
 |---|---|---|---|---|---|---|
 | GSE293440 | Cerebral (frontal) cortex | B6xFVB | 8 | Paired-end | 150 bp | 8/8 (expected: F1) |
 | GSE200632 | Primary keratinocytes (LSL-KrasG12D, Cre-transduced) | C57BL/6:FVB/N (F1:50/50) | 4 | Paired-end | 151 bp | 4/4 (expected: F1) |
 
-Sequence identity QC: allele fractions at FVB/NJ-homozygous exonic SNP sites (203,510; a fixed 10% subset for all but the F1 animals) in the B6-reference alignment (manuscript Methods, *Sample identity verification*); full per-sample results in Supplementary Table S1.
+Adipose, hypothalamus and liver samples of the fructose study were collected from the same animals; *n* per tissue counts samples (fructose study: FVB/NJ 28 samples from 15 animals, C57BL/6J 26 samples from 15 animals; all strain-comparison samples: FVB/NJ 36 samples from 23 animals, C57BL/6J 34 samples from 23 animals; Supplementary Table S1). The PyVT tumours are one primary tumour per mouse; GSE200632 *n* counts keratinocyte cultures from newborn pups (number of donor animals not recorded).
+Sequence identity QC: allele fractions at FVB/NJ-homozygous exonic SNP sites (203,510; a fixed 10% subset for all but the F1 samples) in the B6-reference alignment (manuscript Methods, *Sample identity verification*); full per-sample results in Supplementary Table S1.
 Sex and age are not recorded in the GEO/BioSample attributes of the fructose study; the imiquimod study records sex (M/F). All FVB/NJ animals are from the Jackson Laboratory substrain, matched to the FVB_NJ variant set.
 
 Raw reads are not included; all datasets are public in NCBI GEO / SRA (downloaded from ENA by the pipeline).

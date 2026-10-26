@@ -3,6 +3,7 @@
 | sheet | source | rows |
 |---|---|---|
 | TableS1a_manifest | `revision_v2/manifest/manifest.tsv` | 186 |
+| TableS1c_animals | `revision_v2/manifest/manifest.tsv (animal_id; included samples)` | 71 |
 | TableS1b_identity_verification | `analysis_v2/results/qc/sample_identity_verification.tsv` | 99 |
 | TableS2_catalog | `analysis_v2/results/catalog/catalog.primary.tsv (+ catalog_decomposition.tsv, catalog.water.tsv, sensitivity_matched/catalog.matched.tsv, negative_control/pyvt_reference_swap_per_gene.tsv, gene_meta.tsv, catalog/catalog_clusters.tsv)` | 138 |
 | TableS3a_sensitivity_primary | `analysis_v2/results/catalog/catalog_sensitivity.primary.tsv` | 12 |

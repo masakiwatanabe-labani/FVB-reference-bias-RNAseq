@@ -11,7 +11,7 @@ PyVT full-site table, the survey table and (for the response letter only) the su
 Every quantity is computed here from those files with the definitions stated in the Methods, not taken from a derived table.
 
 For every claim: claim id, group, location (file; the needle string must occur in that deliverable), text value, exact value,
-value at text precision, PASS/FAIL. Bounds ("within ±x", "fewer than y%", "at most z", "≤", "≥") PASS only if the exact value
+value at text precision, PASS/FAIL (REWRITE: printed value superseded by a Phase W correction, see REWRITE). Bounds ("within ±x", "fewer than y%", "at most z", "≤", "≥") PASS only if the exact value
 satisfies the bound as printed. Output: revision_v2/freeze/recompute_report.tsv. Usage: recompute_independent.py"""
 import re, os, glob, gzip, math, csv, collections
 import numpy as np, pandas as pd
@@ -36,6 +36,12 @@ def textval(s):
     return float(s)
 def decimals(s):
     s = s.replace("%", "").strip(); return len(s.split(".")[1]) if "." in s else 0
+# Phase W (2026-10-26): text claims whose printed value is superseded by a Phase W correction. The deliverable texts are the authors'
+# (2026-10-24 dumps, not rebuilt here); the exact value is recomputed with the corrected definition and the claim is reported as
+# REWRITE (printed value pending the authors' rewrite) instead of FAIL. A REWRITE claim whose text already matches becomes PASS.
+REWRITE = {"K5": "W-1 survey re-screen (RNA-Seq library strategy, FVB background per sample)", "K6": "W-1 survey re-screen", "K7": "W-1 survey re-screen",
+           "K8r": "W-1 survey re-screen", "D11": "W-2: |bias_multi|/|bias_unique| <= 0.30 (the signed ratio also admits six sign-reversing genes)",
+           "W3a": "W-3: samples, not animals (fructose-study tissues share animals)", "W3b": "W-3: samples, not animals", "W3c": "W-3: 83 samples from the animals counted here"}
 def claim(cid, group, where, needle, text, exact, kind="num", note="", scale=1.0):
     """kind: num (rounded equality at printed precision) | int | le (|exact| <= text) | lt (exact < text) | ge (exact >= text) |
     gt | sci (mantissa 1 dp + exponent) | plt (p < text) | nr (not recomputable) | eq (string)"""
@@ -60,6 +66,7 @@ def claim(cid, group, where, needle, text, exact, kind="num", note="", scale=1.0
         elif kind == "plt": status = "PASS" if x < t else "FAIL"
         else: raise ValueError(kind)
     if not found: status = "FAIL" if status != "NOT_RECOMPUTABLE" else status; note = (note + "; " if note else "") + "NEEDLE NOT FOUND in " + where
+    if cid in REWRITE and found and status == "FAIL": status = "REWRITE"; note = (note + "; " if note else "") + REWRITE[cid]
     ROWS.append(dict(claim_id=cid, group=group, location=where, needle=needle[:120], text_value=text, exact=(f"{ex:.6g}" if isinstance(ex, (float, np.floating)) else str(ex)),
                      at_text_precision=atp, kind=kind, status=status, note=note))
 
@@ -266,7 +273,8 @@ cg["delta"] = cg.mbm - cg.mb; cg["res"] = cg.mbm / cg.mb
 mul, dirc = cg[cg.delta.abs() > 0.3], cg[cg.delta.abs() <= 0.3]
 claim("D7", g, "main", "Eighty-two of the 138 catalog genes showed |Δ| > 0.3", "82", len(mul), "int"); claim("D8", g, "main", "The remaining 56 catalog genes", "56", len(dirc), "int")
 claim("D9", g, "main", "The mean |Δ| in this class was 1.01", "1.01", mul.delta.abs().mean()); claim("D10", g, "main", "The mean |Δ| in this class was 0.17", "0.17", dirc.delta.abs().mean())
-claim("D11", g, "main", "Thirty-seven of these 82 genes had residual fractions at or below 0.30", "37", int((mul.res <= 0.30).sum()), "int")
+claim("D11", g, "main", "Thirty-seven of these 82 genes had residual fractions at or below 0.30", "37", int(((mul.mbm.abs() / mul.mb.abs()) <= 0.30).sum()), "int",
+      note=f"Phase W-2: absolute ratio; the signed ratio gives {int((mul.res <= 0.30).sum())}")
 claim("D12a", g, "af1", "residual fractions ranged from -9.51 to 2.26", "-9.51", mul.res.min()); claim("D12b", g, "af1", "residual fractions ranged from -9.51 to 2.26", "2.26", mul.res.max())
 claim("D13a", g, "af1", "residual fractions 0.36–1.14", "0.36", dirc.res.min()); claim("D13b", g, "af1", "residual fractions 0.36–1.14", "1.14", dirc.res.max())
 claim("D14", g, "af1", "Nineteen of these had residual fractions ≥ 0.80", "19", int((dirc.res >= 0.80).sum()), "int")
@@ -573,12 +581,23 @@ claim("K2", g, "resp", "24 are in the new catalog", "24", int(old.gene_id.isin(C
 claim("K3", g, "resp", "26 reach the threshold in at least one tissue", "26", int(old.gene_id.isin(u5).sum()), "int")
 negall = [nm for nm in ("Fau", "Rsph3a") if all(B[t].bias.get(gid(nm), np.nan) < 0 for t in TISSUES)]
 claim("K4", g, "resp", "(one of them now shows negative bias in all four tissues)", "1", len(negall), "int", note=f"submitted worked examples Fau, Rsph3a; negative in all four: {negall}; in new catalog: {[nm for nm in ('Fau','Rsph3a') if gid(nm) in CAT]}")
-sv = pd.read_csv(f"{RES}/survey/survey_of_practice_v2.tsv", sep="\t"); vc = sv.category.value_counts()
+sv = pd.read_csv(f"{RES}/survey/survey_of_practice_rescreen.tsv", sep="\t"); vc = sv.category.value_counts()   # Phase W-1: the re-screened survey (was survey_of_practice_v2.tsv, 154 series)
 claim("K5", g, "main", "We retrieved data-processing metadata from 154 GEO series", "154", len(sv), "int")
 claim("K6", g, "main", "Among these 154 series, 140 reported", "140", vc.get("stated_B6", 0), "int"); claim("K7", g, "main", "The remaining 14 studies did not report", "14", vc.get("not_reported", 0), "int")
 claim("K8", g, "main", "and none reported a strain-aware alignment strategy", "0", vc.get("strain_aware", 0), "int")
 claim("K8r", g, "resp", "all 140 FVB RNA-seq studies that reported a reference used a B6 assembly", "140", vc.get("stated_B6", 0), "int")
-for k, txt in (("stated_B6", "90.9"), ("not_reported", "9.1"), ("strain_aware", "0.0")): claim(f"K9_{k}", g, "Fig1_survey", txt + "%", txt, 100 * vc.get(k, 0) / len(sv))
+for k, txt in (("stated_B6", "97.2"), ("not_reported", "2.8"), ("strain_aware", "0.0")): claim(f"K9_{k}", g, "Fig1_survey", txt + "%", txt, 100 * vc.get(k, 0) / len(sv))   # Phase W-1 values (Fig. 1A regenerated)
+claim("K9_total", g, "Fig1_survey", f"{len(sv)} FVB RNA-seq series", str(len(sv)), len(sv), "int", note="Fig. 1A title")
+# Phase W-3: animals of the strain comparison, from the sample identifiers of the manifest (fructose study: strain letter, diet
+# letter, tissue code, animal number numbered per strain; skin: one sample per animal); not from the manifest animal_id column
+man = pd.read_csv(f"{P}/revision_v2/manifest/manifest.tsv", sep="\t", dtype=str, keep_default_na=False); man = man[(man.include == "Y") & (man.role == "strain_comparison")]
+def _animal(sid):
+    t = sid.split("_")[-1]; m = re.match(r"^([CF])[FW](?:M|Hyp|L)(\d+)$", t)
+    return f"{m.group(1)}{m.group(2)}" if m else t
+an_ = {st: man[man.strain == st].sample_id.map(_animal).nunique() for st in ("FVB/NJ", "C57BL/6J")}
+claim("W3a", g, "main", "(36 FVB/NJ and 34 C57BL/6J animals)", "36", an_["FVB/NJ"], "int", note=f"FVB/NJ samples {int((man.strain=='FVB/NJ').sum())}")
+claim("W3b", g, "main", "(36 FVB/NJ and 34 C57BL/6J animals)", "34", an_["C57BL/6J"], "int", note=f"C57BL/6J samples {int((man.strain=='C57BL/6J').sum())}")
+claim("W3c", g, "main", "All 83 animals of the three-arm analysis", "83", an_["FVB/NJ"] + an_["C57BL/6J"] + 13, "int", note="13 PyVT mice, one tumour each")
 claim("K10", g, "main", "This search returned 1,047 GEO series", "1047", "", "nr", note="search-hit count: no search log is recorded in the project (the value is carried verbatim from the submitted text); cannot be recomputed")
 claim("K11", g, "main", "taken from a 290-sample series", "290", "", "nr", note="GEO series size of GSE293440: 290 !Series_sample_id entries in the GEO SOFT record (checked online 2026-10-23); not a result file")
 claim("K12", g, "Fig1_survey", "naive B6 mapping 0.480; WASP 0.512 (Fig. 2)", "0.480", an.mean(), "num", note="Fig. 1B regenerated in Phase M-3 (D1)")

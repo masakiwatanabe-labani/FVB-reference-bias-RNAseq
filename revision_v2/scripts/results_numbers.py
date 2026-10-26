@@ -36,6 +36,25 @@ hx=q[q.used_in_analysis=="N"]; put("qc_failed_n", len(hx), ev); put("qc_failed_G
 put("qc_failed_mean_af_min", float(hx.mean_alt_fraction.min()), ev); put("qc_failed_mean_af_max", float(hx.mean_alt_fraction.max()), ev); put("qc_failed_frac_hi_min", float(hx.frac_hi.min()), ev); put("qc_failed_frac_hi_max", float(hx.frac_hi.max()), ev)
 put("qc_failed_frac_mid_min", float(hx.frac_mid.min()), ev); put("qc_failed_frac_mid_max", float(hx.frac_mid.max()), ev); put("qc_failed_n_sites_min", int(hx.n_sites.min()), ev); put("qc_failed_n_sites_max", int(hx.n_sites.max()), ev)
 put("qc_failed_verdicts", ";".join(sorted(set(hx.qc_verdict))), ev)
+# ---- animals versus samples (Phase W-3, 2026-10-26): manifest animal_id (build_manifest.py) -------------------------------------
+_m=pd.read_csv(f"{PROJ}/revision_v2/manifest/manifest.tsv", sep="\t", dtype=str, keep_default_na=False); evm=rel(f"{PROJ}/revision_v2/manifest/manifest.tsv")
+_y=_m[_m.include=="Y"]; _sc=_y[_y.role=="strain_comparison"]; _fr=_sc[_sc.GSE!="GSE86315"]
+for _st,_lab in (("FVB/NJ","fvb"),("C57BL/6J","b6")):
+    _d=_sc[_sc.strain==_st]; put(f"animals_{_lab}_samples", len(_d), evm); put(f"animals_{_lab}_n", _d.animal_id.nunique(), evm)
+    _f=_fr[_fr.strain==_st]; put(f"animals_fructose_{_lab}_samples", len(_f), evm); put(f"animals_fructose_{_lab}_n", _f.animal_id.nunique(), evm)
+    for _di in ("water","fructose"): put(f"animals_fructose_{_lab}_{_di}_n", _f[_f.diet==_di].animal_id.nunique(), evm); put(f"animals_fructose_{_lab}_{_di}_samples", int((_f.diet==_di).sum()), evm)
+    _k=_f.groupby("animal_id").tissue.nunique()
+    for _nt in (1,2,3): put(f"animals_fructose_{_lab}_{_nt}tissues_n", int((_k==_nt).sum()), evm)
+    for _t in ("adipose","hypothalamus","liver","skin"): put(f"animals_{_t}_{_lab}_n", _d[_d.tissue==_t].animal_id.nunique(), evm)
+    _sets={_t:set(_f[_f.tissue==_t].animal_id) for _t in ("adipose","hypothalamus","liver")}
+    for _a,_b in (("adipose","hypothalamus"),("adipose","liver"),("hypothalamus","liver")): put(f"animals_pairs_{_a}_{_b}_{_lab}_n", len(_sets[_a]&_sets[_b]), evm)
+    _c=_d[_d.design_sensitivity=="Y"]; put(f"animals_control_only_{_lab}_samples", len(_c), evm); put(f"animals_control_only_{_lab}_n", _c.animal_id.nunique(), evm)
+put("animals_strain_comparison_samples", len(_sc), evm); put("animals_strain_comparison_n", _sc.animal_id.nunique(), evm)
+put("animals_fructose_shared_any_n", int((_fr.groupby("animal_id").tissue.nunique()>1).sum()), evm)
+_tr=_y[_y.role!="f1_ase"]; put("animals_threearm_samples", len(_tr), evm); put("animals_threearm_n", _tr.animal_id.nunique(), evm)
+_f1=_y[_y.role=="f1_ase"]; put("animals_f1_samples", len(_f1), evm); put("animals_f1_cortex_n", _f1[_f1.GSE=="GSE293440"].animal_id.nunique(), evm); put("animals_f1_keratinocyte_cultures_n", int((_f1.GSE=="GSE200632").sum()), evm)
+put("animals_pyvt_n", int((_y.role=="negative_control_candidate").sum()), evm)
+
 # ---- survey (Fig. 1) --------------------------------------------------------------------------------------------------
 s1=pd.read_csv(f"{FIG}/Fig1_survey_data.tsv", sep="\t"); ev=rel(f"{FIG}/Fig1_survey_data.tsv")
 for _,r in s1.iterrows(): put(f"survey_{r.category}_n", int(r.n), ev); put(f"survey_{r.category}_pct", float(r.pct), ev)
@@ -173,6 +192,8 @@ put("catalog_tested_in_all4", int((cat.n_tissues_tested==4).sum()), evc); put("c
 put("catalog_mean_bias_max", float(cat.mean_bias.max()), evc); put("catalog_mean_bias_median", float(cat.mean_bias.median()), evc)
 put("catalog_single_tissue_bias_max", float(cat[tissues].max().max()), evc); put("catalog_single_tissue_bias_max_tissue", cat[tissues].max().idxmax(), evc); put("catalog_single_tissue_bias_max_gene", cat[tissues].max(axis=1).idxmax(), evc)
 cw=pd.read_csv(f"{RES}/catalog/catalog.water.tsv", sep="\t", index_col=0); evw=rel(f"{RES}/catalog/catalog.water.tsv"); put("catalog_water_n", len(cw), evw); put("catalog_water_shared", len(cw.index.intersection(cat.index)), evw)
+# Phase W-3: the catalog criterion counts tissues; adipose, hypothalamus and liver share animals, skin does not
+_qt=cat.tissues.str.split(","); put("catalog_qualifying_with_skin_n", int(_qt.apply(lambda x: "skin" in x).sum()), evc); put("catalog_qualifying_without_skin_n", int(_qt.apply(lambda x: "skin" not in x).sum()), evc)
 # mechanism (SFig 1)
 mc=cat.mechanism_class; mm=cat[mc=="SNP-induced multi-mapping"]; md=cat[mc=="direct SNP misalignment"]
 put("mech_multi_n", len(mm), evc); put("mech_direct_n", len(md), evc); put("mech_multi_mean_absdelta", float(mm.delta_multi_minus_unique.abs().mean()), evc); put("mech_direct_mean_absdelta", float(md.delta_multi_minus_unique.abs().mean()), evc)

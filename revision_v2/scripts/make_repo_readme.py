@@ -39,10 +39,11 @@ RNA-seq reads from FVB/NJ mice were quantified in three alignment arms — naive
 same alignment after WASP filtering, and alignment to an FVB/NJ-personalised GRCm39 built with g2gtools from the Mouse Genomes
 Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene was compared between arms.
 
-- **Strain comparison:** «n_animals_strain_comparison_FVB|d» FVB/NJ and «n_animals_strain_comparison_B6|d» C57BL/6J animals in four tissues from two laboratories —
-  mesenteric adipose tissue, hypothalamus and liver from a fructose-feeding study (GSE123875, GSE123893, GSE123894), and back
-  skin from an imiquimod strain panel (GSE86315).
-- **F1 allele-specific expression:** «n_f1|d» F1 (C57BL/6J × FVB) animals from GSE293440 and GSE200632.
+- **Strain comparison:** «animals_fvb_samples|d» FVB/NJ and «animals_b6_samples|d» C57BL/6J samples («animals_fvb_n|d» and «animals_b6_n|d» animals) in four tissues from
+  two laboratories — mesenteric adipose tissue, hypothalamus and liver from a fructose-feeding study (GSE123875, GSE123893,
+  GSE123894; the three tissues come from the same animals), and back skin from an imiquimod strain panel (GSE86315).
+- **F1 allele-specific expression:** «n_f1|d» F1 (C57BL/6J × FVB) samples: «animals_f1_cortex_n|d» animals from GSE293440 and «animals_f1_keratinocyte_cultures_n|d» keratinocyte cultures
+  from GSE200632 (donor animals not recorded).
 - **Negative control:** «n_pyvt|d» mammary tumours of the C57BL/6-congenic B6.FVB-Tg(MMTV-PyVT) line (GSE175625).
 - **Catalog:** «catalog_n|d» genes whose FVB/B6 estimate depends on the reference; at «decomp_both|d» of them FVB/NJ reads are demonstrably recovered
   on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects

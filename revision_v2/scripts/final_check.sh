@@ -3,9 +3,12 @@
 # (rule 0.4-3: each "verified" line names its evidence). Nothing here changes analysis_v2/results or figures; generated manuscript
 # files are re-rendered and diffed against the versions in manuscript/revised_v2; the LAR docx files are re-assembled and dumped to
 # plain text for the H-8 checks. Usage: final_check.sh
+# Phase W (2026-10-26): SKIP_MANUSCRIPT=1 final_check.sh skips the steps that read or rebuild the manuscript text (which the authors
+# maintain outside the repository); each skipped step is listed in the output.
 set -uo pipefail
 PROJ=/usr/local/jupyter/FVB_bias; cd $PROJ; OUT=revision_v2/final_check.md; S=revision_v2/scripts; M=manuscript/revised_v2; SUB=revision_v2/submission
 ok(){ echo "- [x] $1"; }; bad(){ echo "- [ ] **FAIL** $1"; FAIL=$((FAIL+1)); }; FAIL=0
+skipped(){ echo "- [~] skipped (SKIP_MANUSCRIPT=1: the manuscript, Additional file 1 and the letters are maintained by the authors outside the repository): $1"; NSKIP=$((NSKIP+1)); }; NSKIP=0
 {
 echo "# Phase J — final check ($(date '+%Y-%m-%d %H:%M %Z'))"; echo
 echo "## 1. Integrity of results and figures"
@@ -19,6 +22,7 @@ n=$(ls analysis_v2/data/*/*/done.all | wc -l); [ "$n" -eq 83 ] && ok "83 done.al
 echo; echo "## 2. Manifest-driven generation (rule 0.4-1): re-render and diff"
 python3 -I $S/render_methods_datasets.py > /dev/null 2>&1 && ok "render_methods_datasets.py ran" || bad "render_methods_datasets.py failed"
 python3 -I $S/make_table1.py > /dev/null 2>&1 && ok "make_table1.py ran" || bad "make_table1.py failed"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 diff -q $M/generated/table1.md $M/table1.md > /dev/null && ok "table1.md == generated/table1.md" || bad "table1.md differs from generated/table1.md"
 python3 - <<'EOF' && ok "Methods 'RNA-seq datasets' block == generated/methods_datasets.md (BEGIN/END markers; [CITE] keys numbered)" || bad "Methods datasets block differs from generated/methods_datasets.md"
 m=open("manuscript/revised_v2/methods.md").read(); g=open("manuscript/revised_v2/generated/methods_datasets.md").read().strip()
@@ -27,9 +31,11 @@ blk=m[m.find("\n",i)+1:j].strip()
 import re; nc=lambda x: re.sub(r" \[(?:CITE [^\]]+|\d+(?:[,–]\d+)*)\]","",x)   # Phase T: [CITE key] in the generated block is numbered in methods.md
 raise SystemExit(0 if nc(blk)==nc(g) and len(re.findall(r" \[\d+(?:[,–]\d+)*\]",blk))==g.count(" [CITE ") else 1)
 EOF
+else skipped "table1.md and the Methods datasets block equal the generated versions"; fi
 cp -r $M/supplementary_tables /tmp/claude_supp_before && python3 -I $S/build_supplementary_tables.py > /dev/null 2>&1 && diff -rq /tmp/claude_supp_before $M/supplementary_tables > /dev/null && ok "supplementary tables rebuild byte-identical ($(ls $M/supplementary_tables/*.tsv | wc -l) sheets)" || bad "supplementary tables changed on rebuild"; rm -rf /tmp/claude_supp_before
 python3 -I $S/results_numbers.py > /dev/null 2>&1 && ok "results_numbers.py ran: $(($(wc -l < $M/generated/numbers.tsv)-1)) numbers with evidence paths" || bad "results_numbers.py failed"
 echo; echo "## 3. Manuscript checks"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 bash $S/combine_manuscript.sh > /tmp/claude_comb.log 2>&1; grep -q "none — all figures and panels first appear in numerical order" /tmp/claude_comb.log && ok "figure citation order in LAR section order (Abstract, Background, Methods, Results, Discussion; incl. Supplementary Figs.): all figures and panels in numerical order (check_figure_order.py --legend-check --section-order)" || bad "figure citation order violations (see /tmp/claude_comb.log)"
 grep -q "Appendix C grep: .* PASS" /tmp/claude_comb.log && ok "Appendix C grep (incl. the H-1d additions 0.333, 0.386, 17 percentage, 274, 872): PASS" || { echo "- [ ] **Appendix C grep: FAILED** — hits:"; grep -A2 "^FORBIDDEN" /tmp/claude_comb.log | sed 's/^/      /' | cut -c1-200; FAIL=$((FAIL+1)); }
 grep "^EXEMPT" /tmp/claude_comb.log | sed 's/^/- (exempt, data tables) /'
@@ -73,12 +79,16 @@ P=$SUB/LAR_main_text_v2.plain.txt
 order=$(grep -n -E '^(Background|Methods|Results|Discussion|Conclusions|List of abbreviations|Declarations|References|Figure legends)$' $P | awk -F: 'NR>4{print $2}' | tr '\n' '>' ); exp="Background>Methods>Results>Discussion>Conclusions>List of abbreviations>Declarations>References>Figure legends>"
 [ "$order" = "$exp" ] && grep -q '^Table 1\.' $P && ok "section order in the docx (plain dump): Abstract (structured) → Keywords → $exp Table 1" || bad "section order in the docx: got '$order'"
 n5=$(grep -c 'corrected analysis\|this revision\|earlier version\|submitted version\|reviewer\|Reviewer' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$n5" -eq 0 ] && ok "H-5 grep (corrected analysis / this revision / earlier version / submitted version / reviewer) in the main text and Additional file 1: 0 hits" || bad "H-5 grep: $n5 hits in the docx dumps"
+else skipped "section 3: figure citation order, Appendix C grep, [CITE], numbered citations, DOIs, Abstract, section order, H-5 grep (manuscript sections and docx dumps)"; fi
 nf=$(awk -F'\t' 'NR>1 && $1 ~ /^f1_/ && $3 !~ /f1_ase\/v2\/|revision_v2\/audit\/f1_old|analysis_v2\/qc\/fvbnj_homalt_exonic\.hetGT\.vcf\.gz/' $M/generated/numbers.tsv | wc -l); nf1=$(awk -F'\t' 'NR>1 && $1 ~ /^f1_/' $M/generated/numbers.tsv | wc -l)
 [ "$nf" -eq 0 ] && ok "all $nf1 f1_* numbers come from the new per-site tables (evidence column: analysis_v2/results/f1_ase/v2/ or the H-1a audit files); the v1 tables f1_ase/f1_ase_per_sample.tsv are not an evidence source" || bad "$nf f1_* numbers have another evidence source"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 d1=$(grep -c '\[CITE' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d2=$(grep -c 'revision_v2/\|analysis_v2/' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d3=$(grep -c '^Step [0-9]\. ' $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); d4=$(grep -c '^[0-9]\+\.  \*\*' $P | awk -F: '{s+=$2} END{print s}'); d5=$(grep -c '\* p < 0.05; \*\* p < 0.01; \*\*\* p < 0.001' $P)
 [ "$d1" -eq 0 ] && [ "$d2" -eq 0 ] && [ "$d4" -eq 0 ] && [ "$d5" -ge 1 ] && ok "docx → plain: no [CITE, no local paths, no continued numbered lists ($d3 Step paragraphs; the reconstruction keeps the v1 prose steps), Fig. 2 significance asterisks rendered literally ($d5 line)" || bad "docx → plain: CITE=$d1 paths=$d2 steps=$d3 numbered-bold-lists=$d4 asterisk-lines=$d5"
 nbt=$(grep -c "branch and tag" $P $SUB/LAR_additional_file_1.plain.txt $SUB/response_to_reviewers_v2.plain.txt $SUB/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); grt=$(grep -c "(branch v2-corrected, tag v2-corrected-r1)" $M/methods.md $M/declarations.md | awk -F: '{s+=$2} END{print s}'); [ "$nbt" -eq 0 ] && [ "$grt" -eq 2 ] && grep -q "tag v2-corrected-r1" $SUB/response_to_reviewers_v2.plain.txt && ok "Availability (Methods, Declarations) and response item 5 name branch v2-corrected, tag v2-corrected-r1; 'branch and tag' 0 hits (Phase L-2)" || bad "tag name: branch-and-tag hits=$nbt, r1 statements=$grt"
+else skipped "docx → plain checks and the branch/tag statements (docx dumps)"; fi
 echo; echo "## 3b. Phase J checks (minimal-change reconstruction on the submitted text)"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 python3 $S/make_change_ledger.py > /tmp/claude_ledger.log 2>&1 && ok "change ledger rebuilt: $(grep '^total' /tmp/claude_ledger.log); $(grep '^body sentences' /tmp/claude_ledger.log)" || bad "make_change_ledger.py failed"
 python3 - <<'EOF' > /tmp/claude_ledger_chk.txt && ok "ledger completeness: $(cat /tmp/claude_ledger_chk.txt)" || bad "ledger completeness: $(cat /tmp/claude_ledger_chk.txt)"
 import csv, re, sys
@@ -111,16 +121,20 @@ n_i=$(cat $M/methods.md $M/results.md $M/discussion.md $M/supplementary_note2.md
 L=revision_v2/submission; nb=$(grep -c "shared between Rps2\|absent from both the multi-mapper pool\|fail to align or are assigned to another locus under both references\|clear direct-misalignment pattern" $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$nb" -eq 0 ] && ok "K-1′ withdrawn read-fate phrases: 0 hits in main text, Additional file 1 and both letters" || bad "K-1′ withdrawn phrases: $nb hits"
 nr=$(cat $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | tr "\n" " " | sed "s/\. /.\n/g" | grep -E "recovers no|recovers none|not recover|not recovery of FVB/NJ reads|rather than recovery of FVB/NJ reads|not recovered by the SNP-only|are recovered, so" | grep -E "Rps2|skin|SNP-only|SNP-patched" | grep -vc "unique-only counting"); [ "$nr" -eq 0 ] && ok "every Rps2-skin recovery statement carries 'under unique-only counting'" || bad "$nr Rps2-skin recovery statements without the qualifier"
 nl=$(grep -c "indel set\|first place such a comparison\|limit of a SNP-only\|SNP-only personalised reference is not sufficient\|SNP-only reference is not sufficient\|indels of the FVB/NJ allele are not in the reference" $P $L/LAR_additional_file_1.plain.txt $L/response_to_reviewers_v2.plain.txt $L/cover_letter_v2.plain.txt | awk -F: '{s+=$2} END{print s}'); nt=$(grep -o "The pseudogenes explain the tie" $L/LAR_additional_file_1.plain.txt | wc -l); ntr=$(grep -o "which carry the FVB/NJ allele at all five exonic SNP positions" $P | wc -l); [ "$nl" -eq 0 ] && [ "$nt" -eq 1 ] && [ "$ntr" -eq 1 ] && ok "Phase L-1 greps: 0 hits for the six withdrawn indel/SNP-only phrases; pseudogene-allele explanation present in Results ('which carry the FVB/NJ allele at all five exonic SNP positions'; rule reworded in Phase T) and Note 2 ('The pseudogenes explain the tie')" || bad "Phase L-1: withdrawn-phrase hits=$nl, tie explanation=$nt"
+else skipped "change-ledger rebuild (it would drop the Phase W rows) and completeness, response-letter pointers, Abstract length, 3Rs, abbreviations, Phase I/K/L wording (manuscript sections and docx dumps)"; fi
 nd=$(awk -F'\t' 'NR>1 && ($1 ~ /^rps2_skin_|^rps2_pseudogenes_skin_|^rps2mm_|^rps2_family/) && $3 !~ /worked_examples\/rps2_multimap_cpm.tsv/' $M/generated/numbers.tsv | wc -l); [ "$nd" -eq 0 ] && ok "all Rps2/pseudogene CPM keys in numbers.tsv use the single definition (evidence rps2_multimap_cpm.tsv)" || bad "$nd Rps2/pseudogene CPM keys with another evidence source"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 n_ban=$(grep -c "WASP improved\|partially corrected\|did not normalize\|five pure-strain\|five datasets\|30 of the 32\|pvt_discordant\|FVB-enriched F3" $P $SUB/LAR_additional_file_1.plain.txt | awk -F: '{s+=$2} END{print s}'); [ "$n_ban" -eq 0 ] && ok "J-0 semantic ban list (also in appendix_c_grep.sh): 0 hits in the docx dumps" || bad "J-0 ban list: $n_ban hits in the docx dumps"
 nq=$(cat $P $SUB/LAR_additional_file_1.plain.txt | tr "\n" " " | sed "s/\. /.\n/g" | grep "largest single-tissue bias" | grep -vc "class"); [ "$nq" -eq 0 ] && ok "every 'largest single-tissue bias' carries the class qualifier ($(grep -o "largest single-tissue bias" $P $SUB/LAR_additional_file_1.plain.txt | wc -l) occurrences)" || bad "$nq 'largest single-tissue bias' without class qualifier"
 [ -s $SUB/LAR_main_text_v2_marked.docx ] && ok "marked copy present ($(stat -c %s $SUB/LAR_main_text_v2_marked.docx) bytes; generated from the ledger by mark_from_ledger.py)" || bad "marked copy missing"
+else skipped "J-0 ban list, class qualifier, marked copy (docx dumps)"; fi
 nfz=$(sha256sum -c --quiet revision_v2/freeze/inputs.sha256 2>/dev/null | wc -l); [ -s revision_v2/freeze/inputs.sha256 ] && [ "$nfz" -eq 0 ] && ok "Phase M freeze: all $(wc -l < revision_v2/freeze/inputs.sha256) frozen inputs (numbers.tsv, supplementary_tables_v2.xlsx, RESULTS.md5 and FIGURES.md5 files) match revision_v2/freeze/inputs.sha256" || bad "Phase M freeze: $nfz frozen input(s) changed since the freeze (revision_v2/freeze/inputs.sha256)"
 F=revision_v2/freeze
 nu=$(awk -F'\t' 'NR>1 && $5=="UNMAPPED" && $4!="1,047" && $4!="290"' $F/token_audit.tsv | wc -l); nt=$(($(wc -l < $F/token_audit.tsv)-1)); [ -s $F/token_audit.tsv ] && [ "$nu" -eq 0 ] && ok "Phase M-1 token audit: $nt numeric tokens; UNMAPPED only 1,047 (search hits, no log) and 290 (GEO series size, verified against the GEO SOFT record)" || bad "Phase M-1: $nu UNMAPPED tokens besides 1,047 and 290"
 nf=$(awk -F'\t' 'NR>1 && $9=="FAIL"' $F/recompute_report.tsv | wc -l); np=$(awk -F'\t' 'NR>1 && $9=="PASS"' $F/recompute_report.tsv | wc -l); [ "$nf" -eq 0 ] && [ "$np" -gt 300 ] && ok "Phase M-2 independent recomputation: $np claims PASS, 0 FAIL (recompute_report.tsv)" || bad "Phase M-2: $nf FAIL"
 python3 $F/double_rounding_scan.py > /tmp/claude_dr.txt 2>&1 && ok "Phase M-3 D3 double-rounding scan: $(head -1 /tmp/claude_dr.txt)" || bad "double-rounding scan: $(head -1 /tmp/claude_dr.txt)"
 [ -s $F/deliverables.sha256 ] && { sha256sum -c --quiet $F/deliverables.sha256 >/dev/null 2>&1 && ok "Phase M-4 seal: all $(wc -l < $F/deliverables.sha256) files of revision_v2/submission/ match deliverables.sha256" || bad "Phase M-4 seal: a deliverable changed after sealing"; } || ok "Phase M-4 seal: deliverables.sha256 not yet written (written by the seal step)"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 python3 - <<'PYEOF' > /tmp/claude_quotes.txt && ok "response letter: every quoted passage of the revised text occurs verbatim in the main text ($(cat /tmp/claude_quotes.txt))" || bad "response letter quotes: $(cat /tmp/claude_quotes.txt)"
 import re, sys
 P="/usr/local/jupyter/FVB_bias"; norm=lambda x: re.sub(r"\s+"," ",x).strip()
@@ -129,10 +143,12 @@ q=[l[3:-1] for l in open(f"{P}/revision_v2/response_to_reviewers.md",encoding="u
 bad=[x[:60] for x in q if norm(x) not in main]
 print(f"{len(q)} quotes, {len(bad)} not found" + ("" if not bad else ": "+" | ".join(bad))); sys.exit(1 if bad or not q else 0)
 PYEOF
+else skipped "response-letter quotes (letter and main text)"; fi
 # Phase S-1 (permanent): command text in the BUILT docx text keeps ASCII (pandoc smart turns "--" into an en dash and straight quotes
 # into curly ones): no en dash starting an option, no curly quote right after '=' or inside a samtools -e expression. Phase T-4: any of
 # U+2010–U+2015 or U+2212 (one or two of them, e.g. "−M", "−−fraction") right after start of line, space, "(", "/", "," or ";" and
 # before a letter counts as a mangled option
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 python3 - <<'PYEOF' > /tmp/claude_ascii.txt && ok "ASCII command text in every built docx (no U+2010–2015/U+2212 option dash, no curly quote after '=' or in 'samtools view -e'): $(cat /tmp/claude_ascii.txt)" || bad "command text mangled in the built docx: $(cat /tmp/claude_ascii.txt)"
 import re, sys
 S="/usr/local/jupyter/FVB_bias/revision_v2/submission"; R=[re.compile(r"(^|[\s(/,;])[\u2010-\u2015\u2212]{1,2}[A-Za-z]", re.M), re.compile(r"=[“”‘’]"), re.compile(r"samtools view -e [^\n]*?[“”‘’]")]
@@ -142,6 +158,7 @@ for f in ("LAR_main_text_v2","LAR_main_text_v2_marked","LAR_additional_file_1","
     out.append(f"{f} {len(h)}" + (f" {sorted(set(h))}" if h else ""))
 print("; ".join(out)); sys.exit(1 if tot else 0)
 PYEOF
+else skipped "ASCII command text in the built docx"; fi
 # Phase S2 / W-1: the survey files released in survey/: the re-screen (rescreen_classify.py on the cached GEO/SRA records in raw/,
 # 3 files per candidate series) gives the classification table; its counts equal numbers.tsv (survey_*), its rows equal Supplementary
 # Table S5 (gse/category/keyword), S5 + S5b = all candidates; the scripts carry no local paths, e-mail addresses or API keys
@@ -191,6 +208,7 @@ sys.exit(0 if rel==used and len(rel)==20351 and bed else 1)
 PYEOF
 # Phase S4: the github_repo working tree is clean (git status --porcelain empty) — required before the authors push
 nps=$(git -C github_repo status --porcelain | wc -l); [ "$nps" -eq 0 ] && ok "github_repo working tree clean (git status --porcelain: 0 lines)" || bad "github_repo working tree not clean: $nps lines ($(git -C github_repo status --porcelain | head -3 | tr '\n' ' '))"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 python3 - <<'PYEOF' > /tmp/claude_t1.txt && ok "Table 1 survives PDF conversion (LibreOffice headless): $(cat /tmp/claude_t1.txt)" || bad "Table 1 PDF conversion: $(cat /tmp/claude_t1.txt)"
 import subprocess, tempfile, re, sys, os
 P="/usr/local/jupyter/FVB_bias"; tmp=tempfile.mkdtemp()
@@ -210,9 +228,13 @@ size=re.search(r"Page\s+%d size:\s+([\d.]+) x ([\d.]+)"%pages[-1], subprocess.ru
 print(f"page {pages[-1]} of {n} ({'landscape' if size and float(size.group(1))>float(size.group(2)) else 'portrait'}); {len(rows)-len(bad)}/{len(rows)} data rows with every cell starting on the row's first line" + (f"; failing: {bad}" if bad else ""))
 sys.exit(1 if bad or not rows else 0)
 PYEOF
+else skipped "Table 1 in the PDF conversion of the main-text docx"; fi
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 code=$(python3 -c "import urllib.request; print(urllib.request.urlopen(urllib.request.Request('https://ftp.ensembl.org/pub/release-115/gtf/mus_musculus_fvbnj/',headers={'User-Agent':'Mozilla/5.0'}),timeout=60).status)" 2>/dev/null); [ "$code" = "200" ] && ok "reference 'Ensembl FVB 2025' URL resolves (HTTP 200; Ensembl release 115 FVB_NJ_v3 GTF directory); DOIs: revision_v2/audit/doi_check*.txt" || bad "Ensembl annotation URL not reachable (HTTP $code)"
+else skipped "Ensembl reference URL of the reference list"; fi
 # Phase T: every reanalysed dataset (and GSE55788 of Supplementary Fig. S1) carries a citation of its source at its first mention in
 # Methods, RNA-seq datasets; the cited PMIDs equal !Series_pubmed_id (checked online); the GEO dataset reference URL resolves
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 python3 - <<'PYEOF' > /tmp/claude_dscite.txt && ok "dataset source citations: $(cat /tmp/claude_dscite.txt)" || bad "dataset source citations: $(cat /tmp/claude_dscite.txt)"
 import re, sys, json, urllib.request
 P="/usr/local/jupyter/FVB_bias"; M=f"{P}/manuscript/revised_v2"
@@ -232,6 +254,7 @@ code=urllib.request.urlopen(urllib.request.Request("https://www.ncbi.nlm.nih.gov
 print(f"{len(EXP)-len(bad)}/{len(EXP)} datasets cited at first mention with PMID = !Series_pubmed_id (GSE293440: no PMID, GEO record cited; URL HTTP {code})" + ("; "+"; ".join(bad) if bad else ""))
 sys.exit(0 if not bad and code==200 else 1)
 PYEOF
+else skipped "dataset source citations in Methods"; fi
 echo; echo "## 4. Rules 0.4"
 ok "0.4-1 manifest first: Table 1, Methods datasets, counts/sample sheets (merge_counts.py reads manifest.tsv only) — evidence: section 2"
 ok "0.4-2 no SRR block selection: scheduler.sh sel() and merge_counts.py select by manifest attributes (role, include, tissue, strain, design)"
@@ -246,11 +269,13 @@ ok "0.4-10 heavy jobs backgrounded with logs: analysis_v2/logs/*.log (f1_ase_rer
 echo; echo "## 5. Deliverables (revision_v2/submission/)"
 for f in $SUB/LAR_main_text_v2.docx $SUB/LAR_additional_file_1.docx $SUB/supplementary_tables_v2.xlsx $SUB/response_to_reviewers_v2.docx $SUB/cover_letter_v2.docx; do [ -s $f ] && ok "$f ($(stat -c %s $f) bytes)" || bad "$f missing"; done
 nfig=$(ls $SUB/figures/*.pdf 2>/dev/null | wc -l); ntif=$(ls $SUB/figures/*.tiff 2>/dev/null | wc -l); [ "$nfig" -eq 9 ] && [ "$ntif" -eq 9 ] && ok "figures/: 9 PDF + 9 TIFF (Fig 1–6, SFig S1–S3)" || bad "figures/: $nfig PDF, $ntif TIFF"
+if [ -z "${SKIP_MANUSCRIPT:-}" ]; then
 for f in $M/abstract_structured.md $M/introduction.md $M/results.md $M/discussion.md $M/methods.md $M/figure_legends.md $M/table1.md $M/supplementary_table_captions.md $M/supplementary_note1.md $M/supplementary_note2.md $M/references.md $M/declarations.md $M/abbreviations.md $M/keywords.md revision_v2/text_changes.md revision_v2/response_to_reviewers.md revision_v2/cover_letter.md revision_v2/CHANGELOG.md; do [ -s $f ] && ok "$f ($(wc -w < $f) words)" || bad "$f missing"; done
+else skipped "manuscript section files and letters present"; fi
 echo; echo "## 6. Open items for the authors (human decision)"
 echo "- Appendix C, decided 2026-10-20: '+1.14' (Rps2 liver bias) and '0.005' (liver WASP − naive mean) are coincidental matches of NEW values with v1 strings (ACCEPTED contexts in appendix_c_grep.sh); 'heart' is the GEO tissue attribute of the rejected GSE55792 samples."
 echo "- The FVB_NJ_v3 comparison (optional Phase G) was not performed; the Discussion says so and names the Rps2 skin locus as the first place to look."
 echo "- github_repo working tree: the v1-era working-tree copies (seven with uncommitted author changes) were moved to revision_v2/backup_v1_worktree/ with their patches in Phase S4; committed modes restored; the v1 scripts are in legacy/v1/ on the branch."
-echo; echo "**Result: $FAIL failing check(s).**"
+echo; echo "**Result: $FAIL failing check(s)$([ "$NSKIP" -gt 0 ] && echo "; $NSKIP manuscript-dependent step(s) skipped (SKIP_MANUSCRIPT=1)").**"
 } > $OUT
 cat $OUT; exit $FAIL
