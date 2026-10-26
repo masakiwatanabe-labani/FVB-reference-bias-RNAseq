@@ -27,8 +27,8 @@ Project SNPs — and the FVB/NJ-versus-C57BL/6J log₂ fold change of every gene
   on the FVB/NJ reference (component `bias_matched` of the decomposition), and at the others the change mainly reflects
   C57BL/6J reads lost on that reference.
 - **Survey of practice:** 656 public GEO series with FVB RNA-seq data (of 1369 candidates from a broad GEO search, screened
-  for RNA-Seq library strategy and FVB background per sample): 620 stated a B6 reference, 30 did not report one,
-  and 6 reported a strain-aware method (`survey/`; the series deposited by the authors' group is not counted).
+  for RNA-Seq library strategy and FVB background per sample): 625 stated a B6 reference, 24 did not report one,
+  and 7 reported a strain-aware method (`survey/`; the series deposited by the authors' group is not counted).
 
 Every animal was checked against its recorded strain by the allele fractions at FVB/NJ-homozygous exonic SNP sites before
 use (sample-identity check; results in `analysis_v2/results/qc/sample_identity_verification.tsv`).

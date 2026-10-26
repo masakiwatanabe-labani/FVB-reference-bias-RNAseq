@@ -67,11 +67,11 @@ put("survey_excluded_non_rnaseq_n", int(_x.reason.str.startswith("non-RNA-seq").
 put("survey_excluded_superseries_n", int(_x.reason.str.startswith("duplicate of SubSeries").sum()), evr)
 # Phase X (2026-10-26): broad candidate list; sibling SubSeries merged per SuperSeries; judgement patterns
 _an=_b6.assemblies_named
-put("survey_b6_mm10_only_n", int((_an=="GRCm38").sum()), evr); put("survey_b6_mm39_only_n", int((_an=="GRCm39").sum()), evr); put("survey_b6_mm9_only_n", int((_an=="mm9").sum()), evr)
+put("survey_b6_mm10_only_n", int((_an=="GRCm38").sum()), evr); put("survey_b6_mm39_only_n", int((_an=="GRCm39").sum()), evr); put("survey_b6_mm9_only_n", int((_an=="mm9").sum()), evr); put("survey_b6_mm8_only_n", int((_an=="mm8").sum()), evr)   # Phase Z2: mm8 legacy build
 put("survey_b6_multiple_assemblies_n", int(_an.str.contains(";").sum()), evr)
 # Phase Z: reference_classifier.py categories
 _nr=_k[_k.category=="not_reported"]; put("survey_reference_named_without_assembly_n", int((_nr.reference_named_without_assembly=="Y").sum()), evr); put("survey_human_assembly_named_n", int((_nr.human_assembly_named=="Y").sum()), evr)
-put("survey_b6_c57bl6_without_assembly_n", int((_an=="").sum()), evr)
+put("survey_b6_c57bl6_without_assembly_n", int((_an=="").sum()), evr); put("survey_assembly_name_ambiguous_n", int((_nr.assembly_name_ambiguous=="Y").sum()), evr)   # Phase Z2 ("mm38", "mm_GRChm38")
 for _m,_n in _k[_k.category=="strain_aware"].strain_aware_method.value_counts().items(): put("survey_strain_aware_" + re.sub(r"[^a-z0-9]+","_",_m.lower()).strip("_") + "_n", int(_n), evr)
 put("survey_strain_aware_series", ", ".join(_k[_k.category=="strain_aware"].gse_acc), evr)
 put("survey_superseries_pairs_removed_n", sum(1 for _ in open(f"{RES}/survey/superseries_pairs_removed.tsv")) - 1, rel(f"{RES}/survey/superseries_pairs_removed.tsv"))

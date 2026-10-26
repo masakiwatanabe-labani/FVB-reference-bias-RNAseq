@@ -1,4 +1,4 @@
 Candidates: 1369; FVB RNA-seq series after screening: 656; excluded: 713
-stated_B6: 620 (94.5%)
-not_reported: 30 (4.6%)
-strain_aware: 6 (0.9%)
+stated_B6: 625 (95.3%)
+not_reported: 24 (3.7%)
+strain_aware: 7 (1.1%)

@@ -48,7 +48,7 @@ GSE66953	Transcription of mammalian cis-regulatory elements is restrained by act
 GSE67009	ESRP2 Regulates A Conserved And Cell-Type-Specific Splicing Program to Support Postnatal Liver Maturation	stated_B6	mm9	mm9	bulk	8	sample_level
 GSE67207	Effect of estrogen and selective estrogen receptor modulators on a mouse model of fallopian tube epithelia, an ovarian cancer precursor	stated_B6	mm10	GRCm38	bulk	9	sample_level
 GSE68617	Trim33 binds and silences a class of young endogenous retroviruses in the mouse testis	stated_B6	mm9	mm9	bulk	7	sample_level
-GSE68628	ABCC5 functions as a transporter of glutamate conjugates and analogs	stated_B6	NCBI build 37	mm9	bulk	10	sample_level
+GSE68628	ABCC5 functions as a transporter of glutamate conjugates and analogs	stated_B6	Mouse reference (build 37	mm9	bulk	10	sample_level
 GSE68746	Next Generation Sequencing (NGS) comparison of two MVT1 cells subpopulations, CD24- cells and CD24+ cells	stated_B6	mm9	mm9	bulk	6	sample_level
 GSE68921	Parkin-mediated mitophagy evokes perinatal cardiac mitochondria maturation	stated_B6	mm10	GRCm38	bulk	63	sample_level
 GSE69168	Allelome.PRO A pipeline to define allele-specific genome features	stated_B6	mm10	GRCm38	bulk	1	sample_level
@@ -72,7 +72,7 @@ GSE77076	Nucleotide resolution analysis reveals extensive regulation of translat
 GSE78128	RNA-sequencing of non-senescent and senescent mouse skin fibroblast	stated_B6	mm9	mm9	bulk	6	sample_level
 GSE78146	Methylation and gene expression profiling in Dnmt3a-deficient chronic lymphocytic leukemia and peripheral T-cell lymphoma in mice.	stated_B6	mm10	GRCm38;mm9	bulk	19	sample_level
 GSE80776	Characterization of a spontaneous model of inflammation-derived liver cancer [RNA-seq]	stated_B6	mm9	mm9	bulk	17	sample_level
-GSE81576	Gene expression profiling of Eed knockout and Ezh2 knockout small intestinal crypts [RNA-seq]	stated_B6	GRCm38	GRCm38	bulk	2	sample_level
+GSE81576	Gene expression profiling of Eed knockout and Ezh2 knockout small intestinal crypts [RNA-seq]	stated_B6	mouse genome, build 38	GRCm38	bulk	2	sample_level
 GSE82294	RNAseq analysis of heart tissue from mice treated with atenolol and isoproterenol reveals a reciprocal transcriptional response	stated_B6	mm9	mm9	bulk	9	sample_level
 GSE83897	Transcriptomes analysis of mammary tumors induced by overexpression of the Ret receptor tyrosine kinase from a new transgenic mouse model	stated_B6	mm10	GRCm38	bulk	23	sample_level
 GSE86199	Gene expression profiles of Hes1 positive retinal subsets	stated_B6	mm9	mm9	bulk	4	sample_level
@@ -115,12 +115,12 @@ GSE102204	Transcriptome and translatome profiling from brains of  a mouse model 
 GSE102368	RNA-seq of MMTV-Neu AXL KO tumors	stated_B6	GRCm38	GRCm38	bulk	4	sample_level
 GSE102369	RNA-seq of MMTV-Neu AXL KO tumor grafts in FVB	stated_B6	GRCm38	GRCm38	bulk	6	sample_level
 GSE103272	Single cell RNA-seq of ten-thousand epithelium cells from the mammary glands of mice in puberty, estrus and diestrus phases	stated_B6	mm10	GRCm38	single-cell	4	sample_level
-GSE103341	RNAseq of FACS Drd1 and Drd2 receptor expressing medium spiny neurons (direct and indirect medium spiny neurons) from 5-6 month BACHD Huntington's disease model mice, compared to WT littermates	not_reported	Ensembl		bulk	4	sample_level
+GSE103341	RNAseq of FACS Drd1 and Drd2 receptor expressing medium spiny neurons (direct and indirect medium spiny neurons) from 5-6 month BACHD Huntington's disease model mice, compared to WT littermates	stated_B6	B37	mm9	bulk	4	sample_level
 GSE104127	Next Generation Sequencing Analysis of WT and Hectd3–/– BMDMs during F. novicida infection	stated_B6	GRCm38	GRCm38	bulk	6	sample_level
 GSE104238	Comparison of RNA expression of conditional Nmi knockout mammary epithelial cells to the wildtype control	stated_B6	GRCm38	GRCm38	bulk	6	sample_level
 GSE104443	Regulation of gene expression by FOXC1 in mouse mammary epithelial cells.	stated_B6	GRCm38	GRCm38	bulk	6	sample_level
 GSE105944	Dynamic remodeling of mRNA splicing and translation programs drives hepatocyte proliferation during liver regeneration	stated_B6	GRCm38	GRCm38	bulk	6	sample_level
-GSE106078	MYC functions as a switch for natural killer cell-mediated immune surveillance of lymphoid malignancies	stated_B6	mm9	mm9	bulk	9	sample_level
+GSE106078	MYC functions as a switch for natural killer cell-mediated immune surveillance of lymphoid malignancies	stated_B6	mm8	mm9;mm8	bulk	9	sample_level
 GSE106140	Dynamic remodeling of translation programs drives hepatocyte proliferation during liver regeneration	stated_B6	GRCm38	GRCm38	bulk	16	sample_level
 GSE106364	Transcriptomic signature of spinal cord from SOD1 G86R mice	stated_B6	mm10	GRCm38	bulk	10	sample_level
 GSE107839	"All-RNA-seq data used in ""Genetic resistance to DEHP-induced transgenerational endocrine disruption"""	stated_B6	mm10	GRCm38	bulk	10	sample_level
@@ -142,7 +142,7 @@ GSE111930	An endogenous retrovirus-derived long non-coding RNA promotes fetal ca
 GSE112041	RNA-seq in Smchd1 wild-type and Smchd1 null presomitic mesoderm from E9.5 embryos	stated_B6	mm10	GRCm38	bulk	7	sample_level
 GSE112397	Colonization of the Ovary and Metastasis of Fallopian Tube Derived Cancer	stated_B6	mm10	GRCm38	bulk	8	sample_level
 GSE112502	Regulatory Discrimination of mRNAs by FMRP Controls Adult Neural Stem Cell Differentiation	stated_B6	mm10	GRCm38	bulk	8	sample_level
-GSE112532	Protein ISGylation regulated gene expression in mouse mammary epithelial cells	not_reported			bulk	8	sample_level
+GSE112532	Protein ISGylation regulated gene expression in mouse mammary epithelial cells	stated_B6	M16 genome annotation	GRCm38	bulk	8	sample_level
 GSE112665	Loss of p53 dictates Wnt-dependent systemic inflammation in breast cancer	stated_B6	mm10	GRCm38	bulk	145	sample_level
 GSE112730	Deficient LRRC8A-dependent Volume-Regulated Anion Channel (VRAC) activity is associated with male infertility in mouse and humans	stated_B6	mm10	GRCm38	bulk	4	sample_level
 GSE112771	R-Roscovitine improves motoneuron function in mouse models for Spinal Muscular Atrophy.	stated_B6	GRCm38	GRCm38	bulk	12	sample_level
@@ -222,7 +222,7 @@ GSE134926	Peptide-conjugated oligonucleotides evoke long-lasting myotonic dystro
 GSE135360	Characterization of an E2f1 acetylation-deficient knock-in mouse model by RNA-Seq profiling	stated_B6	mm9	mm9	bulk	12	sample_level
 GSE135432	Comparative study of gene expression in lower and upper first molar cap stage tooth germs of DUHi and FVB mice	strain_aware	FVB_NJ_v1	GRCm38	bulk	6	sample_level
 GSE135602	Astrocytes and neurons share brain region-specific transcriptional signatures (RNAseq: Astrocytes)	stated_B6	GRCm.38	GRCm38	bulk	17	sample_level
-GSE135983	Integrin α3β1-dependent mRNA expression profile of hair bulge keratinocytes and their progeny during DMBA/TPA-mediated skin tumorigenesis	not_reported	Ensembl		bulk	6	sample_level
+GSE135983	Integrin α3β1-dependent mRNA expression profile of hair bulge keratinocytes and their progeny during DMBA/TPA-mediated skin tumorigenesis	stated_B6	mouse reference genome (build 38	GRCm38	bulk	6	sample_level
 GSE136148	SCDC: Deconvolution of Bulk Gene Expression by Single-Cell RNA Sequencing Data	stated_B6	manual: classifier overruled on manual verification (Phase Z)	GRCm38	single-cell	6	sample_title
 GSE136206	Mutagenesis sensitizes murine models of triple negative breast cancer to immunotherapy	stated_B6	mm10	GRCm38	single-cell	2	sample_level
 GSE136358	Transcriptional profiling of astrocyte subtypes in naive mice and during experimental autoimmune encephalomyelitis	stated_B6	GRCm38	GRCm38	bulk	15	sample_level
@@ -342,8 +342,8 @@ GSE167562	Molecular profiling of Ebf2+ and Ebf2- PαS  mesenchymal stem cells fr
 GSE168114	FRCs promote Treg function in acute graft-versus-host disease (aGvHD)	stated_B6	GRCm38	GRCm38;mm9	bulk	5	sample_level
 GSE168351	Single cell RNA-seq of E8.5 mouse embryonic craniofacial tissues	stated_B6	mm10	GRCm38	single-cell	1	sample_level
 GSE168806	Epithelial dysfunction is prevented by IL-22 treatment in a Citrobacter rodentium-induced colitis model that shares similarities with Inflammatory Bowel Disease	stated_B6	mm10	GRCm38	single-cell	5	sample_level
-GSE169024	Transcriptional profiling of WT Tregs and Tregs sorted from K14cre;Cdh1F/F;Trp53F/F mice bearing 225mm2  mammary tumors from blood, spleen, lungs, TDLNs, tumor and healthy mammary gland [Treg]	stated_B6	GRCm38	GRCm38	bulk	31	sample_level
-GSE169025	Transcriptional profiling of NK cells sorted from lungs and axillary LNs from Cdh1F/F;Trp53F/F;Foxp3GFP-DTR mice bearing 100mm2  orthotopically transplanted mammary tumors, treated with difteria toxin (DT) or PBS [NK]	stated_B6	GRCm38	GRCm38	bulk	16	sample_level
+GSE169024	Transcriptional profiling of WT Tregs and Tregs sorted from K14cre;Cdh1F/F;Trp53F/F mice bearing 225mm2  mammary tumors from blood, spleen, lungs, TDLNs, tumor and healthy mammary gland [Treg]	stated_B6	mouse reference genome (Ensembl build 38	GRCm38	bulk	31	sample_level
+GSE169025	Transcriptional profiling of NK cells sorted from lungs and axillary LNs from Cdh1F/F;Trp53F/F;Foxp3GFP-DTR mice bearing 100mm2  orthotopically transplanted mammary tumors, treated with difteria toxin (DT) or PBS [NK]	stated_B6	mouse reference genome (Ensembl build 38	GRCm38	bulk	16	sample_level
 GSE169340	Amino terminus of cardiac myosin binding protein-C regulates cardiac contractility	stated_B6	mm10	GRCm38	bulk	2	sample_level
 GSE169405	Transcriptomics data of blood and brain from the YAC128 Huntington's disease mouse model [blood]	stated_B6	GRCm38	GRCm38	bulk	28	protocol
 GSE169703	Prrx1 is a Master Transcription Factor of myofibroblastic Cancer-Associated Fibroblasts [Murine_Fibroblast_RNA_seq]	stated_B6	mm10	GRCm38	bulk	6	sample_level
@@ -351,7 +351,7 @@ GSE170997	Transcriptomics data of blood and brain from the YAC128 Huntington's d
 GSE171203	A Cdh3 - b-Catenin - Laminin signaling axis by a subset of breast tumor leader cells controls leader cell polarization and directional collective migration	stated_B6	mm10	GRCm38	single-cell	4	series_level
 GSE171464	Single Cell Analysis Unveils the Role of the Tumor Immune Microenvironment and Notch Signaling in Dormant Minimal Residual Disease	stated_B6	mm10	GRCm38	single-cell	6	sample_level
 GSE171854	Transcriptomic analysis of kidney cortex following the KLF6 induction	stated_B6	mm10	GRCm38	single-cell	8	sample_level
-GSE171996	Transcriptional profiling of murine small intestine in conventional or SPF housing conditions	stated_B6	GRCm38	GRCm38	bulk	8	sample_level
+GSE171996	Transcriptional profiling of murine small intestine in conventional or SPF housing conditions	stated_B6	mouse reference genome (Ensembl build 38	GRCm38	bulk	8	sample_level
 GSE172089	Topologically Associating Domain Boundaries are Required for Normal Genome Function	stated_B6	mm10	GRCm38	bulk	64	sample_level
 GSE172169	Invariant Natural Killer T Cell Subsets Have Diverse Graft-Versus-Host-Disease-Preventing and Anti-Tumor Effects	stated_B6	GRCm38	GRCm38	single-cell	42	sample_level
 GSE173910	Morc3 silences endogenous retroviruses in mouse embryonic stem cells [Morc3_mESCs_RNAseq]	stated_B6	mm10	GRCm38	bulk	6	sample_level
@@ -500,9 +500,9 @@ GSE243635	Conserved Cis-Acting Range Extender Elements Mediate Long-Range Develo
 GSE244244	Rapid and Functional Quantitative Interrogation of Human Enhancer Variants in Live Mice	stated_B6	mm39	GRCm39	single-cell	2	sample_level
 GSE244269	Distinct mesenchymal cell states mediate prostate cancer progression (mouse)	stated_B6	GRCm38	GRCm38	single-cell	2	sample_level
 GSE244595	Anterior Pituitary Transcriptomics Following a High Fat Diet:  Impact of oxidative stress on organelle pathology	stated_B6	mm10	GRCm38	single-cell	12	sample_level
-GSE244814	TSA attenuates the progression of c-Myc-driven hepatocarcinogenesis by pAKT-ADH4 pathway	not_reported			bulk	2	sample_level
+GSE244814	TSA attenuates the progression of c-Myc-driven hepatocarcinogenesis by pAKT-ADH4 pathway	strain_aware	GCA_001624535		bulk	2	sample_level
 GSE245140	Global Wnt Inhibition with the Porcupine Inhibitor, LGK974, Decreases Trabecular Bone in a Murine Model with Fibrotic Bone	stated_B6	mm10	GRCm38	single-cell	4	sample_level
-GSE245306	RNA-seq of a mouse primary pancreatic cancer cell line and liver metastasis from mouse model INK4.1syn_Luc	not_reported			bulk	10	sample_level
+GSE245306	RNA-seq of a mouse primary pancreatic cancer cell line and liver metastasis from mouse model INK4.1syn_Luc	stated_B6	mm8	mm8	bulk	10	sample_level
 GSE245663	Regulation of muscle mass by Thrombospondin-1	stated_B6	mm10	GRCm38	bulk	4	sample_level
 GSE247985	Maternal Undernutrition Results in Transcript Changes in Male Offspring that May Promote Resistance to High Fat Diet Induced Weight Gain	stated_B6	GRCm39	GRCm39	bulk	72	series_level
 GSE248272	Therapeutically targeting perivascular macrophage effector function improves CD8+ T-cell infiltration and response to chemotherapeutic drugs in cancer	stated_B6	mm10	GRCm38	bulk	30	sample_level
@@ -547,7 +547,7 @@ GSE271337	Spectrotemporal profiling of ultrasonic vocalizations during neonatal 
 GSE272063	Developmental trajectory and evolutionary origin of thymic mimetic cells [dataset 1]	stated_B6	GRCm38	GRCm38	bulk	30	sample_level
 GSE272922	Complex I Inhibition combined with TLR Activation in the Breast Tumor Microenvironment Educates Cytotoxic Neutrophils [scRNA-seq]	stated_B6	mm10	GRCm38	single-cell	4	series_level
 GSE273458	Targeting IRE1α reprograms the tumor microenvironment and enhances anti-tumor immunity in prostate cancer [scRNA-seq2]	stated_B6	Grcm38	GRCm38	single-cell	4	protocol
-GSE273804	A single-cell atlas of spatial and temporal gene expression in the mouse cranial neural plate	not_reported			single-cell	35	sample_level
+GSE273804	A single-cell atlas of spatial and temporal gene expression in the mouse cranial neural plate	not_reported	mm38		single-cell	35	sample_level
 GSE273940	Low Molecular Weight Cyclin E Confers a Vulnerability to PKMYT1 Inhibition in Triple-Negative Breast Cancer	stated_B6	GRCm38	GRCm38	bulk	33	sample_level
 GSE274229	Evolution of myeloid-mediated immunotherapy resistance in prostate cancer	stated_B6	GRCm38	GRCm38	single-cell	4	sample_level
 GSE275254	Transcriptomic remodeling of myeloid cells in response to maternal obesity	stated_B6	GRCm38	GRCm38	bulk	13	sample_level
@@ -588,7 +588,7 @@ GSE290444	Precision targeting of beta-catenin induces tumor reprogramming and im
 GSE290449	Precision targeting of beta-catenin induces tumor reprogramming and immunity in hepatocellular cancers [Bulk RNA-seq CTNNB1/NFE2L2]	stated_B6	mm10	GRCm38	bulk	9	sample_level
 GSE291280	Cardiac Radiotherapy-Induced Epigenetic Memory Underlies Electrophysiologic and Metabolic Reprogramming [RNA-seq]	stated_B6	mm10	GRCm38	bulk	54	series_level
 GSE292146	Tractable mouse TNBC models capture the heterogeneous tumor immune microenvironment and adaptation to PD-L1 blockade	stated_B6	mm10	GRCm38	bulk	9	sample_level
-GSE292202	Transcriptional profile of mammary mouse MMTV-PyMT tumors and mammary gland from FVB/N mice	not_reported	Ensembl		bulk	39	series_level
+GSE292202	Transcriptional profile of mammary mouse MMTV-PyMT tumors and mammary gland from FVB/N mice	stated_B6	38.95	GRCm38	bulk	39	series_level
 GSE292232	Genomic characterization of mouse hindlimb skeletal muscles with divergent slow myofiber content at an embryonic and adult time point [RNA-Seq]	stated_B6	mm10	GRCm38	bulk	48	sample_level
 GSE292799	Single-Cell Transcriptomics Reveals FXR1 as an Actionable Target for siRNA Therapy in Ovarian Cancer	stated_B6	mm10	GRCm38	single-cell	4	sample_level
 GSE293537	Mouse digit fibroblast AAV gene delivery platform regulates regenerative outcome	stated_B6	mm10	GRCm38	single-cell	4	sample_level
@@ -611,7 +611,7 @@ GSE305163	Functional, sustained recovery of hearing in Otoferlin-deficient mice 
 GSE305371	scRNA-seq of NeuroD1-astrocyte therapy post-TBI mouse	stated_B6	GRCm38	GRCm38	single-cell	3	sample_level
 GSE307613	Gonadotrope Remodeling in Sustained Low Estrogen States: Single-Cell Transcriptomic Analysis Reveals Gonadotrope Subtypes and Activation of Stem Cell Populations.	stated_B6	mm39	GRCm39	single-cell	4	sample_level
 GSE309640	Bottlebrush Polymer Conjugates for Enhanced Antisense Oligonucleotide Therapy in Myotonic Dystrophy Type 1	stated_B6	GRCm39	GRCm39	bulk	24	sample_level
-GSE310136	Precision nanotherapy remodels the tumor-associated macrophage to reverse immunosuppression in pancreatic cancer	not_reported			bulk	6	protocol
+GSE310136	Precision nanotherapy remodels the tumor-associated macrophage to reverse immunosuppression in pancreatic cancer	not_reported	GRChm38		bulk	6	protocol
 GSE311091	Zeb2os Hinders Cardiac Healing by Suppressing ZEB2 Reactivation and Cardiomyocyte Dedifferentiation	stated_B6	GRCm38	GRCm38	bulk	20	sample_level
 GSE312450	Longitudinal analysis of lipid changes in the sciatic nerve caused by overexpression of PMP22 in models of CMT1A.	stated_B6	GRCm39	GRCm39	bulk	5	sample_level
 GSE313718	Precision nanotherapy remodels the tumor-associated macrophage to reverse immunosuppression in pancreatic cancer [scRNA-seq]	stated_B6	mm10	GRCm38	single-cell	2	protocol

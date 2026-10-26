@@ -29,9 +29,12 @@
   genomes, WASP, g2gtools, N-masking, SNPsplit, Seqnature, EMASE, allele-specific alignment, strain-/SNP-aware, FVB within 40
   characters of genome/transcriptome/cDNA/reference), only in a sentence about alignment, mapping, quantification, index or
   reference; stated B6 (GRCm38/39 with space or dot variants, the typo GRCme8, mm9/mm10/mm39, GENCODE M releases, C57BL/6, B6
-  genome/reference, NCBI build/m 37/38, MGSCv37); GRCh and hg are human and never count; not reported otherwise, with the flags
+  genome/reference, NCBI build/m 37/38, MGSCv37; Phase Z2: mm8, "build 37/38" or B37/B38 in a sentence naming mouse, GRCm38.NN and
+  38.NN in a sentence naming Ensembl and mouse, GENCODE M releases and "M16 genome annotation" (M1–M25 GRCm38, M26+ GRCm39); the
+  FVB_NJ_v1 GenBank accession GCA_001624535 counts as strain-aware); GRCh and hg are human and never count; not reported otherwise, with the flags
   `reference_named_without_assembly` (Ensembl/RefSeq/UCSC/iGenomes or a human assembly named without a mouse assembly) and
-  `human_assembly_named`. Columns `strain_aware_method` and `decisive_sentence` give the method and the sentence that decided.
+  `human_assembly_named`, and `assembly_name_ambiguous` for spellings that could be GRCm38 or an error ("mm38", "GRChm38"; not
+  decided). Every not-reported series was read by hand (Phase Z2; `manual_review` column of `rescreen_decisions.tsv`). Columns `strain_aware_method` and `decisive_sentence` give the method and the sentence that decided.
 - `rescreen_decisions.tsv` — every series whose decision needs judgement: `source = manual` (Phase W and later decisions, applied as
   written; `category_override` overrules the classifier after manual verification) and `source = pattern` (one row per series matched by a judgement pattern, `pattern` column; the proposed decision of the
   pattern is applied provisionally; a row whose `decision` is changed from `proposed_decision` is kept and applied on the next run).

@@ -185,7 +185,7 @@ def main():
             library_strategies=";".join(strategies), mixed_strategy="Y" if (rna and non_rna_strat) else "N", data_type=data_type, n_samples=len(sm),
             n_mouse_rnaseq_samples=len(rna), n_fvb_rnaseq_samples=n_fvb_rna, strain_evidence=evidence, strain_text=strain_text, superseries_of=";".join(S["superseries_of"]),
             subseries_of=";".join(S["subseries_of"]), source_query=r.get("source_query", ""), previous_category=r.get("category", ""), category=cat, matched_keyword=kw,
-            assemblies_named=asm, strain_aware_method=cr["strain_aware_method"], reference_named_without_assembly=cr["reference_named_without_assembly"], human_assembly_named=cr["human_assembly_named"],
+            assemblies_named=asm, strain_aware_method=cr["strain_aware_method"], reference_named_without_assembly=cr["reference_named_without_assembly"], human_assembly_named=cr["human_assembly_named"], assembly_name_ambiguous=cr["assembly_name_ambiguous"],
             decisive_sentence=cr["sentence"][:500], release_date=r.get("release_date", ""), evidence_source="GEO_sample_dp" if dp else "none", evidence_text=dp[:600], validation_url=f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={g}"))
     # Phase Z-2: a retained series that is the SuperSeries of another retained series is a duplicate (relations read from both sides)
     kept = {x["gse_acc"] for x in rows if x["include"] == "Y"}; byg = {x["gse_acc"]: x for x in rows}; pairs = []
@@ -207,7 +207,7 @@ def main():
     keep = [x for x in rows if x["include"] == "Y"]; drop = [x for x in rows if x["include"] != "Y"]
     wr(f"{OUT}/survey_of_practice_rescreen.tsv", keep, ["gse_acc", "title", "category", "evidence_source", "matched_keyword", "assemblies_named", "evidence_text",
        "validation_url", "series_type", "library_strategies", "data_type", "n_fvb_rnaseq_samples", "strain_evidence", "strain_text", "borderline_type",
-       "strain_aware_method", "reference_named_without_assembly", "human_assembly_named", "decisive_sentence", "release_date"])
+       "strain_aware_method", "reference_named_without_assembly", "human_assembly_named", "assembly_name_ambiguous", "decisive_sentence", "release_date"])
     wr(f"{OUT}/survey_classification.tsv", keep, ["gse_acc", "title", "category", "matched_keyword", "assemblies_named", "data_type", "n_fvb_rnaseq_samples", "strain_evidence"])
     wr(f"{OUT}/excluded_on_rescreen.tsv", drop, ["gse_acc", "title", "reason", "previous_category", "series_type", "library_strategies", "strain_evidence", "strain_text",
        "borderline_type", "validation_url"])
